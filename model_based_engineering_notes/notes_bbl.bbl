@@ -1,0 +1,54 @@
+\begin{thebibliography}{10}
+
+\bibitem{Sutton2016}
+Sutton  R. S., Barto A. G. 
+\newblock{\em Reinforcement Learning: An Introduction}
+\newblock Wiley, Seventh Edition, 2010.
+
+
+\bibitem{Mann2010}
+Mann S. P.
+\newblock{\em Introductory Statistics}
+\newblock Wiley, Seventh Edition, 2010.
+
+\bibitem{Montgomery2014}
+Montgomery C., D., Runger C., G.,
+\newblock{\em Applied Statistics adn Probability for Engineers,}
+\newblock Wiley \& Sons Sixth Edition, 2014.
+
+\bibitem{Martinez2002}
+Martinez L. W., Martinez R. A.,
+\newblock{\em Computational Statistics Handbook with MATLAB,}
+\newblock Chapman \& Hall/CRC, 2002.
+
+\bibitem{Haslwanter2016}
+Haslwanter T.,
+\newblock{\em An Introduction to Statistics with Python. With Applications in the Life Sciences,}
+\newblock Springer, Statistics and Computing, 2016.
+
+\bibitem{Tsimbos1999}
+Tsibos K., Georgiakodis F.
+\newblock{\em Descriptive and Explorative Statistics. Data Analysis}
+\newblock \newblock Stamoulis, Volume A, 1999 (in Greek).
+
+\bibitem{Casella2002}
+Casella G., Berger R. L.
+\newblock{\em Statistical Inference,}
+\newblock Duxburey, Second Edition, 2002.
+
+\bibitem{Papaioannou2000}
+Papaioannou T., Feredinos K.,
+\newblock{\em Mathematical Statistics, Estimation, Hypothesis Testing, Applications,}
+\newblock Stamoulis, Second Edition, 2000 (in Greek).
+
+\bibitem{Damianou2000}
+Damianou H., Koutras M.,
+\newblock{\em Introduction to Statistics Volume I,}
+\newblock Symmetria Publications, 2000, (in Greek).
+
+\bibitem{Kiohos1993}
+Kiohos P.
+\newblock{\em Statistics,}
+\newblock Interbooks, 1993.
+
+\end{thebibliography}
