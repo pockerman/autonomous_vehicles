@@ -1,0 +1,11 @@
+Integrator= FWD_EULER #(or RK4)
+dt= 0.001
+steps= 1000 #number of steps for the integrator to perform
+a= 200
+mass= 1000 #vehicle mass
+g= 9.82 #gravitational acceleration
+b= 10000 #Throttle gain
+Kp= 0.01 #proportial gain
+Ki= 0.01 #integral gain
+v0= 25.0 #the initial velocity
+r= [{0, 25.0};{100, 30.0}] #a list of dictionaries holding the value of the reference signal. the key to the dictionary is the step at which the reference value should occur

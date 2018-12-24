@@ -1,0 +1,41 @@
+from abc import ABC
+from abc import abstractmethod
+
+
+class VehicleBase(ABC):
+    """
+    Base class for modeling a vehicle
+    """
+
+    def __init__(self):
+        self.__properties = dict()
+        self.__properties['mass'] = 0.0
+
+    @property
+    def mass(self):
+        return self.__properties['mass']
+
+    @mass.setter
+    def mass(self, value):
+        self.__properties['mass'] = value
+
+    @property
+    @abstractmethod
+    def state(self):
+        pass
+
+    @state.setter
+    @abstractmethod
+    def state(self, value):
+        pass
+
+    @property
+    @abstractmethod
+    def old_state(self):
+        pass
+
+    @old_state.setter
+    @abstractmethod
+    def old_state(self, value):
+        pass
+
