@@ -145,7 +145,6 @@ if __name__ == '__main__':
             else:
                 assert False, "Inavlid number of items. %s should be 2" % (len(item))
 
-
     # the vehicle
     vehicle = Vehicle()
     vehicle.mass = float(properties['mass'])
