@@ -1,8 +1,8 @@
 \chapter{Linear Systems}
 \label{linear_systems}
-Modeling of automotive systems (or any other system whatsoever) typically results in a mathematical description of the system. This mathematical description is most usually given in the
-form of differential equations that involve the input(s) and the output(s) of the system as well as other parameters that are of interests and affect the behavior of the system. In this chapter,
-we introduce the notion of a linear system (LS) and other useful terms that will be usueful in subsequent chapters. We will see that a LS can be represented in different forms susch as:
+Modeling of automotive systems (or any other system whatsoever) typically results in a mathematical description of it. This mathematical description is usually given in the
+form of differential equations that involve the input(s) and the output(s) of the system as well as other parameters that are of interests and affect its behavior. In this chapter,
+we introduce the notion of a linear system (LS) and other useful terms that will be used in subsequent chapters. We will see that a LS can be represented in different forms susch as:
 
 
 \begin{itemize}
@@ -25,6 +25,21 @@ Let's consider the ODE:
 where $u$ represents the input to the system and $y$ represents the output. $\alpha_i$ and $\beta_i$ are coefficients which may or may not be time dependent. In the case that the coefficients do not depend on
 the time variable $t$ we have a linear time invariant (LTI) system. Otherwise the system will be time variant.
 
+
+\begin{framed}
+
+\textbf{Superposition Principle}
+
+Let the linear equation:
+
+\begin{equation}
+L{y} = F(x)
+\end{equation}
+
+where $L$ is a linear operator. If $y_1$ and $y_2$ are solution of the linear equation, then their sum will also be a solution.
+
+\end{framed}
+
 Every solution to such a system can be written as the sum (because the system is linear superposition of solutions...) of a solution $y_h$to the homogeneous equation and a particular solution $y_p$:
 
 
@@ -40,7 +55,10 @@ y_h = \sum_{k=1}^{n} C_k e^{s_k t}
 \label{linear_sys_general_ho}
 \end{equation}
 
-where $s_k$ are the roots of the so called characteristic equation or polynomial.  $C_k$ can be determined from the initial conditions. Now that we have established the general form of the homogeneous
+where $s_k$ are the roots of the so called characteristic equation or polynomial (see section \ref{characteristic_equation}) and  $C_k$ can be determined from the initial conditions. 
+
+
+Now that we have established the general form of the homogeneous
 solution, let's turn our attention to the particular solution.  In order to find the particular solution $y_p$, we need the input signal $u$. Let's assume a damped sinusoidal input signal of the following form
 
 \begin{equation}
@@ -68,6 +86,7 @@ The first part gives the dependency due to the initial conditions. The second pa
 
 
 \subsection{Characteristic Equation}
+\label{characteristic_equation}
 
 In equation \ref{linear_sys_general_sol_II} the $s_k$s are the roots of the characteristic equation or polynomial $\alpha(s)$. This polynomial is formed from the coefficients of the system
 \ref{linear_sys_1}. Hence, for the system
@@ -91,11 +110,11 @@ Thus, the $s_k$ will be the roots of the equation
 \label{linear_sys_charact_pol_eq}
 \end{equation}
 
-Concretely, the solutions $s_k$ are called the poles of the system and play a crucial role in the stability of the solution:
+Concretely, the solutions $s_k$ are called the \textbf{poles}  of the system and play a crucial role in the stability of the solution:
 
 \begin{itemize}
 \item If all the roots of $\alpha(s)=0$ have $Re(s_k) < 0 $ then the system is asymptotically stable
-\item If any of the roots of $\alpha(s)=0$ have $Re(s_k) > 0 $ then the system is  unstable
+\item If any of the roots of $\alpha(s)=0$ has $Re(s_k) > 0 $ then the system is  unstable
 \end{itemize}
 
 \begin{framed}
@@ -184,7 +203,7 @@ We can write the given system in the form above if we assume that
 A = [1] ~~ \text{and} ~~ B = [1]  \nonumber
 \end{equation}
 
-The stability depends on the eignevalues of $A$ here we have only one eigenvalue which is $\lambda = 1$. Thus, since $Re(\lambda) > 0 $ the system is not asymptotically stable as we concleded in example 
+The stability depends on the eignevalues of $A$ and  here we have only one eigenvalue which is $\lambda = 1$. Thus, since $Re(\lambda) > 0 $ the system is not asymptotically stable as we concleded in example 
 \ref{linear_sys_exe_1}
 
 
@@ -220,7 +239,57 @@ s = \frac{-b}{2a} = -1  \nonumber
 \end{equation}
 
 Thus, since $Re(s) < 0 $ the system is asymptotically stable.
- 
+
+
+
+\textbf{Question 3}
+
+Determine the poles of the following equations:
+
+
+\begin{eqnarray}
+\text{A)} ~~ \frac{d^2x}{dt^2} + 2\frac{dx}{dt} + x = u \nonumber \\
+\text{B)} ~~ \frac{d^2x}{dt^2} + 2\frac{dx}{dt} + 2x = u \nonumber \\
+\text{C)} ~~ \frac{d^2x}{dt^2} + 3\frac{dx}{dt} + 2 x  = u \nonumber \\
+\end{eqnarray}
+
+
+For the the model A we have:
+
+\begin{equation}
+\alpha(s) = s^2 + 2s +1 =0  \nonumber
+\end{equation}
+
+Thus, only one pole $s=-1$. For model B,
+
+\begin{equation}
+\alpha(s) = s^2 + 2s +2 =0  \nonumber
+\end{equation}
+
+The discriminant $\Delta = -4 <0$.  Thus, the system has two complex solution
+
+\begin{eqnarray}
+s_1 = -1 +i  \nonumber \\
+s_2 = -1 -i  \nonumber \\
+\end{eqnarray}
+
+For model C, 
+
+\begin{equation}
+\alpha(s) = s^2 + 3s +2 =0  \nonumber
+\end{equation}
+
+and the solutions are
+
+\begin{eqnarray}
+s_1 = -1   \nonumber \\
+s_2 = -2  \nonumber \\
+\end{eqnarray}
+
+
+
+
+
 
 
 
