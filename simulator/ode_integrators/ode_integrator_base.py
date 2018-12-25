@@ -14,8 +14,6 @@ class ODEIntegratorBase(ABC):
     def type():
         pass
 
-
-
     def __init__(self, **kwargs):
         ABC.__init__(self)
         self.__history_size = 0

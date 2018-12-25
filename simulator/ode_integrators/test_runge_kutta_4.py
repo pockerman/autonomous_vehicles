@@ -17,13 +17,13 @@ class TestODERungeKutta4(unittest.TestCase):
         tn = 1
         rk4 = ODERungeKutta4(step_size = step_size, init_condition=init_condition)
 
-        def f(tn, yn):
-            return tn+yn
+        def f(**kwargs):
+            return kwargs['tn'] + kwargs['yn']
 
-        kn1 = f(tn, init_condition)
-        kn2 = f(tn + 0.5 * step_size, init_condition + 0.5 * step_size * kn1)
-        kn3 = f(tn + 0.5 * step_size, init_condition + 0.5 * step_size * kn2)
-        kn4 = f(tn + step_size, init_condition + step_size * kn3)
+        kn1 = f(tn=tn, yn=init_condition)
+        kn2 = f(tn=tn + 0.5 * step_size, yn=init_condition + 0.5 * step_size * kn1)
+        kn3 = f(tn=tn + 0.5 * step_size, yn=init_condition + 0.5 * step_size * kn2)
+        kn4 = f(tn=tn + step_size, yn=init_condition + step_size * kn3)
 
         new = rk4.execute(f=f, tn=tn)
         self.assertEqual(new, init_condition + step_size*((kn1 + 2*kn2 +2.0*kn3 + kn4)/6.0))
