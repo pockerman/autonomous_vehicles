@@ -16,12 +16,13 @@ class TestODEFWDEuler(unittest.TestCase):
         init_condition = 10
         tn = 1
         fwd_euler = ODEFWDEuler(step_size = step_size, init_condition=init_condition)
+        yn = fwd_euler.get_history(0)
 
-        def f(tn, yn):
+        def f(**kwargs):
             return tn+yn
 
         new = fwd_euler.execute(f=f, tn=tn)
-        self.assertEqual(new, init_condition + step_size*f(tn, init_condition))
+        self.assertEqual(new, init_condition + step_size*f())
 
 if __name__ == '__main__':
     unittest.main()
