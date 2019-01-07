@@ -1,0 +1,323 @@
+\chapter{State Feedback}
+\label{state_feedback}
+
+The state, $x(t)$, of a dynamical system is a collection of variables that permits prediction
+of the future development of a system. In this chapter we want to  explore the idea of designing
+the dynamics of a system through feedback of the state.  A typical feedback control system with state feedback
+is shown in figure \ref{state_feedback_sys}
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/state_feedback/state_feedback_sys.jpeg}
+\end{center}
+\caption{A feedback control system with state feedback. The controller uses the system
+state $x$ and the reference input $r$ to command the process through its input $u$. We model
+disturbances via the additive input $d$.}
+\label{state_feedback_sys}
+\end{figure}
+
+
+The goal of the feedback controller is to regulate the output of the system $y$ such that it tracks the reference input in the presence of disturbances and also uncertainty in the process dynamics.
+
+\section{Reachability}
+One of the fundamental properties of a control system is what set of points in the
+state space can be reached through the choice of a control input. It turns out that the
+property of reachability is also fundamental in understanding the extent to which
+feedback can be used to design the dynamics of a system.
+
+
+\begin{framed}
+
+\theoremstyle{definition}
+\begin{definition}{Reachability}
+
+A linear system is reachable if for any $x_0, x_f \in R^n$ there exists a $T > 0$ and $u: [0,T] \rightarrow R$ such tha the corresponding solution satisfies $x(0) = x_0$ and $x(T) = x_f$.
+\end{definition}
+
+\end{framed}
+
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/state_feedback/reachability.jpeg}
+\end{center}
+\caption{The reachable set for a control system. The set $R(x_0,\leq T )$ shown in (a) is the set
+of points reachable from $x_0$ in time less than $T$ . The phase portrait in (b) shows the dynamics
+for a double integrator, with the natural dynamics drawn as horizontal arrows and the control
+inputs drawn as vertical arrows. The set of achievable equilibrium points is the $x$ axis. By
+setting the control inputs as a function of the state, it is possible to steer the system to the
+origin, as shown on the sample path.
+}
+\label{reachability}
+\end{figure}
+
+
+The definition of reachability addresses whether it is possible to reach all points
+in the state space in a transient fashion. In many applications, the set of points that
+we are most interested in reaching is the set of equilibrium points of the system
+(since we can remain at those points once we get there). The set of all possible
+equilibria for constant controls is given by:
+
+\begin{equation}
+E = { x_e: Ax_e + Bu_e = 0 ~~ \text{for some} ~~ u_e \in R }
+\end{equation}
+
+To find general conditions under which a linear system is reachable, we will
+first give a heuristic argument based on formal calculations with impulse functions.
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{Equilibrium points and reachability}
+
+We note that if we can reach all points in the state space through some choice of
+input, then we can also reach all equilibrium points.
+\end{remark}
+\end{framed}
+
+\subsection{Testing for reachability with impulse functions}
+
+When the initial state is zero, the resppnse of the system to an input $u(t)$ is given by
+
+\begin{equation}
+x(t) = \int_{0}^{t} e^{A(t-\tau)}Bu(\tau)d\tau
+\end{equation}
+
+Let's choose the input to be an impulse function $\delta(t)$. The state then becomes
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{Impulse function $\delta(t)$}
+
+\end{remark}
+\end{framed}
+
+\begin{equation}
+x_{\delta}  = \int_{0}^{t} e^{A(t-\tau)}Bu(\tau)d\tau = \frac{dx_s}{dt} = e^{At}B
+\end{equation}
+
+(Note that the state changes instantaneously in response to the impulse.) We can
+find the response to the derivative of an impulse function by taking the derivative
+of the impulse response (Exercise 5.1):
+
+\begin{equation}
+\frac{dx_{\delta}}{dt} = Ae^{At}B
+\end{equation}
+
+Continuing this process and using the linearity of the system, the input
+
+\begin{equation}
+u(t) = \alpha_1\delta(t) + \alpha_2 \frac{d\delta(t)}{dt} + \dots +  \alpha_n \frac{d^{n-1}\delta(t)}{dt^{n-1}}  
+\end{equation}
+
+gives the state
+
+\begin{equation}
+x(t) = \alpha_1e^{At}B + \alpha_2Ae^{At}B + \dots +  \alpha_n A^{n-1}e^{At}B  
+\end{equation}
+
+On the right is a linear combination of the columns of the matrix
+
+\begin{equation}
+W_r = \begin{bmatrix}
+ B & AB & \ldots & A^{n-1}B 
+\end{bmatrix}
+\end{equation}
+
+
+To reach an arbitrary point  in the state  space,  we  thus  require 
+  that there are $n$ linear independent columns of the matrix $W_r$. 
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{The reachability matrix $W_r$}}
+
+The matrix $W_r$ is called the reachability
+matrix.
+
+\end{remark}
+\end{framed}
+
+\subsection{Testing for reachability with the convolution equation}
+
+However, an input $u(t)$ consisting of a sum of impulse functions and their derivatives is a very
+violent signal. To see that an arbitrary point can be reached with smoother signals we can make use of the convolution equation. Assuming that the initial condition is zero, the state of a linear system is given by
+\begin{equation}
+x(t)  = \int_{0}^{t} e^{A(t-\tau)}Bu(\tau)d\tau = \int_{0}^{t} e^{A(\tau)}Bu(t-\tau)d\tau
+\end{equation}
+
+It follows from the theory of matrix functions, specifically the Cayley-Hamilton
+theorem (see Exercise 6.10), that
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{The Cayley-Hamilton theorem}
+
+\end{remark}
+\end{framed}
+
+
+\begin{equation}
+e^{A\tau}  = I\alpha_0(\tau) + A\alpha_1(\tau) + \dots + A^{n-1}\alpha_{n-1}(\tau)
+\end{equation}
+
+where $\alpha_i$ are scalar functions, and we find that 
+
+\begin{equation}
+x(t)  = B\int_{0}^{t} \alpha_0(\tau)u(t-\tau)d\tau + AB\int_{0}^{t} \alpha_1(\tau)u(t-\tau)d\tau+ \dots + A^{n-1}B\int_{0}^{t} \alpha_{n-1}(\tau)u(t-\tau)d\tau  
+\end{equation}
+
+Again we observe that the right-hand side is a linear combination of the columns
+of the reachability matrix $W_r$ given by equation (6.3). This basic approach leads to
+the following theorem.
+
+
+\begin{framed}
+\theoremstyle{theorem}
+\begin{theorem}{Reachability rank condition}
+
+ A linear system is reachable if and
+only if the reachability matrix $W_r$ is invertible.
+
+\end{theorem}
+\end{framed}
+
+
+\subsection{Reachable Canonical Form}
+
+It is often convenient to change coordinates and write the dynamics of the system in the transformed coordinates
+
+\begin{equation}
+z = Tx
+\end{equation}
+
+One application of a change of coordinates is to convert a system into a
+canonical form in which it is easy to perform certain types of analysis.
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Reachable Canonical Form}}
+
+A linear state space system is in reachable canonical form, if its dynamics are given by
+
+\begin{eqnarray}
+\frac{dz}{dt} = Az + Bu \\
+y=Cz + du
+\end{eqnarray}
+
+\end{remark}
+\end{framed}
+
+The characteristic polynomial for a system in reachable canonical form is given
+
+\begin{equation}
+\lambda(s) = s^n +\alpha_1s^{n-1}+ \dots + \alpha_{n-1}s + \alpha_n
+\end{equation}
+
+The reachability matrix also has a relatively simple structure:
+
+We now consider the problem of changing coordinates such that the dynamics
+of a system can be written in reachable canonical form. Let $A$, $B$ represent the
+dynamics of a given system and $\tilde{A}, \tilde{B}$ be the dynamics in reachable canonical form.
+Suppose that we wish to transform the original system into reachable canonical
+form using a coordinate transformation $z = Tx$. As shown in the last chapter, the
+dynamics matrix and the control matrix for the transformed system are
+
+
+\begin{equation}
+\tilde{A} = TAT^{-1}, ~~ \tilde{B} = TB
+\end{equation}
+
+The reachability matrix for the transformed system then becomes
+
+\begin{equation}
+\tilde{W}_r = \begin{bmatrix}
+ \tilde{B} & \tilde{A}\tilde{B} & \ldots & \tilde{A}^{n-1}\tilde{B} 
+\end{bmatrix}
+\end{equation}
+
+We can transforming each element individually and thus get the reachability matrix fro the transformed system
+
+\begin{equation}
+\tilde{W}_r = TW_r
+\end{equation}
+
+However, we know that $W_r$ is invertible. Therefore we can solve for the transformation $T$ that takes the system into reachable canonical form:
+
+\begin{equation}
+T = \tilde{W}_r W_{r}^{-1}
+\end{equation}
+
+
+\begin{framed}
+\theoremstyle{theorem}
+\begin{theorem}{Reachable canonical form}
+
+Let $A$ and $B$ be the dynamics and control matrices for a reachable system. Then there exists a transformation
+
+\begin{equation}
+z = Tx \nonumber
+\end{equation}
+
+such that in the transformed coordinates  the dynamics and control matrices are in the reachable 
+canoinical form and the characteristic polynomial for $A$ is given by
+
+\begin{equation}
+\text{det}(sI-A) = 0 \nonumber
+\end{equation}
+
+\end{theorem}
+\end{framed}
+
+One important implication of this theorem is that for any reachable system, we
+can assume without loss of generality that the coordinates are chosen such that the
+system is in reachable canonical form. This is particularly useful for proofs, as we
+shall see later in this chapter. However, for high-order systems, small changes in
+the coefficients $a_i$ (that is the coefficients of the characteristic polynomial) can give large changes in the eigenvalues. Hence, the reachable canonical form is not always well conditioned and must be used with some care.
+
+
+\section{Stabilization by State Feedback}
+
+In this section, we will assume that the
+system to be controlled is described by a linear state model and has a single input
+(for simplicity). The feedback control law will be developed step by step using a
+single idea: the positioning of closed loop eigenvalues in desired locations.
+
+Figure \ref{state_feedback_sys_II} has already been shown at the begining of this chapter. It shows a diagram of a typical control system using state feedback.
+
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/state_feedback/state_feedback_sys.jpeg}
+\end{center}
+\caption{A feedback control system with state feedback. The controller uses the system
+state $x$ and the reference input $r$ to command the process through its input $u$. We model
+disturbances via the additive input $d$.}
+\label{state_feedback_sys_II}
+\end{figure}
+
+The full system consists of the process dynamics, which we take to be linear, the controller
+elements $K$ and $k_r$ , the reference input (or command signal) $r$ and process disturbances $d$. The goal of the feedback controller is to regulate the output of the system $y$ such that it tracks the reference input in the presence of disturbances and also uncertainty in the process dynamics.
+
+An important element of the control design is the performance specification.
+The simplest performance specification is that of stability: in the absence of any
+disturbances, we would like the equilibrium point of the system to be asymptotically
+stable. More sophisticated performance specifications typically involve giving desired properties of the step or frequency response of the system, such as specifying the desired rise time, overshoot and settling time of the step response. Finally, we are often concerned with the disturbance attenuation properties of the system: to
+what extent can we experience disturbance inputs $d$ and still hold the output $y$ near the desired value?
+
+Consider a system described by the linear differential equation
+
+
+
+\begin{equation}
+\frac{dx}{dt} = Ax + Bu ~~ y = Cx + Du
+\end{equation}
+
+
+
+
+
+
