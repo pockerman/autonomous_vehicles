@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>580</x>
+      <y>80</y>
+      <w>320</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Autonomous Driving Functional Components</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>260</y>
+      <w>220</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>**Vehicle platform manipulation**
+(vehicle coordinate space)
+--
+
+- Platform stabilization
+- Passive safety
+- Trajectory execution
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>260</y>
+      <w>220</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>**Perception**
+--
+
+- Sensiing
+- Sensor Fusion
+- Localization
+- Semantic Understanding
+- World Model</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>260</y>
+      <w>220</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>**Decision &amp; Control**
+(world coordinate space)
+--
+
+- Trajectory generation
+- Energy management
+- Diagnosis &amp; fault management
+- Reactive control
+- World Model</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>100</y>
+      <w>250</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;160.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>100</y>
+      <w>30</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>100</y>
+      <w>280</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;260.0;160.0</additional_attributes>
+  </element>
+</diagram>
