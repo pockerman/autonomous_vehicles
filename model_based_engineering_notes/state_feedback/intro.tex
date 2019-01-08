@@ -318,6 +318,59 @@ Consider a system described by the linear differential equation
 
 
 
+\section{Questions}
 
 
+\section{Exercises}
+
+\textbf{Exercise 1}
+
+The linearized longitudinal vehicle dynamics model for a vehicle traveling at $20 m/sec$ on a flat road is given by the following state-space model
+
+
+\begin{eqnarray}
+\begin{bmatrix}
+ \dot{x}_1\\
+ \dot{x}_2
+\end{bmatrix}= 
+\begin{bmatrix}
+ -1.25 & 0 \\
+ 0.000005 & -0.0024 
+\end{bmatrix}
+\begin{bmatrix}
+ x_1\\
+ x_2
+\end{bmatrix} +  
+\begin{bmatrix}
+ 20000\\
+ 0
+\end{bmatrix}u +
+\begin{bmatrix}
+ 0\\
+ -9.82
+\end{bmatrix}d_1 \\
+y=
+\begin{bmatrix}
+ 0 & 1  \\
+\end{bmatrix}
+\begin{bmatrix}
+ x_1\\
+ x_2
+\end{bmatrix} 
+\end{eqnarray}
+
+where $x_1$ is the force at the wheels, $x_2$ is the vehicle velocity, $u$ is the input signal and $d_1$ is the disturbance of the road.
+
+Design a state feedback cruise controller using pole placement on the form
+
+\begin{equation}
+u = - K x + k_r r
+\end{equation}
+
+such that the closed loop system's characteristic polynomial becomes 
+\begin{equation}
+p(s) = s^2 + 2\zeta \omega_n s +\omega_{n}^{2}  
+\end{equation}
+
+where $\omega_n=0.6$ and $\zeta = 1/\sqrt{2}$. The reference gain $k_r$ should be chosen such that the steady state gain is 1. The disturbance $d_1$ can be considered to be 0.
 

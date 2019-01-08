@@ -167,8 +167,48 @@ A linear system of the form
 \end{equation}
 
 is observable if and only if the observability matrix $W_o$ is full rank.
-
 \end{theorem}
+\end{framed}
+
+
+
+\section{Observable Canonical Form}
+\label{observability_canonical_form}
+
+As in the case of reachability, certain canonical forms will be useful in studying ob-
+servability. A linear single-input, single-output state space system is in observable
+canonical form if its dynamics are given by
+
+\begin{eqnarray}
+\frac{dz}{dt}= 
+\begin{bmatrix}
+ -\alpha_1 & 1 & 0 & \ldots &  0\\
+ -\alpha_2 & 0 & 1 & \ldots &  0 \\
+ \vdots \\
+-\alpha_{n-1} & 0 & 0 & \ldots &  1 \\
+-\alpha_{n} & 0 & 0 & \ldots &  0 \\
+\end{bmatrix}z +
+\begin{bmatrix}
+ b_1 \\
+ b_2 \\
+ \vdots \\
+ b_{n-1}\\
+b_{n} 
+\end{bmatrix}u \\
+y = 
+\begin{bmatrix}
+ 1 & 0 & 0 & \ldots & 0  \\
+\end{bmatrix}x + Du
+\end{eqnarray}
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Observable Canonical Form for Nonlinear Systems}}
+
+The definition can be extended to systems with many inputs; the only difference is
+that the vector multiplying u is replaced by a matrix.
+\end{remark}
 \end{framed}
 
 
@@ -187,50 +227,6 @@ is observable if and only if the observability matrix $W_o$ is full rank.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-On the right is a linear combination of the columns of the matrix
-
-
-
-To reach an arbitrary point  in the state  space,  we  thus  require 
-  that there are $n$ linear independent columns of the matrix $W_r$. 
-
-
-
-
-\subsection{Testing for reachability with the convolution equation}
-
-However, an input $u(t)$ consisting of a sum of impulse functions and their derivatives is a very
-violent signal. To see that an arbitrary point can be reached with smoother signals we can make use of the convolution equation. Assuming that the initial condition is zero, the state of a linear system is given by
-\begin{equation}
-x(t)  = \int_{0}^{t} e^{A(t-\tau)}Bu(\tau)d\tau = \int_{0}^{t} e^{A(\tau)}Bu(t-\tau)d\tau
-\end{equation}
-
-It follows from the theory of matrix functions, specifically the Cayley-Hamilton
-theorem (see Exercise 6.10), that
-
-
-
-
-
-
-
-
-Again we observe that the right-hand side is a linear combination of the columns
-of the reachability matrix $W_r$ given by equation (6.3). This basic approach leads to
-the following theorem.
 
 
 
@@ -247,19 +243,7 @@ One application of a change of coordinates is to convert a system into a
 canonical form in which it is easy to perform certain types of analysis.
 
 
-\begin{framed}
-\theoremstyle{remark}
-\begin{remark}{\textbf{Reachable Canonical Form}}
 
-A linear state space system is in reachable canonical form, if its dynamics are given by
-
-\begin{eqnarray}
-\frac{dz}{dt} = Az + Bu \\
-y=Cz + du
-\end{eqnarray}
-
-\end{remark}
-\end{framed}
 
 The characteristic polynomial for a system in reachable canonical form is given
 
