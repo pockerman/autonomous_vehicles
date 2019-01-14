@@ -58,8 +58,6 @@ signal, i.e., that the signal $y$ is a scalar and that $C$ is a (row) vector. Th
 be corrupted by noise $n$, although we shall start by considering the noise-free case.
 We write $\hat{x}$ for the state estimate given by the observer.
 
-
-
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.380]{img/output_feedback/observer_block_diagram.jpeg}
@@ -115,7 +113,6 @@ observability problem can  immediately be solved if the matrix $C$ is invertible
 
 From the derivative of the output we thus get the projection of the state on vectors that are rows of the matrix $CA$. Proceeding in this way, we get
 
-
 \begin{equation}
 \begin{bmatrix}
  y \\
@@ -159,18 +156,16 @@ The observability criterion is unchanged.
 
 \begin{framed}
 \theoremstyle{theorem}
-\begin{theorem}{Observability rank condition}
+\begin{theorem}{\textbf{Observability rank condition}}
 
 A linear system of the form  
 \begin{equation}
-\frac{dx}{dt} = Ax + Bu ~~ y = Cx + Du \nonumber
+\frac{dx}{dt} = Ax + Bu, ~~ y = Cx + Du \nonumber
 \end{equation}
 
 is observable if and only if the observability matrix $W_o$ is full rank.
 \end{theorem}
 \end{framed}
-
-
 
 \section{Observable Canonical Form}
 \label{observability_canonical_form}
@@ -178,28 +173,6 @@ is observable if and only if the observability matrix $W_o$ is full rank.
 As in the case of reachability, certain canonical forms will be useful in studying ob-
 servability. A linear single-input, single-output state space system is in observable
 canonical form if its dynamics are given by
-
-\begin{eqnarray}
-\frac{dz}{dt}= 
-\begin{bmatrix}
- -\alpha_1 & 1 & 0 & \ldots &  0\\
- -\alpha_2 & 0 & 1 & \ldots &  0 \\
- \vdots \\
--\alpha_{n-1} & 0 & 0 & \ldots &  1 \\
--\alpha_{n} & 0 & 0 & \ldots &  0 \\
-\end{bmatrix}z +
-\begin{bmatrix}
- b_1 \\
- b_2 \\
- \vdots \\
- b_{n-1}\\
-b_{n} 
-\end{bmatrix}u \\
-y = 
-\begin{bmatrix}
- 1 & 0 & 0 & \ldots & 0  \\
-\end{bmatrix}x + Du
-\end{eqnarray}
 
 
 \begin{framed}
@@ -212,89 +185,110 @@ that the vector multiplying u is replaced by a matrix.
 \end{framed}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsection{Reachable Canonical Form}
-
-It is often convenient to change coordinates and write the dynamics of the system in the transformed coordinates
+The characteristic polynomial for a system in observable canonical form is
 
 \begin{equation}
-z = Tx
+\lambda(s) = s^n +\alpha_1s^{n-1} + \ldots + \alpha_{n-1}s + \alpha_n
 \end{equation}
 
-One application of a change of coordinates is to convert a system into a
-canonical form in which it is easy to perform certain types of analysis.
-
-
-
-
-The characteristic polynomial for a system in reachable canonical form is given
+In order to check the observability property of a systme more formally, we can compute the observability matrix for
+a system in observable canonical form. This is given by
 
 \begin{equation}
-\lambda(s) = s^n +\alpha_1s^{n-1}+ \dots + \alpha_{n-1}s + \alpha_n
+W_o= 
+\begin{bmatrix}
+ 1 & 0 & 0 & \ldots &  0\\
+ -\alpha_1 & 1 & 0 & \ldots &  0 \\
+ -\alpha_{1}^{2} - \alpha_1 \alpha_2 & - \alpha_1 & 1 &  \ldots &  0 \\
+ \vdots & \vdots & \vdots & \ddots & \vdots \\
+* & * & * & \ldots & 1
+\end{bmatrix} 
 \end{equation}
 
-The reachability matrix also has a relatively simple structure:
 
-We now consider the problem of changing coordinates such that the dynamics
-of a system can be written in reachable canonical form. Let $A$, $B$ represent the
-dynamics of a given system and $\tilde{A}, \tilde{B}$ be the dynamics in reachable canonical form.
-Suppose that we wish to transform the original system into reachable canonical
-form using a coordinate transformation $z = Tx$. As shown in the last chapter, the
-dynamics matrix and the control matrix for the transformed system are
+where * represents  an entry  whose exact  value  is  not important.
+What is important here is the rows of this matrix are linearly independent (since it is lower triangular), and hence Wo is full rank. Hence, it is invertible. 
+
+As in the case of reachability (see section \ref{reachable_canonical_form}), it  turns  out  that  if a  system  is  observable then there
+always exists a transformation $T$ that converts the system into observable canonical
+form. This is useful for proofs since it lets us assume that a system is in observable
+canonical form without any loss of generality. The observable canonical form may
+be poorly conditioned numerically.
+ 
+
+\section{State Estimation}
+
+In this section, we want to construct a dynamical system of the form
+
+\begin{equation}
+\frac{d \hat{x}}{dt} = F\hat{x} + Gu + Hy  
+\end{equation}
+
+where $u$ and $y$ are the input and output of the original system and $\hat{x} \in R^n$ is an estimate of $x$ with the property
+
+\begin{equation}
+\hat{x}(t) \rightarrow x(t), ~~ \text{as} ~~ t \rightarrow \infty  
+\end{equation}
+
+Let's consider again the system
+
+\begin{equation}
+\frac{dx}{dt} = Ax + Bu ~~ y = Cx + Du
+\label{sys}
+\end{equation}
+
+assume further that $D$ is zero. Assuming that the input $u$ is known, then an estimate of the state $x$ is given by
+
+\begin{equation}
+\frac{d\hat{x}}{dt} = A\hat{x} + Bu
+\label{observer_one} 
+\end{equation}  
+
+We would like to know the properties of this estimate; how far is from the exact state? The estimation error is \cite{Astrom} 
+
+\begin{equation}
+\tilde{x} = x - \hat{x} 
+\end{equation} 
+
+substituting into equation \ref{observer_one} we find that
 
 
 \begin{equation}
-\tilde{A} = TAT^{-1}, ~~ \tilde{B} = TB
-\end{equation}
+\frac{d\tilde{x}}{dt} = A\tilde{x}  
+\end{equation}  
 
-The reachability matrix for the transformed system then becomes
+We already know that the behavior of this system depends on the eigenvalues of $A$. Concretely, if matrix $A$ has all its eigenvalues in the left half-plane, the error $\tilde{x}$ will go to zero,
+and hence equation \ref{observer_one} is a dynamical system whose output converges to the state
+of the system \ref{sys}.
+
+
+The observer given by equation \ref{observer_one} uses only the process input $u$; the measured
+signal does not appear in the equation. We must also require that the system be stable,
+and essentially our estimator converges because the state of both the observer and
+the estimator are going zero. This is not very useful in a control design context since
+we want to have our estimate converge quickly to a nonzero state so that we can
+make use of it in our controller. We will therefore attempt to modify the observer
+so that the output is used and its convergence properties can be designed to be fast
+relative to the system’s dynamics. This version will also work for unstable systems.
+
+Let's now consider the following observer
 
 \begin{equation}
-\tilde{W}_r = \begin{bmatrix}
- \tilde{B} & \tilde{A}\tilde{B} & \ldots & \tilde{A}^{n-1}\tilde{B} 
-\end{bmatrix}
+\frac{d \hat{x}}{dt} = A\hat{x} + Bu + L(y- C \hat{x})
+\label{observer_two}   
 \end{equation}
 
-We can transforming each element individually and thus get the reachability matrix fro the transformed system
+The term $L(y- C \hat{x})$ provides feedback and hence the observer in \ref{observer_two} can be seen as a generalization of the observer in \ref{observer_one}. The supplied feedback is proportional to the difference between the observed output and the output predicted by the observer. Substituting the expression for the error $\tilde{x}$ we arraive at
 
-\begin{equation}
-\tilde{W}_r = TW_r
-\end{equation}
-
-However, we know that $W_r$ is invertible. Therefore we can solve for the transformation $T$ that takes the system into reachable canonical form:
-
-\begin{equation}
-T = \tilde{W}_r W_{r}^{-1}
-\end{equation}
-
+ \begin{equation}
+\frac{d\tilde{x}}{dt} = (A-LC)\tilde{x} 
+\label{observer_two}   
+\end{equation}  
 
 \begin{framed}
 \theoremstyle{theorem}
 \begin{theorem}{Reachable canonical form}
 
-Let $A$ and $B$ be the dynamics and control matrices for a reachable system. Then there exists a transformation
-
-\begin{equation}
-z = Tx \nonumber
-\end{equation}
 
 such that in the transformed coordinates  the dynamics and control matrices are in the reachable 
 canoinical form and the characteristic polynomial for $A$ is given by
@@ -305,53 +299,4 @@ canoinical form and the characteristic polynomial for $A$ is given by
 
 \end{theorem}
 \end{framed}
-
-One important implication of this theorem is that for any reachable system, we
-can assume without loss of generality that the coordinates are chosen such that the
-system is in reachable canonical form. This is particularly useful for proofs, as we
-shall see later in this chapter. However, for high-order systems, small changes in
-the coefficients $a_i$ (that is the coefficients of the characteristic polynomial) can give large changes in the eigenvalues. Hence, the reachable canonical form is not always well conditioned and must be used with some care.
-
-
-\section{Stabilization by State Feedback}
-
-In this section, we will assume that the
-system to be controlled is described by a linear state model and has a single input
-(for simplicity). The feedback control law will be developed step by step using a
-single idea: the positioning of closed loop eigenvalues in desired locations.
-
-Figure \ref{state_feedback_sys_II} has already been shown at the begining of this chapter. It shows a diagram of a typical control system using state feedback.
-
-
-\begin{figure}[!htb]
-\begin{center}
-\includegraphics[scale=0.280]{img/state_feedback/state_feedback_sys.jpeg}
-\end{center}
-\caption{A feedback control system with state feedback. The controller uses the system
-state $x$ and the reference input $r$ to command the process through its input $u$. We model
-disturbances via the additive input $d$.}
-\label{state_feedback_sys_II}
-\end{figure}
-
-The full system consists of the process dynamics, which we take to be linear, the controller
-elements $K$ and $k_r$ , the reference input (or command signal) $r$ and process disturbances $d$. The goal of the feedback controller is to regulate the output of the system $y$ such that it tracks the reference input in the presence of disturbances and also uncertainty in the process dynamics.
-
-An important element of the control design is the performance specification.
-The simplest performance specification is that of stability: in the absence of any
-disturbances, we would like the equilibrium point of the system to be asymptotically
-stable. More sophisticated performance specifications typically involve giving desired properties of the step or frequency response of the system, such as specifying the desired rise time, overshoot and settling time of the step response. Finally, we are often concerned with the disturbance attenuation properties of the system: to
-what extent can we experience disturbance inputs $d$ and still hold the output $y$ near the desired value?
-
-Consider a system described by the linear differential equation
-
-
-
-\begin{equation}
-\frac{dx}{dt} = Ax + Bu ~~ y = Cx + Du
-\end{equation}
-
-
-
-
-
 
