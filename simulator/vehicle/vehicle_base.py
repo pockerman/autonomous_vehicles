@@ -10,6 +10,7 @@ class VehicleBase(ABC):
     def __init__(self):
         self.__properties = dict()
         self.__properties['mass'] = 0.0
+        self.__propulsion = None
 
     @property
     def mass(self):
@@ -31,11 +32,11 @@ class VehicleBase(ABC):
 
     @property
     @abstractmethod
-    def old_state(self):
+    def old_state(self, name, idx):
         pass
 
     @old_state.setter
     @abstractmethod
-    def old_state(self, value):
+    def old_state(self, name, idx, value):
         pass
 
