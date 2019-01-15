@@ -217,7 +217,36 @@ be poorly conditioned numerically.
  
 
 \section{State Estimation}
+State feedback control design, as explained in t chapter \ref{state_feedback} requires that we have access to the complete state vector. 
+However, measuring the complete state vector is not always feasible (for example a sensor may not be available at all) and it may also be expensive.
+In this section we will introduce the idea of state estimation as a way to get access to the state variables. 
 
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Soft Sensors}}
+
+
+The concept of using software instead of sensors to access the quantity we are 
+interested in, is referred to as soft sensors in the automotive industry.
+\end{remark}
+\end{framed}
+
+Recall that the idea of state feedback control was to modify the eigenvalues of the system under consideration by using the input
+
+\begin{equation}
+u = -Kx + K_r r  
+\end{equation}
+
+However, it can be seen that this requires the state vector $x$. The idea of state estimation is to design something called an observer that tries to provide an 
+estimate say $\hat{x}$ of the state vector $x$. The observer is fed with the same input as the real plant. The goal of the observer is to provide somehow a replica of the true state vector.
+Thus, we would like to have the error $\tilde{x}$ between the two quantities to be zero. Namely,
+
+
+\begin{equation}
+\tilde{x} = x - \hat{x} = 0 
+\end{equation}
+ 
 In this section, we want to construct a dynamical system of the form
 
 \begin{equation}
@@ -299,4 +328,22 @@ canoinical form and the characteristic polynomial for $A$ is given by
 
 \end{theorem}
 \end{framed}
+
+
+
+\section{Questions}
+
+\textbf{Question 1}
+
+What is the main reason for using an estimator in feedback control?
+
+\begin{itemize}
+\item A) There are process disturbances in the model 
+\item B) We are measuring the wrong quantities 
+\item C) It is too expensive or impractical to measure each state variable correct 
+\end{itemize} 
+
+\textbf{Answer}  
+
+Option C is the correct answer.
 
