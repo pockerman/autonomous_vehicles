@@ -312,23 +312,80 @@ The term $L(y- C \hat{x})$ provides feedback and hence the observer in \ref{obse
  \begin{equation}
 \frac{d\tilde{x}}{dt} = (A-LC)\tilde{x} 
 \label{observer_two}   
-\end{equation}  
+\end{equation} 
+
+If the matrix $L$ can be chosen in such a way that the matrix $A-LC$ has eigenvalues with negative real parts, the error $\tilde{x}$ will go to zero. The convergence rate is determined by an appropriate selection of the eigenvalues.
+ 
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Observer design and state feedback duality}}
+
+
+Notice the similarity between the problems of finding a state feedback and
+finding the observer. State feedback design by eigenvalue assignment is equivalent
+to finding a matrix $K$ so that $A-BK$ has given eigenvalues. Designing an observer
+with prescribed eigenvalues is equivalent to finding a matrix $L$ so that $A-LC$ has
+given eigenvalues. Since the eigenvalues of a matrix and its transpose are the same
+we can establish the following equivalences:
+
+\begin{equation}
+A \leftrightarrow A^T, ~~ B \leftrightarrow C^T, ~~ K \leftrightarrow L^T, ~~ W_r \leftrightarrow W_{o}^{T}
+\end{equation}
+
+The observer design problem is the dual of the state feedback design problem. 
+\end{remark}
+\end{framed}
+
+
 
 \begin{framed}
 \theoremstyle{theorem}
-\begin{theorem}{Reachable canonical form}
+\begin{theorem}{\textbf{Observer design by eigenvalue assignment)}}
 
 
-such that in the transformed coordinates  the dynamics and control matrices are in the reachable 
-canoinical form and the characteristic polynomial for $A$ is given by
+Consider the system
 
 \begin{equation}
-\text{det}(sI-A) = 0 \nonumber
+\frac{dx}{dt} = Ax + Bu, ~~ y =Cx   \nonumber
+\end{equation} 
+
+with one input and one output. Let the characteristic polynomial related to matrix A be
+
+\begin{equation}
+\lambda(s) = s^n + \alpha_1 s^{n-1} + \ldots + \alpha_{n-1}s + \alpha_n \nonumber
 \end{equation}
 
+If the systme is observable, then the dynamical system
+
+\begin{equation}
+\frac{d \hat{x}}{dt} = A\hat{x} + Bu + L(y- C \hat{x})  \nonumber
+\end{equation}
+
+
+is an observer for the system with $L$ chosen as 
+
+\begin{equation}
+L = W_{o}^{-1}\tilde{W}_o
+\begin{bmatrix}
+ p_1 - \alpha_1 \\
+ p_2 - \alpha_2 \\
+ \vdots  \\
+ p_n - \alpha_n
+\end{bmatrix} \nonumber
+\end{equation}
+
+The matrices $W_{o}$ and $\tilde{W}_{o}$ are given by
+
+The resulting observer error $\tilde{x}$ is governed by a differential equation that has the following characteristic polynomial
+
+\begin{equation}
+p(s) = s^n +  p-1 s^{n-1} + \ldots + p_n  \nonumber
+\end{equation}
 \end{theorem}
 \end{framed}
 
+The dynamical system (7.10) is called an observer for (the states of) the system (7.9) because it will generate an approximation of the states of the system from its inputs and outputs. This form of an observer is a much more useful form than the one given by pure differentiation in equation (7.3).
 
 
 \section{Questions}
