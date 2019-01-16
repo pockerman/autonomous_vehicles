@@ -11,3 +11,77 @@ and to keep the mathematical prerequisites to a minimum. This section assumes
 basic knowledge of random variables and stochastic processes; see Kumar and
 Varaiya [KV86] or Åström [Åst06] for the required material.
 
+Consider again the LTI state-space model
+
+\begin{equation}
+\frac{dx}{dt} = Ax + Bu +v  ~~ y = Cx + Du +w 
+\end{equation}
+the model is augmented with additional terms representing the error or disturbance. Concretely,
+$v$ is the process disturbance and $w$ is measurements noise. Both are assumed to be normally distibuted with zero mean;
+
+\begin{eqnarray}
+E[v] = 0, ~~ E[vv^T] = R_v, ~~ E[w] = 0, ~~ E[ww^T] = R_w 
+\label{noise_proccess_1} 
+\end{eqnarray}
+
+$R_v$ and $R_w$ are the covariance matrices for the process disturbance $v$ and the measurement noise $w$ respectively. Furthermore, we assume that the variables $v, w$ are not correlated i.e 
+
+\begin{eqnarray}
+E[vw^T] = 0
+\label{noise_proccess_2} 
+\end{eqnarray}
+
+The initial condition is also modeled as a Gaussian random variable
+
+\begin{eqnarray}
+E[x(0)] = x_0, ~~ E[x(0)x^{T}(0)] = P_0
+\label{noise_proccess_3} 
+\end{eqnarray}
+
+Implementation of the state-space model in a computer requires discretization. Thus the system can be written as discrete-time linear system with dynamics governed by
+
+\begin{equation}
+x_{t+1} = Ax_t + Bu_t + Fv_t,  ~~ y_t = Cx_t + w_t 
+\end{equation}
+
+Given the measurements $\{y(\tau), 0 \leq \tau \leq t \}$, we would like to find an estimate $\hat{x}_t$ that minimizes the mean square error:
+
+\begin{equation}
+E[(x_t - \hat{x}_t)(x_t - \hat{x}_t)^T] 
+\end{equation}
+
+\begin{framed}
+\theoremstyle{theorem}
+\begin{theorem}{\textbf{Kalman 1961}}
+
+
+Consider the random process $x_t$ with dynamics described by  
+
+\begin{equation}
+x_{t+1} = Ax_t + Bu_t + Fv_t,  ~~ y_t = Cx_t + w_t \nonumber
+\end{equation} 
+
+and noise processes and initial conditions described by \ref{noise_proccess_1},  \ref{noise_proccess_2} and 
+\ref{noise_proccess_3}. The observer gain $L$ that minimizes the mean square error is given by  
+
+\begin{equation}
+L_t = AP_tC^T(R_w + CP_tC^T)^{-1}  \nonumber
+\end{equation}
+
+where
+
+\begin{equation}
+P_{t+1} =  (A − LC)P_t(A − LC)^T + FR_v F^T + LR_w L^T, ~~ P_0 = E[x_0x^{T}_0\}
+\end{equation}
+
+\end{theorem}
+\end{framed}
+
+A proof of this result can be found in \cite{Astrom}. We, note, however the following points:
+
+\begin{itemize}
+\item the Kalman filter has the form of a recursive filter: given mean square error $P_t$ at time $t$, we can compute how the estimate and error change. Thus we do not need to keep track of old values of the output.
+\item Furthermore, the Kalman filter gives the estimate $\hat{x}_t$ and the error covariance $P_t$, so we can see how reliable the estimate is. It can also be shown that the Kalman filter extracts the maximum possible information about output data. If we form the residual between the measured output and the estimated output,
+
+
+\end{itemize}

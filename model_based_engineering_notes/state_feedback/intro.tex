@@ -602,13 +602,157 @@ K_r = m\omega_{n}^{2}
 
 \textbf{Exercise 6}
 
-Consider the closed loop system with the controller designed as in the previous exercise. Determine the transfer function for closed loop system, from the reference signal to the output
+Consider the closed loop system with the controller designed as in the previous exercise. Determine the transfer function for closed loop system, from the reference signal to the output.  How many zeros does the system have?
+
+\textbf{Answer}
+
+The transfer function can be computed as
+
+\begin{equation}
+G_{ry}(s) = C(sI - A + BK)^{-1}BK_r \nonumber
+\end{equation}
+
+substituting the relevant quantities we arrive at
+
+\begin{equation}
+G_{ry}(s) = \frac{\omega_{n}^{2}}{s^2 + 2\zeta\omega_n s + \omega_{n}^{2}}  \nonumber
+\end{equation}
+
+the number of zeros is 0 as the numerator is constant.
+
+\textbf{Exercise 7}
+
+Consider the tank system as shown in  figure \ref{Watertank_09}.
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/state_feedback/Watertank_09.png}
+\end{center}
+\caption{Watertank schematics.}
+\label{Watertank_09}
+\end{figure}
+The watertank is modeled by
+
+\begin{eqnarray}
+\dot{h} = \frac{1}{A_t}q_0 + \frac{1}{A_t}d - \frac{\alpha}{A_t}\sqrt{2gh} \nonumber \\
+q_1 = \alpha \sqrt{2gh}   \nonumber
+\end{eqnarray}
+
+where is $h$ the level in the tank, $q_0$ is the inflow, $d$ is the disturbance and $q_1$ is the outflow.
+Linearize the tank system around the equilibrium point $(h_e, q_{0e}, d_e) = (h_0, q_0, 0)$. Determine the matrices $A$, $B$, $C$ and $H$ , and corresponding to the model:
+
+\begin{eqnarray}
+\Delta \dot{h} = A \Delta h + B \Delta q_0 + H \Delta d  \nonumber \\
+\Delta q_1 = C \Delta h \nonumber  
+\end{eqnarray}
+
+\textbf{Answer}
+
+Let's consider the following functions
+
+\begin{eqnarray}
+f(h,q_0,d) = \frac{1}{A_t}q_0 + \frac{1}{A_t}d - \frac{\alpha}{A_t}\sqrt{2gh} \nonumber \\
+l(h, q_0, d) = \alpha \sqrt{2gh}   \nonumber
+\end{eqnarray}
+
+The linearized system can be determined as: 
+
+\begin{eqnarray}
+\Delta \dot{h} = \frac{\partial f}{\partial h} \Delta h + \frac{\partial f}{\partial q_0} \Delta q_0 + \frac{\partial f}{\partial d} \Delta d  \nonumber \\
+\Delta q_1 = \frac{\partial l}{\partial h} \Delta h   \nonumber
+\end{eqnarray}
+
+The partial derivatives can be expressed as 
+
+\begin{equation}
+\frac{\partial f}{\partial h} = -\frac{\alpha \sqrt{2g}}{2A_t\sqrt{h}}, ~~ \frac{\partial f}{\partial q_0} = \frac{1}{A_t}, ~~ \frac{\partial f}{\partial d} = \frac{1}{A_t}, ~~ \frac{\partial l}{\partial h} = \frac{\alpha \sqrt{2g}}{2\sqrt{h}}    \nonumber
+\end{equation}
+
+Inserting the equilibrium point gives: 
+
+\begin{eqnarray}
+\Delta \dot{h} = -\frac{\alpha \sqrt{2g}}{2A_t\sqrt{h_0}} \Delta h + \frac{1}{A_t} \Delta q_0 + \frac{1}{A_t} \Delta d  \nonumber \\
+\Delta q_1 = \frac{\alpha \sqrt{2g}}{2\sqrt{h_0}} \Delta h   \nonumber
+\end{eqnarray}
+
+Thus, the matrices are
+
+\begin{equation}
+A =-\frac{\alpha \sqrt{2g}}{2A_t\sqrt{h_0}}, ~~ B = \frac{1}{A_t}, ~~ H = \frac{1}{A_t}, ~~ C= \frac{\alpha \sqrt{2g}}{2\sqrt{h_0}} \nonumber
+\end{equation}
+
+
+\textbf{Exercise 8}
+
+A leaf spring system is shown in figure \ref{Image_LeafSpringSuspension_01}
+
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/state_feedback/Image_LeafSpringSuspension_01.jpg}
+\end{center}
+\caption{Leaf spring system.}
+\label{Image_LeafSpringSuspension_01}
+\end{figure}
+
+The system can be described using the following nonlinear model: 
+
+
+\begin{eqnarray}
+\begin{bmatrix}
+ \dot{x}_1\\
+ \dot{x}_2
+\end{bmatrix}= 
+\begin{bmatrix}
+ x_2  \\
+ -\frac{k_1 x_1}{m} - \frac{k_2 x_{1}^3}{m}  
+\end{bmatrix}
+\end{eqnarray}
+
+Three equilibrium points was considered for $x_{1e}$ namely $0$ and $\pm \sqrt{-k_1/k_2}$. Linearize the model around the equilibrium point
+
+\begin{equation}
+(x_{1e}, x_{2e} ) = (\sqrt{-k_1/k_2}, 0) \nonumber
+\end{equation}
+
+
+Determine system matrix $A$ Express the matrix elements using the system parameter symbols $k_1, k_2$ and $m$. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \textbf{Exercise 2}
 
 The linearized longitudinal vehicle dynamics model for a vehicle traveling at $20 m/sec$ on a flat road is given by the following state-space model
 
+The number of zeros is 0 as the numerator is constant.
 
 \begin{eqnarray}
 \begin{bmatrix}
