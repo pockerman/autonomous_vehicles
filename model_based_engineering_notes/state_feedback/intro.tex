@@ -449,7 +449,7 @@ Consider a system described by the linear differential equation
 
 \section{Exercises}
 
-\textbf{Exercise 1}
+\subsubsection{Exercise 1}
 
 Consider the system 
 
@@ -471,7 +471,7 @@ What are  the sizes of the matrices A, B, C, and K if we have one input signal, 
 Since the state has three components then $A$ must be $3\times 3$. As we have only one input but the result of $Bu$ must be added to the result of $Ax$ then $B$ must be $3\times 1$.
 Since the output has two components then $C$ must be $2\times 3$. Finally, $K$ must be $1\times 3$.
 
-\textbf{Exercise 2}
+\subsubsection{Exercise 2}
 
 Consider again the system in the previous  question. Assume now that but now the system has two input signals, three states and one output signal. What are the sizes of the involved matrices?
 
@@ -479,8 +479,7 @@ Consider again the system in the previous  question. Assume now that but now the
 
 Using the same line of reasoning, since the state has three components then $A$ must be $3\times 3$. As we have only two input but the result of $Bu$ must be added to the result of $Ax$ then $B$ must be $3\times 2$. Since the output has two components then $C$ must be $1\times 3$. Finally, $K$ must be $2\times 3$.
 
-
-\textbf{Exercise 3}
+\subsubsection{Exercise 3}
 
 Consider again the system in the previous  question. Assume now that but now the system has two input signals, four states and one output signal. What are the sizes of the involved matrices?
 
@@ -488,12 +487,9 @@ Consider again the system in the previous  question. Assume now that but now the
 
 Using the same line of reasoning, since the state has three components then $A$ must be $4\times 4$. As we have only two input but the result of $Bu$ must be added to the result of $Ax$ then $B$ must be $4\times 2$. Since the output has two components then $C$ must be $1\times 4$. Finally, $K$ must be $2\times 4$.
 
-
-
-\textbf{Exercise 4}
+\subsubsection{Exercise 4}
 
 Consider the mechanical system shown in Figure \ref{Mechanical_system_3_1_1_ex_4} 
-
 
 \begin{figure}[!htb]
 \begin{center}
@@ -573,9 +569,7 @@ by matching the coefficients with the desired closed loop characteristic polynom
 k_{12} = 2 \zeta m\omega_{n} -c, ~~ k_{11} = m \omega_{n}^{2}
 \end{equation}
 
-
-
-\textbf{Exercise 5}
+\subsubsection{Exercise 5}
 
 Consider the mechanical system shown in Figure \ref{Mechanical_system_3_1_1_ex_4} described by the same steady-state model. Assume that the feedback controller is
 
@@ -599,8 +593,7 @@ Thus, by substituting the values for $k_{11}$ and $k_{12}$ and performing the ca
 K_r = m\omega_{n}^{2}
 \end{equation}
 
-
-\textbf{Exercise 6}
+\subsubsection{Exercise 6}
 
 Consider the closed loop system with the controller designed as in the previous exercise. Determine the transfer function for closed loop system, from the reference signal to the output.  How many zeros does the system have?
 
@@ -620,7 +613,7 @@ G_{ry}(s) = \frac{\omega_{n}^{2}}{s^2 + 2\zeta\omega_n s + \omega_{n}^{2}}  \non
 
 the number of zeros is 0 as the numerator is constant.
 
-\textbf{Exercise 7}
+\subsubsection{Exercise 7}
 
 Consider the tank system as shown in  figure \ref{Watertank_09}.
 \begin{figure}[!htb]
@@ -680,11 +673,9 @@ Thus, the matrices are
 A =-\frac{\alpha \sqrt{2g}}{2A_t\sqrt{h_0}}, ~~ B = \frac{1}{A_t}, ~~ H = \frac{1}{A_t}, ~~ C= \frac{\alpha \sqrt{2g}}{2\sqrt{h_0}} \nonumber
 \end{equation}
 
-
-\textbf{Exercise 8}
+\subsubsection{Exercise 8}
 
 A leaf spring system is shown in figure \ref{Image_LeafSpringSuspension_01}
-
 
 \begin{figure}[!htb]
 \begin{center}
@@ -696,6 +687,28 @@ A leaf spring system is shown in figure \ref{Image_LeafSpringSuspension_01}
 
 The system can be described using the following nonlinear model: 
 
+\begin{eqnarray}
+\begin{bmatrix}
+ \dot{x}_1\\
+ \dot{x}_2
+\end{bmatrix}= 
+\begin{bmatrix}
+ x_2  \\
+ -\frac{k_1 x_1}{m} - \frac{k_2 x_{1}^3}{m}  
+\end{bmatrix} \nonumber
+\end{eqnarray}
+
+Three equilibrium points was considered for $x_{1e}$ namely $0$ and $\pm \sqrt{-k_1/k_2}$. Linearize the model around the equilibrium point
+
+\begin{equation}
+(x_{1e}, x_{2e} ) = (\sqrt{-k_1/k_2}, 0) \nonumber
+\end{equation}
+
+Determine system matrix $A$ Express the matrix elements using the system parameter symbols $k_1, k_2$ and $m$. 
+
+\textbf{Answer}
+
+We can use the functions $f_1, f_2$ to condense the right hand side. 
 
 \begin{eqnarray}
 \begin{bmatrix}
@@ -705,50 +718,161 @@ The system can be described using the following nonlinear model:
 \begin{bmatrix}
  x_2  \\
  -\frac{k_1 x_1}{m} - \frac{k_2 x_{1}^3}{m}  
-\end{bmatrix}
+\end{bmatrix}=
+\begin{bmatrix}
+ f_1(x_1, x_2)  \\
+ f_2(x_1, x_2)  
+\end{bmatrix} \nonumber
 \end{eqnarray}
 
-Three equilibrium points was considered for $x_{1e}$ namely $0$ and $\pm \sqrt{-k_1/k_2}$. Linearize the model around the equilibrium point
+The linearized system can be determined as:
+
+\begin{eqnarray}
+\begin{bmatrix}
+ \Delta \dot{x}_1\\
+ \Delta \dot{x}_2
+\end{bmatrix}= 
+\begin{bmatrix}
+ \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2}   \\
+ \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} 
+\end{bmatrix}
+\begin{bmatrix}
+ \Delta x_1  \\
+ \Delta x_2  
+\end{bmatrix}=
+\begin{bmatrix}
+ 0 & 1   \\
+ -\frac{k_1}{m}-\frac{3k_2 x_{1e}^{2}}{m} & 0  
+\end{bmatrix}
+\begin{bmatrix}
+ \Delta x_1  \\
+ \Delta x_2  
+\end{bmatrix} \nonumber
+\end{eqnarray}
+
+Evaluation of the partial derivatives at the equilibrium point gives
+
+\begin{eqnarray}
+\begin{bmatrix}
+ \Delta \dot{x}_1\\
+ \Delta \dot{x}_2
+\end{bmatrix}= 
+\begin{bmatrix}
+ 0 & 1   \\
+ \frac{2k_1}{m} & 0 
+\end{bmatrix}
+\begin{bmatrix}
+ \Delta x_1  \\
+ \Delta x_2  
+\end{bmatrix} \nonumber
+\end{eqnarray}
+
+Thus,
 
 \begin{equation}
-(x_{1e}, x_{2e} ) = (\sqrt{-k_1/k_2}, 0) \nonumber
+A = 
+\begin{bmatrix}
+ 0 & 1   \\
+ \frac{2k_1}{m} & 0 
+\end{bmatrix}
+\nonumber
 \end{equation}
 
+\subsubsection{Exercise 9}
 
-Determine system matrix $A$ Express the matrix elements using the system parameter symbols $k_1, k_2$ and $m$. 
+Consider the following longitudinal vehicle nonlinear model : 
+
+\begin{eqnarray}
+\frac{d x_1}{dt} = \frac{1}{\tau}x_1 + \frac{ki}{\tau r_w}u \nonumber \\
+\frac{d x_2}{dt} = \frac{1}{m} (x_1 - mgf\cos d_1 - \frac{1}{2}\rho C_D a_f x_{2}^2 - mgsin d_1 ) \nonumber \\
+y = x_2 \nonumber
+\end{eqnarray}
+
+where $x_1$ is the force at the wheels, $x_2$ is the vehicle velocity, $u$ is the input signal, the accelerator pedal position, and $d_1$ is the disturbance, the road slope.
+
+This problem is about determining the equilibrium point $(x_{1e}, x_{2e}, u_e, d_{1e})$ that corresponds to the condition when vehicle is traveling with a velocity of $15 m/s$ on a flat road.
+
+\textbf{Answer}
+
+The equilibrium point is determined by setting the derivatives equal to zero: 
+\begin{eqnarray}
+0 = -\frac{1}{\tau}x_1+\frac{ki}{\tau r_w}u \nonumber \\
+0 =\frac{1}{m}\left ( x_1-mgf\cos{d_1}-\frac{1}{2}\rho C_D A_f x^2_2-mg\sin{d_1}\right ) \nonumber\\
+y =x_2 \nonumber 
+\end{eqnarray}
+
+From the specification of the exercise we get $(x_{2e}=15)$ and $(d_{1e}=0)$. Using the algebraic equations the other two equilibrium points can be determined as $x_{1e}=\frac{1}{2}\rho C_D A_f x^{2e}_2+m g f$ and 
+$u_{e}=\frac{r_w}{k i}$, $x_{1e}=\frac{r_w\rho C_D A_f x^2_{2e}}{2k i}$. If we insert numerical values we get: $(x_{1e},x_{2e},u_{e}, ~~d_{1e})=(3216, 15, 0.2010, 0)$.
+
+\subsubsection{Exercise 10}
+
+Determine the partial derivatives needed for linearizing the the system
+
+\begin{eqnarray}
+\frac{d x_1}{dt} = \frac{1}{\tau}x_1 + \frac{ki}{\tau r_w}u = f_1(x_1, x_2, u, d_1) \nonumber \\
+\frac{d x_2}{dt} = \frac{1}{m} (x_1 - mgf\cos d_1 - \frac{1}{2}\rho C_D a_f x_{2}^2 - mgsin d_1 ) = f_2(x_1, x_2, u, d_1) \nonumber \\
+y = x_2 = h(x_1, x_2, u, d_1) \nonumber
+\end{eqnarray}
+around the equilibrium point $(x_{1e}, x_{2e}, u_e, d_{1e})$. The linearized system can be determined as
 
 
+\begin{eqnarray}
+\begin{bmatrix}
+ \Delta \dot{x}_1\\
+ \Delta \dot{x}_2
+\end{bmatrix}= 
+\begin{bmatrix}
+ \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2}   \\
+ \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} 
+\end{bmatrix}
+\begin{bmatrix}
+ \Delta x_1  \\
+ \Delta x_2  
+\end{bmatrix} + 
+\begin{bmatrix}
+ \frac{\partial f_1}{\partial u}    \\
+ \frac{\partial f_2}{\partial u}   
+\end{bmatrix} \Delta u +
+\begin{bmatrix}
+\frac{\partial f_1}{\partial d_1}    \\
+\frac{\partial f_2}{\partial d_2} 
+\end{bmatrix} \Delta d_1 \nonumber \\
+\Delta y = 
+\begin{bmatrix}
+ \frac{\partial h}{\partial x_1} & \frac{\partial h}{\partial x_2}  
+\end{bmatrix}
+\begin{bmatrix}
+ \Delta x_1  \\
+ \Delta x_2  
+\end{bmatrix} + 
+\begin{bmatrix}
+  \frac{\partial h}{\partial u}  
+\end{bmatrix} \Delta u +
+\begin{bmatrix}
+\frac{\partial h}{\partial d_1} 
+\end{bmatrix} \Delta d_1
+\end{eqnarray}
 
+\textbf{Answer}
 
+We will have:
 
+\begin{eqnarray}
+\frac{\partial f_1}{\partial x_1}=\frac{\partial }{\partial x_1}(-\frac{1}{\tau}x_1+\frac{ki}{\tau r_w}u)=-\frac{1}{\tau} \nonumber \\
+\frac{\partial f_1}{\partial x_2}=\frac{\partial }{\partial x_2}(-\frac{1}{\tau}x_1+\frac{ki}{\tau r_w}u)=0  \nonumber \\
+\frac{\partial f_1}{\partial u}=\frac{\partial }{\partial u}(-\frac{1}{\tau}x_1+\frac{ki}{\tau r_w}u)=\frac{ki}{\tau r_w}  \nonumber \\
+\frac{\partial f_1}{\partial d_1}=\frac{\partial }{\partial d_1}(-\frac{1}{\tau}x_1+\frac{ki}{\tau r_w}u)=0  \nonumber \\
+\frac{\partial f_2}{\partial x_1}=\frac{\partial }{\partial x_1}\frac{1}{m}\left ( x_1-mgf\cos{d_1}-\frac{1}{2}\rho C_D A_f x^2_2-mg\sin{d_1}\right )=\frac{1}{m}  \nonumber \\
+\frac{\partial f_2}{\partial x_2}=\frac{\partial }{\partial x_2}\frac{1}{m}\left ( x_1-mgf\cos{d_1}-\frac{1}{2}\rho C_D A_f x^2_2-mg\sin{d_1}\right )=-\frac{\rho C_D A_f x_2}{m}  \nonumber \\
+\frac{\partial f_2}{\partial u}=\frac{\partial }{\partial u}\frac{1}{m}\left ( x_1-mgf\cos{d_1}-\frac{1}{2}\rho C_D A_f x^2_2-mg\sin{d_1}\right )=0 \nonumber \\
+\frac{\partial f_2}{\partial d_1}=\frac{\partial }{\partial d_1}\frac{1}{m}\left ( x_1-mgf\cos{d_1}-\frac{1}{2}\rho C_D A_f x^2_2-mg\sin{d_1}\right ) =gf\sin{d_{1e}}-g\cos{d_{1e}} \nonumber \\
+\frac{\partial h}{\partial x_1}=\frac{\partial }{\partial x_1}x_2=0 \nonumber \\
+\frac{\partial h}{\partial x_2}=\frac{\partial }{\partial x_2}x_2=1 \nonumber \\
+\frac{\partial h}{\partial u}=\frac{\partial }{\partial u}x_2=0  \nonumber \\
+\frac{\partial h}{\partial d_1}=\frac{\partial }{\partial d_1}x_2=0 \nonumber 
+\end{eqnarray}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\textbf{Exercise 2}
+\subsubsection{Exercise 11}
 
 The linearized longitudinal vehicle dynamics model for a vehicle traveling at $20 m/sec$ on a flat road is given by the following state-space model
 
