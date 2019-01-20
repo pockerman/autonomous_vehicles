@@ -1,0 +1,84 @@
+\begin{thebibliography}{10}
+
+\bibitem{Serban}
+Serban A. C., Poll E., Visser J.
+\newblock{\em A standard driven software architecture for fully autonomous vehicles}
+\newblock https://pdfs.semanticscholar.org/176d/d7b3289267d8c693fb16f0d6fea480b5fad5.pdf
+
+\bibitem{Garlan2000}
+Garlan D.
+\newblock{\em Software architecture:  a roadmap}
+\newblock ICSE 00, pp. 91-101, ACM. 2000.
+
+\bibitem{Bahere}
+Bahere S., Torngren M.
+\newblock{\em A functional architecture for autonomous driving}
+\newblock ICSE 00, pp. 91-101, ACM. 2000.
+
+\bibitem{ETSITR102}  
+\newblock{\em Local Dynamic Map (LDM)-Rational for guidance on standardization.}
+\newblock ETSI TR 102 863 V1.1.1 
+
+\bibitem{RahulSharma}
+Rahul Sharma K., Daniel Honc, František Dušek
+\newblock{\em Predictive Control of Differential Drive Mobile Robot Considering Dynamics and Kinematics}
+\newblock https://pdfs.semanticscholar.org/176d/d7b3289267d8c693fb16f0d6fea480b5fad5.pdf
+
+
+%\bibitem{Polack2017}
+%Philip , Florent Altché1, Brigitte d’Andréa-Novel, and Arnaud de La Fortelle 
+%\newblock{\em The Kinematic Bicycle Model: a Consistent Model for Planning Feasible Trajectories for Autonomous Vehicles?}
+%\newblock HAL Id: hal-01520869, https://hal-polytechnique.archives-ouvertes.fr/hal-01520869
+
+\bibitem{Sutton2016}
+Sutton  R. S., Barto A. G. 
+\newblock{\em Reinforcement Learning: An Introduction}
+\newblock Wiley, Seventh Edition, 2010.
+
+
+\bibitem{Mann2010}
+Mann S. P.
+\newblock{\em Introductory Statistics}
+\newblock Wiley, Seventh Edition, 2010.
+
+\bibitem{Montgomery2014}
+Montgomery C., D., Runger C., G.,
+\newblock{\em Applied Statistics adn Probability for Engineers,}
+\newblock Wiley \& Sons Sixth Edition, 2014.
+
+\bibitem{Martinez2002}
+Martinez L. W., Martinez R. A.,
+\newblock{\em Computational Statistics Handbook with MATLAB,}
+\newblock Chapman \& Hall/CRC, 2002.
+
+\bibitem{Haslwanter2016}
+Haslwanter T.,
+\newblock{\em An Introduction to Statistics with Python. With Applications in the Life Sciences,}
+\newblock Springer, Statistics and Computing, 2016.
+
+\bibitem{Tsimbos1999}
+Tsibos K., Georgiakodis F.
+\newblock{\em Descriptive and Explorative Statistics. Data Analysis}
+\newblock \newblock Stamoulis, Volume A, 1999 (in Greek).
+
+\bibitem{Casella2002}
+Casella G., Berger R. L.
+\newblock{\em Statistical Inference,}
+\newblock Duxburey, Second Edition, 2002.
+
+\bibitem{Papaioannou2000}
+Papaioannou T., Feredinos K.,
+\newblock{\em Mathematical Statistics, Estimation, Hypothesis Testing, Applications,}
+\newblock Stamoulis, Second Edition, 2000 (in Greek).
+
+\bibitem{Damianou2000}
+Damianou H., Koutras M.,
+\newblock{\em Introduction to Statistics Volume I,}
+\newblock Symmetria Publications, 2000, (in Greek).
+
+\bibitem{Kiohos1993}
+Kiohos P.
+\newblock{\em Statistics,}
+\newblock Interbooks, 1993.
+
+\end{thebibliography}
