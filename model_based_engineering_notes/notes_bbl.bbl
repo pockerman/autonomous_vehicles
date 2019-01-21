@@ -9,4 +9,8 @@ Philip , Florent Altché1, Brigitte d’Andréa-Novel, and Arnaud de La Fortel
 \newblock{\em The Kinematic Bicycle Model: a Consistent Model for Planning Feasible Trajectories for Autonomous Vehicles?}
 \newblock HAL Id: hal-01520869, https://hal-polytechnique.archives-ouvertes.fr/hal-01520869
 
+\bibitem{MarcosROA}
+Marcos R. O., A. Maximo 
+\newblock{\em Model Predictive Controller for Trajectory Tracking by Differential Drive Robot with Actuation constraints}
+
 \end{thebibliography}
