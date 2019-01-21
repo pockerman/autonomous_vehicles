@@ -1,6 +1,10 @@
 \chapter{Kalman Filters}
 \label{kalman_filters}
 
+Kalman filtering is an iterative process that uses a set of equations and consecutive data inputs to quickly estimat the 
+true value; e.g. position, velocity etc., of the object being measured when the measured values contain unpredicted or 
+random error, uncertainty or variation.
+
 One of the principal uses of observers in practice is to estimate the state of a
 system in the presence of noisy measurements. We have not yet treated noise in our
 analysis, and a full treatment of stochastic dynamical systems is beyond the scope
@@ -24,12 +28,40 @@ E[v] = 0, ~~ E[vv^T] = R_v, ~~ E[w] = 0, ~~ E[ww^T] = R_w
 \label{noise_proccess_1} 
 \end{eqnarray}
 
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Normally distributed random variable}}
+
+A one dimensional random variable $X$ is said to follow the normal distribution
+\end{remark}
+\end{framed}
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Nonlinear Systems}}
+
+The definition above holds for nonlinear systems as well, and the results discussed here have extensions to the nonlinear case.
+\end{remark}
+\end{framed}
+
 $R_v$ and $R_w$ are the covariance matrices for the process disturbance $v$ and the measurement noise $w$ respectively. Furthermore, we assume that the variables $v, w$ are not correlated i.e 
 
 \begin{eqnarray}
 E[vw^T] = 0
 \label{noise_proccess_2} 
 \end{eqnarray}
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Corralated random variables}}
+
+Two random variables $X$ and $Y$ are said to be linearly correlated 
+\end{remark}
+\end{framed}
 
 The initial condition is also modeled as a Gaussian random variable
 
@@ -71,7 +103,7 @@ L_t = AP_tC^T(R_w + CP_tC^T)^{-1}  \nonumber
 where
 
 \begin{equation}
-P_{t+1} =  (A − LC)P_t(A − LC)^T + FR_v F^T + LR_w L^T, ~~ P_0 = E[x_0x^{T}_0\}
+P_{t+1} =  (A − LC)P_t(A − LC)^T + R_v LR_w L^T, ~~ P_0 = E[x_0x^{T}_0\}
 \end{equation}
 
 \end{theorem}
@@ -81,7 +113,81 @@ A proof of this result can be found in \cite{Astrom}. We, note, however the foll
 
 \begin{itemize}
 \item the Kalman filter has the form of a recursive filter: given mean square error $P_t$ at time $t$, we can compute how the estimate and error change. Thus we do not need to keep track of old values of the output.
-\item Furthermore, the Kalman filter gives the estimate $\hat{x}_t$ and the error covariance $P_t$, so we can see how reliable the estimate is. It can also be shown that the Kalman filter extracts the maximum possible information about output data. If we form the residual between the measured output and the estimated output,
-
-
+\item Furthermore, the Kalman filter gives the estimate $\hat{x}_t$ and the error covariance $P_t$, so we can see how reliable the estimate is. 
+It can also be shown that the Kalman filter extracts the maximum possible information about output data. 
+If we form the residual between the measured output and the estimated output,
 \end{itemize}
+
+\begin{equation}
+e_t = y_t - C\hat{x}_t
+\end{equation}
+we can show that for the Kalman filter the error covariance matrix $R_e$ is
+
+\begin{equation}
+R_e(i,j) = E(e_{j}e_{k}^{T}) = W_t\delta_{jk} 
+\end{equation}
+
+In other words, the error is a white noise process, so there is no remaining dynamic information content in the error.
+
+
+
+
+\begin{framed}
+\theoremstyle{theorem}
+\begin{theorem}{\textbf{Kalman-Bucy 1961}}
+
+
+The optimal estimator has the form of a linear observer 
+
+\begin{equation}
+\frac{d\hat{x}}{t} = A\hat{x} + Bu + L(y - C\hat{x}),  ~~ \hat{x}(0) = E(x(0)) \nonumber
+\end{equation} 
+
+where $L$ is given by
+
+\begin{equation}
+L = PC^TR_{w}^{-1}  \nonumber
+\end{equation}
+
+where $P$
+
+
+\end{theorem}
+\end{framed}
+
+
+All matrices $A, B, C, R_v, R_w, P$ and $L$ can be time varying. The essential condition is that the Riccati equation (8.30) has a unique positive 
+solution.
+
+\section{Kalman’s Decomposition of a Linear System}
+
+In this chapter and the previous one we have seen that two fundamental properties
+of a linear input/output system are reachability and observability. It turns out that
+these two properties can be used to classify the dynamics of a system. The key
+result is Kalman’s decomposition theorem, which says that a linear system can be
+divided into four subsystems:
+
+\begin{itemize}
+\item $\Sigma_{ro}$ which is reachable and observable
+\item $\Sigma_{r\bar{o}}$ which is reachable but no observable 
+\item $\Sigma_{\bar{r}o}$ which is not reachable but is observable
+\item $\Sigma_{\bar{r}\bar{o}}$which is neither reachable nor observable
+\end{itemize}
+
+
+Thus from the input/output point of view, it is only the reachable and observable
+dynamics that matter.
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Kalman's decomposition for state-space}}
+
+The general case of the Kalman decomposition is more complica
+ted and requires some additional linear algebra; see the original pap
+er by Kalman, Ho, and Narendra [KHN63]. The key result is that the state space can still be decomposed
+into four parts, but there will be additional coupling so that the equations have the form 
+\end{remark}
+\end{framed}
+
+
