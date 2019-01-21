@@ -1,0 +1,19 @@
+\contentsline {section}{\numberline {1}State Feedback}{2}
+\contentsline {section}{\numberline {2}Overview}{2}
+\contentsline {section}{\numberline {3}Reachability}{4}
+\contentsline {subsection}{\numberline {3.1}Testing for reachability with impulse functions}{5}
+\contentsline {subsection}{\numberline {3.2}Testing for reachability with the convolution equation}{6}
+\contentsline {subsection}{\numberline {3.3}Reachable Canonical Form}{7}
+\contentsline {section}{\numberline {4}Stabilization by State Feedback}{9}
+\contentsline {section}{\numberline {5}Exercises}{10}
+\contentsline {subsubsection}{\numberline {5.0.1}Exercise 1}{10}
+\contentsline {subsubsection}{\numberline {5.0.2}Exercise 2}{10}
+\contentsline {subsubsection}{\numberline {5.0.3}Exercise 3}{11}
+\contentsline {subsubsection}{\numberline {5.0.4}Exercise 4}{11}
+\contentsline {subsubsection}{\numberline {5.0.5}Exercise 5}{12}
+\contentsline {subsubsection}{\numberline {5.0.6}Exercise 6}{13}
+\contentsline {subsubsection}{\numberline {5.0.7}Exercise 7}{13}
+\contentsline {subsubsection}{\numberline {5.0.8}Exercise 8}{15}
+\contentsline {subsubsection}{\numberline {5.0.9}Exercise 9}{16}
+\contentsline {subsubsection}{\numberline {5.0.10}Exercise 10}{17}
+\contentsline {subsubsection}{\numberline {5.0.11}Exercise 11}{18}

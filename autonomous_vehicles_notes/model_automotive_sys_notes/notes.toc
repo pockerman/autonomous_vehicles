@@ -1,0 +1,12 @@
+\contentsline {section}{\numberline {1}Modeling Automotive Systems}{2}
+\contentsline {section}{\numberline {2}Longitudinal Dynamics}{2}
+\contentsline {subsection}{\numberline {2.1}Structuring}{2}
+\contentsline {subsection}{\numberline {2.2}Powertrain Modeling}{3}
+\contentsline {subsection}{\numberline {2.3}Chassis Modeling}{4}
+\contentsline {subsection}{\numberline {2.4}Balance Laws \& Constitutive Equations}{5}
+\contentsline {subsection}{\numberline {2.5}Summary Of Balance Laws \& Constitutive Equations}{6}
+\contentsline {subsection}{\numberline {2.6}State-Space Form}{7}
+\contentsline {section}{\numberline {3}Questions}{7}
+\contentsline {section}{\numberline {4}Drivetrain Modeling}{8}
+\contentsline {section}{\numberline {5}Suspension System Modeling}{8}
+\contentsline {section}{\numberline {6}The Bicycle Model}{9}
