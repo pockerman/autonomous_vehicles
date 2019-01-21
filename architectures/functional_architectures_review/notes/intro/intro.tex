@@ -26,6 +26,54 @@ step in the V-model. This software development life cycle is imposed by the mand
 \end{remark}
 \end{framed}
 
+The transfer of total control from humans to machines is classified by SAE as a stepwise process on a scale from 0 to 5 \cite{Serban}.
+The zero level involves no automation and five means full automation of all driving aspects under all roadway and environmental conditions.
+The classification above is meant to clarify the role of a human driver during vehicle operation. The first discriminant introduced is the 
+environmental monitoring agent. In the case of no or partial automation, levels 0-2, the environment is monitored by the human driver whilst for higher
+degrees of automation, levels 3-5, the cognitive agent becomes responsible for environmental monitoring.
+
+Another discriminant criteria is the responsibility for DDT fall-back mechanisms \cite{Serban}. Again for low levels of automation, 0-3, the human
+driver needs to take control in case of a system fall while for levels 4 and 5 a human is no longer needed.  
+
+
+\subsection{Terminology}
+In this section some important terms as defined in SAE J3016 are introduced:
+
+\begin{itemize}
+\item Dynamic Driving Task (DDT): real-time operational and tactical functions required to operate a vehicle, excluding strategic functions such as
+trip schedulin gor route planning.
+\item Driving automation system: hardware and software systems collectively capable of performing part or all of the DDT on
+a sustained basis. Driving automation systems are usually composed of design-specific functionality called features.
+\item Operation Design Domains (ODD): the specific conditions under which a given driving automation system or feature is designed to function.
+\item DDT feature: a design specific functionality at a specific level of driving automation with particular ODD
+\end{itemize}
+
+The SAE definition for DDT specifies for each class of components, see section \ref{functional_architecture}, the functionality that must
+be automated in order to reach full autonomy, i.e. level 5, \cite{Serban}:
+
+\begin{itemize}
+\item Lateral vehicle motion conrol via steering (operational)
+\item Longitudinal vehicle control via acceleration abd deceleration (operational)  
+\item Monitoring of the driving environment via object and event detection, recognition, classification and response preparation (operational and tactical)
+\end{itemize}
+
+
+\section{Functional Architecture}
+\label{functional_architecture}
+
+The process of functional architecture design starts by developing a list of functional components and their dependencies. 
+According to the SAE J3016 standard there exist three classes of componenents
+
+\begin{itemize}
+\item Operational: basic vehicle control
+\item Tactical: planning and execution for event or object avoidance and expedited route following  
+\item Strategic: destination and general route planning
+\end{itemize}
+
+Each of these components has an incremental role in a hierarchical control structure. 
+This role starts from low level control through the operational class and finished with a high level overview through the strategic
+class of components. In between the tactical components handle trajectory palnning and response to traffic events.
+
 
 
 \section{Functional Components}
