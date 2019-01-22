@@ -55,6 +55,9 @@ be automated in order to reach full autonomy, i.e. level 5, \cite{Serban}:
 \item Lateral vehicle motion conrol via steering (operational)
 \item Longitudinal vehicle control via acceleration abd deceleration (operational)  
 \item Monitoring of the driving environment via object and event detection, recognition, classification and response preparation (operational and tactical)
+\item Object and event response execution (operational and tactical)
+\item Maneuver planning (tactical)
+\item Enhanced conspicuity via lighting, signaling ang gesturing (tactical)
 \end{itemize}
 
 
@@ -75,8 +78,48 @@ This role starts from low level control through the operational class and finish
 class of components. In between the tactical components handle trajectory palnning and response to traffic events.
 
 
+The automation of a task resmbles a control loop which receives input from sensors, performs some reasoning and controls the vehicle 
+behavior through actuators \cite{Serban}. This control loop is similar to the SENSE-PLAN-ACT cycle popular in robotics, see for example \cite{Murphy2000}. 
+This should not pose a surprise as architecture design fro autonomous vehicles is analogous to the design of a real-time, intelligent, control system. 
+Indeed the robotics and artificial intelligence literature has put forward quite a few reference architectures for such systems.
+
+
+The architecture for an autonomous vehicle must be capable to represent both reactive and deliberative components in a single artifact so that it can both plan 
+for the future and react in the least of time to unexpected events.
+
+
+\subsection{NIST Real Time Control Systems Architecture}
+An architecture paradigm that bridges the gap between reactive and deliberative components is the NIST Real Time Control Systems (RCS) reference architecture
+proposed by Albus. 
+
+The architecture does not separate components based on memory but instead it builds a hierarchy based on semantic knowledge. Thus, the components
+lower in the hierarchy have limited semantic understanding and can generate inputs for higher components. This makes RCS to map better to SAE classification of 
+functional components, see section \ref{functional_components}. Furthermore, the architecture allows both for static and dynamic information.
+
+At the heart of the RCS control loop is a representation of the external world, the so calle world model, which provides data for sensor fusion, acts as a 
+buffer between perception and behavior and supports seonsor data processing and behavior generation.
+
+Although Albus proposed the design using a hierarchical control structure, where the perception at lower level nodes generates inputs for highter 
+level nodes therefore increasing the level of abstraction. However, in the context of automotive, it is not always required for outputs from lower nodes to
+be inputs for higher nodes; it may well be the case that nodes at different hierarchical levels process the same sensor data.  
+
+Moreover, low level control loops such as longitudinal or lateral control, which need basic sensor input to execute their tasks need noworld modeling capacity. Thus, typically these
+components can be reduced to flat, simple control loops with multiple processing steps. 
+
+
+\begin{framed}
+
+\textbf{Pipe-and-Filter}
+
+From an architectural point of view, a flat stream of data which passes through different, individual, processing steps can be represented using the pipe-and-filter pattern. 
+This paradigm, divides a process into several sequential steps connected by the data flow; the output data of a step is the input to the 
+subsequent step. Each processing step is implemented by a filter component.  
+
+
+\end{framed}
 
 \section{Functional Components}
+\label{functional_components}
 
 A common segregation of the principal functional architectural components of an autonomous driving systems consists of the following modules \cite{Bahere}:
 
