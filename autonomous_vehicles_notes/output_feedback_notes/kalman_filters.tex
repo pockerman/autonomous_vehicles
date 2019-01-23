@@ -1,9 +1,78 @@
-\chapter{Kalman Filters}
+\section{Kalman Filters}
 \label{kalman_filters}
 
 Kalman filtering is an iterative process that uses a set of equations and consecutive data inputs to quickly estimat the 
 true value; e.g. position, velocity etc., of the object being measured when the measured values contain unpredicted or 
 random error, uncertainty or variation.
+
+
+
+\subsection{Kalaman Gain}
+The Kalman gain $K$is used to determine how much of the new measurements to use in order to update the new estimate.
+In the caluclation of the Kalman gain two quantities participate:
+
+\begin{itemize}
+\item Error in estimate
+\item Error in data measurement
+\end{itemize}
+
+Thus $K$ is given by
+
+\begin{equation}
+K = \frac{E_{est}}{E_{est} + E_{meas}}
+\label{kalman_gain}
+\end{equation} 
+
+From equation \ref{kalman_gain} it follows that
+
+\begin{equation}
+0 \leq K \leq 1
+\label{kalman_gain_condition}
+\end{equation} 
+
+The Kalman gain is the used used to update the current estimate $\hat{x}_t$:
+
+\begin{equation}
+\hat{x}_t = \hat{x}_{t-1} + K (z - \hat{x}_{t-1})
+\label{new_estimate}
+\end{equation} 
+
+
+When $K \approx 1$ or is equal to one, the measurements we are getting a very accurate however the estimates are unstable. On the other hand when $K$ is small, 
+the measurements we are getting a inaccurate but the estimates are stable since the error is small.
+The error $E_{\hat{x}}$ in the estimate is given by 
+
+\begin{equation}
+E_{\hat{x}_t} = (1-K)E_{\hat{x}_{t-1}}
+\label{estimate_error}
+\end{equation}
+
+\subsection{Calculations of Kalaman Filter}
+The Kalman filter iterates over the following three calculations:
+
+\begin{itemize}
+\item Calculate $K$ using equation \ref{kalman_gain}
+\item Calculate the new estimate using equation \ref{new_estimate} 
+\item Caluclate the error in the estimate using equation \ref{estimate_error}
+\end{itemize}
+
+
+\begin{framed}
+\theoremstyle{example}
+\begin{example}{\textbf{Temperature Estimate}}
+
+\end{example}
+\end{framed}
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Nonlinear Systems}}
+
+The definition above holds for nonlinear systems as well, and the results discussed here have extensions to the nonlinear case.
+\end{remark}
+\end{framed}
+
 
 One of the principal uses of observers in practice is to estimate the state of a
 system in the presence of noisy measurements. We have not yet treated noise in our
@@ -14,6 +83,9 @@ avoid some of the complications associated with continuous-time random processes
 and to keep the mathematical prerequisites to a minimum. This section assumes
 basic knowledge of random variables and stochastic processes; see Kumar and
 Varaiya [KV86] or Åström [Åst06] for the required material.
+
+
+
 
 Consider again the LTI state-space model
 
