@@ -1,0 +1,86 @@
+%       Nomenclature style. Version 2.1
+%       Formats glossary entries to show, e. g. nomenclature
+%       of equations.
+%       
+%       Written by Boris Veytsman bav2@psu.edu
+%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nomencl}[11/21/95 Nomenclature package, version 1.0]
+\RequirePackage{makeidx}
+\RequirePackage{ifthen}
+\newcommand{\NomPage}[1]{}
+\newcommand{\NomEquation}[1]{}
+\DeclareOption{refeq}{
+        \renewcommand{\NomEquation}[1]{\eqdeclaration{#1}}
+}
+\DeclareOption{norefeq}{
+        \renewcommand{\NomEquation}[1]{}
+}
+\DeclareOption{refpage}{
+        \renewcommand{\NomPage}[1]{\pagedeclaration{#1}}
+}
+\DeclareOption{norefpage}{
+        \renewcommand{\NomPage}[1]{}
+}
+
+\ProcessOptions
+
+\newcommand{\eqdeclaration}[1]{, see equation (#1)}
+\newcommand{\pagedeclaration}[1]{, page #1}
+
+\newcommand{\ProcessEqRef}[3]{\ignorespaces%
+        \ifthenelse{\equal{#1}{Y}}{%
+                \eqdeclaration{#3}%
+        }{%
+                \ifthenelse{\equal{#1}{N}}{%
+                }{%
+                        #2{#3}%
+                }%
+        }%
+}%
+\newcommand{\ProcessPageRef}[3]{\ignorespaces%
+        \ifthenelse{\equal{#1}{Y}}{%
+                \pagedeclaration{#3}%
+        }{%
+                \ifthenelse{\equal{#1}{N}}{%
+                }{%
+                        #2{#3}%
+                }%
+        }%
+}%
+
+\newcommand{\nomgroup}[1]{}
+
+\DeclareRobustCommand{\nomref}[6]{\ProcessEqRef{#1}{#3}{#4}%
+\ProcessPageRef{#2}{#5}{#6}%
+}
+\DeclareRobustCommand{\nomname}{\section*{Nomenclature}}
+\DeclareRobustCommand{\refeq}{\nomref{Y}{O}}
+\DeclareRobustCommand{\refpage}{\nomref{O}{Y}}
+\DeclareRobustCommand{\refeqpage}{\nomref{Y}{Y}}
+
+
+\newenvironment{theglossary}{
+        \nomname
+        \begin{description}
+}
+{
+        \end{description}
+}
+
+\newcommand{\nomprefix}{a}
+
+\newcommand{\nomenclature}[3][\nomprefix]{\ignorespaces%
+        \protected@write\@glossaryfile{}%
+        {\string\glossaryentry{#1#2@[#2] #3%
+        \protect\NomEquation{\theequation}|NomPage }{\thepage}}%
+}
+
+
+\newcommand{\printglossary}{
+        \InputIfFileExists{\jobname.gls}{}{\typeout{No file \jobname.gls}}
+}
+
+\InputIfFileExists{nomencl.cfg}{\typeout{Using the configuration %
+file nomencl.cfg}}{}
