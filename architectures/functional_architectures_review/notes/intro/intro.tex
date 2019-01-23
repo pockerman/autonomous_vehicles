@@ -118,8 +118,39 @@ subsequent step. Each processing step is implemented by a filter component.
 
 \end{framed}
 
+\begin{framed}
+
+\textbf{Tee-and-Join Pipeline}
+
+The pipe-and-filetr pattern can only represent sequential processes. For hierarchical structures a variant of the pattern is the tee-and-join pipeline.
+In this paradigm, the input is passed to either to a low level pipeline, corresponding to a low level control loop or to a higher level one or both.
+
+\end{framed}
+
+A component-based architecture can be an alternative to the paradigms remarked above. This style specifies that all
+components can be interchangeable and independent of each other. While it is popular for functional software architecture description
+it reveals no information about functional hierarchies. The layered architectural style typically limits component communication
+because the commands have to flow strictly from the higher layer to the lower one. Thus, it forces to group all decisions at a given layer.
+
 \section{Functional Components}
 \label{functional_components}
+This section discusses functional components that are typically required in an autonomous vehicle. The following figure shows the functional components
+that satisfy SAE J3016 requirements for fully autonomous vehicles. The data flows from left to right simulating a closed control loop. The figure
+shows three types of entities:
+
+\begin{itemize}
+\item Functional components 
+\item Classes of components 
+\item Subclasses of components
+\end{itemize}
+
+We have the following map:
+
+\begin{itemize}
+\item Vehicle control and actuators interface classes correspond to SAE operational functions  
+\item Planning class corresponds to SAE tactical functions 
+\item Behavior generation class maps to both strategic and planning class of functions
+\end{itemize}
 
 A common segregation of the principal functional architectural components of an autonomous driving systems consists of the following modules \cite{Bahere}:
 
@@ -151,11 +182,14 @@ Each of the aforementioned functional modules has several components which is sh
 Sensing means gathering data on physical variables using sensors. Perception refers to the semantics 
 i.e. interpretation and understanding, of the data in terms of high level concepts relevant to the task in hand.
 
-The sensing components can be categorized into \cite{Bahere}
+A first categorization of the sensing components can be: \cite{Bahere, Serban}
 \begin{itemize}
 \item Those sensing the state of the vehicle 
 \item Those sensing the state of the environment in which the vehicle operates
 \end{itemize}
+
+Enviromental monitoring can be based on RADAR, LIDAR and camera technologies \cite{Serban}. 
+
 Another categorization of sensor components is from the viewpoint of systems integration. 
 This categorization depends on the amount of processing needed to extract relevant information from the sensor data.
 
@@ -173,7 +207,8 @@ subsequent components like the decision and control which need to work with the 
 
 \subsection{Localization}
 
-The localization component is responsible for determining the location of the vehicle with respect to a global map with needed accuracy.
+The localization component is responsible for determining the location of the vehicle with respect to a global map with needed accuracy (a concept often called global localization).
+GPS technology is frequently employed for this task.
 Further, it may also aid the sensor fusion component to perform a task known as map matching wherein physical location s of detected objects are referenced to map’s coordinate system. 
 
 The component typically uses sensors like GPS and inertial measurement units (IMU).
@@ -198,8 +233,6 @@ and be able to evolve beliefs of the world states when it is given a sequence of
 Other components (like Decision and Control) my request a set of predictions of future world states for a specific set of
 inputs in order to determine the optimal inputs to be applied.
 Despite its inability to actively make calculations based on the data it contains, the passive world model is perhaps the most commonly found approach in autonomous driving projects \cite{Bahere}. 
-
-
 
 
 \subsubsection{Local Dynamic Maps}
