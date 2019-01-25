@@ -1,2 +1,7 @@
 simulator/*/__pycache__/
 simulator/.idea
+*.toc
+*.auc
+*.toc
+*.log
+*.aux
