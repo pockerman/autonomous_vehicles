@@ -1,0 +1,47 @@
+\documentclass{paper}
+%\usepackage{nomencl}
+\usepackage{nomencl}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{parskip}
+%\usepackage{minted}
+\usepackage[toc,page]{appendix}
+\usepackage{csquotes}
+\usepackage{framed}
+\usepackage{amsthm}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+ 
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+
+%\makenomenclature
+\title{Introduction}
+\author{A. Giavaras}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\clearpage
+\input{section.tex}
+
+%\begin{appendices}
+% \input{appendices/install_python/install_python_linux.tex}
+% \input{appendices/install_python/install_python_win.tex}
+%\input{appendices/source_code_for_vector_addition.tex}
+
+%\end{appendices}
+
+\clearpage
+\bibliographystyle{plain}
+\input{notes_bbl.bbl}
+
+\end{document}
