@@ -57,12 +57,7 @@ The Kalman filter iterates over the following three calculations:
 \end{itemize}
 
 
-\begin{framed}
-\theoremstyle{example}
-\begin{example}{\textbf{Temperature Estimate}}
-
-\end{example}
-\end{framed}
+\subsubsection{Example: Temperature Estimate}
 
 
 \begin{framed}
@@ -212,7 +207,7 @@ In other words, the error is a white noise process, so there is no remaining dyn
 The optimal estimator has the form of a linear observer 
 
 \begin{equation}
-\frac{d\hat{x}}{t} = A\hat{x} + Bu + L(y - C\hat{x}),  ~~ \hat{x}(0) = E(x(0)) \nonumber
+\frac{d\hat{x}}{dt} = A\hat{x} + Bu + L(y - C\hat{x}),  ~~ \hat{x}(0) = E(x(0)) \nonumber
 \end{equation} 
 
 where $L$ is given by
@@ -223,6 +218,9 @@ L = PC^TR_{w}^{-1}  \nonumber
 
 where $P$
 
+\begin{equation}
+P(t) = E((x(t)-\hat{x}(t))(x(t)-\hat{x}(t))^T)  \nonumber
+\end{equation}
 
 \end{theorem}
 \end{framed}
@@ -233,9 +231,15 @@ solution.
 
 \section{Kalman’s Decomposition of a Linear System}
 
-In this chapter and the previous one we have seen that two fundamental properties
-of a linear input/output system are reachability and observability. It turns out that
-these two properties can be used to classify the dynamics of a system. The key
+We have already seen that two fundamental properties
+of a linear input/output system are:
+
+\begin{itemize}
+\item reachability 
+\item observability
+\end{itemize}
+
+It turns out that these two properties can be used to classify the dynamics of a system. The key
 result is Kalman’s decomposition theorem, which says that a linear system can be
 divided into four subsystems:
 
@@ -247,17 +251,15 @@ divided into four subsystems:
 \end{itemize}
 
 
-Thus from the input/output point of view, it is only the reachable and observable
+Thus, from the input/output point of view, it is only the reachable and observable
 dynamics that matter.
-
 
 \begin{framed}
 \theoremstyle{remark}
 \begin{remark}{\textbf{Kalman's decomposition for state-space}}
 
-The general case of the Kalman decomposition is more complica
-ted and requires some additional linear algebra; see the original pap
-er by Kalman, Ho, and Narendra [KHN63]. The key result is that the state space can still be decomposed
+The general case of the Kalman decomposition is more complicated and requires some additional linear algebra; 
+see the original paper by Kalman, Ho, and Narendra [KHN63]. The key result is that the state space can still be decomposed
 into four parts, but there will be additional coupling so that the equations have the form 
 \end{remark}
 \end{framed}

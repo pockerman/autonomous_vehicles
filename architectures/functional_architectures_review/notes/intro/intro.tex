@@ -108,23 +108,34 @@ components can be reduced to flat, simple control loops with multiple processing
 
 
 \begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Pipe-and-Filter}}
 
-\textbf{Pipe-and-Filter}
-
-From an architectural point of view, a flat stream of data which passes through different, individual, processing steps can be represented using the pipe-and-filter pattern. 
+From an architectural point of view, a flat stream of data which passes through different, individual, 
+processing steps can be represented using the pipe-and-filter pattern, see \footnote{See $http://www.dossier-andreas.net/software_architecture/pipe\_and\_filter.html$ and $https://www.google.com/search?client=ubuntu\&channel=fs\&q=pipe-and-filter+architecture\&ie=utf-8\&oe=utf-8$}. 
 This paradigm, divides a process into several sequential steps connected by the data flow; the output data of a step is the input to the 
 subsequent step. Each processing step is implemented by a filter component.  
 
-
+\end{remark}
 \end{framed}
 
-\begin{framed}
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.380]{img/pipe_and_filter_2.jpg}
+\end{center}
+\caption{Schematics of Pipe-and-Filter pattern.}
+\label{pipe_and_filter_2}
+\end{figure}
 
-\textbf{Tee-and-Join Pipeline}
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Tee-and-Join Pipeline}}
 
 The pipe-and-filetr pattern can only represent sequential processes. For hierarchical structures a variant of the pattern is the tee-and-join pipeline.
 In this paradigm, the input is passed to either to a low level pipeline, corresponding to a low level control loop or to a higher level one or both.
 
+\end{remark}
 \end{framed}
 
 A component-based architecture can be an alternative to the paradigms remarked above. This style specifies that all

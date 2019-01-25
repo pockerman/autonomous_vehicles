@@ -15,7 +15,8 @@ Bahere S., Torngren M.
 \newblock{\em A functional architecture for autonomous driving}
 \newblock ICSE 00, pp. 91-101, ACM. 2000.
 
-\bibitem{ETSITR102}  
+\bibitem{ETSITR102} 
+ETSI TR 102 
 \newblock{\em Local Dynamic Map (LDM)-Rational for guidance on standardization.}
 \newblock ETSI TR 102 863 V1.1.1 
 
@@ -28,10 +29,5 @@ Rahul Sharma K., Daniel Honc, František Dušek
 Murphy R. R.
 \newblock{\em Introduction to AI robotics}
 \newblock MIT Press, 2000.
-
-%\bibitem{Polack2017}
-%Philip , Florent Altché1, Brigitte d’Andréa-Novel, and Arnaud de La Fortelle 
-%\newblock{\em The Kinematic Bicycle Model: a Consistent Model for Planning Feasible Trajectories for Autonomous Vehicles?}
-%\newblock HAL Id: hal-01520869, https://hal-polytechnique.archives-ouvertes.fr/hal-01520869
 
 \end{thebibliography}
