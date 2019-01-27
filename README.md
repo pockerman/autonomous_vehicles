@@ -1,17 +1,17 @@
 # Autonomous Vehicles
 
 ## Contents
-- **Linear Systems:**
-- **Item:**<a href="autonomous_vehicles/tree/master/autonomous_vehicles_notes/state_feedback_notes">State Feedback</a>
-- **Output Feedback:**
-- **Kalman Filters:**
-- **Sensor Fusion:**
-- **PID and Linear Quadratic Regulator Controllers:**
-- **Model Predictive Control:**
-- **Simultaneous Localization and Mapping (SLAM):**
-- **Deep Learning for Autonomous Vehicles:**
-- **Deep Reinforcement Learning for Autonomous Vehicles:**
-- **Architectures for Autonomous Vehicles:**
+- **Item:** Linear Systems
+- **Item:** State Feedback
+- **Item:** Output Feedback
+- **Item:** Kalman Filters
+- **Item:** Sensor Fusion
+- **Item:** PID and Linear Quadratic Regulator Controllers
+- **Item:** Model Predictive Control
+- **Item:** Simultaneous Localization and Mapping (SLAM)
+- **Item:** Deep Learning for Autonomous Vehicles
+- **Item:** Deep Reinforcement Learning for Autonomous Vehicles
+- **Item:** Architectures for Autonomous Vehicles
 
 ## Courses & Videos
 
