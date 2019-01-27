@@ -33,13 +33,16 @@ class TwoDPlotter(object):
     def ylabel(self, value):
         self.__y_axis_title = value
 
-    def plot(self, x, y):
-        plt.plot(x,y)
+    def plot(self, x, y, label=None):
+        plt.plot(x,y, label=label)
 
 
     def show_plots(self):
         plt.ylabel(self.__y_axis_title)
         plt.xlabel(self.__x_axis_title)
-        plt.title = self.__plot_title
+
+        if self.__plot_title != "No Title":
+            plt.title(self.__plot_title)
         plt.grid(True)
+        plt.legend()
         plt.show()
