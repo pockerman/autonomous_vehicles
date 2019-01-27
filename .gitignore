@@ -6,3 +6,6 @@ simulator/.idea
 *.log
 *.aux
 *toc
+simulator/applications/.ipynb_checkpoints/*
+autonomous_vehicles_notes/state_feedback_notes/notes.aux
+autonomous_vehicles_notes/state_feedback_notes/notes.toc
