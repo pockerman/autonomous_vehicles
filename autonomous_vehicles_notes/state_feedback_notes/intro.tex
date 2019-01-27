@@ -447,6 +447,48 @@ Consider a system described by the linear differential equation
 \end{equation}
 
 
+\section{Example: Vehicle Steering}
+
+Let's sum up the major topics we discussed above by considering vehicle steering. A common problem in motion conrol is to control
+the trajectory of a vehicle through an actuator that causes a change in the orientation. 
+
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/state_feedback/vehicle_steering.jpeg}
+\end{center}
+\caption{Vehicle steering dynamics. The left figure shows an overhead view of a vehicle
+with four wheels. The wheel base is $b$ and the center of mass at a distance a forward of the
+rear wheels. By approximating the motion of the front and rear pairs of wheels by a single
+front wheel and a single rear wheel, we obtain an abstraction called the bicycle model, shown
+on the right. The steering angle is $\delta$ and the velocity at the center of mass has the angle $\alpha$
+relative the length axis of the vehicle. The position of the vehicle is given by ($x, y)$ and the orientation (heading) by $\theta$.}
+\label{vehicle_steering}
+\end{figure}
+
+Let's consider a vehicle with two wheels. We are intersted in how the velocity of the steering depends on the steering angle $\delta$.
+Specifically, consider the velocity $v$ at the center
+of mass, a distance $w$ from the rear wheel, and let $b$ be the wheel base, as shown
+in Figure \ref{vehicle_steering}. Let $(x, y)$ be the coordinates of the center of mass, $\theta$ the heading
+angle and $\alpha$ the angle between the velocity vector $v$ and the centerline of the vehicle.
+Since $b = r_w\tan(\delta)$ and $w = r_w\tan(\alpha)$, it follows that $\tan(\alpha) = (w/b) \tan(\delta)$ and we get
+the following relation between $\alpha$ and the steering angle $\delta$:
+
+\begin{equation}
+\alpha(\delta) = \text{arctan}(\frac{w\tan(\delta)}{b})
+\end{equation}
+
+
+The response in the dynamics is shown in the figures below
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/state_feedback/lateral_position_response.png}
+\end{center}
+\caption{Response of the vehicle lateral position with respect to $\omega_n$.}
+\label{lateral_position_response}
+\end{figure}
+
 \section{Exercises}
 
 \subsubsection{Exercise 1}
