@@ -4,7 +4,7 @@ from dynamics.dynamics_base import DynamicsBase
 from vehicle.vehicle_base import VehicleBase
 from physics.physics import Physics
 from control.pid_control import PIDControl
-from ode_integrators.forward_euler import ODEFWDEuler
+from ode_integrators.forward_euler import ODEScalarFWDEuler
 from plot.two_d_plotter import TwoDPlotter
 
 
@@ -13,7 +13,7 @@ class Dynamics(DynamicsBase):
     def __init__(self):
         DynamicsBase.__init__(self)
         self.__velocity = 0.0
-        self.__vel_integrator = ODEFWDEuler()
+        self.__vel_integrator = ODEScalarFWDEuler()
 
     @property
     def state(self):

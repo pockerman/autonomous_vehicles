@@ -1,5 +1,5 @@
 from .ode_integrator_base import ODEIntegratorBase
-from .forward_euler import ODEFWDEuler
+from .forward_euler import ODEScalarFWDEuler
 from .runge_kutta4 import ODERungeKutta4
 
 class IntegratorFactory(object):
