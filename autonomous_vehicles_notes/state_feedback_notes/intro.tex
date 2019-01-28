@@ -478,6 +478,116 @@ the following relation between $\alpha$ and the steering angle $\delta$:
 \alpha(\delta) = \text{arctan}(\frac{w\tan(\delta)}{b})
 \end{equation}
 
+Let's assume that the wheels are rolling without slip and that the velocity of the rear
+wheel is $v_0$. The vehicle speed at its center of mass is 
+
+\begin{equation}
+v = \frac{v_0}{\cos(\alpha)}
+\end{equation}
+we find that the motion of this point is described  by
+
+\begin{eqnarray}
+\frac{dx}{dt} = v\cos(\alpha + \theta) = v_0 \frac{\cos(\alpha + \theta)}{\cos(\alpha)} \label{vehicle_steering_model_I_eq_1}\\
+\frac{dy}{dt} = v\sin(\alpha + \theta) = v_0 \frac{\sin(\alpha + \theta)}{\cos(\alpha)} \label{vehicle_steering_model_I_eq_2}\\
+\frac{d\theta}{dt} = \frac{v_0}{r_w} = \frac{v_0}{b} \tan(\delta) 
+\label{vehicle_steering_model_I_eq_3}
+\end{eqnarray}
+
+
+Equations \ref{vehicle_steering_model_I_eq_1}-\ref{vehicle_steering_model_I_eq_3} can be used to model an automobile under the 
+assumptions that there is no slip between the wheels and the road. Furthermore, the quations above
+assume that the two front wheels can be approximated by a single wheel at the center of the car. 
+The assumption of no slip can be relaxed by adding an extra state variable, giving a more
+realistic model. Such a model also describes the steering dynamics of ships as well
+as the pitch dynamics of aircraft and missiles.
+
+We can represent these equations in a matrix form 
+
+\begin{equation}
+\frac{d}{dt}
+\begin{bmatrix}
+ x \\
+ y  \\
+ \theta 
+\end{bmatrix} =
+\begin{bmatrix}
+ v\cos(\alpha(\delta) + \theta) \\
+ v\sin(\alpha(\delta) + \theta)  \\
+ \frac{v_0}{b} \tan(\delta) 
+\end{bmatrix}, ~~ \alpha(\delta) = \text{arctan}(\frac{w\tan(\delta)}{b})
+\end{equation}
+
+
+We are interested in the motion of the vehicle about a straight-line path $(\theta = \theta_0 )$
+with fixed velocity $v_0 \neq 0$. In order to find the relevant equilibrium point, 
+we first set $\dot{\theta} = 0$. Then we see that we must have $\delta = 0$, corresponding to the steering wheel being
+straight. This also yields $\alpha = 0$. 
+
+
+Suppose now that we are concerned with the lateral deviation of the vehicle
+from a straight line. For simplicity, we let $\theta_{e} = 0$, which corresponds to driving
+along the $x$ axis. We can then focus on the equations of motion in the $(y, \theta)$ plain
+Let's introduce  the state $\mathbf{x} = (x_1, x_2) = (y, \theta )$ and $u = \delta$. 
+The system is then in standard form with
+
+\begin{equation}
+f(\mathbf{x}, u)=
+\begin{bmatrix}
+v\sin(\alpha(u) + x_2)  \\
+ \frac{v_0}{b} \tan(u) 
+\end{bmatrix}, ~~ \alpha(u) = \text{arctan}(\frac{w\tan(u)}{b}), ~~ h(\mathbf{x}, u) = x_1
+\end{equation}
+
+The  equilibrium  point  of  interest  is given  by $\mathbf{x} = (0, 0)$  and  $u = 0$.  
+To compute  the linearized model around this equilibrium point, we make use of the formulas (5.34).
+A straightforward calculation yields
+
+\begin{eqnarray}
+A = \frac{\partial f}{\partial x} =
+ \begin{bmatrix}
+   0 & v_0  \\
+   0 & 0 
+\end{bmatrix}, ~~
+B = \frac{\partial f}{\partial u} =
+ \begin{bmatrix}
+   wv_0/b  \\
+   v_0/b
+\end{bmatrix} \\
+C= \frac{\partial h}{\partial x} =
+ \begin{bmatrix}
+   1 & 0
+\end{bmatrix}, ~~ D = \frac{\partial h}{\partial u} = 0
+\end{eqnarray}
+
+where the derivatives above are computed at the equilibrium points. Thus, we obtain the linearized system
+
+\begin{equation}
+\frac{d\mathbf{x}}{dt} = A\mathbf{x} + Bu, ~~ y=C\mathbf{x} + Du
+\label{vehicle_steering_model_II}
+\end{equation}
+
+that provides an approximation to the original nonlinear dynamics.
+The linearized model can be simplified further by introducing normalized variables. For this system, we choose the wheel base $b$ as the length unit.  The normalized state is thus $\mathbf{z} = (x_1/b, x_2 )$, 
+and the new time variable is $\tau = v_0t/b$.
+The model \ref{vehicle_steering_model_II} then becomes
+
+\begin{equation}
+\frac{d\mathbf{z}}{d\tau} = 
+\begin{bmatrix}
+   0 & 1 \\
+   0 & 0
+\end{bmatrix}\mathbf{z}+
+\begin{bmatrix}
+   \gamma \\
+   1
+\end{bmatrix}u,  ~~ y= 
+\begin{bmatrix}
+   1 & 0
+\end{bmatrix}\mathbf{z}
+\label{vehicle_steering_model_3}
+\end{equation}
+ 
+where $\gamma = w/b$. The  normalized  linear model for  vehicle  steering  with nonslipping wheels is thus a linear system with only one parameter.
 
 The response in the dynamics is shown in the figures below
 
