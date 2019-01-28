@@ -19,3 +19,21 @@ P(y | x_1, \ldots , x_n ) = \frac{P(y)P(x_1, \ldots, x_n|y)}{P(x_1, \ldots, x_n)
 \end{framed}
 
 
+\begin{framed}
+\theoremstyle{example}
+\begin{example}{\textbf{Example: Baye's Rule}}
+
+Let's assume that there is a specific type of cancer, say $C$ that occurs in about 1\% of the population; $P(C) = 0.01$.
+The test for this cancer type is positive with 90\% probability if the patient actually has the cancer (we usually call this the \textbf{sensitivity} of the test). The test sometimes is positive
+even if the patient does not have the cancer $C$. Concretely, with 90\% chance is negative if the patient does not have $C$ (we usually call this the \textbf{specitivity}).
+Let's assume that a patient takes the test and the test returns positive results. What is the probability of having $C$?
+
+We know that $P(C) = 0.01$ and $P(Pos | C ) = 0.9$. The posterior is $P(C | Pos) = P(C)P(Pos | C)$. Also $P(\text{not}~C | Pos) =  P(\text{not}~C) P(Pos | \text{not}~C )$
+
+\end{example}
+\end{framed}
+
+
+
+
+
