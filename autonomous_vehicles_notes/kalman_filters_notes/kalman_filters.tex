@@ -60,6 +60,29 @@ The Kalman filter iterates over the following three calculations:
 \subsubsection{Example: Temperature Estimate}
 
 
+
+\section{Multidimensional Case}
+
+Let's now turn attention to the multidimensional case. Let's introduce some notation. Let $X_0$ and $P_0$ be the initial state.
+The matrix $X_0$ contains the initial state of the system. The matrix $P_0$ is the initial process covariance matrix. The process
+covariance matrix represents the error in the estimate.
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Covariance Matrix}}
+
+A covariance matrix, also known as auto-covariance matrix, dispersion matrix, variance matrix, or variance–covariance matrix, 
+is a matrix whose element in the $i, j$ position is the covariance between the $i-th$ and $j-th$ elements of a random vector. 
+A random vector is a random variable with multiple dimensions. 
+Each element of the vector is a scalar random variable. 
+Each element has either a finite number of observed empirical values or a finite or infinite number of potential values. 
+The potential values are specified by a theoretical joint probability distribution. 
+\end{remark}
+\end{framed}
+
+
+
 \begin{framed}
 \theoremstyle{remark}
 \begin{remark}{\textbf{Nonlinear Systems}}

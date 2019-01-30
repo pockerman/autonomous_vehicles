@@ -205,15 +205,20 @@ Another categorization of sensor components is from the viewpoint of systems int
 This categorization depends on the amount of processing needed to extract relevant information from the sensor data.
 
 \subsection{Sensor Fusion}
+Autonomous vehicles typically have to deal with large volumes of data with different resolutions. This data is often corrupted
+by noise which contantly changes due to temporal changes in the environment. 
 
-The component considers multiple sources of information to construct a hypothesis about the state of the environment. 
-Additionally, the component establishes confidence values for state variables. 
-The component may also perform object association and tracking. Association refers to correlating pieces of
-information from multiple sensors to conclude that they refer to one and the same object.
+Sensor fusion considers multiple sources of information to construct a hypothesis about the state of the environment. 
+Additionally, the component establishes confidence values for state variables.  The component may also perform object association and tracking. 
+Association refers to correlating pieces of information from multiple sensors to conclude that they refer to one and the same object.
 
 For certain system configurations the sensor fusion block may also be used to eliminate some un-associated objects and data that 
 is strongly likely to be superfluous or noise. This reduces the computation and communication load on 
 subsequent components like the decision and control which need to work with the perceived data.
+
+We can distinguish between static and dynamic objects (e.g. barrier, pedestrians) and road objects (e.g. traffic lights)
+These objects usually will carry different semantic meaning. Using sensor fusion, a processing pipeline gathering
+information from various sensors such as radar and camera can be used to classify an object, d
 
 
 \subsection{Localization}
@@ -232,7 +237,10 @@ This component may include classifiers for detected objects and it may annotate 
 In some cases, the semantic component may also use the ego vehicle data to continuously parametrize a model of the ego vehicle for purposes of motion control, error detection and potential degradation of functionality.
 
 \subsection{World Model}
-This component holds the state of the external environment as perceived by the ego vehicle.
+The world model represents the complete picture of the external environment as perceived by the vehicle together with 
+its internal state. Data coming from sensor fusion is used together with stored data such as maps in order to create
+the complete representation of the world. 
+
 
 A world model component can be characterized as either passive or active \cite{Bahere}. 
 The former is more like a data store and may lack semantic understanding of the stored data. 
@@ -241,7 +249,7 @@ Therefore, it cannot actively predict the state of the world given specific inpu
 The active world model may incorporate kinematic and dynamic models of the objects it contains 
 and be able to evolve beliefs of the world states when it is given a sequence of inputs \cite{Bahere}.
 
-Other components (like Decision and Control) my request a set of predictions of future world states for a specific set of
+Other components, e.g. Decision and Control, my request a set of predictions of future world states for a specific set of
 inputs in order to determine the optimal inputs to be applied.
 Despite its inability to actively make calculations based on the data it contains, the passive world model is perhaps the most commonly found approach in autonomous driving projects \cite{Bahere}. 
 
@@ -269,6 +277,28 @@ Regardless of its implementation, the world model typically provides an interfac
 The functional components in this category are concerned with the vehicle behavior 
 in the context of the external environment it is operating in \cite{Bahere}. Typically, modules in this category refer to the vehicle as a whole and the way it
 moves in its environment. Furthermore, energy, fault management concerns and reactive control to unexpected events in the environment are also handled. 
+
+
+Behavior generation is, typically, the highest cognitive class of functions in the architecture. The system generates
+predictions about the environment and the vehicle's behavior. Multiple options in terms of behavior 
+can be established and the best one is selected.
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Finite State Machine}}
+
+Often the behavior of the vehicle is analogous to a finite state machine (FSM). The behavior generation module
+develops a number of possible state sequences from the current state and the behavior resoning module selects the best alternative.
+
+\end{remark}
+\end{framed}
+
+
+Complex algorithms from Reinforcement Learning use driving policies stored in the knowledge database to reason
+and generate a sequence of future states. 
+
+
 
 \subsection{Trajectory Generation}
 The component continuously generates obstacle free trajectories in the world coordinate system. The trajectory generation is constrained by factors such as energy availability, limitations of the vehicle platform (e.g. non-holonomicity), faults and failures. 
