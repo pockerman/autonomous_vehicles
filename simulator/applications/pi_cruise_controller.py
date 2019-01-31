@@ -10,10 +10,10 @@ from plot.two_d_plotter import TwoDPlotter
 
 class Dynamics(DynamicsBase):
 
-    def __init__(self):
+    def __init__(self, step_size):
         DynamicsBase.__init__(self)
         self.__velocity = 0.0
-        self.__vel_integrator = ODEScalarFWDEuler()
+        self.set_integrator("V", ODEScalarFWDEuler(step_size=step_size))
 
     @property
     def state(self):
@@ -23,37 +23,29 @@ class Dynamics(DynamicsBase):
     def state(self, value):
         self.__velocity = value
 
-    @property
-    def old_state(self):
-        return self.__vel_integrator.get_history(0)
-
-    @old_state.setter
-    def old_state(self, value):
-        self.__vel_integrator.update_history(0, value)
-
     def compute_rhs(self, **kwargs):
         m = kwargs['m']
         a = kwargs['a']
         b = kwargs['b']
         u = kwargs['u']
         d = kwargs['d']
-        yn = self.old_state
+        yn = self.get_old_state(name="V", idx=0)
 
         return -(a/m)*yn + (b/m)*u - d
 
     def execute(self, **kwargs):
         kwargs['f'] = self.compute_rhs
-        self.state = self.__vel_integrator.execute(**kwargs)
+        self.state = self.get_integrator("V").execute(**kwargs)
 
 
 class Vehicle(VehicleBase):
 
-    def __init__(self):
+    def __init__(self, step_size):
         VehicleBase.__init__(self)
         self.mass = 1000.0 # kg
 
         # the plant
-        self.__dynamics = Dynamics()
+        self.__dynamics = Dynamics(step_size=step_size)
 
     def execute(self, **kwargs):
         self.__dynamics.execute(**kwargs)
@@ -66,21 +58,19 @@ class Vehicle(VehicleBase):
     def state(self, value):
         self.__dynamics.state = value
 
-    @property
-    def old_state(self):
-        return self.__dynamics.old_state
+    def get_old_state(self, name, idx):
+        return self.__dynamics.get_old_state(name=name, idx=idx)
 
-    @old_state.setter
-    def old_state(self, value):
-        self.__dynamics.old_state = value
+    def set_old_state(self, name, idx, value):
+        self.__dynamics.set_old_state(name=name, idx=idx, value=value)
 
 
 if __name__ == '__main__':
 
     print("Starting simulation....")
 
-    Ki = 5.0
-    Kp = 0.1
+    Ki = 1.0
+    Kp = 0.5
     Kd = None
 
     # the controller to use
@@ -104,8 +94,8 @@ if __name__ == '__main__':
     # kN/rad
     b = 10.0
 
-    vehicle = Vehicle()
-    vehicle.old_state = 25.0
+    vehicle = Vehicle(step_size=dt)
+    vehicle.set_old_state("V", 0, 25.0)
 
     time = 0.0
 
@@ -141,22 +131,18 @@ if __name__ == '__main__':
         if step == 1000: # at 1 second change reference signal to 30 m/s
             r = 30.0
 
-
-        if step == 10000: #at t=10 there is a slope at the road
+        if step == 10000: # at t=10 there is a slope at the road
             kwargs['d'] = Physics.gravity_constant()*math.sin(alpha)
 
         time += dt
 
-        #if step % 100 == 0:
         tarray.append(time)
         yarray.append(vehicle.state)
 
         t_ref.append(time)
         y_ref.append(r)
 
-
-
-    plotter = TwoDPlotter(xlabel = "time (sec)", ylabel="Velocity (m/s)")
+    plotter = TwoDPlotter(xlabel = "time (sec)", ylabel="$V-(m/s)$")
     plotter.plot(tarray, yarray)
     plotter.plot(t_ref, y_ref)
     plotter.show_plots()
