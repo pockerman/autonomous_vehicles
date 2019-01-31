@@ -1,6 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-
 from plot.direction_field_plotter import DirFieldPlotter
 
 def f(Y, t):
