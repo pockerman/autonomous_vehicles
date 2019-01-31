@@ -30,13 +30,11 @@ class VehicleBase(ABC):
     def state(self, value):
         pass
 
-    @property
     @abstractmethod
-    def old_state(self, name, idx):
+    def get_old_state(self, name, idx):
         pass
 
-    @old_state.setter
     @abstractmethod
-    def old_state(self, name, idx, value):
+    def set_old_state(self, name, idx, value):
         pass
 
