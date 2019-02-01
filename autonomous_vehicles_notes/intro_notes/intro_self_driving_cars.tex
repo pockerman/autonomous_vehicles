@@ -1,0 +1,109 @@
+\section{Introduction to Self-driving Cars}
+\label{introduction}
+
+
+\section{Feedback Systems}
+Hello, and welcome to the University of Toronto Self-Driving Cars Specialization. My name is Steven. 
+My name is Jonathan. We'll be your instructors throughout this specialization. 
+The self-driving car is the sleeping giant which can change everything; road safety, mobility for everyone, 
+while dramatically reducing the costs of driving. 
+This specialization will teach you what you need to know to kick start a career in the autonomous driving industry. 
+Whether you're coming from academia or industry, these courses will provide you with the foundational 
+knowledge and practical skills you need to help build a new future with self-driving cars. 
+Throughout the courses, we'll show you real-world data and scenarios from our research, and from our own self-driving car or 
+what we call the autonomous. 
+After decades of applied and award winning research, we at the University of Toronto are excited to show you the nuts and bolts of autonomous driving. 
+There are a total of four courses in this specialization. In the first course, I'll introduce you to the self-driving car software and hardware architectures. 
+By the end of this course, you'll be able to design a basic hardware system for a self-driving car, identify the main components of the autonomous driving software stack, and create a safety assessment strategy for self-driving car program. You'll then learn to develop the complete model of a vehicles motion, define a PI controller for longitudinal control, define a path following controller for lateral vehicle control, and test out your control designs in a Carla simulator. In the second course of this specialization, I'll teach you about state estimation, sensing, and localization for autonomous vehicles. By the end of this course, you'll understand the key methods for perimeter and state estimation, develop and use models for typical vehicle localization sensors, apply extended and uncentered Kalman filters to a vehicle state estimation problem, and register point clouds created from LIDAR scans to a 3D map of a static environment. In the third course, I'll teach you about visual perception for self-driving cars. After completing this course, you'll be able to project 3D points onto the camera image plane, calibrate the pinhole camera model, apply feature detection description and matching algorithms for localization and mapping, develop and train neural networks for both object detection and semantic segmentation. You'll apply these methods to vehicle tracking and drivable surface estimation. In the fourth and final course, I'll teach you about motion planning for self-driving cars. By the end of this course, you'll be able to devise a trajectory roll out motion planning method, calculate the time to collision with static and constant velocity objects, plan routes over complex road networks, define high-level vehicle behaviors and transitions for vehicles navigating through intersections around parked cars and merging, and develop kinematically feasible paths through an environment with static obstacles, compute velocity profiles that satisfies speed, curvature and moving object motion planning constraints, plan behaviors and execute maneuvers to navigate safely through the world, and gain valuable experience in debugging and testing self-driving algorithms in the Carla simulator. So, by the end of this specialization, you will have a detailed understanding of the architecture and components of the autonomous driving software stack and you will program your own self-driving car. Since we're teaching you how to program your own self-driving car, the courses in this specialization have several prerequisites. First, you should be proficient in linear algebra and be familiar with matrices, vectors, matrix multiplication, rank, eigenvalues in vectors and inverses. This background will help you with control, state estimation, perception, and planning algorithms throughout the courses. You should also be comfortable with statistics. In particular, working with Gaussian probability distributions. This knowledge will be important for state estimation, and for perception when we're estimating vehicle speed and heading from GPS and inertial measurements for example. You should also be comfortable with basic calculus and physics, such as forces, moments, inertia, and Newton's laws. It's certainly helpful to know how to drive a car, but since the cars will be self-driving, it's not a hard requirement for this specialization. If you don't have these necessary pre-requisites, there are excellent robotics, AI, deep learning, and other courses that you can take on Coursera to prepare you for this specialization. Autonomous driving is a constantly evolving and changing field. So, keeping up not only with self-driving knowledge but also robotics, AI, and deep learning will help you keep your technical skills sharp. 
+There's a long way to go, and we need pioneers to help us get there. So, are you ready for the ride?
+
+
+
+
+
+\subsection{Taxonomy of Driving}
+
+
+\begin{framed}
+
+Although a given vehicle may be equipped with a driving automation system that is capable of delivering multiple driving automation 
+features that perform at different levels, the level of driving automation exhibited in any given instance is determined by the feature(s) that are engaged.
+\end{framed}
+
+
+\begin{framed}
+This document also refers to three primary actors in driving: the (human) user, the driving automation system, and other vehicle systems and components. 
+\end{framed}
+
+
+\sibsection{Questions}
+
+
+\textbf{Question 1}
+Which of the following are components of longitudinal control? (Select all that apply)
+
+
+\begin{enumerate}
+\item Braking
+\item Steering
+\item Accelerating
+\item Planning
+\end{enumerate}
+
+Answer braking and accelerating are components of longitudinal control.
+
+\textbf{Question 2}
+Which of the following is not an example of OEDR?
+
+
+\begin{enumerate}
+\item Stopping at red light
+\item Finding a route from your location to a goal location
+\item Slowing down when seeing a construction zone ahead
+\item Pulling over upon hearing sirens.
+\end{enumerate}
+
+Option 2 is correct. Finding routes between locations is a long term planning problem and not OEDR
+
+
+\textbf{Question 3}
+Which of the following tasks would you expect a Level 2 system to perform? (Select all that apply)
+
+
+\begin{enumerate}
+\item Maintain constant speed
+\item Change lanes
+\item Stay within a lane
+\item Swerve and slow down to avoid a pedestrian
+\end{enumerate}
+
+Option 1 and 3 are correct.
+
+\textbf{Question 4}
+What is the distinction between Level 3 autonomy and Level 4 autonomy? 
+
+
+\begin{enumerate}
+\item Level 3 systems only have lateral or longitudinal control. Level 4 systems have both.
+\item Level 3 systems cannot drive on highways. Level 4 systems can.
+\item Level 3 systems cannot perform OEDR. Level 4 systems can.
+\item Level 3 systems require full user alertness. Level 4 systems do not.
+\end{enumerate}
+
+Option 4 is correct.  Level 3 systems cannot handle emergencies automatically and as a result require full user alertness.
+
+
+\textbf{Question 5}
+What distinguishes Level 5 Autonomy from Level 4?
+
+
+\begin{enumerate}
+\item Level 5 autonomy can operate on any weather condition. Level 4 cannot.
+\item Level 5 autonomy has OEDR capability. Level 4 has not.
+\item Level 4 has restricted operational design domain. Level 5 is unrestricted.
+\item Level 5 autonomy can operate on any road surface and road type. Level 4 cannot.
+\end{enumerate}
+
+Option 3 is correct. Level 5 systems can operate in any weather condition, on any road type or surface and in any scenario and remain safe.
+
+
