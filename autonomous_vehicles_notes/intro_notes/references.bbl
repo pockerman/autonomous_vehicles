@@ -1,5 +1,15 @@
 \begin{thebibliography}{10}
 
+\bibitem{SAE2014}
+SAE
+\newblock{\em Taxonomy of Driving}
+\newblock $https://www.sae.org/standards/content/j3016\_201806/?PC=DL2BUY$
+
+\bibitem{SAE2016}
+SAE
+\newblock{\em SAE J3016 Taxonomy and Definitions Document}
+\newblock $https://drive.google.com/open?id=1xtOqFVJvOElXjXqf4RAwXZkI\_EwbxFMg$
+
 \bibitem{Astrom}
 $\mathring{A}$str$\ddot{o}$m K. J.,  Murray R. M. 
 \newblock{\em Feedback Systems. An Introduction for Scientists and Engineers}
