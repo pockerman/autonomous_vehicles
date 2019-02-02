@@ -6,9 +6,6 @@ from ode_integrators.forward_euler import ODEVectorFWDEuler
 from plot.two_d_plotter import TwoDPlotter
 
 
-
-
-
 if __name__ == '__main__':
     print("Sarting application: Vehicle Steering")
 
@@ -16,9 +13,6 @@ if __name__ == '__main__':
     dt = 0.01
     time = 0.0
     r = 1.0
-
-
-
 
     gamma = 0.5
     omega_c = [0.5, 1.0, 2.0]
@@ -29,16 +23,17 @@ if __name__ == '__main__':
     B.shape = (2,1)
     print(B.shape[1])
 
-
-
     tarray1 = []
     yarray1 = []
+    delta1  = []
 
     tarray2 = []
     yarray2 = []
+    delta2 = []
 
     tarray3 = []
     yarray3 = []
+    delta3 = []
 
     kwargs = dict()
 
@@ -75,18 +70,29 @@ if __name__ == '__main__':
             if omega == 0:
                 tarray1.append(time)
                 yarray1.append(state.get_state_value_by_name("y"))
+                delta1.append(u)
             elif omega == 1:
                 tarray2.append(time)
                 yarray2.append(state.get_state_value_by_name("y"))
+                delta2.append(u)
             elif omega == 2:
                 tarray3.append(time)
                 yarray3.append(state.get_state_value_by_name("y"))
+                delta3.append(u)
 
 
     plotter = TwoDPlotter(xlabel="time (sec)", ylabel="Lateral Position", title="")
     plotter.plot(tarray1, yarray1, label='omega = 0.5')
     plotter.plot(tarray2, yarray2, label='omega = 1.0')
     plotter.plot(tarray3, yarray3, label='omega = 2.0')
-    plotter.show_plots()
+
+    kwargs={"show_grid": True, "show_legend": True}
+    plotter.show_plots(**kwargs)
+
+    plotter = TwoDPlotter(xlabel="time (sec)", ylabel="Steering angle-$\delta$ [rad]", title="")
+    plotter.plot(tarray1, delta1, label='omega = 0.5')
+    plotter.plot(tarray2, delta2, label='omega = 1.0')
+    plotter.plot(tarray3, delta3, label='omega = 2.0')
+    plotter.show_plots(**kwargs)
 
     print("End simulation....")
