@@ -454,8 +454,6 @@ Let's quickly recap what we learned this week. In this module, we explored the b
 \section{Review Questions}
 \label{review_questions_chapter_1}
 
-
-
 \begin{enumerate}
 
 \item You’re at home and need to drive to work. During the trip, you will be performing OEDR tasks. Of the tasks below, which of the following is not an example of OEDR? 
@@ -502,7 +500,6 @@ Let's quickly recap what we learned this week. In this module, we explored the b
 \begin{center}
 \includegraphics[scale=0.280]{img/intro_self_driving/summary_question_scenario_2.png}
 \end{center}
-\caption{Road signs.}
 \label{summary_question_scenario_2}
 \end{figure}
 
@@ -521,12 +518,183 @@ You choose to move first
 
 
 \begin{itemize}
-\item For non all-way stop signs, stop at a point where you can see oncoming traffic without blocking the intersection
-\item If there are pedestrians crossing, stop until they have crossed
-\item If you reach a stop sign before another vehicle, you should move first if safe
+\item A) For non all-way stop signs, stop at a point where you can see oncoming traffic without blocking the intersection
+\item B) If there are pedestrians crossing, stop until they have crossed
+\item C) If you reach a stop sign before another vehicle, you should move first if safe
 \end{itemize}
 
 Which of the following is an appropriate priority ranking?
 
+\begin{enumerate}
+\item A, B, C
+\item C, B, A
+\item B, A, C
+\item C, A, B
+\item A, C, B
 \end{enumerate}
 
+\item Which of the following are off-road objects? (Select all that apply) 
+
+\begin{enumerate}
+\item Stop signs
+\item Pedestrians
+\item Curbs
+\item Road markings
+\item Trees
+\end{enumerate} 
+
+\item Suppose your vehicle has lane keeping assistance, which of these objects are relevant for its performance? (Select all that apply)
+
+\begin{enumerate}
+\item Stop signs
+\item Pedestrians
+\item Road markings
+\item Trees
+\item Curbs
+\end{enumerate}
+
+\item Which of the following sensors are used for the lane keeping assistance? (Select all that apply)
+
+\begin{enumerate}
+\item IMU
+\item GPS
+\item LIDAR
+\item Barometers
+\item Cameras
+\end{enumerate}
+
+\item You are on the highway and you see a truck in front of you. Assume the car is driving on the right-hand side of the road. 
+There is also a blue car beside the truck in the other lane.
+
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/intro_self_driving/summary_question_scenario_3.png}
+\end{center}
+\label{summary_question_scenario_3}
+\end{figure}
+
+Your vehicle follows the truck and maintains a constant distance away. What kind of control is this?
+
+\begin{enumerate}
+\item Longitudinal
+\item Fallback
+\item OEDR
+\item Lateral
+\end{enumerate}
+
+\item You decide to change lanes to pass a truck. What kind of decision is this?
+
+\begin{enumerate}
+\item Reactive
+\item Rule-based planning
+\item Short term planning
+\item Long term planning
+\item Immediate
+\end{enumerate}
+
+\item Which of the following tasks are rule-based planning? (Select all that apply) 
+
+\begin{enumerate}
+\item Doing a lane change, maintain our current speed or accelerate slightly
+\item If there are vehicles directly beside us on the lane, it is unsafe to lane change
+\item If the vehicle in front is going to slow down sharply, then avoid performing a lane change.
+\end{enumerate}
+
+\item  Suppose the blue vehicle in figure \ref{summary_question_scenario_3} suddenly brakes and you decide to abort the lane change. 
+If your vehicle can respond automatically and remain in its own lane, what is the minimum level of autonomy of your vehicle?
+
+\begin{enumerate}
+\item 1
+\item 2
+\item 3
+\item 4
+\item 5
+\end{enumerate}
+
+\item The blue vehicle in figure \ref{summary_question_scenario_3} returns to normal speed and you can now safely change lanes. Your car is performing the lane change, what kind of control is this?
+
+\begin{enumerate}
+\item Longitudinal
+\item Fallback
+\item OEDR
+\item Lateral
+\end{enumerate}
+
+
+\item You are almost at work but encounter a construction site. Assume the car is driving on the right-hand side of the road. 
+Your vehicle is denoted in orange in  figure \ref{summary_question_scenario_4}.
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/intro_self_driving/summary_question_scenario_4.png}
+\end{center}
+\label{summary_question_scenario_4}
+\end{figure}
+
+You see a construction site where the workers are repaving a road full of potholes. They are using jackhammers which can cause dust clouds.
+You create the  decision tree in figure \ref{summary_question_scenario_4_flowchart} for getting through the construction site. 
+From the diagram, which of the following decisions should you make? (green is true, red is false) 
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/intro_self_driving/summary_question_scenario_4_flowchart.png}
+\end{center}
+\label{summary_question_scenario_4_flowchart}
+\end{figure}
+
+\begin{enumerate}
+\item A (True)
+\item B (False)
+\item C (True)
+\item D (False)
+\item E (True)
+\item F (False)
+\end{enumerate}
+
+\item Here are a set of rules for making these decisions, arrange them in an appropriate prioritization
+
+\begin{itemize}
+\item If there are no vehicles ahead, accelerate to the speed limit
+\item Drive slowly in construction zones
+\item If there are pedestrians or workers directly ahead in the current lane, stop
+\item Yield to merging vehicles, if necessary 
+\end{itemize}
+
+\begin{enumerate}
+\item 1, 2, 3, 4
+\item 2, 3, 4, 1
+\item 3, 4, 1, 2
+\item 3, 4, 2, 1
+\end{enumerate}
+
+\item  You’re finished work and need to drive back home, but it’s nighttime.
+You plan a new path home on your GPS application to avoid the construction site, what type of planning is this?
+
+\begin{enumerate}
+\item Immediate
+\item Long term planning
+\item Reactive
+\item Short term planning
+\item Rule based planning
+\end{enumerate}
+
+
+\item Your new path goes through a school zone and you see the school zone sign. You decide to slow down despite there being no pedestrians or children (it’s nighttime). What sort of planning is this?
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/intro_self_driving/summary_question_scenario_5.png}
+\end{center}
+\label{summary_question_scenario_5}
+\end{figure}
+
+\begin{enumerate}
+\item Short term planning
+\item Immediate planning
+\item Long term planning
+\item Rule based planning
+\item Reactive planning
+\end{enumerate}
+
+\end{enumerate}
