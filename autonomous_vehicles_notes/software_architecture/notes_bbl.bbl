@@ -1,0 +1,33 @@
+\begin{thebibliography}{10}
+
+\bibitem{Serban}
+Serban A. C., Poll E., Visser J.
+\newblock{\em A standard driven software architecture for fully autonomous vehicles}
+\newblock https://pdfs.semanticscholar.org/176d/d7b3289267d8c693fb16f0d6fea480b5fad5.pdf
+
+\bibitem{Garlan2000}
+Garlan D.
+\newblock{\em Software architecture:  a roadmap}
+\newblock ICSE 00, pp. 91-101, ACM. 2000.
+
+\bibitem{Bahere}
+Bahere S., Torngren M.
+\newblock{\em A functional architecture for autonomous driving}
+\newblock ICSE 00, pp. 91-101, ACM. 2000.
+
+\bibitem{ETSITR102} 
+ETSI TR 102 
+\newblock{\em Local Dynamic Map (LDM)-Rational for guidance on standardization.}
+\newblock ETSI TR 102 863 V1.1.1 
+
+\bibitem{RahulSharma}
+Rahul Sharma K., Daniel Honc, František Dušek
+\newblock{\em Predictive Control of Differential Drive Mobile Robot Considering Dynamics and Kinematics}
+\newblock https://pdfs.semanticscholar.org/176d/d7b3289267d8c693fb16f0d6fea480b5fad5.pdf
+
+\bibitem{Murphy2000}
+Murphy R. R.
+\newblock{\em Introduction to AI robotics}
+\newblock MIT Press, 2000.
+
+\end{thebibliography}
