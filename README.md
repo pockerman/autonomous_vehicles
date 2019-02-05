@@ -4,6 +4,14 @@
 
 ### Part: Basics
 
+- **Item:** Introduction to Self-Driving Cars
+- **Item:** Hardware for Self-driving Cars
+- **Item:** Hardware Configuration
+- **Item:** Software Architecture for Autonomous Driving Stack
+- **Item:** Environment Representation
+- **Item:** Dunamics of Automobiles
+
+
 ### Part: Environment Perception
 
 ### Part: Environment Mapping 
@@ -12,9 +20,6 @@
 
 ### Part: Control 
 
-### Part: System Supervisor
-
-
 - **Item:** Linear Systems
 - **Item:** State Feedback
 - **Item:** Output Feedback
@@ -22,6 +27,11 @@
 - **Item:** Sensor Fusion
 - **Item:** PID and Linear Quadratic Regulator Controllers
 - **Item:** Model Predictive Control
+
+### Part: System Supervisor
+
+
+
 - **Item:** Simultaneous Localization and Mapping (SLAM)
 - **Item:** Deep Learning for Autonomous Vehicles
 - **Item:** Deep Reinforcement Learning for Autonomous Vehicles
