@@ -112,78 +112,85 @@ metrics for selecting RADAR. RADAR are selected based on
 \item the position and speed measurement accuracy. 
 \end{itemize}
 
-RADAR are also typically available as
-either having a wide angular field of view but short range. Or having a narrow filed of view but
-a longer range. The next sensor we are going to
-discuss are ultrasonics or sonars. Originally so named for
-sound navigation and ranging. Which measure range using sound waves. Sonar are sensors that are short
-range in inexpensive ranging devices. This makes them good for
-parking scenarios, where the ego-vehicle needs to make
-movements very close to other cars. Another great thing about sonar
-is that they are low-cost. Moreover, just like RADAR and LIDAR,
-they are unaffected by lighting and precipitation conditions. Sonar is selected based
-on a few key metrics. The maximum range they can measure, the
-detection field of view, and their cost. Now let's discuss
-the proprioceptive sensors, the sensors that sense ego properties. The most common ones here
-are Global Navigation Satellite Systems, GNSS for short, such as GPS or Galileo. An inertial measurement units or IMU's. GNSS receivers are used to measure
-ego vehicle position, velocity, and sometimes heading. The accuracy depends a lot on
+RADARs are also typically available as either having a wide angular field of view but short range. 
+Or having a narrow FOV but a longer range. 
+
+The next sensor we are going to discuss are ultrasonics or sonars. Originally so named for
+sound navigation and ranging. Which measure range using sound waves. Sonars are sensors that are short
+range and inexpensive ranging devices. This makes them good for parking scenarios, where the ego-vehicle needs to make
+movements very close to other cars. Another great thing about sonar is that they are low-cost. Moreover, just like RADAR and LIDAR,
+they are unaffected by lighting and precipitation conditions. A sonar sensor is selected based
+on a few key metrics itemized next. 
+
+\begin{itemize}
+\item The maximum range they can measure
+\item The the detection FOV
+\item The cost
+\end{itemize}
+
+\subsubsection{Proprioceptive sensors}
+
+Now let's discuss the proprioceptive sensors, the sensors that sense ego properties. The most common ones here
+are:
+
+\begin{itemize}
+\item Global Navigation Satellite Systems, GNSS for short, such as GPS or Galileo
+\item Inertial Measurement Units or IMU's
+\item Wheel odometers
+\end{itemize}
+
+GNSS receivers are used to measure ego vehicle position, velocity, and sometimes heading. The accuracy depends a lot on
 the actual positioning methods and the corrections used. Apart from these, the IMU also
 measures the angular rotation rate, accelerations of the ego vehicle, and
 the combined measurements can be used to estimate the 3D orientation
 of the vehicle. Where heading is the most important for
-vehicle control. And finally we have
-wheel odometry sensors. This sensor tracks the wheel
+vehicle control. Finally, we have wheel odometry sensors. This sensor tracks the wheel
 rates of rotation, and uses these to estimate the speed and
 heading rate of change of the ego car. This is the same sensor that tracks
-the mileage on your vehicle. So, to summarize,
-the major sensors used nowadays for autonomous driving perception
+the mileage on your vehicle. 
+
+
+
+In summary, the major sensors used nowadays for autonomous driving perception
 include cameras, RADAR, LIDAR, sonar, GNSS, IMUs,
 and wheel odometry modules. These sensors have many
 characteristics that can vary wildly, including resolution,
-detection range, and field-of-view. Selecting an appropriate
-sensor configuration for a self-driving car is not trivial. Here's a simple graphic that
-shows each of the sensors and where they usually go on a car. We will revisit this chart again in the
+detection range, and FOV. 
+
+Selecting an appropriate sensor configuration for a self-driving car is not trivial. Here's a simple graphic that
+shows each of the sensors and where they usually go on a car. 
+
+
+We will revisit this chart again in the
 next video, when we discuss how to select sensor configurations to achieve
-a particular operational design domain. Finally, let's discuss a little bit about
-the computing hardware most commonly used in today's self-driving cars. The most crucial part
+a particular operational design domain. 
+
+
+\section{Computing Hardware}
+
+Finally, let's discuss a little bit about the computing hardware most commonly used in  self-driving cars at the time of writing. The most crucial part
 is the computing brain, the main decision making unit of the car. It takes in all sensor data and outputs
 the commands needed to drive the vehicle. Most companies prefer to design their own
 computing systems that match the specific requirements of their sensors and
 algorithms. Some hardware options exist, however, that can handle self-driving
-computing loads out of the box. The most common examples would be Nvidia's
-Drive PX and Intel \& Mobileye's EyeQ. Any computing brain for self-driving needs
-both serial and parallel compute modules. Particularly for image and
-LIDAR processing to do segmentation, object detection, and mapping. For these we employ GPUs,
-FPGAs and custom ASICs, which are specialized hardware to
-do a specific type of computation. For example; the drive PX
-units include multiple GPUs. And the EyeQs have FPGAs both to
+computing loads out of the box. 
+
+The most common examples would be Nvidia's Drive PX and Intel \& Mobileye's EyeQ. Any computing brain for self-driving needs
+both serial and parallel compute modules. Particularly for image and LIDAR processing to do segmentation, object detection, and mapping. 
+For these we employ GPUs, FPGAs and custom ASICs (Application Specific Integrated Circuit), which are specialized hardware to
+do a specific type of computation. 
+
+For example, the drive PX units include multiple GPUs. The EyeQs have FPGAs both to
 accelerate parallalizable compute tasks, such as image processing or
-neural network inference. And finally,
-a quick comment about synchronization. Because we want to make driving
+neural network inference. 
+
+Finally, a quick comment about synchronization. Because we want to make driving
 decisions based on a coherent picture of the road scene. It is essential to correctly synchronize
 the different modules in the system, and serve a common clock. Fortunately, GPS relies on extremely
 accurate timing to function, and as such can act as an appropriate
 reference clock when available. Regardless, sensor measurements must be
 timestamped with consistent times for sensor fusion to function correctly. Let's summarize. In this video,
 we learned about sensors and their different types based
-on what they measure. We covered the major sensors used in
-self-driving hardware systems, and discussed the advantages and
-comparison metrics. And then we briefly discussed
-the self-driving computing hardware available today. Hopefully, this solidifies some of
-the concepts we learned last week for doing autonomous perception. In the next lesson, we'll take a step
-further and look at how to select an appropriate sensor configuration for
-your self-driving car. See you in the next video. [MUSIC]
+on what they measure. 
 
-\begin{framed}
-\theoremstyle{remark}
-\begin{remark}{\textbf{Primary actors in driving}}
 
-There are three primary actors in driving: 
-
-\begin{enumerate}
-\item The (human) user
-\item The driving automation system
-\item Other vehicle systems and components.
-\end{enumerate}
-\end{remark}
-\end{framed}
