@@ -88,23 +88,27 @@ We need longitudinal sensors and lateral sensors and both wide and narrow FOV se
 Already from this small set of ODD requirements we see a large variety of sensor requirements that arise. 
 
 \subsubsection{Urban Scenario}
+\label{urban_scenario}
+
 Let's discuss the urban scenario next. 
 The urban scenario as we discussed before is a moderate volume, moderate traffic scenario with fewer lanes on the highway case but with the added complexity of pedestrians. 
 There are six types of basic maneuvers here. Obviously, we can still perform emergency stop, maintain speed and lane changes but we also have scenarios such as overtaking a parked car, 
 left and right turns at intersections and more complex maneuvers through intersections such as roundabouts. 
 In fact, for the first three basic maneuvers, the coverage analysis is pretty much the same as the highway analysis but since we are not moving as quickly, 
 we don't need the same extent for our long-range sensing. 
+
 Let's discuss the overtake maneuver next. 
 More specifically, consider a case where you have to overtake a parked car. 
 Longitudinally, we definitely need to sense the parked car as well as look for oncoming traffic. 
 So, we need both sensors, wide short-range sensors to detect the parked car and narrow long-range sensors to identify if oncoming traffic is approaching. 
 Laterally, we'll need to observe beyond the adjacent lanes for merging vehicles as we did in the highway case. 
-For intersections, we need to have near omni-directional sensing for all kinds of movements that can occur. 
+Intersections require that  we  have near omni-directional sensing for all kinds of movements that can occur. 
 Approaching vehicles, nearby pedestrians, doing turns and much more. 
 Finally, for roundabouts we need a wide-range, short distance sensor laterally since the traffic is slow but 
 we also need a wide-range short distance sensor longitudinally because of how movement around the roundabout occurs. 
 We need to sense all of the incoming traffic flowing through the roundabout to make proper decisions. 
-So we end up with this overall coverage diagram for the urban case. 
+
+Thus, we end up with this overall coverage diagram for the urban case. 
 The main difference with respect to highway coverage is because of the sensing we require 
 for movement at intersections and at roundabouts and for the overtaking maneuver. 
 In fact, the highway case is almost entirely covered by the urban requirements. 
