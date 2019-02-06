@@ -9,7 +9,8 @@
 - **Item:** Hardware Configuration
 - **Item:** Software Architecture for Autonomous Driving Stack
 - **Item:** Environment Representation
-- **Item:** Dunamics of Automobiles
+- **Item:** Safety Assurance for Autonomous Vehicles
+- **Item:** Dynamics of Automobiles
 
 
 ### Part: Environment Perception
