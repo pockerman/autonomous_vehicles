@@ -1,0 +1,492 @@
+\section{Sefety for Self-driving Cars}
+\label{safety_for_self_driving_cars}
+In this section we will dive into the basics of incorporating safety into autonomous vehicle design. 
+Throughout this section, we'll discuss some of the recent autonomous vehicle crash reports. 
+Then we will formally define safety concepts for self-driving cars, and discuss the most common sources of hazard that occur. 
+We'll furtheremore discuss some industry perspectives on safety, and finally, we'll wrap up by discussing some of the common frameworks that are used in safe system design. 
+
+
+In this lesson, we will discuss some of the first incidence of self-driving car crashes from 2017 and 2018. 
+Then, we will define some basic safety concepts and list some of the most common causes for autonomous vehicle hazards, and discuss the low level and high level requirements for safety. 
+
+We should point out that the material in this module is mostly taken from the published guidelines, by the International Organization for Standards, ISO. 
+You'll find a more comprehensive version of these frameworks online. 
+
+\subsection{Failures of Autonomous Vehicles}
+
+Let's start with a discussion of some of the more prominent autonomous vehicle failures to date. 
+
+\subsubsection{Google car}
+
+In March 2016, a self-driving Google car now Waymo, 
+ran into the side of a bus when it attempted to pull out from behind an obstacle in its way. 
+A bus was approaching from the rear and was aiming to pass the Google car in its lane, 
+which was over to the right of its lane prepared to turn. 
+The Google car software believed the bus would not attempt to pass it, as the gap between itself and the cars in the next lane was too narrow. 
+It turns out buses habitually shoot through smaller gaps than Google anticipated leading to the crash in this case. 
+By the time the Google car could react to the new measurements of the bus location, it was too late. 
+
+This is just one example of how hard it is to predict all other vehicles actions before they happen. 
+
+
+\subsubsection{Uber car}
+A year later, an Uber self-driving vehicle overreacted during a minor collision caused by another vehicle and ended up overturning. 
+Since the dynamic models of the vehicle don't assume significant disturbance forces from other vehicles acting on the car, 
+the controller had likely not been tested for such a scenario and overreacted. 
+This crash highlights the need for robustness integrated into the control system and for exploratory testing that covers as many foreseeable events as possible. 
+
+\subsubsection{GM car}
+
+In the late 2017, a GM Cruise Chevy Bolt knocked over a motorcyclist after it aborted a lane change maneuver. 
+After the Bolt initiated the maneuver, the gap it was hoping to enter closed rapidly due to a braking lead vehicle in the adjacent lane. 
+The motorcyclist who was lane splitting, moved forward beside the Bolt and blocked the return maneuver. 
+The Bolt was stuck in a dilemma situation; to collide with the motorcycle or to crash into both cars in the adjacent lane. 
+It's not clear that a specific decision was made here to choose one or the other outcome, and a lawsuit has buried the details of the case. 
+However, because other agents are also predicting the self-driving cars actions, it is very challenging to assess what the right action is in many situations. 
+As it's possible, the merging might have been possible with a more aggressive driving style or a slightly delayed abort might have been enough time to avoid the motorcyclist. 
+
+This tight interaction of decision-making is still a big challenge in self-driving cars. 
+
+\subsubsection{Uber car (again)}
+Finally, we should talk a little bit about the Uber crash that led to a pedestrian fatality in early 2018. 
+Operating in Tempe, Arizona, Uber had an extensive testing program at the time, with safety drivers monitoring 
+the autonomy software. The incident occurred on a wide multilane divided road at night, 
+where a pedestrian was walking her bicycle across the road in 
+an unmarked area. 
+The victim, Elaine Herzberg, was a 49 year-old woman from Tempe. 
+This is the car and the scene depicted from a bird's eye view. 
+
+You can see the pedestrian entering from the left and the vehicle traveling along the road way from the bottom of the image. 
+The preliminary investigation revealed that there were multiple failures that led to the incident. 
+
+Let's walk through the different contributing factors. First, there were no real-time checks on the safety driver. 
+In this case, the safety driver was inattentive and allegedly watching Hulu at the time. 
+The safety driver could have been doing anything and Uber didn't have any way in the vehicle 
+to assess the drivers attentiveness. Because watching an autonomous driving system operate is a difficult 
+task to stay focused on, it is really important to have a safety driver monitoring system. 
+Second, there was significant confusion in the software detection system. 
+Upon initial detection at six seconds to impact, the victim was first classified 
+as an unknown object, then misclassified as a vehicle, and then misclassified as a bicycle. 
+In the end, the decision made by the autonomy software was to ignore the detections, possibly because they were too unreliable. 
+Perception is not perfect and the switching classifications should not have 
+led the vehicle to ignore an object like that completely. 
+Finally, 1.3 seconds before the crash, the Volvo emergency braking system did detect the 
+pedestrian and would have applied the brakes rapidly to reduce the impact speed, potentially saving the life of Elaine Herzberg. 
+However, it is not safe to have multiple collision avoidance systems operating simultaneously during testing, so Uber had disabled the Volvo system when in autonomous mode. 
+Ultimately, the autonomous vehicle did not react to the pedestrian's path and the inattentive driver was unable to react quickly enough to avoid the collision. 
+
+The combination of the failure of the perception system to correctly identify the pedestrian, with a bicycle and of the planning system to avoid the detective 
+object even though it's class was uncertain, led to the autonomy failure, and the lack of human or emergency braking backup ultimately led to the fatality. 
+So, we can see that from this set of incidents, every aspect of the autonomous driving system; the perception, planning, and control, 
+can all lead to failures and crashes, and that often the interaction of multiple systems or multiple decision-makers, can lead to unanticipated consequences. 
+In fact, there are many more ways an autonomous system can fail. 
+It is clear that we need rigorous and exhaustive approaches to safety, and both industry and the regulators are tackling the safety challenge head-on. 
+
+Now, that we have a sense for the challenges of safety assessment, let's formally define some basic safety terms. 
+
+\section{Harm and risk}
+We will use the term, harm to refer to the physical harm to a living thing, and we will use the term risk to 
+describe the probability that an event occurs, combined with the severity of the harm, that the event can cause. 
+We can now describe safety as the process of avoiding unreasonable risk of harm to a living thing. 
+For example, driving into an intersection when the traffic signal is red would be unsafe as it leads to unreasonable risk to harm of 
+the occupants of the vehicle and to other vehicles moving through the intersection. 
+Finally, a hazard is a potential source of unreasonable risk of harm or a threat to safety. 
+
+So, if my system software has a bug that could potentially cause an accident, the software bug would be a hazard. 
+Now, what do you think are the most common sources of autonomous vehicle hazards? 
+Well, hazards can be mechanical, so maybe incorrect assembly of a brake system causing a premature failure. 
+They can be electrical, so faulty internal wiring leading to a loss of indicator lighting. 
+Hazards could also be a failure of computing hardware chips used for autonomous driving. 
+They can, as described earlier, be due to errors or bugs in the autonomy software. 
+They might be caused by bad or noisy sensor data or inaccurate perception. 
+Hazards can also arise due to incorrect planning or decision-making, inadvertently selecting hazardous actions because the behavior selection for a specific scenario wasn't designed correctly. 
+It's also possible that the fallback to a human driver fails by not providing enough warning to the driver to resume responsibility or maybe a self-driving car 
+gets hacked by some malicious entity. These are all the main categories of hazards that are regularly considered; 
+
+\begin{itemize}
+\item mechanical
+\item electrical
+\item computing hardware
+\item software
+\item perception
+\item plannin
+\item driving-task fallback
+\item cybersecurity
+\end{itemize}
+
+Each of these hazards requires different approaches when assessing overall system safety. 
+We'll see more on how to deal with these categories in later videos. 
+Now that we know the basic terminology involved in safety, let's think about the following question. 
+How do we ensure our self-driving car is truly safe? 
+That is, how do we take the complex task of driving and the many hazards that can occur, and define a 
+safety assessment framework for a complete self-driving system? 
+
+\section{Safety frameworks}
+In the US, the National Highway Transportation Safety Administration or NHTSA, has defined a twelve-part safety framework 
+to structure safety assessment for autonomous driving. This framework is only a starting point and different approaches that combine 
+multiple existing methods and standards have already emerged in the industry. 
+
+\subsection{NHTSA}
+So, let's first discuss the NHTSA's safety recommendations. 
+This framework was released as a suggested, not mandatory framework to follow in 2017. 
+The framework itself consists of 12 areas or elements any autonomous driving company should focus 
+on or rather, are encouraged to focus on. First, a system design approach to safety should be adopted, 
+and this really permeates the entire framework document. 
+Well-planned and controlled software development processes are essential, and the application 
+of existing SAE and ISO standards from automotive, aerospace, and other relevant industries should be applied where relevant. 
+
+For the remaining 11 areas, we can organize them loosely into two categories. Autonomy design, which requires certain components to be included and considered 
+in the autonomy software stack, and testing and crash mitigation, which covers approaches to testing 
+the autonomy functions and ways to reduce the negative effects of failures, 
+as well as learning from them. 
+
+In the autonomy design category, we see some components we're already familiar with. 
+The NHTSA encourages a well-defined operational design domain, so that the designers are well aware of 
+the flaws of this and limitations of the system, and can make an assessment as to which scenarios are 
+supported and safe in advance of testing or deployment. Next, it encourages a well-tested object and event 
+detection and response system, which is critical to perception and crash avoidance. 
+Then, it encourages the car to have a reliable and convenient fallback mechanism by which 
+the driver is alerted or the car is brought to safety autonomously. 
+It is essential to develop this mechanism keeping in mind that the driver may be inattentive. 
+
+So, some thoughts should go into how to bring the system to a minimal risk condition if this happens. 
+The driving system should also be designed such that all the federal level, state level, and local laws for traffic 
+are followed and obeyed within the ODD. Next, the framework encourages designers to think about cybersecurity threats, 
+and how to protect the driving system from malicious agents. Finally, there should be some thought put into the human machine interface, or HMI. 
+So, the car should be able to well convey the status of the machine at any point in time to the passengers or the driver. 
+
+Important examples of status information that can be displayed, are whether all sensors are operational, 
+what the current motion plans are, which objects in the environment are affecting our driving behavior, and so on. 
+
+We now move to the testing and crash mitigation areas. First and foremost, the NHTSA recommends a strong and extensive testing program before any service is launched for the public. 
+This testing can rely on three common pillars:
+
+\begin{itemize}
+\item simulation
+\item close track testing
+\item public road driving
+\end{itemize}
+
+Next, there should be careful consideration of methods to mitigate the extent of injury or damage that occurs during a crash event. 
+Crashes remain a reality of public road driving and autonomy systems that can minimize crash energy 
+and exceed passenger safety standards in terms of restraints, airbags, and crash worthiness should be the norm. 
+Next, there should be support for post crash behavior. The car must be rapidly returned to a safe state, 
+for example, brought to a stop with fuel pumps securing the fuel, 
+first responders alerted, and so on. Further, there should be an automated data recording function or black box recorder. 
+It is very helpful to have this crash data to analyze and design systems that can avoid the specific kind of crash in the future, and to resolve questions about what went wrong, 
+and who was at fault during the event. Finally, there should be well-defined consumer education and training. 
+So, courses for the fallback driver during testing and training for consumer drivers and passengers to better understand both the capabilities and limits of the deployed autonomous system. 
+
+This final step is essential to ensuring our natural overconfidence in automation, does not lead to unnecessary hazards being introduced by early adopters. 
+Keep in mind that these are suggested areas that any company should work on. Not mandatory requirements, yet. 
+
+The main objective of the NHTSA is to guide companies building self-driving cars without overly restricting innovation. 
+We're pre-selecting technologies. As entrance to the market start to emerge, it is likely that more definitive requirements for safety 
+assessment will also emerge. 
+ 
+
+\section{Industry safety and testing}
+
+In this lesson, we will discuss the various industry perspectives on safety and testing. 
+Specifically, we'll first analyze the safety perspectives of two big names in the industry: Waymo and GM. 
+Then we'll discuss two different approaches to assessing safety: analytical versus empirical. 
+
+As we saw in the last section, the NHTSA requested that each self-driving developer, should develop and describe a 
+comprehensive safety strategy that covered the 12 concepts included in their guidance document. 
+To date, two prominent reports have emerged from Waymo and GM, and we'll use both as our basis 
+for our discussion of industry approaches to safety. 
+The Waymo Safety Report was released in 2017, and has a lot of great insight into how to organize a 
+comprehensive safety strategy for self-driving cars. 
+Waymo covers all 12 of the NHTSA concepts, but organizes them into a five level safety approach. 
+
+First, Waymo systems are designed to perform safe driving at the behavioral level. 
+This includes decisions that follow the traffic rules, can handle a wide range of scenarios within the ODD, and maintain vehicle safety through it. 
+Second, Waymo ensures that the systems have backups and redundancies. This is so that even if a fault or failure occurs, the car can switch to a 
+secondary component or a backup process to minimize the severity of failures and return the vehicle to a 
+safe state, continuing the drive if possible. 
+This is referred to as Functional Safety. 
+Next, Waymo emphasizes crash safety as recommended by the NHTSA. 
+It designs systems that ensure minimum damage to people inside the car in the event of a crash. 
+Next, it tries to ensure Operational Safety. So, that means its interfaces are usable and convenient and intuitive. 
+The focus here is on allowing passengers to have some level of control over the vehicle, but only in ways that maintain system safety. 
+Finally, Waymo fosters Non-collision safety. This refers to system designs that minimize the danger to people that may interact with the system in some way, 
+first responders, mechanics, hardware engineers, and so on. 
+
+These five pillars form Waymo's safety by design system, and leads to a system of extensive requirement definition, 
+design iteration, and testing to ensure that the objectives of the system are met by each component. 
+
+The process uses several tools from existing domains and we'll go into more details of these tools. 
+At the outset, the Waymo team identifies as many hazard scenarios as possible and analyzes possible mitigation strategies for each, that is, 
+how to ensure that the vehicle can still reach a safe state when a hazard occurs. 
+Then, they use a hazard assessment method to identify more specific safety requirements. 
+
+The various methods they use are preliminary analysis of possible safety risk, a fault tree hazard assessment which works from the top down in terms 
+of the dynamic driving task, and some design failure modes and effects analysis which works from the bottom-up 
+assessing the effects of small subsystem failures on the overall capabilities of the system. 
+Finally, they perform lots of testing to ensure that the requirements are met. 
+
+Let's discuss the kind of testing procedures that Waymo follows specifically to evaluate its software, 
+as it is the most publicly visible and well-documented program out there. First, they test all software changes in simulation on 
+the order of 10 million miles of simulation per day. This represents an enormous computing effort running continuously 
+to confirm the expected improvements to safety requirements for the system. To do this, they mine all of their on-road experiences
+for challenging scenarios and perform systematic scenario fuzzing, which changes the position and velocity parameters of other vehicles 
+and pedestrians randomly, so they can test if the ego-vehicle behaves safely throughout all of them. 
+This approach is particularly useful for finding hard edge cases, with hard to resolve time gaps for 
+merging or crossing intersections for example. 
+Then they do Closed-course Testing, in which they test their software on private tracks. They cover 28 core scenarios as 
+identified by an UC Berkeley study, as well as 19 additional scenarios that Waymo added. 
+These scenarios are organized around avoiding the four most common accident scenarios which are rear-end, intersection, road departure, and lane change. 
+There are obviously many variations of each of these categories but together they account for over 84 percent of all crashes. 
+Finally, they do real-world testing which are regularly seen on the streets of many different cities in the United States, 
+including Mountain View California right near the main Google campus. This testing allows them to identify more and more cases 
+that are out of the ordinary and primarily rely on the dynamic driving task fallback strategy of having humans monitor the autonomy software during testing. 
+The combination of these strategies for testing is by no means unique to Waymo, but has emerged as the de facto 
+standard as it provides the maximum flexibility and feedback for a fixed investment, focusing each test method on what it does best, 
+simulation on manipulating scenarios that make them hard, closed-course testing on confirming specific gains in safety performance 
+and real-world testing on finding evermore challenging scenarios, and increasing public confidence in the technology. 
+
+
+Now let's turn our attention to the safety ideology for General Motors, who acquired Cruise Automation in 2016 and has propelled 
+itself to a leading position in self-driving development as a result. GM strategy follows the NHTSA safety framework very closely and 
+addresses each of the 12 main areas individually. GM's safety strategy does not try to reorganize or simplify the NHTSA guidance, 
+but instead focuses on its implementation strategies for achieving the required safety assessments. 
+First and foremost, GM emphasized their iterative design model, in which the first analyze scenarios, then build software, 
+then simulate the scenarios, and test their software. Finally, deploy their software on real world cars, 
+and they keep adding improvements and refinements to both the requirements and the autonomous system iteratively. 
+Second, whereas Waymo relies on OEMs to design its vehicles and only discusses mechanical and electrical hazards related to 
+its autonomy hardware, GM manufactures their cars entirely themselves and so can enforce a more integrated 
+design with consistent quality standards throughout the self-driving hardware. Next, GM ensures safety through a comprehensive risk management scheme. 
+They identify and address risks and try to eliminate them completely and not just mitigate them. 
+Finally, all their systems follow there internally well defined standards of safety, reliability, security, and so on. 
+They have years of experience of developing vehicles in the automotive industry, and have developed extensive safety processes as a result. 
+Their safety processes involve three types of analysis. First, they perform deductive analysis through the fault tree method and pinpoint components that 
+could possibly have faults and address them. Next, they perform inductive analysis through design, FMEA. 
+So, they do a failure modes and effect analysis on their design proposals, and try to ensure safety from the bottom up. 
+Finally, they employ hazard and operability studies to perform exploratory analysis, and figure out when the system may potentially not work as expected. 
+Now, this may all sound familiar and indeed, these are the same pillars of analysis that Waymo describes. 
+
+Let's talk about safety thresholds and GM vehicles. 
+All GM vehicles have to follow two critical safety thresholds at the very least. 
+First, the GM defines a clear set of fail safes, back-up systems, and redundancies for different components so 
+that the system continues to work even after a failure. 
+Second, the components must pass the SOTIF evaluation which we'll discuss in more detail in the next section. 
+With this evaluation, we ensure that all critical functionalities are evaluated in both known and unknown scenarios. 
+Finally, GM follows a rigorous testing mechanism consisting of performance testing, requirements validation, fault injection, intrusive testing, and durability tests, 
+and simulation-based testing. Both these companies rigorously follow safety standards and are therefore great examples of how to do 
+safety practically and effectively. 
+
+So, we now have a clearer picture of how safety assessment is performed in industry, but we're still left with this question: is it really possible to truly precisely 
+assess whether an autonomous car is safe? Or at least safer than a human driver? 
+Let's discuss the various approaches that can be used to assess the safety of an autonomous driving system. 
+
+\subsection{Approaches to safety assessment}
+
+We have two possible approaches: 
+
+\begin{itemize}
+\item analytical or 
+\item data-driven safety assessment
+\end{itemize}
+
+By analytical safety assessment, we mean that the system can be analyzed to define quantifiable safety performance 
+or failure rates based on critical assessment of hazards and scenarios. If the overall system failure rates can be 
+determined through analysis, it can provide strong guidance on which 
+aspects of the system are the biggest contributors to overall safety. 
+A great example is the Space Shuttle program for which initial estimates of analytical failure rates 
+were pegged at one in 100,000 flights. After the program ended however, a forensic study 
+revealed that early shuttle program flights had failure rates closer to one in 10, and that this only progressed 
+to one in a hundred by the end of the program. It is a marvel that such analysis is even possible for such a complex system when considering all
+of the thousands of subsystems that go into a shuttle launch, and all of the millions of variables that can affect the operations of these systems. 
+
+This sort of detailed analysis is also applicable to self-driving cars, but may arguably be more complex due to 
+the infinite variety of situations of vehicle confined itself in. In the end, analytic methods can only provide guidance on the safety performance 
+of the self-driving system, and their results need to be validated through experience. 
+
+To evaluate experience, we use data-driven testing. This is the concept whereby we are assured that the system is safe 
+because it has demonstrated that, using a specific version of the software, it can achieve desired failure rates on a set of roads 
+and scenarios that are included in the operational design domain. 
+In the case of self-driving, these desired failure rates can be tied to human level driving performance, where 
+we hope to reduce accidents by 10x or 100x over the performance of today's drivers. 
+So, what does the data say? Are autonomous cars actually safer? First, know the driving is still dangerous by human standards. 
+A report in 2015 concluded that of all the fatalities in driving, about 90 percent of 
+these occurred due to human errors, sometimes through a lack of judgment, sometimes through a failure of human perception, et cetera. 
+But humans are also extremely good at driving, and indeed, the entire driving environment has been designed based on human perception 
+and planning abilities. In the United States, there is roughly one fatality per 146 million kilometres driven. 
+One injury per 2.1 million kilometres driven, and approximately one collision per 400,000 kilometres. 
+This last number is only estimated as most smaller collisions are not actually reported. In fact, autonomous driving may do a lot to 
+shed more light on these statistics as much more comprehensive reporting and reconstruction will be possible with the additional sensors available to us. 
+
+Now, let's consider the preliminary self-driving vehicle statistics, more specifically, 
+the disengagement rates published by all autonomous driving vehicles being tested in California. 
+A disengagement is when either this autonomy software requests the driver to take over 
+control or the safety driver feels the need to intervene. It is understandably challenging to get true crash statistics for the 
+entire fleets being tested as these are sensitive statistics. Fortunately, testing in California comes along with some useful 
+reporting requirements. In 2017, Waymo drove 563,000 kilometres in California and experienced 63 disengagement for a rate of roughly one disengagement every 9,000 kilometres. 
+GM Cruise drove 210,000 kilometres in California with 105 disengagement for roughly one every 2,000 kilometres. 
+Both were improving quickly throughout the year reaching disengagement rates of once every 12,500 kilometres, and every 8,300 kilometres respectively for the last three months of the year. 
+These are hard numbers to relate to in terms of human performance but roughly mean that a typical commuter would only have to 
+intervene once a year for a failure of the autonomy system. This is enormous progress but also still a ways off from the 400,000 kilometres 
+between crashes that humans achieve on trillions of miles every year. 
+
+The primary causes of the 63 Waymo disengagements in order of frequency, were unwanted vehicle manoeuvres, perception discrepancies, 
+hardware issues, software issues, behavior predictions, and finally, a single case of a reckless road user. 
+It's clear that the core tasks of perception, prediction and behavior planning remain challenging problems, and much work still needs to be done. 
+
+Lastly, a word about statistical significance. The performance observed from today's fleet are impressive, but how well do they represent 
+an accurate comparison to human capabilities? How many miles do we really need to drive to demonstrate autonomous vehicles are safer than human drivers, 
+particularly in terms of fatalities? In the supplemental material, we've included a link to a report by Rand Corporation that attempts 
+to address this question, and the numbers are startling. Since fatalities are such rare events and with a numerous factors under consideration, 
+the report states that upwards of 8 billion miles would be needed if pure on road testing is used to validate the safety case for a self-driving system. 
+It would take at least 400 years to do so with a fleet of 100 vehicles traveling 24/7, that's a long time to wait. 
+It is for this reason that we see such multifaceted approaches to safety, and every company is expanding vehicle fleets to increase the experience gained with autonomous systems on the road. 
+
+
+\section{Safety frameworks}
+In this section, we will discuss some popular safety frameworks, some of which we encountered in the last section. 
+More specifically, we will describe some generic, analytical frameworks including fault trees, failure modes and effects analyses or FMEA, 
+and hazard and operability analysis or HAZOP. Then we will focus on automotive and autonomous safety frameworks and discuss functional safety or FUSA, 
+and safety of intended functionality, or SOTIF. We'll define these terms later on in this section. 
+
+
+\subsection{Fault tree analysis}
+
+We'll start off with fault tree analysis. 
+Fault trees can be used as a preliminary analysis framework, and can be steadily expanded to encompass as much details necessary. 
+Fault trees are top-down flows in which we analyze a possible failure of a system to be avoided, and then identify all of the ways in 
+which it can occur from events and failures at lower levels of the system. 
+
+The top node in a fault tree is the root or top event. 
+The intermediate nodes in the fault tree are logic gates, 
+that define possible causes for the root event. 
+The decomposition continues to a level of detail for which a probability of such an event can be defined. 
+The fault tree can then be analyzed by combining the probabilities using the laws of Boolean logic. 
+To assess the overall probability of root cause event and the causes that most contribute to its occurrence. 
+
+Let's consider a simple example, and take a car crash as our root event. 
+The cause of a car crash could be broken down into either a software failure or a 
+hardware failure, amongst many other possibilities that we've described as hazard classes in our earlier sections. 
+Very crudely, the hardware failure could be because of manufacturing defects or material imperfections, for example. 
+Similarly, a software error could be due to malfunctioning perception code or some cybersecurity problem, say, if we were hacked. 
+From there, we can proceed to software subsystems and specific calculations within those subsystems deepening the tree at each successive branching. 
+Ultimately, we'll arrive at specific failure rates for which we can assign probabilities of occurrence per hour or per mile of operation. 
+We have now arrived at the leaf nodes of the fault tree. 
+Then using the logic gates structure, we can explicitly compute statistics of overall failure rates given assessments of the individual leaf node failure rates. 
+The operations used to propagate these probabilities upwards would be the same as the rules of probability when events 
+follow set theory. So, for example, for independent events, the OR and AND probabilities would be the sum or product of children node probabilities. 
+This is the general idea behind fault trees, which are referred to as probabilistic fault trees, 
+when probabilities are included at the leaf nodes. Probabilistic fault trees are a top-down approach to safety that has 
+been widely used in the nuclear and aerospace industries, and can similarly be applied to autonomous driving. 
+
+The challenge lies in building a comprehensive tree and incorrectly identifying the probabilities of the leaf node events. 
+
+\subsection{FMEA}
+Let's now look at FMEA, which stands for failure modes and effects analyses. 
+Whereas fault trees flow down from a system failure to all of its possible causes, 
+FMEA is a bottom-up process that looks at individual causes and determines all the possible effects that might occur. 
+Often, FTA's and FMEA's are used together to assess safety critical systems. 
+Failure modes are modes or ways in which a particular component of the overall system can cause the system to fail. 
+Effects analysis refers to analyzing all of the possible effects these mode failures can cause. 
+
+Often, the effects analysis seeks to identify those modes that bring about the most critical failures, which can then lead to improved designs that add more 
+redundancy or higher reliability to the system. Let's come to the big idea behind FMEA. 
+
+The goal is to categorize failure modes by priority. So, we ask questions like, how serious are the effects, 
+how frequently do these failures happen, and how easy is it to detect these failures? 
+Then we quantify all the failures using priority values, then we start addressing the 
+failures with the highest priority first. Here are the steps. 
+The goal is to construct a table of all possible risky situations, and we start off by, 
+first discussing with field experts and identifying processes at the level of detail we want in the table. 
+Then, we question the purpose of the system and list all failure possibilities. 
+Then for each failure possibility, we identify the possible consequences and assign each consequence a severity rating between one and 10, 10 being the most severe. 
+For each consequence, we identify the possible root causes, and for each route cause, we assign another number between one and 10, 
+to denote how frequently this cause occurs. Then, we identify all the ways in which the failure mode can be detected by operator, 
+maintenance, inspection, or a fault detection system. We assess the overall mode detection likelihood before 
+it causes an effect and assign another score from 1-10, with one being guaranteed to be detected and 10 being impossible to detect. 
+Finally, we compute a final number called the risk priority number, which is the product of the severity, 
+the occurrence, and the detection. The higher this value is, the higher the priority is. Eventually, we address the most problematic failure modes by 
+modifying our implementation of the system until we reduce the risks to an acceptable level. 
+It is also possible to perform FMEA with actual failure probabilities as in fault tree analysis, and to define acceptable risk levels in terms of the likelihood of a 
+critical event occurring over a fixed period of operation. The method doesn't change just the meaning of the numbers and the complexity of completing the entire analysis. 
+Let's stick with the simple scoring approach and make the FMEA process more concrete with a brief example. 
+
+Consider, a specific failure where the vehicle has driven onto a gravel patch that appears in its test area due to road construction, 
+which leads to controller instability. The worst-case effect could be a physical crash, which would be severity 10. 
+It might also lead to driver discomfort, or a near miss, but these would be lower severity events. 
+This event could happen regularly in urban environments wherever construction of a particular type occurs. 
+So, it is somewhat likely. Let's say we're able to assess the occurrence number at four. Similarly, we can assign a current scores to the other effects. 
+Let's assume this problem is not currently detectable as the road surface texture is not actively monitored during operation of our autonomy software. 
+So, detectability would be at number 10 for all of these effects. 
+The risk priority number for a crash would then be 10 times 4 times 10, which is 400. 
+In the same way, we could have other failure modes as well. A sign perception failure with the priority number of a 100, let's say, 
+a GPS synchronization failure with a priority number of 300, and maybe a vehicle motion prediction failure with the priority of 150. 
+So, we would go about addressing these failures in implementation by focusing on driving on gravel than GPS failure, than motion prediction, and finally sign perception. 
+And so this is the general framework behind FMEA. 
+
+FMEA is a risk assessment idea that was developed by the military and aerospace industries and later brought to the automotive industry. 
+It provides a really structured way to quantify risks and deal with them. The most important first. 
+Lastly, a common variation on FMEA that appears frequently, is the Hazard and Operability Study or HAZOP. 
+HAZOP is more of a qualitative process as compared to FMEA, where we seek to define the risks quantitatively. 
+So, in HAZOP, the main purpose is to brainstorm effectively over the set of possible hazards that can arise. 
+For complex processes, the risks can be assessed without having to assign specific values to occurrence, severity and detection, which may be hard to do. 
+HAZOP is often used earlier in the design process to guide the conceptual design phase. 
+The key addition in HAZOP is that, guide words are used to lead the brainstorm applied to each system requirement. 
+These guide words include things like not, more, less, early, late and lead to possible failure modes that might not otherwise be considered. 
+So think of HAZOP as a simplified ongoing FMEA brainstorming approach. 
+
+Let's now focus on a more specific type of safety and discuss existing safety frameworks for automotive and low-level autonomy feature development, 
+which are often used in assessing hardware and software failures in autonomous vehicles. 
+
+\subsection{ISO 26262}
+
+In particular, let's discuss the functional safety approach described in ISO 26262 and the safety of intended functionality approach which extends on ISO to 26262 
+and is defined in ISOPAR 21448.1. We won't be able to go into significant detail on either process. 
+ Functional Safety or FUSA, is the absence of unreasonable risk from malfunctioning behavior caused by failures of the hardware and software in a car, 
+ or unintended behaviors arising with respect to its intended design. 
+ The ISO 26262 standard defines functional safety terms and activities for electrical and electronic systems within motor vehicles. 
+ As such, addresses only the hardware and software hazards that can affect autonomous vehicle safety. 
+ The standard defines four Automotive Safety Integrity Levels or ASIL. With ASIL D being the most stringent and A being the least. 
+ 
+ Each level has associated with it specific development requirements, that must be adhered to for certification. 
+ The functional safety process follows a V-shaped flow. Starting at the top left with requirements specification then analysis of 
+ hazards and risks and proceeding to implementation of functionality. 
+ We then climb up the right branch to confirm the design goals have been met. We start with low-level verifications such as 
+ software unit tests, and then proceed to subsystem and full system validation 
+ through simulation, test track, operations and on-road testing. 
+ 
+ As we descend the V on the left, high-level requirements turn into low-level implementations. 
+ And as we climb the V on the right, we confirm each low-level function implementation before combining them 
+ to confirm system requirements for safe operation. The final step is a summary functional safety assessment, to evaluate residual 
+ risk and determine if our system has reached an acceptable level of safety. At the start of the functional safety V, we use HARA or Hazard and Risk Assessment. 
+ 
+ In HARA, we identify and categorize hazardous events and specify requirements to avoid unreasonable risk. 
+ This process drives all of the system development and testing beyond this point. To do so, we first identify possible hardware and software 
+ faults or malfunctions and unintended functions that can affect car safety. 
+ This is where FMEA or HAZOP are used in the functional safety framework and leads to a specific set of hazards to our system. 
+ We then define a list of scenarios or situations that the system must operate in drawing on our ODD to create this list. 
+ Next, we combine hazards and situations into hazardous events, describe expected damages, and determine risk parameters, to calculate 
+ numerical values of potential risk for each combination of situation and hazard. 
+ After the risk assessment, we choose the highest risk scenarios. 
+ The worst-case events that can happen with respect to each possible malfunction. 
+ Then finally, we define our safety requirements based on these worst-case scenarios. 
+ The HARA process sets the design goals for the system in a way that is aware of all of the worst-case failures that can occur. 
+ 
+ Through validation confirms that these worst-case failures are handled with only reasonable risk. 
+ And this is the main idea behind functional safety. You focus on worst-case requirements and then implement hardware and software that can at least 
+ handle these worst-case requirements. 
+ 
+ Finally, let's briefly explore the Safety of Intended Functionality Standard or SOTIF, which is formally defined in the ISOPAS 21448 document. 
+ SOTIF is specifically concerned with failure causes related to system performance limitations and predictable misuse of the system. 
+ Performance limitations or insufficiencies of the implemented functions due to technology limitations such as 
+ sensor performance limitations and noise, or limitations of algorithms such as 
+ object detection failures and limitations of actuator technology. 
+ 
+ Hardware and software failures are addressed by the functional safety standard in ISO 26262 and are out of the scope of SOTIF. 
+ SOTIF also addresses unsafe actions due to foreseeable misuse by the user. Such as user confusion, user overload and user overconfidence. 
+ The current SOTIF standard targets automation levels, zero, one and two. It also states that its methods can be applied to levels three, four, and five autonomy 
+ but additional measures may be required. SOTIF can be seen as an extension of the functional safety process, specifically designed to address the challenges of 
+ automated driving functions. As such, it follows very much the same V-shaped development philosophy, but with augmented components. 
+ SOTIF also employs HARA to identify the hazards that arise from performance limitations and misuse. 
+ And then performs a similar sequence of design, unit testing and verification and validation, to confirm 
+ the safety requirements have been met. 
+ 
+
