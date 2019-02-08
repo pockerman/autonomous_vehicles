@@ -7,18 +7,19 @@ class VehicleBase(ABC):
     Base class for modeling a vehicle
     """
 
-    def __init__(self):
-        self.__properties = dict()
-        self.__properties['mass'] = 0.0
-        self.__propulsion = None
+    def __init__(self, properties):
 
-    @property
-    def mass(self):
-        return self.__properties['mass']
+        if properties is None:
+            self.__properties = dict()
+            self.__properties['mass'] = 0.0
+        else:
+            self.__properties = properties
+       
+    def get_property(self, name):
+        return self.__properties[name]
 
-    @mass.setter
-    def mass(self, value):
-        self.__properties['mass'] = value
+    def set_property(self, name, value):
+        self.__properties[name] = value
 
     @property
     @abstractmethod
