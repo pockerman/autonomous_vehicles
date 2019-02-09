@@ -47,8 +47,6 @@
 - **Taxonomy of Driving:** https://www.sae.org/standards/content/j3016_201806/?PC=DL2BUY
 - **SAE J3016 Taxonomy and Definitions Document:** https://drive.google.com/open?id=1xtOqFVJvOElXjXqf4RAwXZkI_EwbxFMg
 
-## TODO List
 
-1. Write introduction for notes: http://www.cds.caltech.edu/~murray/amwiki/index.php?title=Introduction
-2. Check SymPy for symbolic computing in Python: https://www.sympy.org/en/index.html
+
 
