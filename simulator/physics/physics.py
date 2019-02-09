@@ -1,6 +1,7 @@
 
 import numpy as np
 
+
 class Physics(object):
 
     @staticmethod

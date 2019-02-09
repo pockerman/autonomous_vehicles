@@ -14,7 +14,7 @@ class VehicleBase(ABC):
             self.__properties['mass'] = 0.0
         else:
             self.__properties = properties
-       
+
     def get_property(self, name):
         return self.__properties[name]
 

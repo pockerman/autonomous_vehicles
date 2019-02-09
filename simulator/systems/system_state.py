@@ -31,6 +31,10 @@ class SysState(object):
     def get_state_value_by_idx(self, idx):
         return self.__state_value[idx]
 
+    def set_state_value_by_name(self, name, value):
+        idx = self.__state_data[name]
+        self.__state_value[idx] = value
+
     def get_state_value_by_name(self, name):
         idx = self.__state_data[name]
         return self.__state_value[idx]
