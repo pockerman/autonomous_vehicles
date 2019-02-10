@@ -18,6 +18,10 @@ class ODEIntegratorBase(ABC):
         ABC.__init__(self)
         self.__history_size = 0
         self.__history = []
+        self.__rhs_func = None
+
+        if 'rhs_func' in kwargs.keys():
+            self.__rhs_func = kwargs['rhs_func']
 
         if 'step_size' in kwargs.keys():
             self.__step_size = kwargs['step_size']
@@ -43,6 +47,19 @@ class ODEIntegratorBase(ABC):
     @step_size.setter
     def step_size(self, value):
         self.__step_size = value
+
+    @property
+    def rhs_func(self):
+        if self.__rhs_func is None:
+            raise ValueError("Right hand side has not been set")
+        return self.__rhs_func
+
+    @rhs_func.setter
+    def rhs_func(self, value):
+        self.__rhs_func = value
+
+    def has_rhs_func(self):
+        return self.__rhs_func is not None
 
     def update_history(self, idx, value):
 

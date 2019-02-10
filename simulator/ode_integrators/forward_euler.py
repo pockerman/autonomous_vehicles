@@ -22,7 +22,13 @@ class ODEScalarFWDEuler(ODEIntegratorBase):
     def execute(self, **kwargs):
 
         # get the callable to calculate the rhs
-        f = kwargs['f']
+        if self.has_rhs_func():
+            f = self.rhs_func
+        elif 'f' in kwargs.keys():
+            f = kwargs['f']
+        else:
+            raise ValueError("Right hand side function has not been defined")
+
         yn = self.get_history(0)
         new = yn + self.step_size*f(**kwargs)
         yn = new
@@ -51,7 +57,14 @@ class ODEVectorFWDEuler(ODEIntegratorBase):
     def execute(self, **kwargs):
 
         # get the callable to calculate the rhs
-        f = kwargs['f']
+        # get the callable to calculate the rhs
+        if self.has_rhs_func():
+            f = self.rhs_func
+        elif 'f' in kwargs.keys():
+            f = kwargs['f']
+        else:
+            raise ValueError("Right hand side function has not been defined")
+
         yn = self.get_history(0)
         new = yn + self.step_size*f(**kwargs)
         yn = new
