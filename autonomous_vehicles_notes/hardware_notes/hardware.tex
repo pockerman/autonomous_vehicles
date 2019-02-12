@@ -367,4 +367,88 @@ both long-range sensors for longitudinal dangers and wide field of view sensors 
 The final choice of configurations also depends on our requirements for operating conditions, sensor redundancy due to failures and on budget. 
 There is no single answer to which sensors are needed for a self-driving car. 
 
+\section{Questions}
+\label{questions_hardware_for_self_driving_cars}
+
+\begin{enumerate}
+\item What are the differences between exteroceptive sensors and proprioceptive sensors? (Select all that apply)
+	\begin{enumerate}
+		\item Proprioceptive sensors do not interact with the environment, whereas exteroceptive sensors do.
+		\item Proprioceptive sensors can determine distance traveled by the vehicle, whereas exteroceptive sensors cannot.
+		\item Exteroceptive sensors can determine obstacle size and distance away, whereas proprioceptive sensors cannot.
+		\item Proprioceptive sensors are used to determine vehicle position, whereas exteroceptive sensors are used for sensing the environment.
+		\item Exteroceptive sensors can determine distance traveled by the vehicle, whereas proprioceptive sensors cannot.
+	\end{enumerate}
+	
+\item Which of the following exteroceptive sensors would you use in harsh sunlight?
+	\begin{enumerate}
+		\item Sonar
+		\item Cameras
+		\item Radar
+		\item Lidar
+	\end{enumerate}
+\item Why is synchronization and timing accuracy important in the self driving system? Choose the primary reason.
+	\begin{enumerate}
+		\item Synchronization is important to ensure that sensors measure the environment at the same time.
+		\item Synchronization is important to ensure organized computation.
+		\item Synchronization is important to ensure correct sensor fusion.
+		\item Synchronization is important to check sensor failure.
+	\end{enumerate}
+\item Your autonomous vehicle is driving on the German autobahn at $150km/h$ and you wish to maintain safe following distances with other vehicles. 
+		Assuming a safe following distance of $2s$,  what is the distance (in m) required between vehicles? Round your answer to 2 decimal places.
+		
+\item Using the same speed of $150km/h$, what is the braking distance (in m) required for emergency stops? 
+	  Assume an aggressive deceleration of $5m/s^2$. Round your answer to two decimal places.
+\item Suppose your vehicle was using long range cameras for sensing forward distance, 
+	but it is now nighttime and the images captured are too dark. Which of the following sensors can be used to compensate?
+	\begin{enumerate}
+		\item Lidar
+		\item IMU
+		\item Radar
+		\item Sonar
+	\end{enumerate}
+\item What are the differences between an occupancy grid and a localization map? (Select all that apply)
+	\begin{enumerate}
+		\item The localization map is primarily used to estimate the vehicle position, whereas the occupancy grid is primarily used to plan collision free paths.
+		\item The localization map uses only lidar data, whereas the occupancy grid can use both lidar and camera data.
+		\item An occupancy grid uses a dense representation of the environment, whereas a localization map does not need to be dense.
+		\item The occupancy grid only contains static objects, while the localization map contains only dynamic objects.
+	\end{enumerate}
+\item The vehicle steps through the software architecture and arrives at the controller stage. 
+		What information is required for the controller to output its commands to the vehicle?
+		\begin{enumerate}
+			\item Planned paths
+			\item Vehicle state
+			\item Locations of obstacles and other vehicles
+			\item Environment maps
+		\end{enumerate}
+\item What is (are) the role(s) of the system supervisor? (Select all that apply)
+	\begin{enumerate}
+		\item To ensure that the maps update at the correct frequencies
+		\item To ensure that the planned paths are collision free
+		\item To ensure that the controller outputs are within operating range
+		\item To ensure that the sensors are working correctly
+	\end{enumerate}
+\item Which of the following tasks should be assigned to the local planner?
+	\begin{enumerate}
+		\item Planning a merge onto the highway
+		\item Planning a route to a destination
+		\item Planning a lane change to turn left
+		\item Planning to avoid a parked car in the ego vehicle's lane 
+	\end{enumerate}
+\item What common objects in the environment appear in the occupancy grid?
+	\begin{enumerate}
+		\item Other moving vehicles
+		\item Lane boundaries
+		\item Parked vehicles
+		\item Traffic lights
+	\end{enumerate}
+\item Which of the following maps contain roadway speed limits?
+	\begin{enumerate}
+		\item Occupancy grid
+		\item Localization map
+		\item Detailed roadmap
+	\end{enumerate}
+\end{enumerate}
+
 
