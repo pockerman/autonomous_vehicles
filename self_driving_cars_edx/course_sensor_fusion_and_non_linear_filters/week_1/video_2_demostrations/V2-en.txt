@@ -1,0 +1,234 @@
+
+Now let's look at three applications
+where we use the type of methods that you
+will learn in this course and apply them
+to real sensor observations.
+This first example concerns tracking vehicles
+using observations from a mono camera
+and comes from this paper by Samuel Scheidegger in 2018.
+The aim is to estimate the 3D position and velocity
+of vehicles from a sequence of images.
+Much in the same way as we did in our previous illustration,
+but with actual camera observations.
+The observations that are used come
+from a convolutional neural network
+which is trained to detect vehicles
+and to report a 2D bounding box of the vehicles in the image,
+as illustrated by these colored boxes,
+as well as the distance to the object.
+As we discussed previously, using a single camera,
+we cannot directly measure the distance to the vehicle.
+The distance reported by the network is therefore, instead,
+based on learned scale and appearance cues,
+and can sometimes be a bit noisy.
+However, by filtering these observations
+in a so-called unscented Kalman filter, which
+you will learn about in this course,
+we can get better and less noisy estimates
+of where the vehicles are.
+So what we will see to the left is the original image
+where the bounding boxes of the detected vehicles
+are shown in separate colors.
+To the right is a bird's eye view of the situation,
+centered at the camera.
+The detection from the camera is shown as white stars.
+And the result of our filter is shown as these colored ellipses
+with the same color as the bounding boxes in the image.
+And the plus in the middle here indicates our estimated
+position.
+And the star is the actual positions of the vehicles.
+So ideally, we want our estimate, the plus markers,
+to be as close as possible to the true position
+of the vehicles, the stars, which
+would mean that our guess of where the vehicle is,
+is accurate.
+Now, when we start playing the video,
+we will also illustrate the trace of the vehicle
+to show the filtered and true vehicle trajectories over time.
+Now, let's view the result. What we
+see here is that our filter manages
+to filter the noisy detections from the camera
+and over time gets more and more certain about the position
+of the vehicles.
+
+Pretty nice, right?
+The next example that we're going to look at
+is related to the geometry of the road ahead of our host
+vehicle.
+This work was published in this paper from 2016,
+where we used observations from a radar and a camera
+to try to estimate the geometry or shape of the road
+up to 200 meters ahead of our host vehicle
+in highway scenarios.
+Now from the camera, we get information
+about the shape of the lane markings, of the current lane.
+These are shown here as red dashed lines.
+Typically, the camera is able to detect
+the lane markings up to roughly 50 to 60 meters,
+but sometimes shorter.
+The length of these lines indicate
+how far ahead the lane geometry from the camera is valid.
+From the radar, we mainly get two things.
+First, we get the relative position and velocity
+of other vehicles.
+These are shown here as these blue dots
+where the arrow indicates the velocity vector.
+The second thing that we get is stationary detections
+from the roadside objects, such as guardrails or barriers,
+as shown here.
+So how can we use this to estimate
+the geometry of the road?
+Well, the lane markings coming from the camera
+is directly related to the shape of the road, right?
+But in best case, it's only valid up to roughly 50,
+60 meters, which is not enough.
+The radar, on the other hand, can see much further
+and typically reports objects up to 200 meters or more.
+However, the radar cannot measure the geometry
+of the road directly.
+What it can do is to measure the position and velocity
+of the other vehicles that are traveling on the road.
+And as they are traveling on the road,
+their velocity vector should be roughly parallel to the road,
+right?
+Similarly, the reflection from the guardrail shown here
+should also align and be roughly parallel to the road as well.
+So what we have done is to construct sensor models
+saying that a camera can measure the road up to 50, 60 meters,
+that the vehicles that are detected by the radar
+should drive approximately parallel to the road.
+If we are able to detect a guardrail,
+this guardrail should be approximately
+parallel to the road as well.
+Now, if we assume that we can describe
+the shape of the road using a so-called clothoid spline, so
+a mathematical model of the road geometry,
+we can then estimate the parameters
+of this spline using our sensor models
+and our observations in an unscented Kalman filter.
+The resulting clothoid spline is shown here
+as this magenta-colored line, where
+our uncertainty in the shape of the road
+is shown as these error ellipses at the splinoids.
+The black lines here indicate that we
+have detected a guardrail at these distances
+perpendicular to the road.
+
+The blue dots here is the ground truth position
+of the middle of the host lane, which
+is what we like to describe.
+We will plot the results having our host vehicle at the origin,
+always pointing to the right.
+
+So if we run our filter, it could look something like this.
+
+Here we see that we're able to fairly accurately describe
+the shape of the road at also far distances,
+by including information about the direction in which
+the leading vehicles are traveling
+and the shape of the detected guardrails.
+
+What's happening here is that we get limited information
+about the shape of the road at 200 meters,
+so we assume that the road is still
+bending when it's actually starting to straighten out.
+We should also note that our uncertainty increases here.
+Once we get new observations telling the filter
+that the road has straightened out, our filter quickly adapts.
+
+The third example of how we can use the methods that you will
+learn in this course is related to the problem
+of self-localization.
+Let's say that we have an autonomous vehicle which
+should navigate on its own in this type of city environment.
+Well, it would surely be beneficial to have
+some kind of map to navigate by, and that our vehicle is
+able to position itself in this map, such
+that it knows when it's time to make
+a right at this intersection here, for example.
+One possible such map could be a semantic 3D point cloud map.
+Now this is a 3D point cloud where
+each point is labeled by the semantic class of the object
+at that specific position.
+This label could, for example, be road, sidewalk, building,
+tree, and so on.
+This type of map can be constructed
+from a sequence of semantically segmented street view images
+using structure from motion and multiview stereo algorithms.
+But this is not the focus of this course.
+So for our little piece of a city,
+the map could look something like this.
+So here we see that we have points labeled
+as road, sidewalk, buildings, trees, vegetation,
+and some other smaller classes.
+So let's now assume that this is our map
+and that we would like to position ourself in this map.
+Now, we've said that this is a 3D point cloud map, which
+means that each point has a 3D position
+and that we can view this map from any post, that is,
+position and heading of our host vehicle.
+
+The idea of how to localize our vehicle in this type of map
+is simple.
+What we will present here is based on this paper
+by Erik Stenborg et al. from 2018.
+Now, assume that we have a camera on our vehicle
+that can observe this scene.
+We can then try to align our pose such
+that if we project our semantic 3D map onto our camera image,
+our building points will fall on buildings
+and our tree points will land on trees, and so on.
+Now here is one such image from a camera
+observing the same scene as our map,
+where we have semantically labeled each pixel in the image
+with the same classes that we have in our map.
+We do this by using a deep convolutional neural
+network that takes an ordinary image as input,
+and outputs a semantic label of each pixel.
+In the image to the right, we have
+overlaid the semantic image on the original image where
+we can see that the network manages to fairly well label
+each pixel.
+Additionally, a subset of our map points
+are projected onto our image.
+And as we can see, our black building points
+fall on buildings and our green tree points land
+on trees, for example.
+This would indicate that the pose that we
+have used to project our map onto our image
+matches well with the actual pose of the camera.
+So how can we use this to position our autonomous
+vehicle?
+Well, one way is to use a so-called particle
+filter, which we will learn all about in this course.
+Using a particle filter, we would
+represent the pose of our vehicle, so position
+and heading, using a whole bunch of more or less randomly chosen
+particles.
+Now, each particle-- here shown in yellow in the figure
+to the left--
+describes one possible pose of our vehicle, or actually
+a whole vehicle trajectory.
+But let us not focus on that right now.
+Each particle is then rated by how well
+it explains our observations.
+So how well a projection of our map, using that particles pose,
+matches with our semantically segmented images.
+The particle that matches the best will then
+get a high score and the particles
+where the projected map and the semantic segmentation matches
+poorly will get a low score.
+When we now run our particle filter,
+we will see the position of the particles in yellow
+in this bird's eye view of our semantic 3D point cloud map
+to the left.
+And to the right, we will see the semantic segmentation
+of our current image and the projected map points
+for the best scoring particle.
+The green triangle to the left represents the actual position
+of the vehicle.
+What we can see with this type of filter
+is that our uncertainty is described
+by how spread out our particles are,
+which is a bit different than the other methods
+that we will learn in this course.
