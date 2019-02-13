@@ -85,7 +85,14 @@ class VehicleDynamics(DynamicsBase):
         self.__state.set_state_value_by_name(name='y', value=y_c)
         theta = self.get_integrator("theta").execute(**kwargs)
         self.__state.set_state_value_by_name(name='theta', value=theta)
-        #delta = self.get_integrator("delta").execute(**kwargs)
+
+        if 'integrate_delta' in kwargs.keys():
+
+            delta = self.get_integrator("delta").execute(**kwargs)
+            self.__state.set_state_value_by_name(name='delta', value=delta)
+        else:
+            delta = self.get_integrator("delta").get_history(0)
+            self.__state.set_state_value_by_name(name='delta', value=delta)
 
 
 
@@ -117,66 +124,182 @@ class Vehicle(VehicleBase):
         self.__dynamics.execute(**kwargs)
 
 
+def do_test(t_data, sample_time, use_slip, integrate_delta, angular_velocity_data=None, velocity_data=None):
 
-def test_1():
+    #sample_time = 0.01
+    #time_end = 20
 
-    sample_time = 0.01
-    time_end = 20
-
-    t_data = np.arange(0, time_end, sample_time)
+    #t_data = np.arange(0, time_end, sample_time)
     x_data = np.zeros_like(t_data)
     y_data = np.zeros_like(t_data)
-    v_data = np.zeros_like(t_data)
 
-    vehicle_properties = {"L": 2, "lr": 1.2, "w_max":1.22}
+    vehicle_properties = {"L": 2, "lr": 1.2, "w_max": 1.22}
+    delta_init  = np.arctan(2 / 10)
 
-    init_condition = {"x": 0.0, "y": 0.0, "theta": 0.0, 'delta': 0.0}
+    if angular_velocity_data is not None:
+        delta_init = 0.0
+
+    init_condition = {"x": 0.0, "y": 0.0, "theta": 0.0, 'delta': delta_init}
     model = Vehicle(properties=vehicle_properties, sample_time=sample_time, init_condition=init_condition)
 
-    # set delta directly
-    model.delta = np.arctan(2 / 10)
-
     kwargs = dict()
-
-    # Use this to control whether sideslip is accounted for
-    use_slip = True
+    kwargs['integrate_delta'] = integrate_delta
     time = 0.0
+
     for i in range(t_data.shape[0]):
         print("At time: %f" % time)
 
-        #x_data[i] = model.xc
-        #y_data[i] = model.yc
-
-
-        #model.step(np.pi, 0)
-
         if use_slip:
-            delta = model.state.get_state_value_by_name("delta")
+            delta = model.state.get_state_value_by_name("delta") #get_old_state("delta", 0)
             lr = model.get_property("lr")
             L = model.get_property("L")
-            kwargs['beta'] = (lr*math.tan(delta))/L
+            kwargs['beta'] = (lr * math.tan(delta)) / L
         else:
             kwargs['beta'] = 0.0
 
-        kwargs['v'] = np.pi
+        if velocity_data is not None:
+            kwargs['v'] = velocity_data[i]
+        else:
+            kwargs['v'] = np.pi
+
         kwargs['omega'] = 0.0
 
+        if integrate_delta == True:
+
+            if angular_velocity_data is not None:
+                kwargs['omega'] = angular_velocity_data[i]
+            else:
+                delta = model.state.get_state_value_by_name("delta")
+                if delta < np.arctan(2/10):
+                    kwargs['omega'] = model.get_property("w_max")
+
         model.execute(**kwargs)
+        x = model.state.get_state_value_by_name("x")
+        y = model.state.get_state_value_by_name("y")
 
-
-        # model.beta = 0
+        x_data[i] = x
+        y_data[i] = y
         time += sample_time
-    plotter = TwoDPlotter(xlabel="Time in secs", ylabel="Velocity")
-    plotter.plot(x=t_data, y=v_data)
-    plotter.show_plots(show_grid=True)
 
-    #plt.axis('equal')
-    #plt.plot(x_data, y_data)
-    #plt.show()
+    return x_data, y_data
 
+def test_1():
+
+    """
+    Assumes that the steering angle is set directly.
+    The vehicle then should execute a circular path
+    """
+    sample_time = 0.01
+    time_end = 20
+    t_data = np.arange(0, time_end, sample_time)
+
+    x_data_slip, y_data_slip = do_test(t_data=t_data, sample_time=sample_time, use_slip=True, integrate_delta=False)
+    x_data_no_slip, y_data_no_slip = do_test(t_data=t_data, sample_time=sample_time, use_slip=False, integrate_delta=False)
+    plotter = TwoDPlotter(xlabel="X-coordinate", ylabel="Y-coordinate")
+
+    plotter.plot(x=x_data_slip, y=y_data_slip, label="vehicle position with slip")
+    plotter.plot(x=x_data_no_slip, y=y_data_no_slip, label="vehicle position no slip")
+    plotter.show_plots(show_grid=True, show_legend=True)
+
+
+def test_2():
+    """
+    test by setting the angular velocity instead of the steering angle
+    """
+
+    sample_time = 0.01
+    time_end = 20
+    t_data = np.arange(0, time_end, sample_time)
+
+    x_data, y_data = do_test(t_data=t_data, sample_time=sample_time, use_slip=False, integrate_delta=True)
+
+    plotter = TwoDPlotter(xlabel="X-coordinate", ylabel="Y-coordinate")
+    plotter.plot(x=x_data, y=y_data, label="vehicle position with angular velocity")
+    plotter.show_plots(show_grid=True, show_legend=True)
+
+def test_square_path():
+
+    sample_time = 0.01
+    time_end = 60
+
+    t_data = np.arange(0, time_end, sample_time)
+    w_data = np.zeros_like(t_data)
+
+    # ==================================
+    #  Square Path: set w at corners only
+    # ==================================
+    w_data[670:670 + 100] = 0.753
+    w_data[670 + 100:670 + 100 * 2] = -0.753
+    w_data[2210:2210 + 100] = 0.753
+    w_data[2210 + 100:2210 + 100 * 2] = -0.753
+    w_data[3670:3670 + 100] =  0.753
+    w_data[3670 + 100:3670 + 100 * 2] = -0.753
+    w_data[5220:5220 + 100] = 0.753
+    w_data[5220 + 100:5220 + 100 * 2] = -0.753
+
+    # maintain velocity at 4 m/s
+    v_data = np.zeros_like(t_data)
+    v_data[:] = 4
+
+    x_data, y_data = do_test(t_data, sample_time=sample_time, use_slip=False, integrate_delta=True, angular_velocity_data=w_data, velocity_data=v_data)
+
+    plotter = TwoDPlotter(xlabel="X-coordinate", ylabel="Y-coordinate")
+    plotter.plot(x=x_data, y=y_data, label="vehicle position with angular velocity")
+    plotter.show_plots(show_grid=True, show_legend=True)
+
+def test_square_wave_path():
+
+    sample_time = 0.01
+    time_end = 60
+
+    t_data = np.arange(0, time_end, sample_time)
+    w_data = np.zeros_like(t_data)
+
+    w_data[:] = 0
+    w_data[0:100] = 1
+    w_data[100:300] = -1
+    w_data[300:500] = 1
+    w_data[500:5700] = np.tile(w_data[100:500], 13)
+    w_data[5700:] = -1
+
+    # maintain velocity at 4 m/s
+    v_data = np.zeros_like(t_data)
+    v_data[:] = 4
+
+    x_data, y_data = do_test(t_data, sample_time=sample_time, use_slip=False, integrate_delta=True,
+                             angular_velocity_data=w_data, velocity_data=v_data)
+
+    plotter = TwoDPlotter(xlabel="X-coordinate", ylabel="Y-coordinate")
+    plotter.plot(x=x_data, y=y_data, label="vehicle position with angular velocity")
+    plotter.show_plots(show_grid=True, show_legend=True)
+
+def test_figure_8_trajectory():
+
+
+    sample_time = 0.01
+    time_end = 30
+
+    t_data = np.arange(0, time_end, sample_time)
+    v_data = np.zeros_like(t_data)
+    w_data = np.zeros_like(t_data)
+
+    # maintain constnat velocity
+    v_data[:] = (2.0*np.pi*8.0)/time_end
+    w_data[:] = 1.22
+
+    x_data, y_data = do_test(t_data, sample_time=sample_time, use_slip=False, integrate_delta=True,
+                             angular_velocity_data=w_data, velocity_data=v_data)
+
+    plotter = TwoDPlotter(xlabel="X-coordinate", ylabel="Y-coordinate")
+    plotter.plot(x=x_data, y=y_data, label="vehicle position with angular velocity")
+    plotter.show_plots(show_grid=True, show_legend=True)
 
 if __name__ == '__main__':
-    test_1()
+    # test_1()
+    #test_2()
+    #test_square_path()
+    #test_square_wave_path()
+    test_figure_8_trajectory()
 
 
 
