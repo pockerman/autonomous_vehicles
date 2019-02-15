@@ -9,3 +9,6 @@ simulator/.idea
 simulator/applications/.ipynb_checkpoints/*
 autonomous_vehicles_notes/state_feedback_notes/notes.aux
 autonomous_vehicles_notes/state_feedback_notes/notes.toc
+simulator/application_notebooks/.ipynb_checkpoints/decision_trees-checkpoint.ipynb
+simulator/application_notebooks/.ipynb_checkpoints/least_squares_p1-checkpoint.ipynb
+simulator/application_notebooks/.ipynb_checkpoints/support_vector_machines-checkpoint.ipynb
