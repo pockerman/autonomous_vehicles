@@ -1,0 +1,198 @@
+
+In this video, we are going to introduce
+one of the more important tools that
+is needed to do Bayesian inference,
+and that is Bayes' rule.
+Additionally, we will show how we can apply it
+in a simple toy example involving picking fruits
+from an urn.
+If you remember the three steps involved in a Bayesian method
+that we discussed in the previous video,
+this would relate to the second step--
+the measurement update.
+Here is our toy example, where we're
+going to select a fruit from one of these urns.
+We start by selecting from which urn we are
+going to pick our fruit from--
+either the blue urn or the red one--
+and we do so with equal probability.
+It's a 50% chance we'll pick the red one and a 50% chance
+that we'll pick the blue one.
+From whichever urn that we choose,
+we pick a fruit without looking.
+Simple enough, right?
+The question that we would like to answer,
+using Bayesian statistics, is that,
+if we picked an orange, what is the probability that we
+chose the red urn to pick from?
+To answer this question, we should first
+go through some Bayesian statistics.
+Bayesian statistics is simple.
+We only need two rules.
+The first is called conditional probability,
+or, the product rule.
+It states that we can always decompose the joint probability
+of two random variables as a product with two factors.
+In this case, we have two random variables, y and theta.
+The product rule then states that we can always
+factorize this joint probability as the conditional probability
+of y given theta, times the probability of theta.
+Note that the order here does not matter,
+and we can always factorize it in the other way around.
+
+We can factorize it as the probability of theta given y,
+times the probability of y.
+
+The second rule is called the law of total probability,
+or the sum rule, which states that we
+can find the marginal distribution
+of a random variable by summing the joint probability
+over all possible outcomes of the random variable
+that we're not interested in.
+In this case here, we're interested in probability mass
+function of a discrete random variable, y,
+which you can find from the joint probability of y
+and theta by summing this joint probability
+over all possible values of theta.
+This is also called marginalizing our theta,
+as we are essentially removing the influence of theta
+from the joint, to get a marginal distribution of just
+y.
+For continuous random variables, the summation
+is exchanged with integration, but the concept
+is all the same.
+Bayes' rule, which we will be using extensively
+in this course, is basically a consequence
+of conditional probability.
+Remember that conditional probability
+allowed us to decompose the joint probability of y
+and theta in two ways--
+either as the probability of y given
+theta, times the probability of theta, or the other way around.
+As both of these express the same joint probability,
+there must be an equal sign here.
+If we consider this equality and divide both sides by p of y,
+we basically get Bayes' rule.
+Bayes' rule states that p of theta given y
+can be written as p of y given theta, times p
+of theta, divided by p of y.
+Note that this gives us the ability
+to switch conditional probabilities, in that we can
+express the conditional probability of theta given
+y in terms of the probability of y
+given theta and some other factors here which are usually
+fairly simple.
+This is the main usage of Bayes' rule.
+It allows us to express a relation of interest,
+p of theta given y, so the probability of the quantity
+of interest, theta, given our observation-- which, in our toy
+example would be the probability that we have chosen
+a particular urn, given that we observed
+that we have picked an orange.
+We can express this in terms of a relation that we know,
+which is p of y given theta.
+In our toy example, being the probability
+of picking a certain fruit, given
+that we know which urn we pick from,
+we should also note that the factor in our denominator,
+p of y, can be found using the law of total probability
+like this.
+Express it in terms of these factors here.
+Let's use this to solve our toy example.
+We let theta be the quantity of interest--
+which in this case is the color of the urn that we picked
+our fruit from--
+where r indicates that we picked from a red run
+and b that we picked from the blue.
+Further, we let y be our observation, which in this case
+is which fruit we picked--
+o as an orange and a for an apple.
+If we remember, the question is, if we
+know that we picked an orange--
+so, y equals to o--
+what is the probability that we picked
+the orange from the red urn--
+which in this notation would mean that theta equals r.
+If we express this mathematically,
+we would like to calculate the conditional probability
+that theta equals r, given that y equals o,
+which we write like this.
+Probability of theta equals r, given that y equals o.
+
+We are not able to calculate this probability directly
+from what we know, however, without making
+any observations we know that there is a 50% chance
+that we have chosen the red urn.
+The probability of theta being r is equal to one half.
+Also, if we know that we picked the fruit from the red urn,
+we can calculate the probability of picking orange,
+as we see that there are six oranges in the red urn and two
+apples.
+The probability of picking an orange from the red urn
+would be 6/8, or 3/4.
+Mathematically, we would write this as probability of y
+being equal to orange, condition on we picked from the red urn,
+and this is 3/4.
+How can we use this to express the probability
+that we're interested in?
+Well, if we use Bayes' rule, we can reverse the conditioning
+here so that we get a term where these two factors have switched
+places, which is exactly what we have right here.
+Let's try this out.
+Using Bayes' rule, we get--
+
+So, we see that we get this factor here,
+which is the probability that we pick
+an orange if we know that we choose from the red urn--
+which we know to be 3/4--
+and this factor, which is the probability
+that we have chosen the red urn without making
+any observations.
+This is one half, and then we get this factor here,
+which is a marginal probability of choosing an orange.
+We know this one, we know this one--
+how can we calculate this one?
+We can use one of the rules that we
+know, the law of total probability, which
+states that the marginal p of y equal to orange--
+the marginal probability that we pick an orange--
+is the probability of picking orange from the red urn, which
+is expressed by the joint probability,
+plus the joint probability that we have picked
+an orange from the blue urn.
+
+Now we can calculate these using the product rule, which
+means that we decompose these into two factors which
+are similar to the decomposition here.
+For the first, we get the probability
+of picking an orange--
+given that we're picking from the red urn, which is 3/4--
+times the probability that we're picking from a red urn, which
+is one half.
+
+Similarly, for the second term, we
+get the probability of picking an orange, given that we
+are picking from the blue urn--
+as in the blue urn, there are only one orange
+and four fruits in total--
+times the probability of picking the red urn, which is one half,
+again.
+If we sum this up we see that this becomes one half.
+When you put it all together to calculate
+the probability that we have chosen the red urn--
+given that we observe that we pick an orange--
+we see that this is the probability
+of picking an orange from the red urn, which
+is 3/4, times the probability that we are picking
+from the blue urn, which is one half, divided
+by the marginal probability that we are picking an orange,
+which we have calculated using the law of total probability
+and conditional probability, to be one half.
+If we solve this, we see that these cancel out
+and we get the probability to 3/4.
+The probability that we picked a fruit from the red urn,
+given that we picked an orange, is 3/4.
+We use Bayes' rule to calculate the conditional probability
+using terms that we could more easily calculate,
+or express, using conditional probability and the law
+of total probability.
