@@ -13,3 +13,9 @@ class ErrLogger(object):
             self.__errors[err.type].append(err)
         else:
             self.__errors[err.type]= [err]
+
+    def n_errors(self):
+        return len(self.__errors)
+
+    def error_exists_for_type(self, type):
+        return type in self.__errors.keys()

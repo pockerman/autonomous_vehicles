@@ -4,18 +4,17 @@ class that models the Odisseus vehicle
 
 from vehicle.vehicle_base import VehicleBase
 from dynamics.differential_drive_dynamics import DiffDriveDynamics
-from sensors.sensor_assembly import SensorAssembly
 from sensors.sensor_controller import SensorController
-from error_report.error_logger import ErrLogger
 
 class Odisseus(VehicleBase):
 
     def __init__(self, properties):
         VehicleBase.__init__(self, properties=property)
-        self.__error_logger = ErrLogger()
+        self.__error_logger = properties['error_logger']
         self.__dynamics = DiffDriveDynamics()
-        self.__sensors = SensorAssembly()
-        self.__sensor_controller = SensorController(err_logger=self.__error_logger)
+        self.__sensors = properties['sensor_assembly']
+        self.__sensor_spec = properties['sensor_specification']
+        self.__sensor_controller = SensorController(err_logger=self.__error_logger,sensor_spec=self.__sensor_spec)
 
     @property
     def state(self):
@@ -33,7 +32,8 @@ class Odisseus(VehicleBase):
 
     def poll_sensors_and_report(self, **kwargs):
 
-        for sensor in self.__sensors:
+        sensors = self.__sensors.get_sensors()
+        for sensor in sensors:
             self.__sensor_controller.filter(sensor)
 
     def execute(self, **kwargs):
