@@ -12,3 +12,5 @@ autonomous_vehicles_notes/state_feedback_notes/notes.toc
 simulator/application_notebooks/.ipynb_checkpoints/decision_trees-checkpoint.ipynb
 simulator/application_notebooks/.ipynb_checkpoints/least_squares_p1-checkpoint.ipynb
 simulator/application_notebooks/.ipynb_checkpoints/support_vector_machines-checkpoint.ipynb
+simulator/application_notebooks/.ipynb_checkpoints/*
+simulator/application_notebooks/utilities/__pycache__/

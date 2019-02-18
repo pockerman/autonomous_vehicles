@@ -5,7 +5,10 @@ defining a few key terms. Localization is the method
 by which we determine the position and orientation
 of a vehicle within the world. As you can probably imagine, accurate localization
 is a key component of any self-driving car software stack. If we want to drive autonomously, we certainly need to know where we are. To accomplish this, we
-can use state estimation. This is the process of
+can use state estimation. 
+
+
+This is the process of
 computing a physical quantity like position from a set of measurements. Since any real-world measurements
 will be imprecise, we will develop methods that
 try to find the best or optimal value given some assumptions about our sensors and the external world. Related to state estimation is
