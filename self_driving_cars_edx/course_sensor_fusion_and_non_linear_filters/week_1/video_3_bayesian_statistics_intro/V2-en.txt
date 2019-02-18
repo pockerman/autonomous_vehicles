@@ -1,0 +1,250 @@
+
+Welcome to this section, where we will give an introduction
+to Bayesian statistics.
+Besides being one of my favorite subjects,
+the theory of Bayesian statistics
+also underline all nonlinear filtering
+and sensor fusion methods that we will present in this course.
+Although you can easily spend years studying
+all the facets of it, our aim for this section
+is to give you a basic understanding
+of the concepts which Bayesian statistics is built upon.
+In this first lecture, we will focus
+on giving you more of an overview of the subject,
+without going into too much details.
+So what is Bayesian statistics?
+Well, it's a statistical inference framework,
+which means that we can use it to make decisions or draw
+conclusions regarding some parameters of interest using
+data where there is typically some inherent uncertainty
+in the data.
+A typical example is that the data is imperfect and noisy
+and can thus not give us exact information regarding
+what we are interested in.
+Instead, we want to use Bayesian statistics to try
+to extract as much good information as possible
+from our noisy observations.
+In many ways, Bayesian statistics
+is a very flexible framework, which
+can be used for many different types of decisions.
+For example, the same basic theory and methods
+can be used for estimation, classification, detection,
+and model selection, and so forth.
+The key characteristic being that, whatever problem that
+we are facing, the unknown quantities
+are described as random.
+This could, for example, be the type of disease of a patient,
+the transmitted message in a communication system,
+the temperature in the cylinder in an engine,
+or the intention of a driver in a traffic situation.
+To make things a bit more concrete,
+let's look at using Bayesian statistics
+in a medical application.
+Let's say that we want to analyze
+the disease of a patient.
+In this case, the quantity of interest
+that we want to apply Bayesian statistics to try
+to make a decision on is the disease of the patient.
+Let's denote the variable that describes the disease as theta.
+To help us make decisions regarding
+the disease of the patient, we make some observations.
+And we make these observations by collecting and analyzing
+blood samples, taking the temperature of the patient,
+collecting comments by the patients
+on experienced symptoms and so on.
+In many cases, no one of these alone
+will give us the conclusive answer
+to the disease of the patient.
+But if we weigh them together, the picture
+usually becomes a bit clearer.
+And we can use Bayesian statistics to do this.
+An important aspect of Bayesian statistics is that theta--
+the disease of the patient, in this case--
+is described as random.
+So it's a random variable.
+By doing this, we can calculate the probability distribution
+of the disease of the patient based on the observations
+that we have made.
+For example, we can make statements
+like, based on our observations, the patient has
+disease x with 97% probability.
+A possible concern that one can have
+regarding the Bayesian way of viewing things
+is whether it's actually valid to say
+that the disease is random.
+Surely the patient has gotten a disease and not
+any random disease.
+However, there are many advantages
+with viewing the disease as random.
+For example, in many situations, we
+will not be able to determine with 100% certainty which
+disease the patient has.
+By then viewing the disease as random,
+it allows us to also express our uncertainty
+in which type of disease the patient has.
+For example, here, perhaps it's 97% probability
+that the patient has the flu, but with 3% probability
+it's just a common cold.
+When deciding on appropriate action,
+it's surely beneficial to know with which certainty
+a diagnosis can be reached.
+And could you come up with any other advantages?
+Let's look at another example where
+it's common to use Bayesian statistics
+and which we'll use as an inspiration for many
+of our examples in this course.
+And that is automotive examples.
+In this case, we look at self-driving vehicles,
+which rely on their ability to position surrounding
+vehicles in order to safely navigate its surroundings
+and not cause accidents.
+So let's assume that we have a self-driving vehicle, which
+is equipped with a bunch of sensors, that observes
+the traffic situation in front.
+The quantity of interest is then the relative position
+and velocity of the other vehicles at the current time.
+So we want to know the relative position and velocity
+to all of these vehicles here.
+To do this, we'll make use of noisy observations
+from the sensors on the self-driving vehicle.
+This could be wheel speed sensors, or inertial sensors,
+such as accelerometers and gyros,
+on our own vehicles to measure how we are moving.
+But we also need observations that
+give us information about the position of the other vehicles.
+This could, for example, be radar detections,
+which gives us the distance and angle
+to objects, or Lidar point clouds, or camera images
+and so on.
+One aspect I would like to highlight with this application
+is that, in Bayesian statistics, vehicle motions
+are modeled stochastically.
+That is, we describe likely movements of the vehicles using
+stochastic models, which helps us rule out
+unrealistic trajectories.
+If we look at the scenario here in a Bayesian perspective,
+we would say that it's likely that this vehicle here
+moves something like this.
+
+That is, it is following the road more or less.
+And it's unlikely that it will make a sharp U-turn like this.
+Now, one possible concern one could
+have is whether vehicles' motions actually are random,
+and this underlines the basic Bayesian assumptions.
+For completeness, we should mention
+that there are two main strategies to decision making,
+using Bayesian statistics, which we'll focus on in this course,
+and using frequentist statistics.
+The main difference between these two
+are mainly on a philosophical level,
+but which also has consequences on the actual calculations that
+are made and the models that are used.
+So in frequentist statistics, the quantities of interest
+are described as unknown and deterministic and not
+unknown and stochastic or random as in Bayesian statistics.
+As a consequence, in the medical example
+that we discussed earlier, a frequentist
+would not state that, given the observations,
+the patient has a flu with 97% probability
+and the common cold with the 3% probability.
+But will rather say something like, based on observations,
+the patient's most likely has the flu.
+And the differences is that, for a Bayesian,
+the answer is a probability distribution
+of the disease based on our observations,
+while for a frequentist, the answer is
+the most likely disease based on our observations.
+Let us look at another example and try
+to highlight the difference between viewing
+the quantity of interest as unknown but deterministic
+compared to unknown and random.
+Let's say that we wish to estimate
+the height of the Eiffel Tower.
+Is the height random or not?
+Well, in a frequentist perspective,
+the tower has a certain height and it's therefore not random.
+That is, it has some fixed but unknown value.
+Using the Bayesian perspective, we describe our uncertainties
+in the height by viewing it as a random variable
+with a certain probability distribution.
+In a sense, describing the height as random
+becomes a useful tool to incorporate prior information
+that we have about the height of the Eiffel Tower
+before we make any observations.
+I encourage you to think about this yourself.
+What do you think makes most sense and why?
+If you're not fully convinced that the Bayesian perspective
+makes sense, I hope that I will be able to convince you
+during this course.
+I should also mention that, in many cases,
+the frequentist and the Bayesian would end up
+with the same answer, but there are also many cases
+where they would disagree.
+We will now leave the frequentist perspective
+and focus our attention again on Bayesian statistics
+by giving you an overview of the Bayesian strategy.
+So suppose we wish to estimate some quantity of interest-- we
+call this theta, given measurements on theta
+that we call y.
+The key steps in Bayesian methods
+is that we first model everything that we need.
+In this case, we need two models.
+The first model describes what we know about theta
+before making any observations.
+And we do this using what's called a prior, which is
+this distribution p of theta.
+In the example of the Eiffel Tower,
+we would here say that we know that the height of the Eiffel
+Tower is somewhere between 250 and 350 meters.
+And we would describe this knowledge
+using our prior distribution like this.
+So this is some prior knowledge that we
+have about the height of the tower
+before we even make any measurements.
+The second model that we need in this case
+is a probabilistic model of how the measurements
+y relate to theta.
+And we do this using the probability
+density of y condition on that we know theta.
+Note that, as we are often interested in this
+as a function of theta, and that this is not a probability
+density over theta but over y, to make this clear
+we call this the likelihood of theta.
+The second step is to make a measurement update, where
+we combine what we knew from before from this
+prior with our measurements, which
+is described by this density, which we also
+called a likelihood, right?
+We summarize our knowledge about theta
+in what's called a posterior density, which
+is the probability density of theta after we observed y.
+So y is now known.
+Our observation is now known.
+And the final step is to make a decision regarding theta.
+In the example of the Eiffel Tower,
+we would like to make a point estimate of the height.
+That is, we would like to decide on one value of the height
+instead of having this distribution of the height.
+In general, we do Bayesian decision
+making by taking what we know about a parameter theta,
+as described by this posterior density,
+and combine that with a loss function
+that describes what are important aspects
+in our decision.
+The goal is then to compute an optimal decision that
+minimizes the average loss over possible values of theta,
+as described by our posterior density.
+In the Eiffel Tower example, we typically
+would like to find an estimate that is either
+the most probable height or the estimate which, on average,
+if we do this multiple times with new measurements
+every time, has the lowest error.
+We call this the MAP and the MMSE estimates, respectively.
+And we will look at the loss functions
+for these in a later lecture.
+So, in this course, we will mainly
+focus on the second step.
+But we'll also discuss how we derive our models
+and look at standard ways of decision making.
+We wrap things up with a self-assessment question
+for you to think about.
