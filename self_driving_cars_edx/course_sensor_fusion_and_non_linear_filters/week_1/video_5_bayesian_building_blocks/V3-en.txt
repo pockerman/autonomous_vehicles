@@ -1,0 +1,302 @@
+
+In this video, we're going to talk about the basic building
+blocks of Bayesian models.
+It turns out that most Bayesian problems
+have a similar structure.
+It is, therefore, helpful to identify and name
+these common components, such that we can more easily
+express ourselves.
+This will also help us to see how
+we need to address a specific problem at hand.
+We call these building blocks likelihood, priors,
+and posteriors.
+The general problem formulation is
+that we're interested in an unknown parameter, theta,
+which is in some parameter space, capital
+theta, for which we observe some related data, y.
+The type of parameter space that we have
+will determine the type of problem that we have.
+This could, for example, be estimation,
+where theta can take any continuous value--
+either scalar or a vector--
+in which case the parameter space, capital theta,
+is rn, for example.
+Or, it could be detection, where capital theta is either
+minus 1 or 1, indicating if we have detected something
+or if we had not detected something.
+The key assumption in all these problems
+is that we assume that the observed data, y, is
+distributed according to this known conditional distribution
+where we express the observed data, y,
+condition on the parameter of interest, theta.
+For example, let's say y is an observation
+from a radar that is measuring the distance to an object.
+The theta is then the actual distance to the object.
+With this model here, we describe the distribution
+of the radar detection for the case when we know the distance
+to the object.
+That is, in the general setting, we
+are describing how we expect observation
+to behave for a situation when we
+know the actual true value of the parameter of interest,
+theta.
+This is often far easier than trying to do it the other way
+around, where we are describing the distribution of theta
+when we condition on y.
+Now we know the general problem formulation.
+Let's look at two of the common components in a Bayesian model,
+likelihood and prior.
+We start by looking at the likelihood.
+Since a time of inference or observation,
+y, is observed and thus has a fixed value,
+we often view p of y given theta as a function
+of the unknown parameter that we're interested in,
+and that is theta.
+That is, we're typically interested in knowing
+how likely different values of theta
+are now that we have observed y.
+To make it a bit more clear that we
+view this as a function of theta and not y,
+it's common that we use this notation instead.
+So, L of theta given y, where L theta given y
+is called a likelihood function.
+We read this as the likelihood of theta, given y.
+Note that we have switched the order here,
+so, here we have y given theta, but here we
+have theta given y--
+to emphasize that we view this as a function of theta
+and not a function of y.
+Now, we also often speak of this density as our likelihood,
+but then we should be clear that we
+view this as a function of theta,
+and that the likelihood is not a density with respect to theta.
+For example, if we integrate this over all possible values
+of theta, in general, this integral
+would not be 1, which is a requirement for it
+to be a proper density.
+The other common component that we have in Bayesian statistics
+is what we call a prior distribution
+on theta, which is simply the probability
+distribution of theta, p of theta, and nothing else.
+Prior means earlier or before, and p of theta
+describes what we know before making any observations--
+what we know about theta before we do any observations.
+If we return to our medical example,
+where theta would be the disease of the patient, in this case,
+the prior would be the distribution of the disease
+in the general population.
+That is, how relatively common different diseases are.
+This information can, for example,
+help us when the patient's symptoms are vague
+and can fit many different diseases.
+In a Bayesian setting, this prior information
+is combined with the likelihood of the different diseases
+given by our observations, to give us
+what we call the posterior, which we will look at next.
+One of the main objectives in Bayesian statistics
+is to compute the posterior, or the posterior density,
+which in this case, we write as p of theta given y.
+So, posterior means after and p of theta given y
+describes what we know about theta after observing y.
+That is, it summarizes everything
+we know about theta after our observation.
+We can compute the posterior using Bayes rule
+by rewriting it like this--
+p of y given theta, times p of theta, divided by p of y.
+We see that this here is the likelihood, right?
+This here is the prior.
+The normalization factor here, p of y,
+is just a constant, as we have observed y we condition y here,
+so it's a fixed value.
+We're interested in this as a function of theta.
+In many cases, we ignore this normalization factor here
+and just write it as proportional to the likelihood,
+times the prior.
+Let's look at this using a small toy example.
+We'll have a scalar theta and a scalar observation, y.
+Theta could, for example, be the distance to an object
+and y could be a measurement of that distance from a radar
+sensor, for example.
+So, anyway, we have a prior on theta
+saying that theta should be around 4,
+and then we have some uncertainty
+regarding the exact value as indicated
+by the spread of the prior here.
+We have some spread here, which indicate
+uncertainty in the exact value.
+Additionally, we get observations on theta,
+saying that theta should be around 6.
+The most likely value of theta, according to our observation
+alone, is 6, but we also have some uncertainty
+in our measurement as the likelihood indicates
+that it's fairly likely that the value is between 4 and 8.
+Using Bayes' rule, we can find a posterior distribution of theta
+given y that is considering both the prior information that we
+have about probable values of theta as well as likely values
+of theta given by our observation and the resulting
+likelihood function.
+We do this by multiplying the prior with the likelihood,
+and we get this posterior density.
+However, the posterior density is only proportional
+to this product, so to get a proper probability
+density we need to normalize by this proportionality constant.
+There are several ways of doing this.
+For example, as the posterior density is a proper density,
+we can find a constant such that the integral over this product
+becomes 1 over all possible values of theta,
+because that's a requirement for this to be a proper density.
+To summarize, the posterior is proportional to the likelihood
+times the prior.
+We multiply these two together, as a function of theta,
+and then we get the posterior density.
+We need to re-scale the posterior density,
+such that it becomes a proper density.
+Now that we have calculated the posterior density,
+we can start to answer some interesting questions.
+What is the most probable theta?
+Well, if we look at the posterior in our example,
+here we see that the peak of the posterior
+is around theta equal to 5.2.
+This is our most probable value for theta.
+Here is a difference between what a Bayesian would do
+and what a Frequentist would do.
+Whereas a Bayesian would be interested in the most probable
+value of theta, considering both the prior and the likelihood,
+a Frequentist would instead be interested in the most likely
+value of theta as given by the likelihood function.
+The most likely value of theta would be around 6,
+and this is called the maximum likelihood estimate, or MLE,
+whereas the most probable value after observing y
+is called a maximum a posteriori estimate,
+or MAP for short, which is a Bayesian estimate.
+We might also be interested in, what
+is the probability that theta is in some set a?
+Let's say that we have some set a here.
+The probability that theta is in the set
+is simply the integral of the posterior in this region here.
+The area under this graph.
+It's also common that we're interested in knowing
+the posterior mean of theta, which in our example
+here is the same as the most probable value of theta.
+But this is not true in general.
+In addition to all this, we can also formulate optimal decision
+problems.
+We want to minimize our expected cost
+in a decision theoretic manner.
+More on this in a later lecture.
+Let's look at an example where we
+use all these basic components to calculate the posterior
+distribution.
+In this example, we have a scalar parameter, theta,
+for which we observe with some additive noise, v,
+where in this case, v is 0 mean Gaussian
+with standard deviation sigma.
+This means that the likelihood is
+a Gaussian density in y with mean theta
+and standard deviation sigma.
+Note that there is a slight difference in notation
+here and here, where here we actually mean
+the pdf is a function of y, and here we
+are saying that v is distributed according to this Gaussian
+distribution.
+As you might remember, a Gaussian distribution
+is proportional to this expression here.
+We have e to the power of minus, y minus theta squared,
+divided by 2 sigma squared.
+To get equality here, there's just
+this factor, 1 over the square root of 2 pi sigma squared.
+As this does not depend on theta,
+we can ignore it for now.
+As a prior, we will use what is called a non-informative prior
+on theta, where p of theta is just proportional to 1--
+so, constant.
+That is, with this prior we state that all values of theta
+are equally probable.
+We typically use this type of prior
+when we do not have any good prior information regarding
+typical values of theta, or when we want to let data
+have more influence on our knowledge about theta.
+With the problem setting here, what is the posterior?
+Well, let's see.
+We want to find the posterior, which is p of theta given y.
+Using Bayes' rule and only considering those factors that
+depend on theta, we can rewrite this as proportional to p of y
+given theta, times p of theta.
+Here, we have a likelihood times the prior.
+If we insert our expression for the likelihood and the prior,
+we get--
+
+Now, if we look at this expression here,
+we see that it's actually proportional to
+a Gaussian density, which is--
+Gaussian density of theta with parameters
+with mean y and standard deviation sigma squared.
+We have that our posterior density is proportional
+to this Gaussian density here.
+As our posterior density has to be a proper density of theta,
+by definition, these two must be equal.
+That is, if we try to find a proportionality constant,
+which makes this equality, the proportionality constant
+will be 1.
+To conclude, p, our posterior, p of theta given y
+is, in this case, equal to this Gaussian distribution--
+theta with mean y and variance sigma squared.
+One can note that with this non-informative prior,
+our posterior density has the same shape as our likelihood.
+Intuitively this makes sense, as the only information
+that we have about theta comes from the likelihood,
+so we would not be able to do any better than the likelihood,
+in this case.
+If we try to illustrate this posterior,
+we have the posterior of theta given y,
+and this is a function of theta.
+We see that the mean of this is at our observation y,
+so we have a Gaussian around y where
+the spread of this Gaussian is given
+by the variance sigma squared.
+What we basically had in our small example that we just did
+was a Bayesian measurement update,
+using an observation from a single sensor.
+Now, suppose that we collect measurements
+from two types of sensors--
+let's call them y1 and y2.
+This could, for example, be both from a radar sensor
+and a camera that are independently
+measuring the relative distance to this vehicle here.
+Naturally, we would like to use both of these observations
+to get a better understanding of the relative position
+to this vehicle.
+That is, we want to fuse the information from these sensors.
+How would we go about doing this in a Bayesian setting?
+Well, as always, we seek to calculate
+the posterior distribution of theta, given our observations.
+Instead of just having a single observation,
+we instead have two observations--
+one from the radar and one from the camera.
+If we apply Bayes' rule to this expression
+and ignoring the proportionality constant,
+we can still decompose it as a prior times a likelihood,
+but where the likelihood now depends
+on both our observations.
+In principle, there is no difference
+between fusing observations for two or more sensors
+and just making a measurement update from a single sensor.
+We might as well call y1 and y2 as our single observation, y,
+which is now then a vector, and we
+end up with the same general expression as we had before.
+How do we handle this joint likelihood?
+It's often reasonable to assume that y1 and y2 are
+conditionally independent if we know theta.
+In this example here, if we actually know the distance
+to this vehicle, also knowing the noisy distance
+from the camera will not help us describing the measurements
+from the radar and vise versa.
+If this is the case, we can decompose this joint likelihood
+condition on theta as two separate single sensor
+likelihoods, one for each sensor.
+I would encourage you to figure out
+how you would do the measurement update in this case, where you
+have to conditionally independent observations
+on theta, so you have a likelihood looking like this.
+We end this video with a self-assessment question
+for you to think about.
