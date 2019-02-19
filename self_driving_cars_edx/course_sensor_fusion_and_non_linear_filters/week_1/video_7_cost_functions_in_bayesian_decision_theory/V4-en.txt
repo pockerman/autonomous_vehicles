@@ -1,0 +1,250 @@
+
+In the previous video, we learned
+about the Bayesian decision principle,
+which is to try to minimize the posterior expected loss,
+or cost.
+In this video, we will introduce two commonly used loss
+functions for estimation problems.
+We will then use these to derive the minimum mean square error
+estimator, the MMSE estimator, as well
+as the maximum a posteriori estimator, also known
+as the MAP estimator.
+In the Bayesian decision theory, there
+are three important components--
+the likelihood, the prior, and a cost function or a loss
+function.
+Using the first two, the likelihood and the prior,
+we can compute the posterior distribution, like this.
+And given the posterior distribution,
+we can make decisions by minimizing the posterior
+expected loss, like this.
+So this summarizes the basic strategy
+in Bayesian decision theory.
+The most commonly used loss function in estimation theory
+is the quadratic loss, which will
+lead to the popular estimator, the minimum mean squared error
+estimator, or MMSE estimator.
+So suppose that we have an estimation
+problem where we want to estimate a vector theta, which
+is an Rn.
+So as we said, a very common loss function in this setting
+is the quadratic loss.
+And the quadratic loss, we can express like this.
+So we have a loss function, C of theta and a, which
+is equal to this L2-norm of theta minus a squared.
+Now this can be viewed as the square error
+between the actual theta and our decision a.
+Now, as theta is a column vector,
+we can write this norm here as theta minus a transposed.
+Now this is a row vector, due to the transpose,
+times theta minus a, again.
+And now this is a column vector, right?
+
+So this product here becomes a scalar,
+which it's supposed to be because this is a cost
+function.
+Now, just for illustration purposes,
+let's assume that theta and a are scalars.
+If we try to draw this cost function here
+as a function of a for a fixed value of theta,
+it would look something like this.
+
+So let's assume that we have a theta here.
+So we will have 0 loss of theta, and then the loss
+will grow quite radically as a moves away from theta.
+Now the interpretation of this is
+that it's OK to make a small error,
+as long as it's not too big.
+So if a goes away too much from theta,
+our loss will increase rapidly.
+So before we derive the optimal estimator using this loss
+function here, we should introduce some notation.
+First, we'll let the theta bar be the expected value of theta
+given y.
+And second, we'll let P be the covariance matrix
+of theta given y.
+So there's a posterior covariance of theta
+after observing y.
+And it's, by definition, expressed like this.
+Now, in order to derive the optimal estimator of theta,
+it's useful to try to simplify the function that we're
+trying to minimize.
+So recall that we're interested in minimizing the posterior
+expected loss, which is expected value of our cost
+function conditioned on y.
+Now, in this case, our loss function is this, right?
+So if we insert this into our expression, we get--
+
+theta minus a transpose, theta minus a.
+
+Now, a useful strategy to find optimal a
+is to simply take the gradient of this expression
+here, with respect to a, and then set it to 0
+and solve for a.
+Although this is a perfectly fine strategy and something
+that you might want to try yourself,
+I personally prefer a different type of trick
+in order to come up with a optimal solution.
+We might call this trick, "To add an intelligent 0."
+Now, this is just a trick that simplifies the calculations.
+In this case here, we will add and subtract theta bar
+in both of these terms here.
+So we'll get something like this.
+
+And I argue that this will simplify our derivation.
+So I'm simply taking this here, and then I'm
+adding and subtracting theta bar in each term here.
+So what happens now is that this part here
+is a 0 mean random variable.
+
+And this part here is just deterministic value.
+There's nothing random about this part.
+As theta bar is just a vector, and a is another vector.
+So this is deterministic.
+That is, we have a 0 mean vector,
+plus some deterministic vector, and then the transpose,
+and then the product do the same thing.
+What happens now is that we multiply these things together.
+We will get one term, which is the 0
+mean random vector squared.
+
+Now, note that this term here does not depend on a.
+So from a minimization point of view,
+this term does not really matter.
+Anyway, we can see that it's almost the same thing
+as the posterior covariance here,
+but the transpose is in a different place.
+So while this is a matrix, this will become a scalar.
+If we take a trace of it, it is possible to prove
+that we can still write this in terms of P,
+if we take the trace of it.
+So this term here can be simplified to the trace of P.
+Now this is not important, but I mention it here
+for completeness.
+The next term would be, for instance, theta minus theta bar
+times theta bar minus a, which becomes this term here.
+
+Now this is where it becomes interesting
+because this is where the trick that we have done pays off.
+Since the second part here is deterministic,
+we can leave it outside the expected value here.
+And since the expected value of theta is theta bar,
+this is simply 0.
+The expected value of this is 0.
+
+So we get 0 times this, which is also 0.
+So this term will disappear.
+Now we get a similar term when we multiply this
+with this, which is also 0.
+So we'll get another 0 here.
+So the first three terms here does not actually depend on a.
+However, the fourth term does, which is this times this.
+But it's actually deterministic, which
+means that taking the expected value
+is trivial, as nothing happens.
+So we get just these two multiply with each other.
+So theta hat minus a, transpose, theta hat minus a.
+Now, the posterior expected loss is the trace
+of P plus this term here.
+Now this term does not depend on a, but this term does.
+As we would like to minimize with respect to a,
+it's fairly easy to see that we can do this
+by setting a equal to theta bar, which would make this 0.
+So 0 times 0, which is 0.
+And that's a best loss that we can have in this case.
+It's also easy to show that this is a unique minimum.
+So to conclude, our optimal estimator, theta hat,
+which we get by finding the argument a
+that minimize the expected posterior loss, so
+minimum a of the posterior expected loss.
+
+And find that this is the posterior mean
+of theta, which is theta bar.
+Now this estimator is called the minimum mean square error
+estimator--
+now minimum, as we're minimizing something,
+mean because we take the posterior mean, and squared
+error because we had the quadratic loss of the error
+between theta and our estimate.
+Usually we denote this estimator as theta hat MMSE.
+
+So choosing the posterior mean as our estimate would make sure
+that we on average has as low a squared error as possible.
+So that's what the minimum mean squared error estimator does.
+Another important type of loss function
+that's used in the estimation problems
+is the so-called 0-1 loss, which we are considering here.
+Again, the setting is an estimation problem
+where the column vector theta is in Rn.
+Our 0-1 loss function can then be described like this.
+So C of theta and a is minus the Dirac delta
+function of theta minus a.
+Now the name comes from the discrete case
+whether we get a loss of minus 1 when a is equal to theta,
+and 0 for all other values.
+An interpretation of this is that we only
+care about picking the exact correct value of theta,
+and all other values are equally bad.
+So again, if we try to illustrate
+this for the continuous scalar case
+where the 0-1 loss function is not really
+a proper 0-1 function.
+But the interpretation is the same.
+
+So if we have a fixed theta here, for example,
+our loss as a function of a is 0 for all values not
+equal to theta.
+So we have 0 for all values not equal to theta.
+Then, on the other hand, we get a minus infinity loss
+when a is equal to theta.
+So we have a Dirac delta spike here.
+So this means that it's infinitely good
+to set a equal to the true value of theta.
+And note that if theta is different from a,
+the loss is 0.
+And independently on how big the difference is, it's still 0.
+So we're basically saying here that we only really
+care about guessing the correct value.
+If it's incorrect, it's equally bad if it's just a bit off
+or if it's really far off.
+To get the optimal estimator, we can
+start by looking at the posterior expected loss.
+So the posterior expected loss is defined like this.
+So if we replace this with our loss function,
+we get this expression here, where
+we get the expected value of minus delta of theta
+minus a, condition on that we know y.
+Now if we use a definition of the expected value on this,
+it equates to this integral here where
+we'll have minus the integral of our posterior distribution,
+p of theta given y times our delta function of theta
+minus a.
+And then we integrate over theta.
+Now, you might recall that as the delta function
+is only non-zero, if theta is equal to a.
+There is a rule that says that if you integrate over
+a delta function like this, the result is the function here
+evaluated at the value where the delta function is non-zero.
+So what we simply get from this integral here is minus
+the posterior distribution of theta given y, evaluated
+at theta equal to a.
+So the optimal estimator theta hat
+is then argument a, which minimizes the posterior
+distribution if theta is equal to a.
+Now there's a minus sign here, so we
+can replace minimization with maximization
+and removing the minus sign.
+So we get this, since it's the same thing
+to minimize minus something as to maximize something.
+Since we're merely evaluating this where theta is equal to a,
+we can replace theta with a here.
+And we get this final result here,
+that the optimal estimator with respect to the 0-1 loss
+is what we get when we find the theta that maximizes
+the posterior distribution.
+Now this estimator here is called
+the maximum a posteriori estimator and often denoted,
+theta hat MAP, like this.
+We have now derived the two most famous Bayesian estimators,
+namely the MMSE estimator and the MAP estimator.
+Now here is a self-assessment question on this topic.
