@@ -1,0 +1,192 @@
+
+In the previous videos, we learned
+that Bayesian statistics can be used to solve
+almost any decision problem.
+We also learned how to summarize what we know in a posterior
+distribution.
+In this video, we will discuss how to make decisions.
+So given that we have all these uncertainties,
+how can we then make a decision?
+And more specifically, we will discuss
+how we can use the Bayesian framework to make
+optimal decisions.
+So let's discuss the Bayesian Decision Principle.
+The question here is how can we use p of theta given y
+to make decisions.
+Examples of decision problems can
+be how to control a self-driving vehicle, for example.
+That is decide on appropriate acceleration, braking,
+and steering input in order to safely and efficiently navigate
+a current traffic situation.
+It can also be how to invest money,
+both if you're running a company or as a private person.
+We can also look at selecting medicine to give to a patient
+if you're a doctor, or what estimate to give a parameter
+vector that could represent temperature or distance
+or any other quantity of interest.
+So the basic principle of Bayesian Decision Theory
+is simple.
+It can be summarized like this.
+So we want to minimize the expected loss.
+Or more specifically, we want to minimize
+the posterior expected loss which is how this posterior
+distribution comes to play.
+An alternative and equivalent formulation
+is to use what's called utility instead.
+So since we can replace loss with utility and minimization
+with maximization, so instead of minimizing expected loss,
+we can maximize the expected utility.
+So this is simple enough, right?
+But there are some pieces missing here
+that we haven't really discussed.
+And that is what a loss function is.
+We will do this in this example.
+So suppose there is a student who
+wants to decide whether to take a course or not.
+In this example, let's suppose that we have some posterior
+distribution of the quality of the course,
+having spoken to other students who have taken the course,
+for instance, and taking our prior knowledge about the topic
+into account.
+Based on this, we find that the probability
+that a course is good is 0.3, that a course is
+fair is also 0.3, and that the course is bad is 0.4.
+So the students that also designed a loss
+function saying that if he or she takes the course
+and it's good, there is zero loss.
+So this is a good thing.
+If he or she takes a course and it's fair,
+there is a loss of 5.
+And if the course is bad, it's a loss of 30.
+Similarly, there is a loss associated
+with not taking the course if it's good, fair, or bad.
+The question is then, according to this posterior distribution
+regarding the quality of the course
+and this loss function here, should he or she then
+take the course or not.
+From an optimal decision theoretic point of view,
+the student should make the decision that has the lowest
+expected posterior loss.
+So the student should decide to take the course
+if the expected loss of taking the course
+is less than the expected loss of not taking the course,
+and vice versa.
+So the expected loss for a specific decision
+is what you get if you multiply the posterior probability
+with the corresponding loss.
+So 0.3 times 0 and so forth.
+And then we sum these up to get the posterior expected loss.
+So let's look at the expected loss for taking the course.
+
+So we have 0.3 times 0 if the course is good
+plus 0.3 times 5 if the course is fair and 0.4 times 30
+if the course is bad.
+If we sum all of this up, we get an expected loss of 10.5
+for taking the course.
+Now if you look at the expected cost for not taking the course,
+we have 0.3 times 20 plus 0.3 times 5 plus 0.4 times 0.
+Now if we sum all these up, we get an expected loss of 7.5
+for not taking the course.
+So we have now computed the expected loss
+for the two possible decisions.
+If the students choose to attend the course,
+then we get an expected loss of 10.5.
+On the other hand, if the student
+decides not to take the course, we
+get expected loss that sums up to 7.5.
+So the conclusion here is that the student should not
+attend this course.
+Now of course, this toy example has
+nothing to do with this particular course
+and that you should all probably still attend this course.
+Now let us see if we can introduce some more
+mathematical notation for this.
+We often study loss functions instead of utility.
+So we have a loss function C of theta
+where theta is the quantity that we're interested in
+and where a denotes the decision which
+is dependent on the outcome of theta.
+So in the example that we just studied,
+theta was the quality of the course
+and a was the decision if the student should take the course
+or not.
+Now in this course, the decision that we want to make
+relates to choosing an estimate of theta.
+So if theta is, for example, the distance to an object
+that we're interested in, then our estimate
+is the distance that minimizes our expected posterior loss.
+So to emphasize that we're actually
+making a decision on theta, we usually
+denote our decision as theta-hat, which
+is then our estimate of theta.
+Now in this context, the optimal decision
+can in mathematical terms be described like this.
+So we would like to find a theta-hat that
+minimizes the posterior expected loss, which we can express
+like finding the argument a which
+minimizes the posterior expected loss, like this.
+You should note that we condition on data here.
+So y is given and fixed.
+But theta is random.
+We have uncertainty regarding theta.
+We should also note that in an estimation problem,
+theta is continuous so the expectation can
+be calculated like this.
+Now here is a self-assessment question
+about making an optimal Bayesian decision.
+
+My final remark in this video is something which is actually
+beyond the scope of what I hope for you
+to learn in this course.
+But I'm including it since I think that some of you
+might find it interesting.
+Also, we have touched upon most of this previously
+here and there.
+So it might be good with a bit of a summary.
+So like I said, there are two main frameworks
+for making decisions.
+It's the Bayesian framework and the Frequentist framework.
+So in the Bayesian framework, uncertainties
+in the parameter of interest theta
+are described stochastically which
+means that theta is modeled as random,
+whereas in the Frequentist setting,
+theta is fixed and unknown and thus theta is deterministic.
+Now a very common example of an estimator in the Frequentist
+framework is what's called a maximum likelihood
+estimator, where the estimate is simply the value of theta that
+maximizes the likelihood after observing the data y.
+If you compare that to the Bayesian framework,
+the corresponding estimator is the maximum
+a posteriori estimator, which finds the theta that maximizes
+the posterior distribution, which
+is the product of the prior times the likelihood
+after observing the data y.
+So lastly, when it comes to optimality in the Bayesian
+framework, we make decisions conditioned on the observation
+y and take the expected value over the parameter theta.
+In the Frequentist setting, on the other hand,
+theta is deterministic.
+So there is no way we can average over theta.
+Instead we study performance by averaging over
+y for fixed thetas.
+What we're saying here is that our estimator
+should be good on average for many different data.
+While over here, we are conditioned
+on a specific set of data y.
+So there is quite a difference in the optimality criterion
+for the two frameworks.
+We should also note the following things.
+Most Bayesians also study Frequentist performance.
+So people who tend to use Bayesian framework
+may also be interested in evaluating their estimators
+in this sense here, where we fix the parameters
+and study how it performs on average over many sets of data.
+Also, there are many problems where Frequentists
+agree that the parameters may be random in some situations.
+For example, in optimal filtering,
+which we will look at in this course,
+most people agree that the parameters are actually
+random and not deterministic.
+So this could be, for example, the motion of vehicles
+that we discussed earlier.
