@@ -24,8 +24,6 @@
 - **Item:** Linear Systems
 - **Item:** State Feedback
 - **Item:** Output Feedback
-- **Item:** Kalman Filters
-- **Item:** Sensor Fusion
 - **Item:** PID and Linear Quadratic Regulator Controllers
 - **Item:** Model Predictive Control
 
