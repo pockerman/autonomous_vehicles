@@ -1,8 +1,10 @@
 \section{Longitudinal control}
 \label{longitudinal_control}
+
 We have already discussed and the dynamics (lateral and longitudinal) of vehicles and how to develop models to mathematically capture these dynamics. 
 In this chapter we would like to go through the concepts of longitudinal vehicle control to regulate the speed of our self-driving car. 
 Specifically, we will review some of the essential concepts from classical linear time-invariant control, develop a PID control law for the longitudinal vehicle model and combine feedforward and feedback control to improve desired speed tracking. 
+
 
 \subsection{LTI control \& a PID controller}
 Design of the longitudinal speed control underpins all vehicle performance on the road and is one of the fundamental components needed for autonomous driving. 
@@ -121,9 +123,11 @@ Closed loop response denotes the response of a system when the controller decide
 \end{tabular}
 \end{center}
 
+
 For instance, an increase in $K_P$ leads to a stronger reaction to errors and therefore a decrease in rise time in response to a step change in the reference signal. Similarly, since $K_D$ reacts to the rate of change of the error an increased $K_D$ leads to a decrease in overshoot or the rate of change of error is high. It may simultaneously lead to a decrease in oscillations about the reference and a decreased settling time as a result. Finally, an increase in $K_I$ can eliminate steady-state errors but may lead to increased oscillation in the response. Ultimately, the $P$, $I$ and $D$ gains must be selected with knowledge of the interaction of their effects to adjust the system response to get the right closed loop performance. 
 
 \subsubsection{Example: Spring-mass-dumper system}
+
 Now, let's take a look at the well-known second-order spring-mass damper model as shown in figure \ref{spring_mass_damper_system}. 
 
 \begin{figure}[!htb]
@@ -191,7 +195,7 @@ Including all three PID terms in the controller, leads to even more flexibility 
 \label{full_pid_spring_mass_damper_system}
 \end{figure}
 
-\subsection{Longitudinal control with PID}
+\section{Longitudinal control with PID}
 \label{longitudinal_control_pid}
 
 The previous section touched upon the desing of PID controllers and classical control design. In this section, we want to apply PID control to our longitudinal vehicle model. 
@@ -290,6 +294,7 @@ The PID gains are tuned by trial and error so that the vehicle speeds follow the
 
 
 \subsection{Feedforward control design}
+\label{feedforward_control_design}
 
 In the last section, we saw how to build
 a feedback controller for the longitudinal speed tracking problem that used PID
