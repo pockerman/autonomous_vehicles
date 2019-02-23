@@ -4,7 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectPercentile, f_classif
 
 
-def preprocess(words_file, authors_file):
+def preprocess(words_file, authors_file, percentile=10):
     """ 
         this function takes a pre-made list of email texts (by default word_data.pkl)
         and the corresponding authors (by default email_authors.pkl) and performs
@@ -43,7 +43,7 @@ def preprocess(words_file, authors_file):
 
     # feature selection, because text is super high dimensional and
     # can be really computationally chewy as a result
-    selector = SelectPercentile(f_classif, percentile=10)
+    selector = SelectPercentile(f_classif, percentile=percentile)
     selector.fit(features_train_transformed, labels_train)
     features_train_transformed = selector.transform(features_train_transformed).toarray()
     features_test_transformed  = selector.transform(features_test_transformed).toarray()
