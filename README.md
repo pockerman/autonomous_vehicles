@@ -24,14 +24,17 @@
 - **Item:** Linear Systems
 - **Item:** State Feedback
 - **Item:** Output Feedback
-- **Item:** Kalman Filters
-- **Item:** Sensor Fusion
 - **Item:** PID and Linear Quadratic Regulator Controllers
 - **Item:** Model Predictive Control
 
+### Part: State Estimation
+
+- **Item:** Kalman Filter
+- **Item:** Extended Kalman Filter
+- **Item:** Unscented Kalaman Filter
+- **Item:** Particle Filters
+
 ### Part: System Supervisor
-
-
 
 - **Item:** Simultaneous Localization and Mapping (SLAM)
 - **Item:** Deep Learning for Autonomous Vehicles
