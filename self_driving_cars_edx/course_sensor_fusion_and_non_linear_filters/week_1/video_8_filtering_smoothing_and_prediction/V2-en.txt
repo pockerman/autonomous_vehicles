@@ -1,0 +1,271 @@
+
+In this set of lectures, our aim is
+to give the background needed to define and understand
+the formulation of the optimal filtering problem
+and how can you solve it in an efficient manner using
+knowledge of Bayesian statistics.
+That is, we will define and discuss the underlying modeling
+assumptions we will use a tool called
+Bayesian networks to illustrate how these assumptions affect
+the dependencies and independencies
+of our stochastic variables, and how
+we can use this to make convenient simplifications
+of our problems.
+Lastly, we will show how we can use all this
+to calculate the posterior density for a fairly
+general problem family.
+To start off however, I thought we'd
+put it all in a bit of context.
+What do we mean by filtering, and how does it
+connect to the related estimation problems smoothing
+and prediction?
+So what is filtering?
+Well, filtering is about recursively,
+which usually means that each time
+instance, estimating parameters of interest
+based on measurements.
+And these measurements can come from one sensor
+or multiple sensors.
+If they come from multiple sensors,
+we usually call it fusion or sensor fusion.
+But in theory, it's basically all the same.
+And in this course, we will not focus so much
+on whether our measurements come from one or multiple sensors.
+If we know how to do it for one sensor, adding another sensor
+is, in many cases, trivial.
+To help us discuss the problem, we
+need to introduce some notation.
+So basically, throughout the course,
+we will let xk indexed by some time index k,
+be a vector that contains the parameters of interest.
+And yk contain the measurements at time k.
+As sensors tend to deliver data at discrete times
+with fixed sample interval, time in this k typically,
+refers to one such interval, and does it
+at a discrete time index.
+So using this notation, the filtering objective is
+to compute the posterior density of our state xk,
+using what we denote as y 1 to k where y 1 to k
+is a vector containing all the data up to time k.
+And as we discussed earlier, if we can compute this,
+and we can for example, compute and the mmse estimate
+or the map estimate of xk using this posterior density.
+To make things a bit more concrete,
+let us look at some filtering of fusion
+problems in modern automotive applications.
+So modern vehicles today are equipped
+with several onboard sensors.
+And this could be RADAR, LIDAR, or camera, for example.
+We want to use noisy observations from these sensors
+to estimate a more refined view of the current traffic
+situation.
+And so driver assistance systems in the vehicle
+then uses this refined view to assess
+if there is any dangerous situation that we need
+to warn the driver of, or automatically intervene
+in order to avoid a situation altogether,
+or to mitigate its consequences.
+For a self-driving vehicle on the other hand,
+this is the basic information that is uses in order
+to plan a safe and comfortable path that the control
+algorithms in a car can then follow.
+Let us look at this example here or illustration
+here, where we have a host vehicle that is equipped
+with a RADAR and a camera.
+The RADAR will give us range, angle,
+and range rate to objects reflecting the RADAR signal.
+For example, this could be other vehicles in here,
+but could also be the metallic guardrail here.
+The camera on the other hand, can detect and classify
+vehicles, but can also detect the lane markings on the road,
+for example.
+The information from these sensors
+is then used to estimate for example,
+the current relative position of velocity of other vehicles.
+For example, we want to estimate where these vehicles are
+and where it's heading.
+And we can call this our state vector x1k for that vehicle.
+And then we'll have another state vector
+for this car called x2k.
+And then for this car we call that x3k.
+What we also want to do is we want
+to estimate the current relative position and heading
+and shape of the current lane.
+Want to describe the geometry of our current lane like this.
+We call this lk.
+And this is crucial information if we
+need to plan a path that keeps the vehicle in its own lane,
+for example.
+Similarly, we can use RADAR reflections from the guardrail
+here to estimate relative position, heading,
+and shape of the guardrail as well.
+One can think of many more things
+that we possibly would like to know but in order for them
+to be classified as a filtering problem,
+it should be related to estimating the current value
+using data up to the current time.
+We want to use as much data as possible
+without introducing any lag.
+So filtering is, of course, not only used
+within the automotive applications.
+One of the first applications was
+related to finding the position and velocity of airplanes
+and ships for military purposes, which is still an active area
+today.
+Within control of physical systems,
+it is common to use filtering techniques to estimate
+interior states of the system in order to better control it.
+If we, for example, look at engine control,
+this could be estimating the angle
+of the crankshaft or the pressure in the piston in order
+to control the fuel injection.
+It is also quite common that you use filtering techniques
+to estimate things that you are not able to measure directly.
+And there are many such examples in the engine
+where it's hard to place sensors everywhere.
+But you can observe other things, which
+relate to things that you are interested in,
+and hence, estimate it using those observations
+and using the techniques you will learn in this course.
+You can also use filtering to assess the state in many others
+types of systems such as biological and economical,
+for example.
+This could, for example, include estimating
+the diffusion constant of a dissolvent and the solvent,
+or the spread of a disease or the price of a commodity.
+There are two problems that are related to filtering,
+and that is was called smoothing and prediction.
+The objective of all of these is to compute a probability
+density function of state xk, but they
+differ in how much data we condition on.
+So let us assume that we have a positive integer that
+is greater than 0.
+In the smoothing problem, we want
+to compute the distribution of xk
+using measurements from 1 to k plus n.
+That is, we want to use future data at times k to k plus n
+to estimate a state a time k.
+In the prediction case, it's rather the opposite.
+Instead we want to compute the distribution of our state xk
+using data from 1 to k minus n, that
+is, we are trying to make predictions of the state using
+all the data.
+The relation between prediction filtering and smoothing
+can be seen in this figure here.
+In all the cases, we're interested in knowing the state
+at time k.
+We have not yet received so many measurements.
+We have just received measurements up to k minus n,
+but would anyway like to say something
+about the state at the future time k.
+When it comes to filtering, however, we
+have received all the measurements up to time k,
+and we want to use all these measurements to estimate
+the current state.
+And lastly, smoothing we have received more measurements.
+So we have received measurements up to time k plus n.
+And we want to use all of these observations
+to also improve our knowledge about the state at time k.
+So let us look at some examples of prediction and smoothing.
+Let us first look at examples where
+we use smoothing in automotive applications.
+Many autonomous vehicles use detailed maps
+to position themselves and to navigate.
+These maps typically include detailed geometry of the lanes
+and intersections, as well as position of traffic signs
+and pedestrian crossings.
+And one way to construct these maps
+is to collect sensor data from many vehicles that
+are equipped with sensors that can give a course
+information about the position of the vehicle,
+for example, the normal GPS system,
+as well as sensors that detect and measure
+for example, lane markings.
+By collecting data from all vehicles that
+have traveled a certain road, it is
+possible to jointly estimate the vehicle's trajectories as well
+as the map.
+So an example is that you want to use the information
+from the camera sensor at each time instance here
+to accurately estimate the global position, heading,
+and shape of all lanes.
+So we want to store in the map a global map of all the lane
+markings.
+It can also include the global position
+and shape of the guardrails, so a description of the guardrail.
+We can also include the global position of signs
+and what type of sign it is using image classification
+to detect the sign type and using RADAR and or LIDAR to get
+its position.
+As we are not interested in having our estimate as fast as
+possible, but are very interested in using
+as much information as possible to make the map more
+detailed and accurate, we can allow ourselves
+to wait and collect as much data as we can
+before we need to compute our densities.
+Other examples of smoothing applications
+are, for example, surveillance at airports
+where it's important for safety reasons
+to estimate the position of people and bags
+and so forth, but without having a strong real-time requirement.
+Here we are typically more interested in getting
+an accurate understanding of what has happened.
+And we can allow ourselves to collect more data in order
+to be more certain and accurate.
+Other examples include communication system
+where we typically receive a complete message
+before we want to decode it.
+And by decoding it, we basically mean
+that we want to estimate the message that was sent.
+In sports, we want to, for example,
+use a hawkeye system in tennis to determine if a tennis ball
+was in or outside the line.
+And we do this after the fact, by estimating
+the trajectory of the ball using a complete set of images.
+Other examples are in medicine where
+we use a sequence of arterial blood pressure
+to estimate the intercranial pressure.
+Also here, it's more important to be accurate than timely.
+Now let's look at when we are solving the prediction problem.
+And again, we start with automotive applications.
+So both our advanced driver assistance systems
+and autonomous vehicles need to make predictions of the traffic
+situation in the near future, when for example,
+planning for a safe path or assessing collision risks.
+And in both these cases, we need to have an understanding
+of what will happen in the future
+in order to take appropriate actions now.
+And as we do not have any observation of the future yet,
+we need to rely on predictions.
+So for example, we would like to predict the relative position
+and velocity of the other car.
+So we want to know where these cars will be in the near future
+in order to assess if we are going to collide with them
+or in order to plan the path ahead.
+We also would like to know relative position and heading
+and shape of the current lane, such as when
+we plan a path here in the future we
+can stay within our own lane.
+And similarly, it's interesting to know where the guardrail is
+also in the future.
+When it comes to predictions in other applications,
+one example that most of us are familiar with
+is weather predictions, where we want
+to predict the winds and pressure and temperatures
+for the coming days.
+This also illustrates that it's always harder
+to do predictions than filtering or smoothing,
+where we have access to more data.
+So it's hard to make these type of weather predictions,
+at least in Sweden, where I live.
+We have also other examples in economy
+where the management of companies
+relies on forecasts of, for example,
+the demand of their products in order to make decisions.
+And in politics, many decisions are
+based on predictions regarding population
+growth and the financial markets and so on.
+So these are all examples of predictions that we do.
+So here is a self-assessment question for you
+to check your understanding of the difference
+between these related problems.

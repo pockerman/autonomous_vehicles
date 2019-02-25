@@ -1,0 +1,240 @@
+
+Throughout this course, we will formulate our filtering
+prediction and smoothing problems using so-called state
+space models.
+We will use these statistical models to describe
+what we're interested in--
+we call this our state vector--
+how the state vector evolves over time,
+and how it relates to the observations that we make.
+We will in a later lecture show how
+we can use these models to solve the general filtering problem.
+So in this lecture, we will look at how we define these models,
+and what's their purpose when it comes to solving our estimation
+problems.
+We will focus our attention on discrete time state space
+models, as it's often enough to estimate our state
+with a certain time interval.
+So discrete time state space model models a so-called state
+vector, which we denote xk and a measurement vector,
+which we denote yk where k here is a discrete time
+index, in both cases.
+First, we have a motion or process model,
+which in its most general form describes the current state,
+xk, as a function, fk minus 1, of the previous state,
+xk minus 1, and a motion noise process, qk minus 1.
+The purpose of this model is to statistically describe how
+the state evolves over time.
+Secondly, we have a measurement or a sensor model,
+which, again, in this most general form,
+describes the current measurement yk
+as a function hk of the current state, xk, and a measurement
+noise process, rk.
+The purpose here is to statistically describe
+how we can relate the current state to our observation, yk.
+Additionally, in our discrete time state space model,
+we also have a prior distribution of our state.
+This is the distribution of our state at time 0
+before we make any observation.
+With this model, we can describe any general knowledge
+that we have about our state vector
+before we even make any observations.
+So these are the basic building blocks of a discrete time state
+space model, and I'm sure that you
+have come across this type of model in other courses
+that you have studied, for example, in control theory.
+What we typically also assume, which
+is not evident from what we see here,
+is that both the motion noise, qk minus 1,
+and the measurement noise, rk, are
+independent of all other noise vectors.
+This means that they are not only
+independent from each other but also independent over time.
+So the measurement noise at time k
+is independent from the measurement noise
+at time k minus 1, for example.
+And these assumptions also ensures
+that the Markov property holds for the state space model.
+All right, so let's look into more detail regarding
+the motion and measurement models.
+We start with a motion or process model.
+I should mention that, throughout the course,
+I will probably use both of these terms interchangeably.
+The term process model stems from control theory
+where one, in general, wants to control some process.
+And then one needs a model for the dynamics
+of this process, which is then called a process model.
+In terms of, for example, estimating the position
+of a vehicle, the process model, in this case,
+should then describe the dynamics of the vehicle,
+and thus the process model will describe
+the motion of the vehicle.
+The more descriptive name, in this case,
+is to call the process model for what it is,
+and that's a motion model.
+So in sum, the system dynamics is described by this model
+here, which we refer to as a motion or a process model.
+There are a couple of things that
+are interesting to note here.
+Firstly, the motion model describes the state evolution,
+and an equivalent view of this is
+that it describes the distribution
+of the current state condition on the previous state.
+Often, when we talk about the motion model,
+we have both of these representations in mind--
+both the equation form here and the density form here.
+They are equivalent views of the motion or process model.
+
+With this interpretation here, we
+assume that we have perfect knowledge about where the state
+was one time instance ago.
+That is, we have no uncertainty about this.
+What the motion model then describes
+is the distribution of xk conditioned
+on the previous state.
+So what are probable states in the next time instance?
+As such, the motion model allows us to connect states over time
+and help us rule out unreasonable trajectories.
+That is if we want to estimate the position of an object
+over time we typically have physical constraints that
+limits the movements of this object over time
+
+So if we assume that we are tracking, the motion of some
+object over time.
+We often want this trajectory to look fairly smooth
+due to physical constraints.
+Often, something like this, and not something like this.
+
+And we use the motion model to rule out these unreasonable
+trajectories.
+So let us look at this from the perspective of an example.
+So if the state at time k minus 1, for example,
+describes the position and velocity of a vehicle.
+So it describes the position and velocity of this vehicle.
+So knowing this, the aim of the motion model
+is to describe the state at time k
+or the distribution of the state at time k.
+In this case, it seems reasonable to assume
+that the vehicle continues to move
+as it did at time k minus 1, which would give us
+a state something like this.
+However, we cannot rule out that the vehicle doesn't make any
+changes to its velocity vector by, for example,
+turning the steering wheel, stepping on the brake,
+or pushing the accelerator pedal.
+This would mean that we need to allow for the predictions
+to look something like this.
+If for example, the vehicle has turned somewhat.
+But we still need these deviations
+to be reasonable and not as we see in this example here.
+So it's unreasonable that a vehicle which
+has a velocity like this would, in a short time instance,
+have a position and velocity like this.
+And this is unreasonable both form a vehicle dynamics
+perspective and also from the kind of changes
+that one can expect the driver to make.
+So the motion model considers two aspects.
+The dynamics of the system, which is usually
+described using physical models and the uncertainty
+regarding what can change between two time instances.
+And how much changes we allow is modeled by the motion noise
+process, qk minus 1.
+These two aspects together make up all statistical model
+probable state at the current time, given the state
+at the previous time instance.
+And in this case, we could get some distribution
+looking like this.
+
+So states in this region are probable.
+States outside this region are improbable.
+And this is an illustration of the motion model.
+
+And with this motion model, these types of states
+here would be very improbable.
+The other piece of the puzzle is what's
+called the measurement model, which
+describe how the measurement relates
+to the state vector using this equation here.
+Also in this case, we have two names
+that we use interchangeably.
+We call it the measurement model or the sensor model.
+We should note that, as with the motion model,
+the measurement model has an equivalent probabilistic
+interpretation as it describes the distribution of yk
+given our state, xk, so p of yk given xk.
+And we recognize this distribution
+here as our likelihood function.
+So the measurement model actually
+defines the likelihood function in our estimation problem.
+As such, when we talk about the measurement model,
+we sometimes mean the likelihood function,
+as they are equivalent.
+As with the motion model, we have
+an equivalent probabilistic representation
+of this equation.
+The other thing that we should note
+is that we use the measurement model to relate data
+to our state vector, and it helps
+us to use data to learn more about our states.
+And in most cases, we cannot observe the state directly.
+And even if it could, our measurements
+are then corrupted by measurement noise.
+So let us look at this from an example
+where we have a host vehicle that
+is equipped with some sensor.
+Let's say a radar in front of the vehicle, which
+has this field of view here.
+This radar will give us noisy observations of this vehicle
+here that we are interested in positioning.
+So in this case, our state vector, xk,
+represents the position of this vehicle,
+and yk then represents the radar returns
+that we get from this vehicle.
+One way to view this measurement model here, or here,
+is to view it as a generative model that we, in this case,
+can use to simulate radar returns, from this vehicle
+here.
+If we design our measurement model,
+hk, accurately, we should then be
+able to simulate radar returns from the vehicle, which
+both describes where on the vehicle
+we expect the radar returns to end up
+as well as the statistical fluctuations in the returns,
+which are influenced by our measurement noise process, rk.
+If we use our measurement model to generate
+independent samples of yk, it could look something like this:
+And ideally, if the measurement model is accurate,
+if we were to collect data from a radar that
+is viewing the vehicle like this,
+we will get something similar.
+However, we should bear in mind that these are just models,
+and we will never fully cover all aspects of reality.
+What we aim for is to cover the more important aspects that
+also affects our filtering results.
+There is also a slightly different variant
+of our time discrete state space model
+where we include a known input signal, uk.
+As the signal is assumed to be known,
+we treat it as a deterministic variable in our models.
+So we simply add it in our equations
+here as a time-varying parameter in our models.
+For the density representations, it
+is common that we write it like this with a semicolon
+here to indicate that uk is not a stochiastic variable,
+but we should rather view it as a time-dependent parameter
+in our models.
+It is common to use this type of input signal
+to include control input signals into our models,
+but it may also be used to include accurate measurements
+directly into our models.
+For example, if we have an accurate accelerometer
+with negligible noise, it would perhaps be a better idea
+to include it directly in our process model
+through this known input signal, uk,
+than it would be to use it as a measurement.
+And the reason is that if we use it in our motion model,
+we can then hopefully get better predictions here,
+which would help us to describe the measurements with less
+uncertainty.
+Here is a self-assessment question
+related to the use of the motion and the measurement model.

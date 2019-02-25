@@ -1,0 +1,356 @@
+
+So now we know what a discrete-time state space
+model is.
+In this lecture, we're going to look
+into conditional independencies and dependencies that
+are inherent in these models.
+And perhaps most importantly, we will
+see how these conditional independencies will
+help us to factorize our filtering distributions,
+such that we can express them using
+just three types of models.
+Our motion models, our measurement models,
+and a prior.
+As we discussed in the previous lecture,
+we have two forms of our state space models.
+We have one equation form, like this,
+and we have one density form, like this.
+When we presented the state space models
+on this form, the equation form, we explicitly
+mentioned that, we assumed that both the motion
+noise, qk minus 1, and the measurement noise, rk,
+which entered these models here, that they
+were independent of all other noise vectors.
+The corresponding assumption, when we have the density form,
+would look like this.
+So if we start by looking at the distribution of xk,
+conditioned on all past states and all the past measurements.
+So we look at all the states, from the prior to the state
+at k minus 1, and all the measurements
+from the first measurement, up to k minus 1.
+We assume that we can write this distribution here
+like this distribution here, where we only need to condition
+on the past state at k minus 1.
+What we're assuming here, is that if we know xk minus 1,
+xk is conditionally independent of all the other states and all
+the other measurements, except xk minus 1.
+If we relate this to the independence assumption
+that we have here, we see that if we know the previous state
+xk minus 1, the only thing that we are uncertain about
+is the motion noise, qk minus 1.
+So we know xk minus 1, the only thing we are uncertain about
+is qk minus 1, you know to solve this equation here.
+But as qk minus 1 is independent of all other noise processes,
+we can't get any information about it
+from knowing the past states or the past measurements.
+As such, they do not help us to describe the density of xk,
+so we may just as well remove it from this expression here.
+Now, if we look at the distribution of the measurement
+yk, again given all the previous states up to the current time
+and the past measurements, we assume
+that we can simplify this as just a measurement model.
+Again, what we are assuming here is
+that, if we know the current state, xk, the measurement, yk,
+is independent of all past states and the measurements.
+This can also be seen from the structure of the measurement
+model and this assumption here.
+That if we know xk, the only thing that we are certain about
+is rk.
+And as we assume that rk is independent of all
+the other vectors, we can't get any information about it
+from knowing the past states and the observations.
+A consequence of this is that for this to hold,
+the state vector needs to summarize everything
+we need to know about the system up to the current time.
+If not, we cannot express these models on this form,
+or on this form.
+As such, in some cases we need to select our state vector
+carefully in order for this to hold.
+This usually means that we need to add more variables
+in our state vector.
+We should also note that xk and yk are stochastic processes.
+And the assumption here implies that xk is
+what's called a Markov process.
+In fact, it's even a stronger statement,
+as in order for xk to be Markov, we only
+require that xk is conditionally independent on all
+the past states, if we know xk minus 1.
+Here we state that it's also conditionally
+independent of all the past measurements as well.
+A useful tool when thinking about conditional
+independencies and dependencies is
+what's called a Bayesian network, or what's also
+called a belief network or Bayes net.
+This is a probabilistic, graphical model
+that uses a graph to illustrate how stochastic variables relate
+to each other, or how they depend on each other.
+There are many such graphical models.
+But specifically, Bayesian networks
+are directed acyclic graphs, where
+each node is a stochastic variable,
+and the vertex between two nodes, or stochastic variables,
+indicate that there is a dependency
+between the stochastic variables.
+And with directed we mean that each vertex in the graph
+has a specific direction.
+And acyclic means that if we start in any node in the graph,
+and only move in the direction of the vertices,
+we cannot get back to the same node as we started in.
+So there are no cycles in the graph.
+The main purpose of these graphs is to describe a joint density
+and how it can be factorized.
+But it also illustrates conditional independencies.
+And we're going to look a bit more into this.
+So let us look at this from a small, toy example.
+Where we want to reason about, if a vehicle in front of us,
+we are in this vehicle here, and we see this vehicle here.
+And want to reason about if this vehicle here in front
+should take this exit here or not.
+What we can observe is whether this vehicle here
+is slowing down, or if the turn indicator is activated.
+So for this problem we have three random variables.
+We have take exit, slow down, and turn indicator.
+In our Bayesian network, these are three nodes in our graph.
+I will indicate our nodes by drawing circles around them.
+We connect these nodes with directed vertices indicating
+how they depend on each other.
+So whether the turn indicator is active or not
+is dependent on whether the vehicle intends
+to take the exit or not.
+We have a dependency between take exit and turn indicator.
+Similarly, if the vehicle is taking the exit,
+there is a greater probability that the vehicle
+is slowing down in order to safely take that exit.
+One way of viewing this model, and the direction
+of the arrows, is in terms of causality.
+If the vehicle intends to take the exit,
+it causes the vehicle to slow down and or turn on the turn
+indicator.
+It also gives us information regarding
+how one could go about generating
+these random variables here.
+If I were to do this, I would first
+generate if the vehicle would take the exit or not,
+and then use this when generating the other two.
+As, clearly, it helps to know if the vehicle intends
+to take the exit, or not, when generating
+if it is also slowing down, or if it's activating the turn
+indicator.
+This is because, as we see from the graph,
+there is a direct dependence for these two variables,
+if the vehicle intends to take the exit or not.
+All right, so this makes sense, right?
+But does this mean that slow down
+is independent of turn indicator?
+Well, not really, right?
+If we reason about it, it seems reasonable
+that, if the turn indicator is active,
+it's also more probable that the vehicle will slow down
+in order to take the exit safely, and vice versa.
+But what happens if we condition on the vehicle
+will take the exit, that is we know
+for certain that the vehicle will take the upcoming exit?
+What happens then with the dependency between slowing
+down and turn indicator?
+Well, the reason why they are dependent
+is that we are uncertain about whether the vehicle will
+take the exit or not.
+However if we conditioned on this,
+we can be quite certain that the vehicle also
+will slow down and safely take the exit.
+And if the turn indicator is active or not,
+that becomes more of a personal choice.
+So conditioned on that the vehicle will take the exit,
+slow down and turn indicator becomes
+conditionally independent.
+The general conclusion is that, if we're
+conditioned on a parent, the general conclusion
+is that if we condition on a parent node,
+so take exit as a parent to slow down
+and turn indicator because it is preceding them in this graph,
+the child nodes become conditionally independent
+on all the non-descendants.
+So if we would add extra nodes here,
+they would not be independent of those but all non descendants.
+So turn indicator becomes independent of slow
+down in this case.
+We can also see this if we factorize
+the joint probability of all these variables using
+the product rule.
+And then using this Bayesian network to see how
+we can simplify the expression.
+So if we denote take exit as the random variable E,
+turn indicators I, and slow down as S,
+we can write the joint probability
+of all these variables as probability of S, I, and E.
+And using the product rule, we know
+that we can factorize this joint density like this.
+
+So we know that we can always do this for any joint density.
+We're just using the product rule here.
+But if we now look at this expression
+here and take a look on our Bayesian network,
+we know that S is independent of the turn indicator,
+I, if we condition on E. So in this expression here,
+we know that we can remove I from this expression.
+So this can be simplified using our Bayesian network
+to this expression here.
+
+Which is something a bit more simpler
+than the general expression that we got here.
+Because we could remove the dependence on I here,
+so we'll get a simpler expression here.
+So in general, if we can formulate a Bayesian network
+for a problem, we can use that to see
+how we can factorize our joint distribution into as
+small pieces as possible.
+So we have now introduced the concept of Bayesian networks,
+at least in the form of an example.
+What we want to do now is to use it
+to illustrate the dependencies and independencies of our state
+space models.
+So what we see here is a Bayesian network illustration
+of our state space model, where we
+can divide the model into a hidden part and an observed
+part.
+The hidden variables, in this case,
+is the state space variables xk minus 2,
+xk minus 1, and xk and so forth.
+And the observed variables are our measurements
+or observations, yk minus 2, yk minus 1, and yk and so on.
+Where, for example, yk minus 1 is an observation of our state
+xk minus 1.
+This Bayesian network here gives us
+some intuition regarding the dependencies
+between our variables.
+It also illustrates the models that we have.
+For example, we see that xk minus 1
+is dependent on xk minus 2.
+So if we know xk minus 2, we can generate xk minus 1
+using our process model for example.
+So this vertex here basically says that p of xk
+minus 1, given xk minus 2.
+We have this type of model in our network.
+Similarly, as we mentioned earlier,
+our observation yk minus 1 is dependent on the state
+at time k minus 1.
+And this dependency is described by the measurement model,
+right.
+
+As a consequence of this, we can also see that, for example,
+yk minus 1 is conditionally independent
+on all other variables if we know xk minus 1.
+And similarly, if we know xk minus 1,
+for example, the variables here, to the right,
+are no longer dependent on these variables here.
+Because they are non-descendants of these variables.
+And everything that we need to know
+is summarized in xk minus 1.
+Before we use this model to factorize our distribution,
+I would like to point out two things.
+The first thing is that we do not
+expect that you will become an expert in Bayesian networks
+after this short introduction.
+However we hope that it will help
+you to understand and remember the dependencies
+and independencies that we have in our state space models.
+And we should also note that the Bayesian network here does not
+introduce any new information, it only
+illustrates the dependencies and independencies
+that we already introduced in the first slide.
+The second thing is that, although the Bayesian network
+illustrates how we model our random variable,
+we use, for example, xk to generate yk.
+But when we do inference, information typically
+flows in the opposite direction.
+Where we observe yk to draw conclusions
+regarding our state, xk.
+It's just that it is often convenient to model it
+the other way around.
+To model yk conditioned on xk.
+So now, let's use the Bayesian network
+to simplify our factorization of the joint distribution over all
+our variables.
+So we have the joint distribution
+where all our states from the prior to time k,
+and all our observations from time 1 to time k.
+We can always factorize this using the product rule.
+So we can, for example, divide it into this density
+here where we have our observations conditioned
+on all our states, and then just all our states.
+Now we can split this up even further
+if we separate this density here into factors
+over individual observations.
+We have p of y1, given all the states, p of y2, given p of y1,
+given all the states.
+This is just using the product rule, right?
+And so forth.
+Up to p of yk, given all the previous measurements
+and all the states.
+Similarly, we can split the density over all our states
+into individual densities of each individual state.
+So we have our prior, p of x0.
+Then the density of x1, given x0.
+Then the density of x2 given x0 and x1.
+And so forth, until we have p of xk,
+given all the previous states.
+So note that we have not made any assumptions yet,
+we have only used the product rule
+to factorize the joint density.
+So we go from joint density into these factors using the product
+rule.
+And we can do this for any density.
+And now we want to use our Bayesian network here
+to simplify these factors.
+If you start by looking at these conditional distributions
+over our individual observations,
+we see from our patient network that each measurement, here,
+is conditionally independent of all other states
+and measurements.
+If we condition on its respective states.
+So if we condition on xk minus 1, yk minus 1
+becomes conditionally independent
+of all of these other states.
+Because these are non-descendants of yk minus 1.
+So if we look at it here as y1 it's conditionally independent
+of all other states, except x1, we can remove them from this.
+So we have for the first one here.
+And then here we have y2, conditioned
+on y1 and all the other states.
+And here we have x2, right, so y2 is conditionally
+independent of all the other states here, except x2.
+
+So it simplifies to this.
+And so on until we get.
+
+So it leaves us with a product of measurement models.
+So instead of having this very complicated product
+of densities, we have a simple product
+of our measurement models.
+And that is all.
+It's much simpler than that original expression, right?
+Similarly, if we look at this product
+here, over the individual states,
+we can remove all the past states in this product here.
+So the prior we cannot simplify anymore.
+
+And not distribution of x1, given x0 either.
+However here we see that, if we condition on x1,
+x0 is conditionally independent of x2,
+so we can remove it from the expression.
+
+And we can do this for all the rest
+and we just get: So we can just simplify
+this fairly complicated product here
+as just a product of the prior and the individual motion
+models.
+So by using the structure of our state space model,
+as illustrated by this Bayesian network,
+we can factorize the joint distribution
+of all these variables as a product of simple measurement
+models, process models, or motion models, and the prior.
+So we will use this in the next lecture
+where we will drive the optimal filter.
+And here is a self-assessment question
+to check that you have understood the basic concepts
+of a Bayesian network.
