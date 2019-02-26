@@ -35,3 +35,17 @@ the analogous derivation for discretetime or hybrid systems are straightforward.
 
 \subsection{The Extended Kalaman Filter }
 
+The previous section obtained a linearized Kalman filter for estimating the states of 
+a nonlinear system.  The derivation was based on linearizing the nonlinear system 
+around a nominal state trajectory.  The question that arises is, How do we know 
+the nominal state trajectory? 
+
+In some cases it may not be straightforward to find 
+the nominal trajectory.  However, since the Kalman  filter estimates the state of 
+the system, we can use the Kalman filter estimate as the nominal state trajectory.
+
+This is sort of a bootstrap method.  We linearize the nonlinear system around the 
+Kalman filter estimate, and the Kalman filter estimate is based on the linearized 
+system. This is the idea of the extended Kalman filter (EKF), which was originally 
+proposed by Stanley Schmidt so that the Kalman filter could be applied to nonlinear 
+spacecraft navigation problems.
