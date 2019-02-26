@@ -1,10 +1,310 @@
-\section{Kalman Filters}
+\section{Kalman Filter}
 \label{kalman_filters}
 
-Kalman filtering is an iterative process that uses a set of equations and consecutive data inputs to quickly estimat the 
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/rudolf_e_kalman.jpeg}
+\end{center}
+\caption{Rudolf E. Kálmán receiving the National Medal of Science.}
+\label{rudolf_e_kalman}
+\end{figure}
+
+
+In this section, we'll learn about one of the most famous algorithms in all of engineering; namely the Kalman filter. In today's world of
+advanced machine learning, the Kalman filter remains
+an important tool to fuse measurements from several sensors to estimate in real-time the state of a robotic system such
+as a self-driving car. Concretely, in this section, we will introduce its basic linear formulation and also show  why the Kalman filter is the best linear unbiased
+estimator. 
+
+\section{Introduction}
+\label{kalman_filter_introduction}
+
+The Kalman filter algorithm was
+published in 1960 by Rudolf E. Kalman, a Hungarian born professor
+and engineer who was working at the Research Institute
+for Advanced Studies in Baltimore Maryland. Years later in 2009, American President Barack
+Obama awarded Kalman the prestigious National Medal
+of Science for his work on the Kalman filter and other contributions to the field
+of control engineering.
+
+After its publication in 1960, the Kalman filter was adopted by NASA for use in
+the Apollo guidance computer. 
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/apollo_guidance_computer.jpeg}
+\end{center}
+\caption{The Apollo guidance computer used Kalman filtering.}
+\label{apollo_guidance_computer}
+\end{figure}
+
+It was this ground-breaking innovation
+that played a pivotal role in successfully getting
+the Apollo spacecraft to the moon, and to our first steps on another world. The filter helped guide the Apollo spacecraft accurately
+through its circumlunar orbit. 
+
+The engineers at
+NASA's Ames Research Center, adopted Kalman's linear theory and
+extended it to nonlinear models. We will discuss this specific extension
+in a later section. But first, let's talk about
+the basic linear Kalman filter. 
+
+\section{Linear Kalman Filter}
+
+
+The Kalman filter is very similar to the linear recursive least squares
+filter we discussed earlier. While recursive least squares updates
+the estimate of a static parameter, but Kalman filter is able to update
+and estimate of an evolving state. Thus, Kalman filtering is an iterative process that uses a set of equations and consecutive data inputs to quickly estimate the 
 true value; e.g. position, velocity etc., of the object being measured when the measured values contain unpredicted or 
 random error, uncertainty or variation.
 
+
+The goal of the Kalman filter is to take a probabilistic estimate
+of this state and update it in real time using
+two steps; prediction and correction. 
+
+
+To make these ideas more concrete, let's consider a problem of estimating
+the 1D position of the vehicle. 
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/kalman_1.jpeg}
+\end{center}
+\caption{The Apollo guidance computer used Kalman filtering.}
+\label{kalman_1}
+\end{figure}
+
+Starting from an initial probabilistic
+estimate at time $k-1$, our goal is to use a \textbf{motion model}
+which could be derived from wheel odometry or inertial sensor
+measurements to predict our new state. Then, we'll use the observation model
+derived from GPS for example, to correct that prediction
+of vehicle position at time $k$. 
+
+Each of these components, the initial estimate, the predicted state, and
+the final corrected state are all random variables that we will specify
+by their means and covariances. In this way, we can think of the Kalman filter as a technique to fuse information from
+different sensors to produce a final estimate of some unknown state, taking into account, uncertainty
+in motion and in our measurements. For the Kalman filter algorithm, we had been able to write
+the motion model in the following way; the estimate at time step k is a linear combination of the estimate
+at time step $k-1$, a control input and some zero-mean noise. 
+
+
+The input is an external signal that affects the evolution of our system state. In the context of self-driving vehicles, this may be a wheel torque applied to speed up and change lanes, for example. Next, we will also need to define
+a linear measurement model. Finally, we'll need a measurement
+noise as before and a process noise that
+governs how certain we are that our linear dynamical system
+is actually correct, or equivalently, how uncertain we are about the effects
+of our control inputs. 
+
+\begin{eqnarray}
+\mathbf{x}_k = \mathbf{F}_{k-1}\mathbf{x}_{k-1} + \mathbf{G}_{k-1}\mathbf{u}_{k-1} + \mathbf{w}_{k-1} \\
+\mathbf{y}_k = \mathbf{H}_k \mathbf{x}_k + \mathbf{v}_k
+\end{eqnarray}
+
+where
+
+\begin{equation}
+\mathbf{v}_k \sim N(0, \mathbf{R}_k), ~~ \mathbf{w}_k \sim N(0, \mathbf{Q}_k) 
+\end{equation}
+
+Once we have our system in hand, we can use an approach
+very similar to that we discussed in the recursive
+least squares. Except this time, we'll
+do it in two steps. 
+
+\begin{itemize}
+\item First, we use the process model to predict how our states, remember, that we're now typically talking
+about evolving states and non-state parameters evolved since the last time step, and will propagate our uncertainty. 
+\item Second, we'll use our measurement to correct that prediction based on our measurement residual
+or innovation and our optimal gain. 
+\end{itemize}
+
+Finally, we'll use the gain to also propagate the state covariance from our prediction
+to our corrected estimate. This is shown in Figure
+
+ 
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/kalman_2.jpeg}
+\end{center}
+\caption{The linear Kalman filter steps.}
+\label{kalman_2}
+\end{figure}
+
+In our notation, the hat indicates a corrected prediction
+at a particular time step. Whereas a check indicates a prediction before
+the measurement is incorporated. If you've worked with the
+Kalman filter before, you may also have seen this
+written with plus and minus signs for the corrected and
+predicted quantities, respectively. 
+
+Let's recap. We start with
+a probability density over our states and also maybe parameters
+at time step $k-1$, which we represent as
+a multivariate Gaussian. We then predict the states
+at time step $k$ using our linear prediction model and propagate both the mean
+and the uncertainty; the covariance, forward in time. Finally, using our probabilistic
+measurement model, we correct our initial
+prediction by optimally fusing the information from
+our measurement together with the prior prediction through our optimal
+gain matrix $\mathbf{K}$. Our end result is an updated probabilistic estimate
+for our states at time step $k$. 
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/kalman_3.jpeg}
+\end{center}
+\caption{The linear Kalman filter steps.}
+\label{kalman_3}
+\end{figure}
+
+\subsection{Example: 1D Vehicle Motion}
+
+The best way to become comfortable with the
+Kalman filter is to use it. Let's look at a simple example. Consider again the case of the self-driving vehicle
+estimating its own position. Our state vector will include the vehicle position and
+its first derivative velocity. Our input will be a scalar acceleration
+that could come from a control system that commands our car
+to accelerate forward or backwards. For our measurement, we'll assume
+that we're able to determine the vehicle position directly using
+something like a GPS receiver. Finally, we'll define
+our noise variances as follows: Given this initial
+estimate and our data, what is our corrected position
+estimate after we perform one prediction step and one correction
+step using the Kalman filter? Here's, how we can use
+these definitions to solve for our corrected position
+and velocity estimates. Pay attention to the fact that our final corrected state
+covariance is smaller. That is we are more certain about the car's position after we
+incorporate the position measurement. This uncertainty reduction occurs because our measurement model
+is fairly accurate. That is, the measurement noise
+variance is quite small. Try increasing
+the measurement variance and observe what happens to
+the final state estimate. To summarize, the Kalman filter is
+similar to recursively squares, but also adds a motion model that
+defines how our state evolves over time. The Kalman filter works
+in two stages: First, predicting the next state
+using the motion model, and second, correcting
+this prediction using a measurement. But how can we be sure
+that the Kalman filter is giving us an accurate state estimate? 
+
+
+\section{Kalman Filter and BLUE}
+\label{kalman_filter_blue}
+
+We have introduced the Kalman Filter, let's discuss little bit about what makes
+it such an appealing estimation method. 
+
+\subsection{Bias}
+\label{kalman_filter_bias}
+
+Let's dive in. First, let's discuss bias. Let's consider our Kalman Filter
+from the previous lesson and use it to estimate the position
+of our autonomous car. If we have some way of knowing the true
+position of the vehicle, for example, an oracle tells us, we can then use this to record a position
+error of our filter at each time step $k$. Since we're dealing with random noise,
+doing this once is not enough. We will need to repeat this same
+process over and over and record our position
+error at each time step. Once we've collected these errors, if they
+average to zero at a particular time step $k$, then we say the Kalman Filter
+estimate is unbiased at this time step.  Graphically, this is what the situation may look like. 
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/kalman_4.jpeg}
+\end{center}
+\caption{The linear Kalman filter steps.}
+\label{kalman_4}
+\end{figure}
+
+Say the particular time step, we know that the true position is the following. We build a histogram of the positions that
+our filter reports over multiple trials, and then compute the difference between
+the average of these estimates and the true position. If this difference does not approach zero,
+then our estimate is biased. However, if this difference does approach
+zero as we repeat this experiment many more times, and
+if this happens for all time intervals, then we say that our filter is unbiased. Although we could potentially verify
+this lack of bias empirically, what we'd really like are some
+theoretical guarantees. 
+
+Let's consider the error dynamics of our filter. We define our predicted and corrected state
+errors as follows
+
+\begin{eqnarray}
+\text{Predicted state error: }~~\check{\mathbf{e}}_k = \check{\mathbf{x}}_k - \mathbf{x}_k\\
+\text{Corrected estimate error: }~~\hat{\mathbf{e}}_k = \hat{\mathbf{x}}_k - \mathbf{x}_k
+\end{eqnarray}
+
+We can then use the common filter equations to write
+the following relations. 
+
+\begin{eqnarray}
+\check{\mathbf{e}}_k = \mathbf{F}_{k-1}\check{\mathbf{e}}_{k-1} - \mathbf{w}_k \\
+\hat{\mathbf{e}}_k = (\mathbf{I} - \mathbf{K}_k\mathbf{H}_k)\check{\mathbf{e}}_k + \mathbf{K}_k\mathbf{v}_k
+\end{eqnarray}
+
+For the Kalman Filter, we can show the expectation value of
+these errors is equal to zero exactly. Meaning that we can show
+
+\begin{equation}
+E[\check{\mathbf{e}}_k] = \mathbf{0}, ~~ E[\hat{\mathbf{e}}_k] = \mathbf{0}
+\end{equation}
+
+For this to be true, we need to ensure that our initial state estimate is unbiased and that our noise is white,
+uncorrelated, with zero mean. While this is a great result for linear systems, remember that this doesn't guarantee that
+our estimates will be error free for a given trial, only that the expected
+value of the error is zero. 
+
+\subsection{Consistency}
+\label{kalman_filter_consistency}
+
+Kalman Filters are also what is called consistent. By consistency we mean that for
+all time steps $k$, the filter covariants $P_k$ matches the expected
+value of the square of our error. 
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/kalman_5.jpeg}
+\end{center}
+\caption{The linear Kalman filter steps.}
+\label{kalman_5}
+\end{figure}
+
+For scalar parameters,
+this means that the empirical variance of our estimate should match
+the variance reported by the filter. Practically, this means that our
+filter is neither overconfident, nor underconfident in
+the estimate it has produced. 
+
+\subsubsection{Overconfident filter}
+
+A filter that is overconfident,
+and hence inconsistent, will report a covariance
+that is optimistic. That is, the filter will essentially place
+too much emphasis on its own estimate and will be less sensitive to
+future measurement updates, which may provide critical information. It's easy to see how an overconfident
+filter might have a negative or dangerous effect on the performance
+of self-driving car. 
+
+
+So long as our initial
+estimate is consistent, and we have white zero mean noise,
+then all estimates will be consistent. Putting everything together,
+we've shown that given white uncorrelated zero mean noise, the Kalman
+Filter is unbiased and consistent. Because of these two facts, we say that the Kalman Filter is the BLUE,
+the Best Linear Unbiased Estimator. It produces unbiased estimates with
+the minimum possible variance. 
+
+To summarize, in this section we've defined the terms bias and consistency, and
+showed that the Kalman Filter is unbiased, consistent, and the Best Linear
+Unbiased Estimator, or BLUE. Remember that best here refers to
+the fact that the Kalman Filter minimizes the state variance. Although this is a fantastic result,
+most real systems are not linear. For self-driving cars, we'll
+generally need to estimate non-linear quantities like vehicle poses,
+position, and orientation in 2D and 3D. To do this, we'll need to extend the linear
+Kalman Filter into the non-linear domain. 
 
 
 \subsection{Kalaman Gain}
