@@ -45,5 +45,4 @@ if __name__ == '__main__':
     print("State: ", kf['x'])
 
     # expect P = [[0.04 0.06], [0.06 0.49]]
-
     print("Covariance: ", kf['P'])
