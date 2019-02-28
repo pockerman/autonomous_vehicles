@@ -104,7 +104,7 @@ at a single point.
 
 
 \begin{equation}
-f(x) \approx f(\alpha) + \frac{\partial f}{\partial x} \|_{x=\alpha} (x-\alpha) + \frac{1}{2!}\frac{\partial^2 f}{\partial x^2} \|_{x=\alpha} (x-\alpha)^2 + \ldots
+f(x) \approx f(\alpha) + \frac{\partial f}{\partial x}|_{x=\alpha} (x-\alpha) + \frac{1}{2!}\frac{\partial^2 f}{\partial x^2}|_{x=\alpha} (x-\alpha)^2 + \ldots
 \end{equation}
 
 \end{remark}
@@ -125,14 +125,15 @@ on the motion model.
 
 
 
+\begin{eqnarray}
+\mathbf{x}_k = \mathbf{f}_{k-1}(\mathbf{x}_{k-1}, \mathbf{u}_{k-1}, \mathbf{w}_{k-1}) \approx \mathbf{f}_{k-1}(\hat{\mathbf{x}}_{k-1}, \mathbf{u}_{k-1}, \mathbf{0}) +  \nonumber \\
+\frac{\partial \mathbf{f}_{k-1}}{\partial \mathbf{x}_{k-1}} |_{\hat{\mathbf{x}}_{k-1}, \mathbf{u}_{k-1}, \mathbf{0} } (\mathbf{x}_{k-1}-\hat{\mathbf{x}}_{k-1}) + \nonumber \\
+\frac{\partial \mathbf{f}_{k-1}}{\partial \mathbf{w}_{k-1}}|_{\hat{\mathbf{x}}_{k-1}, \mathbf{u}_{k-1}, \mathbf{0} } \mathbf{w}_{k-1}
+\end{eqnarray}
+
 
 \begin{equation}
-\mathbf{x}_k = f_{k-1}(\mathbf{x}_{k-1}, \mathbf{u}_{k-1}, \mathbf{w}_{k-1}) \approx f_{k-1}(\hat{\mathbf{x}}_{k-1}, \mathbf{u}_{k-1}, \mathbf{0}) + \frac{\partial f_{k-1}}{\partial x_{k-1}} \|_{\hat{\mathbf{x}}_{k-1}} (x-\alpha)
-\end{equation}
-
-
-\begin{equation}
-\mathbf{y}_k = h_k(\mathbf{x}_k, \mathbf{v}_k) \approx h_k(\check{\mathbf{x}}_k, \mathbf{0}) + \frac{\partial h_k}{\partial x_k} \|_{\check{\mathbf{x}}_{k-1}, \mathbf{0}} (\mathbf{x}_k-\check{\mathbf{x}}_k) + \frac{\partial h_k}{\partial \mathbf{v}_k} \|_{\check{\mathbf{x}}_k, \mathbf{0}} \mathbf{v}_k
+\mathbf{y}_k = \mathbf{h}_k(\mathbf{x}_k, \mathbf{v}_k) \approx \mathbf{h}_k(\check{\mathbf{x}}_k, \mathbf{0}) + \frac{\partial h_k}{\partial x_k} |_{\check{\mathbf{x}}_{k}, \mathbf{0}} (\mathbf{x}_k-\check{\mathbf{x}}_k) + \frac{\partial h_k}{\partial \mathbf{v}_k} |_{\check{\mathbf{x}}_k, \mathbf{0}} \mathbf{v}_k
 \end{equation}
 
  So, now we have a linear system in
@@ -157,10 +158,6 @@ changing as you vary the input. The Jacobian is really
 just a generalization of the first derivative
 to multiple dimensions. 
 
-Here's a simple example
-of the Jacobian of a two-dimensional function with two inputs. 
-
-
 The Jacobian matrix captures
 the first derivatives of each of the two output variables with respect
 to each of the two input variables. The best way to get comfortable with
@@ -178,57 +175,166 @@ x_{1}^2
 \end{bmatrix}
 \end{equation}
 
+The Jacobian matrix is then
+
+\begin{equation}
+\frac{\partial \mathbf{f}}{\partial \mathbf{x}} = 
+\begin{bmatrix}
+\frac{f_1}{\partial x_1} & \frac{f_1}{\partial x_2}  \\
+\frac{f_2}{\partial x_1} & \frac{f_2}{\partial x_2}
+\end{bmatrix} = 
+\begin{bmatrix}
+1 & 1 \\
+2x_1 & 0 
+\end{bmatrix}
+\end{equation}
+
 
 \end{remark}
 \end{framed}
 
-Now, we know how to compute the
-Jacobian matrices needed for the EKF, and all that's left is to plug them into our standard Kalman
-filter equations. There are a couple of
-differences to notice in the EKF equations compared to the Kalman filter equations
-we saw in module two. First, in the prediction
-and correction steps, we're still using the nonlinear models
-to propagate the mean of the state estimate and to compute
-the measurement residual or innovation. That's because we
-linearized our motion model about the previous state estimate, and we linearized the measurement model
+Now, we know how to compute the Jacobian matrices needed for the EKF, and all that's left is to plug them into our standard Kalman
+filter equations. There are a couple of differences to notice in the EKF equations compared to the Kalman filter equations.
+
+\begin{itemize}
+\item First, in the prediction and correction steps, we're still using the nonlinear models to propagate the mean of the state estimate and to compute
+the measurement residual or innovation. That's because we linearized our motion model about the previous state estimate, and we linearized the measurement model
 about the predicted state. By definition,
 the linearized model exactly coincides with the nonlinear model
-at the operating points. The second difference
-is the appearance of the L and M Jacobians related to
-the process and measurement noise. In many cases, both of these matrices
-will be identity since noise is often assumed to be additive
-but this is not always the case. So far, this has all been very abstract. So, let's walk through a concrete
-example of actually using the EKF. We'll use the same example from
+at the operating points. 
+\item The second difference is the appearance of the $L$ and $M$ Jacobians related to the process and measurement noise. In many cases, both of these matrices
+will be identity since noise is often assumed to be additive but this is not always the case. So far, this has all been very abstract. 
+\end{itemize}
+
+Figure \ref{kalman_6} summarizes the Extended Kalman filter algorithm
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/kalman_6.jpeg}
+\end{center}
+\caption{Summary of EKF.}
+\label{kalman_6}
+\end{figure}
+
+
+\section{Example: EKF}
+\label{example_ekf}
+
+So, let's walk through a concrete example of actually using the EKF. We will use the same example from
 module two but with a twist. We're going to track the position and velocity of a car moving along a rail. But now, instead of receiving periodic GPS measurements
-that tell us our position, we're going to use
-an on-board sensor like a camera to measure the altitude of distant
-landmarks relative to the horizon. We'll keep the same linear motion model
+that tell us our position, we're going to use an on-board sensor like a camera to measure the altitude of distant
+landmarks relative to the horizon. We will keep the same linear motion model
 as in the original example, and assume we know both the height of the landmark and its position
-in a global reference frame. Because our sensor is measuring an angle, our measurement model has a nonlinear dependence on
-the position of the car. We're going to need to linearize the measurement model and use it
+in a global reference frame. See for example Figure \ref{kalman_7}.
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/kalman_7.jpeg}
+\end{center}
+\caption{Summary of EKF.}
+\label{kalman_7}
+\end{figure}
+
+Thus, the state vector is given by the vector
+
+\begin{eqnarray}
+\mathbf{x}_k = 
+\begin{bmatrix}
+p \\
+\dot{p}
+\end{bmatrix}
+\end{eqnarray}
+
+and it is propagated according to
+
+\begin{eqnarray}
+\mathbf{x}_k = 
+\begin{bmatrix}
+1 & \Delta t \\
+0 & 1
+\end{bmatrix}
+\mathbf{x}_{k-1} + 
+\begin{bmatrix}
+ 0 \\
+ \Delta t 
+\end{bmatrix}
+\mathbf{u}_{k-1} + \mathbf{w}_{k-1}
+\end{eqnarray}
+
+The input signal is given by
+
+\begin{eqnarray}
+\mathbf{u} = \ddot{p} 
+\end{eqnarray}
+
+The landmark measurement model is
+
+\begin{equation}
+y_k = \arctan(\frac{S}{D - p_k}) + v_k
+\end{equation}
+
+Finally, we will use the following noise densities
+
+\begin{equation}
+v_k \sim N(0, 0.01), ~~ \mathbf{w}_k \sim N(\mathbf{0}, \begin{bmatrix} 0.1 & 0 \\ 0 & 0.1 \end{bmatrix})
+\end{equation}
+
+Because our sensor is measuring an angle, our measurement model has a nonlinear dependence on
+the position of the car. We are going to need to linearize the measurement model and use it
 in our Extended Kalman Filter. The Jacobians for
-this problem look like this. Notice that the F matrix
-in this problem is exactly the same as the F matrix
-in the original problem. That's because our motion model
+this problem look like this. 
+
+\begin{equation}
+\mathbf{F}_{k-1} = 
+\begin{bmatrix} 
+1 & \Delta t \\ 
+0 & 1 
+\end{bmatrix}, ~~ \mathbf{L}_{k-1} = \mathbf{I}_{2\times 2}, ~~ \mathbf{H}_k =  
+\begin{bmatrix} 
+\frac{S}{(D - \check{p})^2 + S^2} & 0
+\end{bmatrix}, ~~ M_k = 1
+\end{equation}
+
+
+Notice that the $\mathbf{F}$ matrix in this problem is exactly the same as the $\mathbf{F}$ matrix
+in the original problem. This is because our motion model
 is already linear in the state. Also notice that
-the noise Jacobians, L and M, are both identity since both the emotion and the measurement
-model have additive noise. Try using the data given here
-to estimate the position of the vehicle at time one using the EKF. Here is the result of the prediction step for the mean and
-co-variance of the state. Notice that the result is identical to the linear Kalman filter case because
+the noise Jacobians, $\mathbf{L}$ and $\mathbf{M}$, are both identity since both the emotion and the measurement
+model have additive noise. 
+
+We will be using the following data  to estimate the position of the vehicle at time one using the EKF. 
+
+\begin{equation}
+S = 20m, D= 40m, y_1 = 30 deg, u_0 = -2m/s^2, \Delta t = 0.5s
+\end{equation}
+
+
+\begin{equation}
+\hat{\mathbf{x}}_0 \sim N(\begin{bmatrix}0 \\ 5 \end{bmatrix}, \begin{bmatrix}0.01 & 0 \\ 0 & 1 \end{bmatrix})
+\end{equation}
+
+Here is the result of the prediction step for the mean and
+covariance of the state. Notice that the result is identical to the linear Kalman filter case because
 the motion model actually is linear. For the correction step, this is what you should get. Keep in mind that you should use the nonlinear measurement model to
 compute the measurement residual, not the linearized model. Also note that in this case, even though the corrected mean at the state estimate is different
 from the predicted mean, the corrected co-variance didn't change that much from the predicted co-variance. This is because the Azimuth angle
 changes slowly at this distance and doesn't provide
 much information about the vehicle state compared
-to a GPS measurement. So, to recap, we saw that
-the Extended Kalman Filter or EKF uses linearization to adopt
-the Kalman filter to nonlinear systems. We'll encounter several
-different nonlinear systems to which we can apply
+to a GPS measurement. 
+
+
+In summary, the Extended Kalman Filter or EKF uses linearization to adopt
+the Kalman filter to nonlinear systems. We will encounter several different nonlinear systems to which we can apply
 the EKF or its cousin, the UKF, in the upcoming course project. Linearization works by computing
 a local linear approximation to a nonlinear function using a first-order Taylor series expansion
 about an operating point. This requires several Jacobian matrices which contain the set of
-first-order partial derivatives. In the next video, we'll discuss an
+first-order partial derivatives. In the next section, we will discuss an
 alternative formulation of the EKF called the error
 state Extended Kalman Filter. This would be a useful tool later
 in the course when we talk about estimating the vehicle
 orientation in 3D space.
+
+\section{Questions}
+
+
+\section{Assignements}
