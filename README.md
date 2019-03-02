@@ -4,35 +4,33 @@
 
 ### Part: Basics
 
-- **Item:** Introduction to Self-Driving Cars
-- **Item:** Hardware for Self-driving Cars
-- **Item:** Hardware Configuration
-- **Item:** Software Architecture for Autonomous Driving Stack
-- **Item:** Environment Representation
-- **Item:** Safety Assurance for Autonomous Vehicles
-- **Item:** Dynamics of Automobiles
+- **Item:** <a href="#">Introduction to Self-Driving Cars</a>
+- **Item:** <a href="#">Hardware for Self-driving Cars</a>
+- **Item:** <a href="#">Software Architecture for Autonomous Driving Stack</a>
+- **Item:** <a href="#">Environment Representation</a>
+- **Item:** <a href="#">Safety Assurance for Autonomous Vehicles</a>
+- **Item:** <a href="#">Dynamics of Automobiles</a>
 
 
 ### Part: Environment Perception
 
 ### Part: Environment Mapping 
 
-### Part: Motion Planning
+### Part: Motion Planning & Navigation
 
 ### Part: Control 
 
-- **Item:** Linear Systems
-- **Item:** State Feedback
-- **Item:** Output Feedback
-- **Item:** PID and Linear Quadratic Regulator Controllers
-- **Item:** Model Predictive Control
+- **Item:** <a href="#">PID and LQR Control</a>
+- **Item:** <a href="#">Longitudinal Control</a>
+- **Item:** <a href="#">Lateral Control</a>
+- **Item:** <a href="#">Model Predicitve Control</a>
 
 ### Part: State Estimation
 
-- **Item:** Kalman Filter
-- **Item:** Extended Kalman Filter
-- **Item:** Unscented Kalaman Filter
-- **Item:** Particle Filters
+- **Item:** <a href="#">Kalman Filter</a>
+- **Item:** <a href="#">Extended Kalman Filter</a>
+- **Item:** <a href="#">Unscented Kalaman Filter</a>
+- **Item:** <a href="#">Particle Filters</a>
 
 ### Part: System Supervisor
 
