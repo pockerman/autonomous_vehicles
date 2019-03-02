@@ -6,7 +6,7 @@ Greg Welch1 and Gary Bishop2
 
 """
 
-import  numpy as np
+import numpy as np
 from numpy.linalg import inv
 import collections
 

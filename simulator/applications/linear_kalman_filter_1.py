@@ -1,10 +1,6 @@
 import numpy as np
 from estimation.kalman_filter import KalmanFilter
 
-
-def simulate():
-    pass
-
 if __name__ == '__main__':
 
     kf = KalmanFilter()
