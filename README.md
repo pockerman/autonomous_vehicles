@@ -10,6 +10,7 @@
 - **Item:** <a href="#">Environment Representation</a>
 - **Item:** <a href="#">Safety Assurance for Autonomous Vehicles</a>
 - **Item:** <a href="#">Dynamics of Automobiles</a>
+- **Item:** <a href="autonomous_vehicles_notes/vehicle_modeling_chronos_notes/notes.pdf">Vehicle Modeling with Chronos</a>
 
 
 ### Part: Environment Perception
@@ -44,11 +45,13 @@
 ## Courses & Videos
 
 - **The Kalman Filter:** https://www.youtube.com/watch?v=CaCcOwJPytQ&feature=youtu.be
-
+- **Self-Driving Cars Specilization:** https://www.coursera.org/specializations/self-driving-cars
+- **Emerging Automotive Technologies:** https://courses.edx.org/dashboard/programs/a9cbdeb6-5fc0-44ef-97f7-9ed605a149db/
 ## Links
 
 - **Taxonomy of Driving:** https://www.sae.org/standards/content/j3016_201806/?PC=DL2BUY
 - **SAE J3016 Taxonomy and Definitions Document:** https://drive.google.com/open?id=1xtOqFVJvOElXjXqf4RAwXZkI_EwbxFMg
+- **Project Chrono:** https://projectchrono.org/
 
 
 

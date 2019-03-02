@@ -1,0 +1,47 @@
+\documentclass{paper}
+\usepackage{nomencl}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{parskip}
+\usepackage[toc,page]{appendix}
+\usepackage{csquotes}
+\usepackage{framed}
+\usepackage{amsthm}
+\usepackage{listings}
+
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\footnotesize,% basic font setting
+}
+
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+ 
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+%\theoremstyle{example}
+%\newtheorem{example}{Example}[section]
+%\usepackage{biblatex}
+%\makenomenclature
+\title{Vehicle Modeling with Chronos}
+\author{A. Giavaras}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\clearpage
+\input{section.tex}
+
+\clearpage
+\bibliographystyle{plain}
+\input{references.bbl}
+\end{document}
