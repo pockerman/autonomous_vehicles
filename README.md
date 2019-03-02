@@ -18,6 +18,8 @@
 
 ### Part: Motion Planning & Navigation
 
+- **Item:** <a href="autonomous_vehicles_notes/motion_planning_notes/notes.pdf">Motion Planning</a>
+
 ### Part: Control 
 
 - **Item:** <a href="#">PID and LQR Control</a>
