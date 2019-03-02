@@ -1,7 +1,6 @@
 # Autonomous Vehicles
 
 ## Contents
------
 
 ### Part: Basics
 -----
