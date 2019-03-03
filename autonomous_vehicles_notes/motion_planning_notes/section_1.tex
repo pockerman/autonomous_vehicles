@@ -4,7 +4,7 @@
 Motion planning is the problem of finding a continuous collision free path from an initial
 configuration (or state) to a goal. On board an autonomous vehicle, the capability to prevent
 collisions also depends on the sensing and control. Critically, motion planning is a necessary
-component for the safe operation of an autonomous vehicles. Apart from an efficient algorithm
+component for the safe operation of an autonomous vehicle. Apart from an efficient algorithm
 for motion planning, one should also consider  the problem of embedding the motion planner 
 into a software system in which all tasks are required to satisfy hard deadlines. 
 
@@ -27,12 +27,14 @@ is dependent on the quality of sensing, planning and control, and on the tempora
 between those tasks.
 
 
-The consequences of failing to perform sensing, planning or control within a suitable dead-
-line can result in failure to observe obstacles, produce safe paths or accurately track a path.
+The consequences of failing to perform sensing, planning or control within a suitable deadline can result in 
+failure to observe obstacles, produce safe paths or accurately track a path.
 Consistent failure to meet deadlines can have serious effects including poor performance with
 respect to mission objectives or loss of vehicle, such as when a collision occurs.
 
 \subsection{Safe navigation}
+\label{safe_navigation}
+
 Safe navigation depends on being able to plan paths or trajectories that prevent collisions with
 obstacles. In the case of autonomous vehicles these obstacles can be either static, such as
 terrain or buildings, or dynamic, such as other moving vehicles.
@@ -50,13 +52,12 @@ does not occur except in highly structured workspaces.
 \end{framed}
 
 More realistic environments would include obstacles that move over time and obstacles
-that must be detected using sensors. This more difficult task can be addressed by replanning
-when the environment changes, a process known as \textbf{dynamic motion planning}.
-
+that must be detected using sensors. This is, in principle, a more difficult task and 
+can be addressed by replanning when the environment changes, a process known as \textbf{dynamic motion planning}.
 
 Using an analogy from control theory, motion planning can be thought of as {\em open-loop},
 while dynamic motion planning can be considered its {\em closed-loop} equivalent. This highlights that 
-the replanning is used to minimise errors resulting from unforeseen environmental changes. 
+the replanning step is used to minimise errors resulting from unforeseen environmental changes. 
 Furthermore, it is also useful to consider the task of safe navigation as a cycle of sensing, planning
 and control or actuation as shown in Figure \ref{sense_plan_control_tasks_cycle}.
 
@@ -69,17 +70,17 @@ and control or actuation as shown in Figure \ref{sense_plan_control_tasks_cycle}
 \end{figure}
 
 The sensing task is responsible for mapping and localization. Mapping involves measuring,
-and in some cases predicting, locations of obstacles based on sensor observations. Localization
+and in some cases, predicting locations of obstacles based on sensor observations. Localization
 is the task of finding the configuration (location and pose) of the vehicle. The quality of
 localization and mapping estimates is dependent on the types and properties of the sensors
 used. A significant external factor which influences localization and mapping relates to how
 quickly new observations are acquired, as compared to how quickly the vehicle moves.
 
-The actuation task takes the sensed location of the vehicle and the path output of the mo-
-tion planner, and produces inputs to the actuators. These inputs are chosen so as to minimise
+The actuation task takes the sensed location of the vehicle and the path output of the motion planner, 
+and produces inputs to the actuators. These inputs are chosen so as to minimise
 path-tracking errors. The capability to track a path accurately depends on a number of factors
-including: the magnitude of environmental disturbances, sensors, actuators and the implemen-
-tation of the controller, including the rate at which the controller is updated at.
+including: the magnitude of environmental disturbances, sensors, actuators and the implementation of the controller, 
+including the rate at which the controller is updated at.
 
 The planning process uses a single mapping and localization estimate to produce a collision
 free path from the current configuration, to a goal configuration, determined based on the
@@ -121,25 +122,25 @@ risk catastrophic failure. With regard to planning for autonomous vehicles, fail
 new plans within an acceptable time limit can potentially result in a collision. For this
 reason the hard real-time aspect of the computing constraints becomes crucial.
 
-\begin{framed}
-\theoremstyle{remark}
-\begin{remark}{\textbf{Temporal Inter-Coupling}}
+%\begin{framed}
+%\theoremstyle{remark}
+%\begin{remark}{\textbf{Temporal Inter-Coupling}}
  
-The temporal inter-coupling which occurs between sensing, planning and actuation is a
-phenomenon that is frequently ignored in planning literature. The rare examples in which
-the problem is considered [BV02, HKLR02], make the assumptions that minor collisions are
-acceptable. In this work, the cost of a collision of an autonomous system makes such an
-assumption unacceptable.
-\end{remark}
-\end{framed}
+%The temporal inter-coupling which occurs between sensing, planning and actuation is a
+%phenomenon that is frequently ignored in planning literature. The rare examples in which
+%the problem is considered [BV02, HKLR02], make the assumptions that minor collisions are
+%acceptable. In this work, the cost of a collision of an autonomous system makes such an
+%assumption unacceptable.
+%\end{remark}
+%\end{framed}
 
 
 \begin{framed}
 \theoremstyle{remark}
 \begin{remark}{\textbf{Anytime Algorithms}}
  
-Perhaps the best known results for planning under time constraints are those based on any-
-time algorithms [BD89]. These algorithms progressively refine an initial solution, improving
+Perhaps the best known results for planning under time constraints are those based on anytime algorithms [BD89]. 
+These algorithms progressively refine an initial solution, improving
 quality as time permits. Such an approach is less applicable in cases like motion planning subject 
 to kinematic and dynamic constraints, where finding an initial solution is time consuming.
 \end{remark}
@@ -155,9 +156,8 @@ state), mapping (obstacle state and geometries), path tracking, and most importa
 work, path generation. Sufficiently large errors in any of these areas can result in degradation
 in mission performance, or in the worst case, failure due to collisions \cite{Walker2011}.
 
-
-
 \subsection{Motion planning}
+\label{motion_planning}
 
 Safe and efficient navigation is a task of significant interest in robotics, and particularly
 mobile robotics. It involves finding a continuous path that can be followed from an initial
@@ -176,10 +176,7 @@ location of the vehicle or obstacles, then there is risk that a collision will o
 an accurate model of the environment is available, vehicles are equipped with sensors capa-
 ble of measuring the workspace around the vehicle. Sensor observations are used to identify
 the current state of the vehicle, localisation, and to identify the location of portions of the
-workspace which contain obstacles, mapping. The combined tasks of localisation and map-
-ping are typically described as Simultaneous Localisation and Mapping (SLAM) [LDW91],
-and are a major topic in robotics research today.
-
+workspace which contain obstacles, mapping. The combined tasks of localisation and mapping are typically described as Simultaneous Localisation and Mapping (SLAM) [LDW91].
 
 At a given time, given the current best estimate of the location of the vehicle and obstacles,
 it is possible to consider the task of finding an open-loop collision-free path from the current
@@ -199,30 +196,30 @@ can result in a collision.
 
 
 \subsection{Definitions}
+\label{definitions}
 
 The geometry of a motion planning problem is described, at least initially, in terms of a
-workspace. The workspace, W, can be thought of as a mathematical representation of the
+workspace. The workspace, $\mathcal{W}$, can be thought of as a mathematical representation of the
 physical space, in which the boundaries of both the vehicle and the known obstacles are encoded. 
 The workspace is normally represented as a three dimensional Euclidean space $R^3$.
 
-The geometry of vehicles and obstacles within the workspace can be represented in a va-
-riety of ways. Typically these methods include either polygonal models such as triangular
-meshes, or semi-algebraic models.
+The geometry of vehicles and obstacles within the workspace can be represented in a variety of ways. 
+Typically these methods include either polygonal models such as triangular meshes or semi-algebraic models.
 
 
 Within the workspace, the position of the vehicle can be encoded as a configuration, $\mathbf{q}$ or a state. A
 vehicle’s configuration can be described by an $n$-dimensional vector where the vehicle has $n$
 degrees of freedom. For example, a rigid body moving in the plane has a configuration vector
 with three elements $\mathbf{q} = (x, y, \theta)^T$;  a two dimensional position $(x,y)$ and a heading $\theta$.
-A rigid body in three dimensions can be represented as a configuration vector with six elements $(x, y, z, \phi, \theta, \psi)^T$ , a
+A rigid body in three dimensions can be represented as a configuration vector with six elements $\mathbf{q} = (x, y, z, \phi, \theta, \psi)^T$ , a
 three dimensional position, and an orientation specified in terms of Euler angles (yaw, pitch and roll).
 
 For a given vehicle configuration, the vehicle occupies a certain portion of the workspace,
-$A(q) \subset W$. The portion of the workspace occupied by a set of $m$ stationary obstacles can
+$A(\mathbf{q}) \subset \mathcal{W}$. The portion of the workspace occupied by a set of $m$ stationary obstacles can
 be described as:
 
 \begin{equation}
-B_i \subset W, i \in [1, 2, ..., m]
+B_i \subset \mathcal{W}, i \in [1, 2, ..., m]
 \end{equation}
 The total affect of all of the obstacles in the workspace can be expressed as 
 
@@ -233,7 +230,7 @@ B = \bigcup_{i \in [1,m]} B_i.
 This leads to the definition that a collision occurs if the area occupied by the vehicle would intersect with that of any of the obstacles, that
 is if 
 \begin{equation}
-A(q) \cup B \neq \oslash
+A(\mathbf{q}) \cup B \neq \oslash
 \end{equation}
 
 
@@ -257,5 +254,88 @@ consider the derivatives of configuration during planning. For example, a model 
 kinematics and dynamics will result in a state space $X$ , where each state, $x \in X$ encodes a
 configuration, $q$, velocity, $\dot{q}$, and acceleration, $\ddot{q}$ such that $x \in (q, \dot{q}, \ddot{q})$.
 
+Motion planning, is the task of finding a continuous collision free path, where that path starts at
+an initial configuration, and ends at a goal configuration. The basic motion planning problem
+is sometimes known as the piano movers problem [SS83b, SS83a].
+
+
+\begin{framed}
+\theoremstyle{definition}
+\begin{definition}{\textbf{Motion Planning}}
+\label{motion_plan_def_1}
+ 
+Given a geometry $\mathcal{A}$ of the vehicle and the obstacles $\mathcal{B}$, motion planning is the problem
+of finiding a path $\tau(s)$ from an initial configuration $\tau(0) = \mathbf{q}_{init}$ to a final 
+configuration $\tau(1) = \mathbf{q}_{goal}$ shuch that all configurations on the path are not in a collision
+state meaning that 
+\begin{equation}
+\tau(s) \in \mathcal{F}, \forall s \in [0,1] \nonumber
+\end{equation} 
+or correctly report that such a path does not exist.
+\end{definition}
+\end{framed}
+
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Completeness}}
+ 
+The requirement in Definition \ref{motion_plan_def_1} that a motion planner will return a path, if a feasible path
+exists, or will return failure otherwise, is commonly known as \textbf{completeness}. There are some
+well known strategies for implementing complete planning algorithms, however, it is well
+documented in planning literature [LaV06, HA92, TSK07] that complete planning algorithms
+tend to be computationally expensive in practice, and can be difficult to implement.
+\end{remark}
+\end{framed}
+
+A popular approach for motion planning is to use an approximately complete algorithm.
+These algorithms trade completeness for performance. In some cases the planner may fail to
+identify that a solution exists. The benefit of these strategies is that they tend to find solutions
+more quickly than complete planning algorithms in practice. This work makes extensive use
+of motion planning algorithms that make use of these weaker forms of completeness.
+
+Basic motion planning includes the assumption that the magnitude of the path tracking
+error is very close to zero. Under such conditions, even minor deviations have the potential to
+make a path unsafe. One approach to mitigate this risk is to enlarge the geometric size of the
+obstacles in the workspace by the magnitude of path error. This is sometimes termed \textbf{obstacle dilation} or \textbf{gross motion planning } [HA92].
+
+\subsubsection{Constrained motion planning}
+
+We know that a vehicle's motion can be expressed as a dynamic system. In its most general form, such a system can be expressed as
+
+\begin{equation}
+\dot{x} = f(x, u)
+\label{dyn_sys}
+\end{equation}
+where $x\in X$ is the state of the vehicle and $u \in U$ is the control input which is drawn from a set of all possible control inputs $U$.
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{}
+ 
+It is assumed that the sets $X$ and $U$ are bounded manifolds of dimension $n$ and $m$ respectively, which can be treated of
+subsets of $R^n$ and $R^m$ by defining appropriate charts on the manifolds \cite{CLHKBKS2006}.
+\end{remark}
+\end{framed}
+
+From a practical standpoint, the set of control inputs can be thought of as a vector of inputs to actuators or a controller.
+An open-loop trajectory $\tau(t)$ can be constructed by simulating the response of the dynamic
+system \ref{dyn_sys} to a function of (open-loop) control inputs that vary over time.
+
+\begin{equation}
+\tau(t) = \int_{0}^{t} f(x, u) dt
+\label{trj_dyn_sys}
+\end{equation}
+The trajectory obtained from \ref{trj_dyn_sys} is parametrized in terms of time $t$. As such then problem of constrained motion planning is to foind  a time variant ste of
+control inputs $u(t)$ 
+
 \subsection{Questions}
+
+\begin{enumerate}
+\item The term \textbf{completeness} with respect to a motion planner to what it refers to?
+\item True or False? Approximately complete motion planning algorithms, just like their complete counterparts, always report a solution if the latter exists.
+\item What do we mean with the term obstacle dilation?
+\end{enumerate}
 \subsection{Assignements}

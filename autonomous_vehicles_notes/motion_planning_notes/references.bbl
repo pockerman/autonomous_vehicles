@@ -10,4 +10,10 @@ LaValle S. M.,
 \newblock{\em Planning Algorithms,}
 \newblock Cambridge, 2006.
 
+\bibitem{CLHKBKS2006}
+Choset H., Lynch K. M., S. Hutchinson, G. Kantor, W. Burgard, L. E. Kavraki, and Thurn S.,
+\newblock{\em Principles of Robot Motion,}
+\newblock MIT Press, 2006.
+
+
 \end{thebibliography}
