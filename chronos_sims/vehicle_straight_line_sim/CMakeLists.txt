@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.10.0)
-project(vehicle_straight_line_sim VERSION 0.1 LANGUAGES CXX)
+project(steering_controller_demo VERSION 0.1 LANGUAGES CXX)
 
 # You need to specify this on your own
-SET(Chrono_DIR "")
+SET(Chrono_DIR " ")
 
-if(${Chrono_DIR} MATCH  "")
+if(${Chrono_DIR} STREQUAL " ")
     message("=====================================================")
     message("ERROR: ")
     message("You must set the Chrono_DIR variable on your own")
@@ -13,6 +13,16 @@ if(${Chrono_DIR} MATCH  "")
 endif()
 
 find_package(Qt5Core)
+SET(CMAKE_INSTALL_PREFIX " ")
+
+if(${CMAKE_INSTALL_PREFIX} STREQUAL " ")
+	 message("=====================================================")
+   message("ERROR: ")
+   message("You must set the CMAKE_INSTALL_PREFIX variable on your own")
+   message("=====================================================")
+   return()
+endif()
+
 LIST(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}/../../Chrono/install/lib64")
 find_package(Chrono
              COMPONENTS Irrlicht
@@ -27,7 +37,7 @@ if (NOT Chrono_FOUND)
 endif()
 
 include_directories(${CHRONO_INCLUDE_DIRS})
-add_executable(${PROJECT_NAME} "main.cpp")
+add_executable(${PROJECT_NAME} "demo.cpp") 
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
                         COMPILE_FLAGS "${CHRONO_CXX_FLAGS} ${EXTRA_COMPILE_FLAGS}"
