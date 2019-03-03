@@ -72,6 +72,28 @@ class KalmanFilter(object):
     def __getitem__(self, item):
         return self.__data[item]
 
+    def _assert_prediction_matrices(self):
+
+        if not self['x'].any():
+            raise ValueError("State vector x has not been pecified.")
+
+        if not self['A'].any():
+            raise ValueError("Matrix A has not been pecified.")
+
+        if not self['B'].any():
+            raise ValueError("Matrix B has not been pecified.")
+
+        if not self['Q'].any():
+            raise ValueError("Matrix Q has not been pecified.")
+
+    def _assert_update_matrices(self):
+
+        if not self['H'].any():
+            raise ValueError("Matrix H has not been pecified.")
+
+        if not self['P'].any():
+            raise ValueError("Matrix P has not been pecified.")
+
     def predict(self, u):
 
         """
@@ -80,6 +102,10 @@ class KalmanFilter(object):
         P_{k}^{-} = A_{k-1}P_{k-1}A_{k-1}^T + Q_{k-1}
         :param u: The control input
         """
+
+        # make sure that all needed matrices are here
+        self._assert_prediction_matrices()
+
         self['x'] = np.dot(self['A'], self['x']) + np.dot(self['B'], u)
         self['P'] = np.dot(self['A'], np.dot(self['P'], self['A'].T)) + self['Q']
 
@@ -94,6 +120,8 @@ class KalmanFilter(object):
         \hat{P}_k = (I - K_kH_k)P_{k}^{-}
         """
 
+        self._assert_update_matrices()
+
         S = np.dot(self['H'], np.dot(self['P'], self['H'].T)) + self['R']
 
         if isinstance(S, collections.Sequence):
@@ -104,8 +132,11 @@ class KalmanFilter(object):
 
         self['K'] = np.dot(np.dot(self['P'], self['H'].T), S_inv)
 
-        innovation = measurement - np.dot(self['H'], self['x'])
+        # expect that self['x'] is a numpy.array and thus take the traspose to have
+        # correct dimensions
+        innovation = measurement - np.dot(self['H'], self['x'].T)
         self['x'] = self['x'] + np.dot(self['K'], innovation)
+
         I = np.identity(self['K'].shape[0])
         self['P'] = np.dot(I - np.dot(self['K'], self['H']), self['P'])
 
