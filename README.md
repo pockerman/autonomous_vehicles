@@ -10,6 +10,7 @@
 - **Item:** <a href="#">Software Architecture for Autonomous Driving Stack</a>
 - **Item:** <a href="#">Environment Representation</a>
 - **Item:** <a href="#">Safety Assurance for Autonomous Vehicles</a>
+- **Item:** <a href="#">Automotive Functional components</a>
 - **Item:** <a href="#">Dynamics of Automobiles</a>
 - **Item:** <a href="autonomous_vehicles_notes/vehicle_modeling_chronos_notes/notes.pdf">Vehicle Modeling with Chronos</a>
 
