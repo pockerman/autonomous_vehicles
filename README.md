@@ -5,18 +5,19 @@
 ### Part: Basics
 -----
 
-- **Item:** <a href="#">Introduction to Self-Driving Cars</a>
-- **Item:** <a href="#">Hardware for Self-driving Cars</a>
-- **Item:** <a href="#">Software Architecture for Autonomous Driving Stack</a>
-- **Item:** <a href="#">Environment Representation</a>
+- **Item:** <a href="autonomous_vehicles_notes/intro_notes/notes.pdf">Introduction to Self-Driving Cars</a>
+- **Item:** <a href="autonomous_vehicles_notes/software_architecture_notes/notes.pdf">Software Architecture for Autonomous Driving Stack</a>
 - **Item:** <a href="#">Safety Assurance for Autonomous Vehicles</a>
 - **Item:** <a href="#">Automotive Functional components</a>
-- **Item:** <a href="#">Dynamics of Automobiles</a>
+- **Item:** <a href="autonomous_vehicles_notes/vehicle_dynamics_notes/notes.pdf">Dynamics of Automobiles</a>
 - **Item:** <a href="autonomous_vehicles_notes/vehicle_modeling_chronos_notes/notes.pdf">Vehicle Modeling with Chronos</a>
 
 
 ### Part: Environment Perception
 -----
+- **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Hardware for Self-driving Cars</a>
+- **Item:** <a href="#">Environment Representation</a>
+- **Item:** <a href="#">Sensor Calibration</a>
 
 ### Part: Environment Mapping
 -----
@@ -37,10 +38,11 @@
 ### Part: State Estimation
 -----
 
-- **Item:** <a href="#">Kalman Filter</a>
-- **Item:** <a href="#">Extended Kalman Filter</a>
+- **Item:** <a href="autonomous_vehicles_notes/kalman_filters_notes/notes.pdf">Kalman Filter</a>
+- **Item:** <a href="autonomous_vehicles_notes/kalman_filters_notes/notes.pdf">Extended Kalman Filter</a>
 - **Item:** <a href="#">Unscented Kalaman Filter</a>
 - **Item:** <a href="#">Particle Filters</a>
+- **Item:** <a href="autonomous_vehicles_notes/sensor_fusion_notes/notes.pdf">Sensor Fusion</a>
 
 ### Part: System Supervisor
 
