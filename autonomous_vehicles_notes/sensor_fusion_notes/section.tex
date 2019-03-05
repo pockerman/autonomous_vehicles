@@ -37,6 +37,7 @@ Another question that pops up is how fast we need to update the vehicles states 
 
 Even if we had a fast and accurate estimation algorithm, there are going to be cases where our localization might fail. How could this happen? We might, for example, have one or more of our sensors report bad data or maybe even fail entirely. A good example of this is GPS which doesn't work at all in tunnels and which can have a difficult time coping with reflected signals in cities with a lot of tall buildings. We might also encounter errors in our state estimation algorithm itself. For example, if we're using an extended common filter with a highly nonlinear sensor model, we might find that the inherent linearization error in the estimator means that we can lose accuracy in our state estimate even though the estimator is pretty confident in its output. Or maybe, our estimator is not very confident at all. Thinking back to the Kalman filter equations, you might remember that the uncertainty in our state grows as we propagate forward through the motion model and it only shrinks once we incorporate outside observations from LiDAR or GPS for example. If our LiDAR is broken and we are driving in a tunnel without GPS, how long can we rely on an IMU and a motion model before our estate uncertainty grows too large and it is no longer safe to drive? We need thus strategies for detecting and coping with localization failures like these. Finally, we need to think about the world the car lives in. 
 For the most part, we have developed our models for sensors like LiDAR under the assumption that the world is static and unchanging. Of course, in reality, the world is always moving and changing. 
+
 For example, other cars, pedestrians, and cyclists are probably moving. Lighting changes over the course of a day and even the geometry of the world can change with the seasons. 
 One of the big challenges for self-driving cars is finding ways to account for these kinds of changes, whether by modeling them or by finding ways of identifying and ignoring objects that violate our assumptions. 
 
@@ -56,8 +57,7 @@ Coordinate frames and transformations are explained in the appendix.
 
 The previous section gave a brief outline on the why we need sensor fusion.  In this section,
 we will derive an error state extended Kalman Filter that
-estimates position, velocity, and orientation of
-a self-driving car using an IMU, a GNSS receiver,
+estimates position, velocity, and orientation of a self-driving car using an IMU, a GNSS receiver,
 and a LIDAR. Although we'll make some simplifications, the basic structure
 of our pipeline will resemble one used in a modern self-driving vehicles. 
 
@@ -79,38 +79,129 @@ and orientation information in three-dimensions, whereas wheel odometry is limit
 can compliment GNSS information by providing very accurate position estimates within a known map and in sky obstructed locations. 
 Conversely, GNSS can tell LIDAR which map to use when localizing. 
 
+
+
+
 For the purposes of EKF state estimation, we can implement either what's called a loosely coupled estimator or a
 tightly coupled one. In a tightly coupled EKF, we use the raw pseudo range and point cloud measurements from our GNSS and LIDAR
 as observations. In a loosely coupled system, we assume that this data has already been preprocessed to produce a noisy
 position estimate. Although the tightly coupled approach can lead to more accurate localization, it's often tedious
 to implement and requires a lot of tuning. For this reason, we will implement a loosely coupled EKF here. 
 
-Here you can see a graphical representation
+Figure \ref{ekf_sensor_fusion} shows a graphical representation
 of our system. We will use the IMU measurements as noisy inputs to
 our motion model. This will give us our predicted state which will update every time we have an IMU measurement, this can happen hundreds
 of times a second. At a much slower rate, we'll incorporate GNSS and LIDAR measurements whenever they become available, say once a second
 or slower, and use them to correct our predicted state. 
 
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/sensor_fusion/ekf_sensor_fusion.jpeg}
+\end{center}
+\caption{Block diagram of the sensor fusion process .}
+\label{ekf_sensor_fusion}
+\end{figure}
+
 So, what is our state? For our purposes, we will use a ten-dimensional
 state vector that includes a 3D position, a 3D velocity, any 4D unit
-quaternion that will represent the orientation of our vehicle with respect to a navigation frame. We will assume
-that IMU outputs specific forces and rotational rates in the sensor frame and combine them into a single
-input vector $u$. It's also important to point out that we are not going to track accelerometer
+quaternion that will represent the orientation of our vehicle with respect to a navigation frame. 
+
+\begin{equation}
+\mathbf{x}_k = 
+\begin{bmatrix}
+\mathbf{p}_k \\
+\mathbf{v}_k \\
+\mathbf{q}_k 
+\end{bmatrix} \in R^{10}
+\end{equation}
+
+
+We will assume that IMU outputs specific forces and rotational rates in the sensor frame and combine them into a single
+input vector $\mathbf{u}$. 
+
+\begin{equation}
+\mathbf{u}_k =
+\begin{bmatrix}
+\mathbf{f}_k \\
+\mathbf{\omega}_k
+\end{bmatrix} \in R^6
+\end{equation}
+
+It is also important to point out that we are not going to track accelerometer
 or gyroscope biases. These are often put into the state vector, estimated, and then subtracted off of the our IMU
 measurements. For clarity, we will emit them here and assume our IMU measurements
 are unbiased. Our motion model for the position, velocity, and orientation
 will integrate the proper accelerations and rotational rates
-from our IMU. The position updates look like this. 
+from our IMU. 
 
-Next is the velocity update, and finally, the quaternion update. We will need to use
-a bunch of definitions as shown below. Remember that our quaternion will keep track of
+The motion model involves position, velocity and orientation updates. The position updates look like this. 
+
+\begin{equation}
+\mathbf{p}_k = \mathbf{p}_{k-1} + \Delta t \mathbf{v}_{k-1} + \frac{(\Delta t)^2}{2}(\mathbf{C}_{ns}\mathbf{f}_{k-1} - \mathbf{g}) 
+\end{equation}
+
+Next is the velocity update,
+
+
+\begin{equation}
+\mathbf{v}_k = \mathbf{v}_{k-1} + \Delta t (\mathbf{C}_{ns}\mathbf{f}_{k-1} - \mathbf{g}) 
+\end{equation}
+
+and the quaternion update. 
+
+\begin{equation}
+\mathbf{q}_k = \Omega (\mathbf{q}(\omega_{k-1} \Delta t))\mathbf{q}_{k-1} 
+\end{equation}
+
+We will need to use a bunch of definitions as shown below. 
+
+
+\begin{equation}
+\mathbf{q}(\mathbf{\theta})  = 
+\begin{bmatrix}
+\sin(\frac{|\mathbf{\theta}|}{2}) \\
+\frac{\mathbf{\theta}}{|\mathbf{\theta}|}\cos(\frac{|\mathbf{\theta}|}{2})
+\end{bmatrix} 
+\end{equation}
+
+\begin{equation}
+\Omega( 
+\begin{bmatrix}
+q_w \\
+\mathbf{q}_{v}
+\end{bmatrix}) = q_w \mathbf{I} + 
+\begin{bmatrix}
+0 & - \mathbf{q}_{v}^T \\
+\mathbf{q}_{v} & \mathbf{q}_{v} 
+\end{bmatrix}
+\end{equation}
+
+Remember that our quaternion will keep track of
 the orientation of our sensor frame $S$ with respect to
 our navigation frame $n$. Because of the orientation parameters, which we express as
 a rotation matrix, our motion model is nonlinear. In order to use it in our EKF, we'll need to linearize
 it with respect to some small error or perturbation about
-the predicted state. To do this, we'll define an error state that
-consists of $\Delta P, \Delta V$, and $\Delta \phi$ where $\Delta \phi$ is a three by one orientation error. Using this state,
-we can derive error dynamics with the appropriate Jacobians. For our measurement model, we will use a very
+the predicted state. To do this, we will define an error state
+
+\begin{equation}
+\delta \mathbf{x}_k = 
+\begin{bmatrix}
+\delta \mathbf{p}_k \\
+\delta \mathbf{v}_k \\
+\delta \phi_k
+\end{bmatrix} \in R^9
+\end{equation}
+
+where $\delta \phi$ is a three by one orientation error. Using this state,
+we can derive error dynamics with the appropriate Jacobians. 
+
+\begin{equation}
+\delta \mathbf{x}_k = \mathbf{F}_{k - 1} \delta \mathbf{x}_{k-1} \mathbf{L}_{k-1} \mathbf{n}_{k-1}
+\end{equation}
+
+where
+
+For our measurement model, we will use a very
 simple observation of the position plus some additive Gaussian noise. We will define
 a covariance $R_{GNSS}$, for the GNSS
 position noise, and $R_{LIDAR}$, for our LIDAR position measurement noise. It is important here
