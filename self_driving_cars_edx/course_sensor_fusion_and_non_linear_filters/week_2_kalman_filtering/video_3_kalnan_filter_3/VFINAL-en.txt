@@ -1,0 +1,55 @@
+
+So now we get back to the interpretation and intuition
+of the different components in the Kalman filter.
+There is the Kalman gain, the innovation, and its covariance.
+A key to be able to do this is to understand this density--
+the density of the predicted measurement given observations
+up to the previous time instance k minus 1, which we can show
+is a Gaussian distribution like this--
+where the mean is Hk, the measurement model matrix,
+times the predicted mean of the state and Sk is its covariance.
+It's easy to see that this product here is the mean using
+the observation model.
+So the observation model for our linear and Gaussian models
+is just yk equals to Hk times xK plus some measurement noise r.
+By taking the expected value of this conditioned
+on the previous observations--
+so the expected value of yk conditioned
+on previous measurements--
+if we exchanged yk using this expression here,
+we simply get--
+
+which by definition is simply--
+as rk here is 0 mean.
+Now, we see that the conditional expected value is
+by definition precisely this.
+So how can we interpret this?
+Well, we see that the expected value of our observation,
+given our previous observations, are just this Hk times
+r, predicted mean of the state.
+So this is what we expect the observation to be given all
+our previous observation.
+We can also show that the covariance of yk here is Sk
+So Sk describes our uncertainty in this.
+Now, if we look at the innovation,
+vk we see that it's equal to the current observation yk
+where we remove what we expect the measurement should be based
+on our previous knowledge.
+As such, vk captures the new information in yk
+which we were not able to predict
+using our old information.
+And, finally, when we calculate the updated mean like this,
+the Kalman gain is the factor which
+will determine how much we should
+trust the innovation over our old information
+in the predicted mean.
+One can imagine, for example, that if our observations are
+very noisy, we would like the Kalman gain to be very small--
+close to 0-- such that we do not trust these measurements
+so much.
+So this factor here should be close to 0,
+such our posterior mean is more based on our predicted mean.
+We end with a self-assessment question
+where I would like you to think about what
+are reasonable values for the Kalman gain
+in some specific scenarios.

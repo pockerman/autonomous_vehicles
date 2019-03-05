@@ -286,7 +286,6 @@ future measurement updates, which may provide critical information. It's easy to
 filter might have a negative or dangerous effect on the performance
 of self-driving car. 
 
-
 So long as our initial
 estimate is consistent, and we have white zero mean noise,
 then all estimates will be consistent. Putting everything together,
@@ -303,6 +302,360 @@ most real systems are not linear. For self-driving cars, we'll
 generally need to estimate non-linear quantities like vehicle poses,
 position, and orientation in 2D and 3D. To do this, we'll need to extend the linear
 Kalman Filter into the non-linear domain. 
+
+
+\subsection{Bayesian derivation of the Kalman filter}
+
+
+So in the previous lecture, we presented a solution
+to the filtering equations for linear and Gaussian models.
+For these models, both the predicted
+and the posterior density is Gaussian.
+And the mean and covariance of these
+are given by the Kalman filter equations.
+Although we gave some hints in the previous lecture
+for why the Kalman filter equations actually make sense,
+in this lecture, we will more formally derive them,
+and we will do so from a Bayesian perspective.
+Before we start,
+However, we need to define some prerequisites
+and some notation.
+So foremost, we assume that we have a linear and Gaussian
+model.
+So the state at the current type is
+equal to the state at the previous time instance,
+times this transition matrix, A k minus 1.
+To account for added uncertainty in the predicted state,
+we also have this additive noise process, q,
+which is soon to be Gaussian with zero mean and covariance q
+k minus 1.
+The observation yk is similarly describe
+as a linear function of the state, xk,
+multiplied by this measurement model matrix, Hk.
+And again, we have this additive noise process,
+r, which we can assume to be Gaussian with zero mean
+and covariance Rk In this case.
+Additionally, we also need to assume that the prior state x
+naught is also Gaussian, with some mean and some covariance.
+We should also note that an equivalent
+way of expressing these models here
+is to express them on their density form
+like this, where the process or motion model is defined
+as a density over xk, where we know
+the state at the previous time instance, xk minus 1.
+And the measurement model or likelihood
+is defined as a density over the observation yk
+if we condition on the current state xk.
+I would encourage you to make sure that you understand the
+that these two express exactly the same thing, just
+in two different ways.
+So the objective of this lecture is
+to use these models and the assumptions
+that we presented here to derive analytical expressions
+for the predicted density.
+That is the density over xk given measurements up
+to time k minus 1.
+And for the posterior density, which
+is then the density over xk, but now we also
+condition on the measurement at the current time, k.
+So there are many ways to derive the Kalman filter expressions.
+One possible way is to derive the Kalman filter equations
+from the filtering equations.
+To do this, we simply plug in the Gaussian densities
+that we presented in the previous slide
+into these equations, and then try to solve them.
+So for example, we need to calculate this integral here
+and we need to solve this product here.
+Although it's completely possible to do so,
+unfortunately this involves various matrix manipulations,
+and it's rather tedious.
+So what we're going to present here
+is a more standard derivation, where we instead
+make use of well-known, or at least
+well-known for statisticians, results regarding
+Gaussian distributions.
+Additionally, we hope that this will give you
+some better understanding for what's happening in the Kalman
+filter and help you understand a bit better
+the non-linear filters that are based on the Kalman filter
+that we will learn later on in this course.
+Let's start with the prediction step.
+So the objective here is to compute the predicted density.
+And to do so, we use two assumptions.
+First, we assume that the posterior density
+from the previous time instance-- so the density
+over xk minus 1, given measurements up to k minus 1,
+is a Gaussian density with this mean and this covariance.
+So remember that for our linear Gaussian models
+all our filter densities are Gaussian.
+And as a Kalman filter is a recursive filter,
+this is a relevant assumption to make.
+Secondly, we assume that we have a linear and Gaussian process
+model like this that we presented
+in the previous slide.
+With this in mind, what we want to do
+is use these assumptions to calculate the mean
+and covariance of this density.
+We will base our derivation on the well-known result
+that if we have two independent Gaussian random variables--
+let's call them z 1 and z 2 in this case.
+A linear combination of these two variables
+is then also Gaussian random variable, where
+the mean is just a linear combination
+of the mean of the these variables and the covariance
+can be calculated like this, from the covariance
+of the individual Gaussian random variables.
+We can easily derive these expressions
+by using fundamental rules for the expectation and covariance
+operator that we have learned in the beginning of the course.
+So as xk minus 1 and qk minus 1 are
+independent Gaussian random variables,
+we can use this result directly on our motion model
+to get the predicted density.
+So we want to calculate our predicted density, P of xk,
+given measurements up to k minus 1,
+which equals a Gaussian density of xk where the mean is given
+by the expected value of xk, as described by this process
+model, where we condition on observations up
+to time k minus 1.
+So we have ak minus 1 times the expected value
+of xk minus 1, given measurements up to k minus 1,
+which is exactly this mean here.
+
+And then the expected value of qk minus 1 is just zero.
+So it's zero mean.
+So we get nothing else.
+For the covariance, we again use this expression here.
+So the covariance of xk minus 1, which is this covariance here,
+is then multiplied by the transition
+matrix on both sides.
+We have Ak minus 1 times Pk minus 1, given k
+minus 1 Ak minus 1 transpose, according to this formula here.
+And then we need to add the covariance for our process
+noise, qk minus 1.
+So that's qk minus 1.
+
+To map this to the notation that we have,
+we call this mean, x hat k given k minus 1,
+and we interpret this as the estimate of x at time k,
+given observations up to k minus 1.
+And similarly, for the covariance
+we call this Pk given k minus 1, which
+is the covariance of xk conditioned on measurements
+up to k minus 1.
+And we see that what we calculate here
+is exactly what we calculate in the prediction
+step of the Kalman filter.
+So we have now derived the prediction step
+in a Kalman filter.
+Before we tackle the update step in the Kalman filter,
+we need to understand an important lemma
+for conditional distributions of Gaussian random variables.
+And it goes like this.
+So if x and y or two Gaussian random variables
+with a joint probability density function like this--
+so we concatenate x and y into single vector.
+And that vector then is Gaussian distributed
+with mean mu x and mu y, which is simply
+the expected value of x.
+And mu y is simply the expected value of y.
+And that covariance matrix of this joint vector
+here has this structure, where P of xx is the covariance of x.
+And Pyy is then the covariance of y.
+And Pxy is then the cross covariance of x and y.
+We denote this as the covariance of x comma y.
+And where Pyx is simply the cross covariance between y
+and x, which is simply Pxy transpose,
+as a covariance matrix needs to be symmetric.
+So these need to be the transpose of each other.
+And this cross covariance is then
+related to how x and y are correlated
+to each other or dependent on each other.
+One should note that this structure here is general
+and that we haven't made any other assumptions than that x
+and y are jointly Gaussian.
+So given that two variables are jointly Gaussian,
+we can always structure its mean and covariance in this matter.
+So based on this, the lemma states
+that the conditional distribution of x given
+y, for example, is then also Gaussian, where the mean is
+given by the mean of x.
+But we slightly shift it compared to the prior mean
+of x, by this term here.
+We further see that this term here
+depends on the distance between the actual y
+and what we expect y to be.
+And that we wait this distance by a ratio
+that it's dependent on how correlated x and y are,
+divided by how much uncertainty we have in y.
+As a sanity check, we can see that if Pxy is 0--
+so x and y are uncorrelated.
+We see that this term disappears and the mean
+is simply the same as before.
+So if we observed y and they are uncorrelated,
+it doesn't change the mean of x, which is to be expected, right?
+For the conditional covariance on the other hand,
+again, we take the prior covariance of x, Pxx,
+and then we reduce it by this factor here.
+And here we can make two observations.
+First, as with the conditional mean
+if x and y are uncorrelated, so Pxy is zero.
+This term again disappears and the covariance
+of the conditional density is the same
+as the covariance for x.
+So observing y, and x and y are uncorrelated,
+doesn't change the covariance of x.
+It doesn't give us any information on x.
+Second, if on the other hand x and y are correlated,
+the covariance of x, if we conditional y,
+will always be less than the covariance of x because we
+reduce it by this factor here, and this factor here
+is always positive.
+And this also makes sense, right?
+If they are correlated, after observing y,
+we should be less uncertain about x than before we
+made observation.
+So in sum, the lemma states that if we have two jointly Gaussian
+random variables, the conditional density is also
+Gaussian with the mean and the covariance expressed like this.
+Perhaps you can already now see some patterns here
+for how we can use this lemma to prove the update
+step in the Kalman filter.
+But let's look at this in some more detail.
+So when we do the update step in the Kalman filter,
+we assume that we have already made the prediction
+step that we showed earlier.
+That is, we have computed the moments
+of the predicted density of xk given observations up
+to k minus 1.
+And we denote these moments as this.
+Additionally, we observe a measurement y
+at time k, which is related to the state at time k
+through this linear measurement model.
+So here we have two Gaussian random variables.
+And in order to see that they are jointly Gaussian,
+it is convenient that we use the measurement model
+and rewrite it to express the joint random variable x comma
+y.
+So we have this joint variable, xk yk,
+which we want to express as something times xk
+plus something times rk.
+So we want to write it on this form here.
+And in order for this to hold true,
+we see that we need to have the identity matrix here
+and we need to have a 0 here.
+And this needs to be Hk.
+And this needs to be the identity matrix.
+So now we see that this equations holds true.
+So xk is equal to xk plus 0 times rk.
+And yk is equal to Hk xk plus rk, which is what we see here.
+So now that we have written it on this form,
+it actually follows directly that we
+can write the joint distribution of xk yk
+condition on all the measurements up to k minus 1
+as this Gaussian density.
+And it's perhaps useful to map this back
+to the notation that was used in lemma on the previous slide.
+So we have the expected value of x here.
+So this was-- we call this mu x.
+And this is then mu y.
+This we called Pxx.
+
+And this whole expression here, we call that Pyy.
+And this was then the cross covariance between x and y.
+And this here was then the cross covariance between y
+and x, which is actually equal to the cross covariance
+between x and y transposed.
+Now if we use the lemma on conditional Gaussian densities,
+we can express the posterior density
+as this Gaussian density where the posterior mean, x hat k
+given k, is equal to--
+so if you use the lemma on the previous slide,
+we see that we can form this as mu x plus Pxy times Pyy
+inverse times y minus mu y.
+So simply using the lemma on the previous slide,
+we see that we can formulate the posterior mean
+as this expression here.
+And if we now identify what these
+are from what we see here, we see
+that this is equal to x hat k given minus 1
+plus Pxy, this expression here, pk given k minus 1
+and Hk transpose.
+And then Pyy is this expression here.
+Remember from the previous lecture,
+we actually call this Sk as the innovation covariance.
+So to simplify things, we will call it Sk in this equation.
+So we have Sk inverse times y is yk in this case
+minus the expected value of yk given observations
+up to k minus 1, which is given here.
+Hk times x hat k given k minus 1.
+So if we look at this, we can see that this here--
+this difference here is what we call the innovation
+in the previous lecture.
+And this factor here in front of it
+is what we call the Kalman gain.
+So this is actually equal to call Kalman gain
+times the innovation.
+And this is exactly how the updated mean is calculated
+in the Kalman filter.
+So how about the posterior covariance?
+So again, if we use the lemma, we
+see that our posterior covariance
+can be written as Pxx minus cross-covariance x and y
+times Pyy inverse times Pyx.
+
+And Pyx, we see that this is just a transpose of Pxy.
+So we exchange it like this.
+So if we identify what things are here-- so Pxx
+is just a predicted covariance.
+
+And then, Pxy is this expression here.
+
+And Pyy is just Sk, so Sk inverse.
+And then Pxy transpose is just this expression here,
+but transposed.
+
+So now, if we introduce a small little trick saying that Sk
+times Sk inverse--
+so this product here is simply the identity matrix.
+So we can insert this into our equation
+here without changing anything.
+So if we rewrite this as--
+
+and then insert this identity matrix here
+in the middle, which we can take the transpose of,
+as it's a symmetric matrix.
+
+We get the following expression.
+And if we look at this, we can see that this factor here
+is actually the Kalman gain.
+And this factor here is simply the Kalman gain transposed.
+So with this, we have that the updated covariance matrix
+is simply the predicted covariance
+minus the Kalman gain times the innovation
+covariance times the Kalman gain transpose, which
+is also exactly how we presented it in the previous lecture.
+So now we have also derived the update step
+of the Kalman filter.
+We have now derived a Kalman filter
+using some well-known results regarding Gaussian densities.
+And you might wonder, why is this important?
+Well, from my perspective, I think
+it's important from at least two aspects.
+First, being able to derive the Kalman filter
+offers some intuition into what the Kalman filter actually
+does.
+And secondly, by being able to derive the Kalman filter,
+we can figure out how we need to adapt equations
+if the underlying assumptions changes slightly.
+This could, for example, be if we no longer
+have zero mean process and measurement noise,
+how do we then need to adapt these equations in order to fit
+this slightly different model?
+We end this lecture with a self-assessment question
+where you can try out your intuition regarding correlation
+and the distribution of random variables.
+
 
 
 \subsection{Kalaman Gain}
@@ -354,9 +707,7 @@ The Kalman filter iterates over the following three calculations:
 \item Caluclate the error in the estimate using equation \ref{estimate_error}
 \end{itemize}
 
-
 \subsubsection{Example: Temperature Estimate}
-
 
 
 \section{Multidimensional Case}
@@ -389,7 +740,6 @@ The definition above holds for nonlinear systems as well, and the results discus
 \end{remark}
 \end{framed}
 
-
 One of the principal uses of observers in practice is to estimate the state of a
 system in the presence of noisy measurements. We have not yet treated noise in our
 analysis, and a full treatment of stochastic dynamical systems is beyond the scope
@@ -399,9 +749,6 @@ avoid some of the complications associated with continuous-time random processes
 and to keep the mathematical prerequisites to a minimum. This section assumes
 basic knowledge of random variables and stochastic processes; see Kumar and
 Varaiya [KV86] or Åström [Åst06] for the required material.
-
-
-
 
 Consider again the LTI state-space model
 
@@ -584,5 +931,42 @@ see the original paper by Kalman, Ho, and Narendra [KHN63]. The key result is th
 into four parts, but there will be additional coupling so that the equations have the form 
 \end{remark}
 \end{framed}
+
+\subsection{Questions}
+\label{questions_kalman_filters}
+
+\begin{enumerate}
+\item Recall that $\hat{\mathbf{x}}_k = \hat{\mathbf{x}}_{k-1} + \mathbf{K}_k\mathbf{v}_k$ and that $\mathbf{v}_k = \mathbf{y}}_{k} + \mathbf{H}_k\hat{\mathbf{x}}_{k-1}$. Suppose that 
+$y_k = x_k + r_k$ with $H_k = 1$ and $r_k \sim N(0,R)$. Which of the following statements apply?
+
+\begin{enumerate}
+\item if $R=\infty$ then $K_k \approx 0$
+\item if $R=0$ then $K_k = \infty$
+\item if $R=1$ then $K_k = 0$
+\item if $R=0$ then $K_k = \infty$
+\end{enumerate}
+\end{enumerate}
+
+
+\section{Answers}
+
+\begin{enumerate}
+\item Recall that $\hat{\mathbf{x}}_k = \hat{\mathbf{x}}_{k-1} + \mathbf{K}_k\mathbf{v}_k$ and that $\mathbf{v}_k = \mathbf{y}}_{k} + \mathbf{H}_k\hat{\mathbf{x}}_{k-1}$. Suppose that 
+$y_k = x_k + r_k$ with $H_k = 1$ and $r_k \sim N(0,R)$. Which of the following statements apply?
+
+\begin{enumerate}
+\item if $R=\infty$ then $K_k \approx 0$
+\item if $R=0$ then $K_k = \infty$
+\item if $R=1$ then $K_k = 0$
+\item if $R=0$ then $K_k = \infty$
+\end{enumerate}
+
+$R = \infty$  means the measurement is completely uninformative, and we should not trust it at all. Thus,
+ the innovation should not be incorporated in the posterior, and we can note that achieves just that.
+$R = 1 $ means the measurement is completely free from noise, and we can trust it completely. 
+Thus, the innovation should be incorporated to 100% in the posterior, and we can note that achieves just that. 
+If we get a , we have a problem, since that would mean we would take a step in the direction of 
+the measurement that is longer than to the measurement itself. That would not make sense. Hence,  the first and the fourth options are the correct ones. 
+\end{enumerate}
 
 
