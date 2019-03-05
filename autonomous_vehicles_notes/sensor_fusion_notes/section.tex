@@ -43,13 +43,7 @@ One of the big challenges for self-driving cars is finding ways to account for t
 
 All in all, state estimation in practice will typically rely on sensor fusion to combine information from many different kinds of sensors, like IMUs, LiDAR, cameras, and GPS or GNSS receivers. In order for sensor fusion to work as intended, we need to calibrate the sensors by determining the parameters of our sensor models. The relative positions and orientations of all of the sensors and any differences in polling times. We also need to consider trade-offs between speed and accuracy in our algorithms which may be different depending on the type of self-driving car. Ask yourself, how accurately do I need to know the vehicle state and how often do I need to update it for my particular use case? Finally, we need to think about how to safely cope with localization failures and aspects of the world that do not conform to our assumptions such as moving objects. 
 
-\begin{framed}
-\theoremstyle{remark}
-\begin{remark}{\textbf{Coordinate Transformations}}
 
-Coordinate frames and transformations are explained in the appendix.
-\end{remark}
-\end{framed}
 
 
 \subsection{Multisensor Fusion}
@@ -123,7 +117,7 @@ input vector $\mathbf{u}$.
 \mathbf{u}_k =
 \begin{bmatrix}
 \mathbf{f}_k \\
-\mathbf{\omega}_k
+\boldsymbol{\omega}_k
 \end{bmatrix} \in R^6
 \end{equation}
 
@@ -150,22 +144,22 @@ Next is the velocity update,
 and the quaternion update. 
 
 \begin{equation}
-\mathbf{q}_k = \Omega (\mathbf{q}(\omega_{k-1} \Delta t))\mathbf{q}_{k-1} 
+\mathbf{q}_k = \boldsymbol{\Omega} (\mathbf{q}(\boldsymbol{\omega}_{k-1} \Delta t))\mathbf{q}_{k-1} 
 \end{equation}
 
 We will need to use a bunch of definitions as shown below. 
 
 
 \begin{equation}
-\mathbf{q}(\mathbf{\theta})  = 
+\mathbf{q}(\boldsymbol{\theta})  = 
 \begin{bmatrix}
-\sin(\frac{|\mathbf{\theta}|}{2}) \\
-\frac{\mathbf{\theta}}{|\mathbf{\theta}|}\cos(\frac{|\mathbf{\theta}|}{2})
+\sin(\frac{|\boldsymbol{\theta}|}{2}) \\
+\frac{\boldsymbol{\theta}}{|\boldsymbol{\theta}|}\cos(\frac{|\boldsymbol{\theta}|}{2})
 \end{bmatrix} 
 \end{equation}
 
 \begin{equation}
-\Omega( 
+\boldsymbol{\Omega}( 
 \begin{bmatrix}
 q_w \\
 \mathbf{q}_{v}
@@ -188,43 +182,96 @@ the predicted state. To do this, we will define an error state
 \begin{bmatrix}
 \delta \mathbf{p}_k \\
 \delta \mathbf{v}_k \\
-\delta \phi_k
+\delta \boldsymbol{\phi}_k
 \end{bmatrix} \in R^9
 \end{equation}
 
-where $\delta \phi$ is a three by one orientation error. Using this state,
+where $\delta \boldsymbol{\phi}$ is a three by one orientation error. Using this state,
 we can derive error dynamics with the appropriate Jacobians. 
 
 \begin{equation}
-\delta \mathbf{x}_k = \mathbf{F}_{k - 1} \delta \mathbf{x}_{k-1} \mathbf{L}_{k-1} \mathbf{n}_{k-1}
+\delta \mathbf{x}_k = \mathbf{F}_{k - 1} \delta \mathbf{x}_{k-1} + \mathbf{L}_{k-1} \mathbf{n}_{k-1}
 \end{equation}
 
 where
 
+\begin{equation}
+\mathbf{F}_{k-1} = 
+\begin{bmatrix}
+\mathbf{I} & \mathbf{I}\Delta t & \mathbf{0} \\
+\mathbf{0} & \mathbf{I} & - [\mathbf{C}_{ns}\mathbf{f}_{k-1}]\Delta t \\
+\mathbf{0} & \mathbf{0} & \mathbf{I} 
+\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+\mathbf{L}_{k-1} = 
+\begin{bmatrix}
+\mathbf{0} & \mathbf{0} \\
+\mathbf{I} & \mathbf{0}  \\
+\mathbf{0} & \mathbf{I} 
+\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+\mathbf{n}_{k} \sim N(\mathbf{0}, \mathbf{Q}_k) 
+\end{equation}
+
+where
+
+\begin{equation}
+\mathbf{Q}_{k} = (\Delta t)^2
+\begin{bmatrix}
+\sigma_{acc}^2 & 0  \\
+0 & \sigma_{gyro}^2 
+\end{bmatrix},
+\mathbf{I} =
+\begin{bmatrix}
+1 &  0 & 0 \\
+0 &  1 & 0 \\
+0 &  0 & 1  
+\end{bmatrix}
+\end{equation}
+
 For our measurement model, we will use a very
-simple observation of the position plus some additive Gaussian noise. We will define
-a covariance $R_{GNSS}$, for the GNSS
-position noise, and $R_{LIDAR}$, for our LIDAR position measurement noise. It is important here
+simple observation of the position plus some additive Gaussian noise. 
+
+\begin{equation}
+\mathbf{y}_k = h(\mathbf{x}_k) + \boldsymbol{\nu}_k = \mathbf{p}_k + \boldsymbol{\nu}_k, \boldsymbol{\nu}_k \sim N(\mathbf{0}, \mathbf{R}_{GNSS})
+\end{equation}
+
+We will define a covariance $\mathbf{R}_{GNSS}$, for the GNSS
+position noise. We do similarly for the LiDAR
+
+\begin{equation}
+\mathbf{y}_k = h(\mathbf{x}_k) + \boldsymbol{\nu}_k = \mathbf{p}_k + \boldsymbol{\nu}_k, \boldsymbol{\nu}_k \sim N(\mathbf{0}, \mathbf{R}_{LIDAR})
+\end{equation}
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Coordinate Transformations}}
+
+It is important here
 to note that we have assumed that our LIDAR and GNSS will supply
 position measurements in the same
 coordinate frame. 
+\end{remark}
+\end{framed}
 
 In a realistic implementation, the GNSS position estimates may serve as a way to select a known map against which
-the LIDAR data can then be compared. With these
-definitions in mind, we can now describe our extended
-Kalman filter. Our filter will loop every time an IMU
-measurement occurs. We will first use the
-motion model to predict a new state based
-on our last state. The last state may be a fully corrected state or one that was
+the LIDAR data can then be compared. 
+
+\subsection{The Extended Kalman Filter}
+
+With these definitions in mind, we can now describe our extended
+Kalman filter. Our filter will loop every time an IMU measurement occurs. We will first use the
+motion model to predict a new state based on our last state. The last state may be a fully corrected state or one that was
 also propagated using the motion model only depending on whether or not we received a GNSS or
 LIDAR measurement at the last time step. Next, we will propagate the state uncertainty through our linearized
 motion model. Again, accounting for whether or not our previous state was corrected or uncorrected. At this point,
-if we do not have any GNSS or LIDAR
-measurements available, we can repeat
-steps one and two. If we do, we will
-first compute the Kalman gain that is appropriate for the given observation, we will then compute
-an error state that we will use to correct
-our predicted state. 
+if we do not have any GNSS or LIDAR measurements available, we can repeat
+steps one and two. If we do, we will first compute the Kalman gain that is appropriate for the given observation, we will then compute
+an error state that we will use to correct our predicted state. 
 
 This error state is based on the product of
 the Kalman gain and the difference between the predicted and
@@ -235,23 +282,72 @@ complicated algebra is required to correct
 the quaternion. We will need
 this special update because the quaternion is a constrained
 quantity that is not a simple vector. 
-
 Finally, we'll update our state covariants in the usual way. 
 
+In summary, our algorithm is
+
+\begin{enumerate}
+\item Update state with IMU inputs according to
+\begin{equation}
+\check{\mathbf{p}}_k = \mathbf{p}_{k-1} + \Delta t \mathbf{v}_{k-1} + \frac{(\Delta t)^2}{2}(\mathbf{C}_{ns}\mathbf{f}_{k-1} - \mathbf{g}) 
+\end{equation}
+\begin{equation}
+\check{\mathbf{v}}_k = \mathbf{v}_{k-1} + \Delta t (\mathbf{C}_{ns}\mathbf{f}_{k-1} - \mathbf{g}) 
+\end{equation}
+\begin{equation}
+\check{\mathbf{q}}_k = \boldsymbol{\Omega} (\mathbf{q}(\boldsymbol{\omega}_{k-1} \Delta t))\mathbf{q}_{k-1} 
+\end{equation}
+\item  Propagate uncertainty according to 
+\begin{equation}
+\check{\mathbf{P}}_k = \mathbf{F}_{k-1}\check{\mathbf{P}}_{k-1} \mathbf{F}_{k-1}^T + \mathbf{L}_{k-1}\mathbf{Q}_{k-1}\mathbf{L}_{k-1}^T
+\end{equation}
+\item  If GNSS or LIDAR position available:
+\begin{enumerate}
+\item  Compute Kalman gain
+\begin{equation}
+\mathbf{K}_k = \check{\mathbf{P}}_k\mathbf{H}_{k}^T(\mathbf{H}_{k}\check{\mathbf{P}}_k\mathbf{H}_{k}^T + \mathbf{R})^{-1}, 
+\end{equation}
+$\mathbf{R}$ is one of $\mathbf{R}_{GNSS}$ or $\mathbf{R}_{LIDAR}$ 
+\item  Compute error state
+\begin{equation}
+\delta\hat{\mathbf{p}}_k = \mathbf{K}_k(\mathbf{y}_k - \check{\mathbf{p}}_k) 
+\end{equation}
+\item Correct predicted state
+\begin{equation}
+\hat{\mathbf{p}}_k = \check{\mathbf{p}}_k +\delta \mathbf{p}_k 
+\end{equation}
+\begin{equation}
+\hat{\mathbf{v}}_k = \check{\mathbf{v}}_k +\delta \mathbf{v}_k 
+\end{equation}
+\begin{equation}
+\hat{\mathbf{q}}_k = \boldsymbol{\Omega}(\mathbf{q}(\delta \boldsymbol{\phi}))\check{\mathbf{q}}_k 
+\end{equation}
+\item Computed corrected covariance
+\begin{equation}
+\hat{\mathbf{P}}_k = (\mathbf{I} - \mathbf{K}_{k} \mathbf{H}_{k})\check{\mathbf{P}_{k}} 
+\end{equation}
+\end{enumerate}
+\end{enumerate}
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Coordinate Transformations}}
+
+$\mathbf{p}_{k-1}, \mathbf{v}_{k-1}, \mathbf{q}_{k-1}$ can be either corrected or uncorrected depending on whether or not there was
+a GNSS/LIDAR measurement at time step $k-1$. 
+\end{remark}
+\end{framed}
 
 Let us review a few of the assumptions we have made when putting
 our pipeline together. We used a loosely-coupled extended Kalman
-Filter framework to fuse inertial
-measurements from an IMU together with position measurements
+Filter framework to fuse inertial measurements from an IMU together with position measurements
 from a GNSS receiver and LIDAR. We assume that the GNSS and LIDAR provided us with position estimates in the same coordinate frame which requires
 some preprocessing, but is possible to do in a realistic
 implementation. Second, we did not account for accelerometer or gyroscope biases in our IMU measurements. This simplified
-our algebra but is not a
-realistic assumption. Luckily, if you follow along with what
+our algebra but is not a realistic assumption. Luckily, if you follow along with what
 we have done here, adding biases is not insignificant leap. Next, we did not discuss Filter State
-initialization. This is often taken to
-be some known state at the start of
-the localization process. Finally, we also assumed that our
+initialization. This is often taken to be some known state at the start of the localization process. Finally, we also assumed that our
 sensors were all spatially and temporally aligned. We assumed that
 our sensors were calibrated in the sense that we did not worry about varying time steps or how we can get several sets of
 measurements all aligned into one coordinate frame. Performing
