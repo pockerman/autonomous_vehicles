@@ -1,0 +1,98 @@
+
+The performance of our filters is
+tightly coupled with the motion and measurement models
+that we use.
+In order to get the best performance out of our filters,
+our models need to be tailored to our specific filtering
+problem.
+In this section, we will look at some
+of the more important and commonly used
+motion models that can be used in a variety of settings.
+We will also learn some principles and techniques
+that you can use to develop your own motion
+models when none of these standard models are sufficient.
+Although the emphasis in this section is on motion models,
+we will also discuss measurement model design.
+Compared to motion models, measurement models
+are typically more tailored to the specific properties
+of the sensor that is used.
+At the end of the section, we'll look at some measurement model
+examples to get some insights in how one can design these.
+Roughly speaking, the motion models that we will look at
+can be categorized into two groups.
+The first group contains models that describe
+translational kinematics.
+Here, the object is essentially viewed as a point object
+that moves around in space.
+So they can be translated.
+Here, we model this using a 2D velocity vector that describes
+the direction of travel.
+But they are not rotated.
+So we have seen examples of this already, namely
+the random walk.
+But we also look at the constant velocity
+and the constant acceleration models.
+Now, these models are often fairly simple and general,
+which has the advantage of making
+our filters less complex.
+On the other hand, they are limited in the type of motion
+that they are able to express.
+So in many cases, we could probably do better.
+The second group contains models that
+describe rotational kinematics.
+This can be just pure rotations in 2D or 3D.
+But they can also be a combination
+of rotations and translations.
+Sometimes these orientations can be
+connected to the translation of the object.
+But this is not a requirement.
+Here is a typical example where we use this type of model.
+And that is to describe the motion of a car.
+Now, as the car is moving on the road,
+it's typically insufficient to model this motion in 2D,
+that is on the road surface.
+So let us assume that this 2D coordinate system here
+represents the road surface.
+Now, to describe the motion of the vehicle on this road plane,
+it seems reasonable to describe the orientation of the vehicle
+using this angle, phi, and the speed in which the car is
+traveling in this direction, denoted as v. To model how
+the vehicle turns, it is also common to introduce the vehicle
+yaw rate, omega, which is a time derivative of phi.
+As a car typically do not tend to drift too much sideways,
+which we would allow for with this kind of model,
+with this rotational model we have the possibility
+to describe more car-like like movements,
+which can help our filter to make better predictions
+and remove some more noise in our observations.
+Now, the drawback with this type of model
+is that it is typically more complex, which adds complexity
+to our filters.
+Here are two important aspects that we
+will touch upon in this section concerning
+motion modeling and more specifically, discretization
+of motion models.
+Now, there is an underlying assumption here
+that I think I should clarify.
+Typically, for example, the motion
+of the objects that we're interested in
+takes place in continuous time, so normal time for you and me.
+However, our filters prefer to perform filtering
+in discrete time, as these are running computers,
+and our sensors only give us new observations at fixed update
+rates, so discrete time instances.
+We therefore need to translate our continuous time
+models, which are typically described
+using differential equations, into something time discrete.
+So the first aspect that we are going to focus on
+is how we can take our continuous time motion models
+and translate them into discrete time models.
+Whereas the first aspect focuses on deterministic or physical
+part of the motion, the second aspect
+that we are going to discuss relates to the motion noise.
+So if we have a reasonable description
+of the noise in the time domain, how
+can we relate this to the noise covariance in the discrete time
+model?
+Now, here are two self-assessment questions
+for you to think about.

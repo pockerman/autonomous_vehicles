@@ -1,0 +1,237 @@
+
+A common strategy in order to come up with a discrete time
+motion model is to first design a continuous time motion model,
+and then discretize that one.
+In this video we will present two useful results
+that will enable us to discretize continuous time
+motion models.
+We will look at both an approximative method
+and an exact method for an important model family.
+So what do we want to do?
+Well, we will assume that we are given a continuous-time motion
+model, expressed here in terms of a differential equation,
+where we'll have the time derivative of our state
+sequence equal to this expression here,
+where we have some function, a tilde,
+of our state sequence, plus some additive noise.
+So for a two dimension model, our time-continuous motion
+model could look something like this,
+where we describe our motion as a time continuous function.
+Now, what we would like to do is to find
+the discrete-time counterpart to this time continuous model,
+which we then write like this, where xk here
+is our discrete time sequence.
+The key thing to note here is that our discrete time sequence
+contains samples from our continuous time sequence.
+So we sample our continuous time sequence
+at time 0 capital T, 2, capital T, 3 capital T, and so on.
+And those samples become our discrete time sequence,
+where k here denotes our discrete time index,
+and capital T is our sampling interval.
+So if we go back to our example here,
+we construct our discrete time model
+by sampling this continuous time model here
+at time 0, capital T, 2T, 3T, and so on.
+And what we get is this discrete time model expressing our state
+at discrete time instances, k equal to 0, 1, 2, and so on.
+The idea and our objective here is
+to come up with a good motion model expressed
+in terms of these samples.
+So one way to do this is to express the distribution of x
+at time t plus capital T, given the continuous time
+sequence at time t.
+The reason we would like to express this distribution
+is because it is the same as expressing the distribution
+of xk given xk minus 1.
+So we can think of this here as representing
+xk and this here as representing xk minus 1.
+And the distribution of xk, given xk minus 1,
+we know this to be our discrete time motion
+model, which is then related to this distribution here.
+Now, we will do this for a variety
+of different type of continuous time motion models
+in later lectures.
+However, the focus of this lecture
+is to introduce two important results that
+will be useful for us when we derive our discrete models
+in the next couple of videos.
+The first result is the Euler discretization method,
+which is an approximative method that is quite simple to use.
+The second result is an analytical solution
+of linear and time invariant state space models,
+which gives us an exact expression.
+Let us first look at the Euler method.
+Suppose we have a differential equation on this form, which
+means that on the left hand side here
+we have the time derivative of our state sequence,
+such that the differential equation describes
+how the state sequence varies over time.
+Now, note that a tilde here could be a nonlinear function.
+Now, the Euler method is a quite simple method
+to approximate the solution of the differential equation here.
+The idea is to use this approximation of the derivative
+of the state sequence, where the time derivative is approximated
+as the time difference divided by the interval.
+So we have x of t plus capital T minus x of t,
+divided by capital T. So if capital T is very small,
+then this is a good approximation.
+And if capital T is large, then this
+is usually not so accurate.
+If we look at this, we're interested in finding
+x of t plus capital T. And we can now
+do that in terms of x of t and x dot of t using this expression.
+So to start, we can rewrite question two
+here such that it expresses x of t
+plus capital T as approximately equal to x of t plus capital T
+times x dot of t.
+So we get this by multiplying both sides with capital T
+and then moving x of t to this side of the equation.
+Now, I think the result here is quite intuitive.
+So it tells us that we can take a previous state,
+and then we add T times the time derivative of the state
+at that time instance.
+So the rate of which it's changing at the previous time
+instance.
+And then we get the state at the next time instance.
+Now, if we insert this expression for the time
+derivative here, we get this final expression,
+expressed only in terms of the state at time t
+and the noise at time t.
+So a nice property with this solution
+is that we can almost always find
+an approximate discrete model using this method.
+Also, in those occasions when the original differential
+equation is nonlinear, and possibly intractable
+to solve exactly.
+So using this technique at least we get one
+approximated model that we can use also
+in the time discrete domain.
+To get a more hands on feeling for Euler's method,
+here's a simple scalar example.
+In this case, x dot of T, which is
+a time derivative of x, is just x of T. And at time 0,
+it starts at 1.
+Now, the task here is to figure out what x of 1 is.
+So time 1.
+So we can see that the time derivative of x
+is equal to x of T. And at time 0, this is 1.
+According to Euler's method then x of 1 is equal to x of 0,
+plus capital T, which is 1 in this case,
+times the time derivative at 0, which is 1.
+So we have x of 0, which is 1.
+So we get 1 plus 1, which is 2.
+So what the Euler method basically says
+is that the time derivative is constantly
+1 over the whole trajectory.
+So we get this linear trajectory here.
+So we start at 1, and we end up at 2.
+And x of T changes linearly between these two points.
+However, according to the time-continuous model,
+the time derivative changes with x of t.
+So it grows with x of t.
+Now, if we solve this differential equation exactly,
+we get this curve here, where x of t grows exponentially,
+and we end up at 2.7, which is e to the power of 1.
+So, in general, if the time interval is relatively small,
+the Euler method is reasonably accurate.
+But if the time interval grows, the accuracy
+gets worse, and worse, and worse,
+and it does so rather quickly.
+The second result we want to present in this video
+is the analytical solution to x of t
+plus capital T when we have a linear system.
+Suppose x dot of T is equal to a constant matrix a times x of t,
+plus a constant vector b, then we can find x of t
+plus capital T analytically using
+a sequence of small steps.
+The first step is to move A times
+x of t to this side of the equation,
+such that we collect the state vector at the same side
+of the equation.
+The second step is actually the tricky one.
+And that's to identify an integrating factor.
+We do this by noting that if we have
+a product of A to the power of minus AT, times x of T, then
+the derivative gets two terms, one where we have x dot
+of T times the integrating factor,
+and one where we have x of T times A
+times the integrating factor.
+The minus sign here comes from that we have a minus sign here.
+As you can see, we have one term with x dot of T,
+and one term with A times x of T.
+And they are both multiplied by e to the power of minus AT.
+Based on this remark, the idea is
+that we would like to multiply both sides
+of this expression with e to the power of minus AT.
+What we get is this expression, where on the left hand side
+we realize that this is the time derivative of e
+to the power of minus AT times x of T.
+The good thing about this is that it's
+easy to compute a time integral of a time derivative.
+It's just to evaluate the function at the end
+point of the integral.
+On the right hand side, we had b before.
+So now we have e to the power of minus AT times b.
+So what do we do next?
+Well, we integrate.
+Right?
+We have a time derivative here.
+So we could integrate both sides from t
+to t plus capital T. So on the left hand side here,
+we just get the end points of this function here.
+So that is this function evaluated at t plus capital
+T, which is what we get here, and then
+evaluated at t, which is what we get here.
+On the right hand side, we get the integral of this function,
+from t to t plus capital T. So it's an integral of e
+to the power minus A tau times our constant vector B d tau.
+We should recall that we are actually
+interested in finding x of t plus capital T.
+But we can do this by moving this term to the other side,
+and then multiplying both sides with e
+to the power of A times t plus capital T.
+If we do that, we get x of t plus capital T on the left hand
+side, which is what we wanted.
+On the other side we get e to the power of A times capital
+T times x of t, because this term here cancels out
+when we multiply by this.
+And we only get this term left.
+Right?
+The final term is not entirely obvious.
+But it's an integral here that we have multiplied with e
+to the power of A times t plus capital T,
+and that we've changed the limits of the integration a bit
+in order to get this expression here.
+However, this is already a nice expression.
+And it turns out that we can actually solve
+this integral analytically.
+So this is what we found.
+The continuous state at time t plus capital T
+is the previous state at time t, multiplied by e
+to the power of A times capital T,
+plus this integral here, which is multiplied by this vector b.
+Now, the question that we need to answer
+is, what is this integral here?
+If you think about it, the definition of the Taylor series
+expansion.
+So it's I plus A times t plus A squared times t squared,
+divided by 2, plus Aq times tq, divided by 3 factorial,
+and so on.
+If we would like to integrate this,
+we can instead take the integral of the right hand side.
+And each term here is the easier to take the integral of.
+So if we integrate from 0 to capital T,
+this is just I times capital T, plus A times capital T
+squared divided by 2, plus A squared times
+capital T cubed, divided by 3 factorial, and so on.
+So here is an analytical solution to this integral.
+To conclude, we found an analytical solution
+for the linear system.
+That is, we assume that x dot of t is
+equal to some constant matrix A times x of t plus b.
+And if we solve this differential equation
+and discretize it, we found an expression
+for x of t plus capital T like this.
+
+We end with a self-assessment question for you
+to think about.
