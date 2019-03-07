@@ -28,7 +28,7 @@ like the one on the right.
 
 \begin{figure}[!htb]
 \begin{center}
-\includegraphics[scale=0.280]{img/unscented_kalman_filter/unscented_kalman_filter_1.jpeg}
+\includegraphics[scale=0.280]{img/kalman_filter/unscented_kalman_filter_1.jpeg}
 \end{center}
 \caption{Summary of EKF.}
 \label{unscented_kalman_filter_1}
@@ -61,7 +61,7 @@ points for one dimensional and two dimensional examples.
 
 \begin{figure}[!htb]
 \begin{center}
-\includegraphics[scale=0.280]{img/unscented_kalman_filter/unscented_kalman_filter_2.jpeg}
+\includegraphics[scale=0.280]{img/kalman_filter/unscented_kalman_filter_2.jpeg}
 \end{center}
 \caption{Summary of EKF.}
 \label{unscented_kalman_filter_2}
@@ -120,11 +120,11 @@ output covariance. We do this using the standard formulas for the sample mean an
 \boldsymbol{\mu} = \sum_{i=0}^{2N} \alpha_i \mathbf{y}_i \\
 \Sigma = \sum_{i=0}^{2N} \alpha_i (\mathbf{y}_i - \boldsymbol{\mu})(\mathbf{y}_i - \boldsymbol{\mu})^T \\
 \alpha_i = 
-\begin{choices}
+\begin{cases}
 \frac{\kappa}{N + \kappa}, i =0 \\
 \frac{1}{2}\frac{1}{N + \kappa}, \text{otherwise}
-\end{choices}
-\end{eqnarray
+\end{cases}
+\end{eqnarray}
 
 
 The trick is that each of the points gets a specific weight in the mean and covariance calculations, and that weight
@@ -143,7 +143,7 @@ distributions in green. Now let's apply the unscented transform.
 
 \begin{figure}[!htb]
 \begin{center}
-\includegraphics[scale=0.280]{img/unscented_kalman_filter/unscented_kalman_filter_3.jpeg}
+\includegraphics[scale=0.280]{img/kalman_filter/unscented_kalman_filter_3.jpeg}
 \end{center}
 \caption{Summary of EKF.}
 \label{unscented_kalman_filter_3}
@@ -162,7 +162,6 @@ the unscented transform gives us some much better approximation of the output
 PDF without requiring much more work than the analytical
 linearization approach. 
 
-
 \section{Implementation}
 
 Now that we have seen how the unscented transform works, we can easily use it in our Kalman filtering framework
@@ -171,8 +170,7 @@ to work with nonlinear models.
 \begin{eqnarray}
 \mathbf{x}_k  = \mathbf{f}_{k-1}(\mathbf{x}_{k-1}, \mathbf{u}_{k-1}, \mathbf{w}_{k-1}), \mathbf{w}_{k} \sim N(\mathbf{0}, \mathbf{Q}_k)  \\
 \mathbf{y}_k  = \mathbf{h}_{k}(\mathbf{x}_{k}, \mathbf{v}_{k}),  \mathbf{v}_{k} \sim N(\mathbf{0}, \mathbf{R}_k)  
-\end{eqnarray
-
+\end{eqnarray}
 
 This variant of the Kalman filter is called the Unscented Kalman Filter or UKF. You may also hear it called
 the sigma point Kalman filter. The main idea of the UKF is that instead
@@ -191,57 +189,334 @@ it is important to account for the process noise by adding its covariance
 to the covariance of the transformed sigma points to get the final
 predicted covariance.
 
+\begin{itemize}
+\item Compute sigma points
+\end{itemize}
+
 \begin{eqnarray}
-\check{\mathbf{L}}_{k-1}\check{\mathbf{L}}_{k-1}^T  = \hat\mathbf{P}_{k-1}  \\
+\check{\mathbf{L}}_{k-1}\check{\mathbf{L}}_{k-1}^T  = \hat{\mathbf{P}}_{k-1}  \\
 \hat{\mathbf{x}}_{k-1}^{0}  = \hat{\mathbf{x}}_{k-1} \\
-\hat{\mathbf{x}}_{k-1}^{i}  = \hat{\mathbf{x}}_{k-1} + \sqrt{N + \kappa} \text{col}_i \check{\mathbf{L}}_{k-1}, i = 1, \ldots, N 
-\end{eqnarray
+\hat{\mathbf{x}}_{k-1}^{i}  = \hat{\mathbf{x}}_{k-1} + \sqrt{N + \kappa} \text{col}_i \check{\mathbf{L}}_{k-1}, i = 1, \ldots, N \\
+\hat{\mathbf{x}}_{k-1}^{i + N}  = \hat{\mathbf{x}}_{k-1} - \sqrt{N + \kappa} \text{col}_i \check{\mathbf{L}}_{k-1}, i = 1, \ldots, N 
+\end{eqnarray}
 
+\begin{itemize}
+\item Propagate sigma points
+\end{itemize}
 
-This equation looks a bit different
-if the process noise is not additive. But most of the time, you'll be dealing
+\begin{eqnarray}
+\check{\mathbf{x}}_{k}^{i} = \mathbf{f}_{k-1}(\hat{\mathbf{x}}_{k-1}^{i}, \mathbf{u}_{k-1}, \mathbf{0}), i =0, \ldots 2N 
+\end{eqnarray}
+
+\begin{itemize}
+\item  Compute predicted mean and covariance
+\end{itemize}
+
+\begin{eqnarray}
+\alpha_i = 
+\begin{cases}
+\frac{\kappa}{N + \kappa}, i = 0 \\
+\frac{1}{2}\frac{1}{N + \kappa}, \text{otherwise}
+\end{cases} \\
+\check{\mathbf{x}}_k = \sum_{i=0}^{2N} \alpha_i \check{\mathbf{x}}_{k}^{i} \\
+\check{\mathbf{P}}_k = \sum_{i=0}^{2N} \alpha_i (\check{\mathbf{x}}_{k}^{i} - \check{\mathbf{x}}_{k})(\check{\mathbf{x}}_{k}^{i} - \check{\mathbf{x}}_{k})^T + \mathbf{Q}_{k-1}
+\end{eqnarray}
+
+This equation looks a bit different if the process noise is not additive. But most of the time, we will be dealing
 with additive noise in your models unless there's a good reason not to. For the correction step,
-we're going to follow a similar procedure, this time with a nonlinear
-measurement model. First, we will need to redraw our sigma
+we are going to follow a similar procedure, this time with a nonlinear measurement model. First, we will need to redraw our sigma
 points using the predicted covariance matrix. We need to do this a second time
-because we added process noise at the end of the last step. And this will modify the positions
-of some of the sigma points. Next, we're going to plug these new sigma
-points one by one into our nonlinear measurement model to get
+because we added process noise at the end of the last step. This will modify the positions
+of some of the sigma points. Next, we are going to plug these new sigma points one by one into our nonlinear measurement model to get
 another set of sigma points for the predicted measurements. Then we can estimate the mean covariance
-of the predicted measurements using the sample mean and covariance formulas. Again, take note that we are adding in
+of the predicted measurements using the sample mean and covariance formulas. 
+
+Again, take note that we are adding in
 the measurement noise covariance to get the final covariance of
-the predicted measurements. And also remember that this formula
-only applies to additive noise. To compute the Kalman gain, we're also
+the predicted measurements. Also note that this formula only applies to additive noise. In order to compute the Kalman gain, we are also
 going to need the cross covariance between the predicted state and
-the predictive measurement which tells us how the measurements
-are correlated with the state. You can calculate this using the standard
-formula for the cross-covariance and using the same weights as before. Then all that's left is to use the Kalman
+the predictive measurement which tells us how the measurements are correlated with the state. You can calculate this using the standard
+formula for the cross-covariance and using the same weights as before. Then all that is left is to use the Kalman
 gain to optimally correct the mean and covariance of the predicted states,
-and that's it. The UKF follows the same prediction
-correction pattern as the EKF, but we've just replaced the analytical linearization
-step with the unscented transform. Let's try applying the UKF to the same
-example driving scenario we worked through with the EKF. We're again trying to track the position
+and that's it. The UKF follows the same prediction correction pattern as the EKF, but we have just replaced the analytical linearization
+step with the unscented transform. The above is summarized in Figure \ref{unscented_kalman_filter_4}
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/unscented_kalman_filter_4.jpeg}
+\end{center}
+\caption{UKF correction step.}
+\label{unscented_kalman_filter_4}
+\end{figure}
+
+\section{UKF example}
+
+Let's try applying the UKF to the same example driving scenario we worked through with the EKF. We are again trying to track the position
 and velocity of a moving car that we're controlling by pressing
 on the gas pedal or the brake. The car has a sensor onboard that measures
-the angle between a distant landmark and the horizon. The motion model is linear but
-the measurement model is nonlinear. Try using the data given here to estimate
-the position of the vehicle at time one using the UKF. Here is the Cholesky decomposition of
+the angle between a distant landmark and the horizon. 
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/kalman_filter/unscented_kalman_filter_5.jpeg}
+\end{center}
+\caption{UKF example setting.}
+\label{unscented_kalman_filter_5}
+\end{figure}
+
+The motion model is linear 
+
+\begin{eqnarray}
+\mathbf{x}_k = 
+\begin{bmatrix}
+1 & \Delta t \\
+0 & 1
+\end{bmatrix}
+\mathbf{x}_{k-1} + 
+\begin{bmatrix}
+ 0 \\
+ \Delta t 
+\end{bmatrix}
+\mathbf{u}_{k-1} + \mathbf{w}_{k-1}
+\end{eqnarray}
+
+but the measurement model is nonlinear. 
+
+\begin{equation}
+y_k = \arctan(\frac{S}{D - p_k}) + v_k
+\end{equation}
+
+Finally, we will use the following noise densities
+
+\begin{equation}
+v_k \sim N(0, 0.01), ~~ \mathbf{w}_k \sim N(\mathbf{0}, \begin{bmatrix} 0.1 & 0 \\ 0 & 0.1 \end{bmatrix})
+\end{equation}
+
+Try using the data given in equation \ref{ukf_example_data} to estimate
+the position of the vehicle at time one using the UKF. 
+
+\begin{equation}
+S = 20m, D= 40m, y_1 = 30 deg, u_0 = -2m/s^2, \Delta t = 0.5s
+\label{ukf_example_data}
+\end{equation}
+
+Here is the Cholesky decomposition of
 the initiate covariance matrix and the five sigma points we'll use to
-represent the state and its covariance. And here is the result of the prediction
-step for the mean of the state. And finally, the predicted covariance. Notice that the predicted mean and
+represent the state and its covariance. 
+
+\begin{eqnarray}
+\hat{\mathbf{L}}_0\hat{\mathbf{L}}_{0}^T = \hat{\mathbf{P}}_0 \\
+\begin{bmatrix}
+0.1 & 0 \\
+0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+0.1 & 0 \\
+0 & 1
+\end{bmatrix}^T = 
+\begin{bmatrix}
+0.01 & 0 \\
+0 & 1
+\end{bmatrix}
+\label{ukf_example_data}
+\end{eqnarray}
+
+
+\begin{eqnarray}
+\hat{\mathbf{x}}_{0}^{(0)} = 
+\begin{bmatrix}
+0 \\
+5 
+\end{bmatrix} \\ 
+\hat{\mathbf{x}}_{0}^{(1)} = 
+\begin{bmatrix}
+0 \\
+5 
+\end{bmatrix} + \sqrt{3} 
+\begin{bmatrix}
+0.1 \\
+0 
+\end{bmatrix} =
+\begin{bmatrix}
+0.2 \\
+5 
+\end{bmatrix} \\
+\hat{\mathbf{x}}_{0}^{(2)} = 
+\begin{bmatrix}
+0 \\
+5 
+\end{bmatrix} + \sqrt{3} 
+\begin{bmatrix}
+0 \\
+1 
+\end{bmatrix} =
+\begin{bmatrix}
+0 \\
+6.7 
+\end{bmatrix} \\
+\hat{\mathbf{x}}_{0}^{(3)} = 
+\begin{bmatrix}
+0 \\
+5 
+\end{bmatrix} - \sqrt{3} 
+\begin{bmatrix}
+0.1 \\
+0 
+\end{bmatrix} =
+\begin{bmatrix}
+-0.2 \\
+5
+\end{bmatrix} \\
+\hat{\mathbf{x}}_{0}^{(4)} = 
+\begin{bmatrix}
+0 \\
+5 
+\end{bmatrix} - \sqrt{3} 
+\begin{bmatrix}
+0 \\
+1 
+\end{bmatrix} =
+\begin{bmatrix}
+0 \\
+3.3
+\end{bmatrix} 
+\label{ukf_example_data}
+\end{eqnarray}
+
+
+The result of the prediction step for the mean of the state. 
+
+\begin{eqnarray}
+\check{\mathbf{x}}_{1}^{(0)} = 
+\begin{bmatrix}
+2.5 \\
+4 
+\end{bmatrix} \\ 
+\check{\mathbf{x}}_{1}^{(1)} =  
+\begin{bmatrix}
+2.7 \\
+4 
+\end{bmatrix} 
+\check{\mathbf{x}}_{1}^{(2)} = 
+\begin{bmatrix}
+3.4 \\
+5.7 
+\end{bmatrix} \\
+\check{\mathbf{x}}_{1}^{(3)} = 
+\begin{bmatrix}
+2.3 \\
+4
+\end{bmatrix} \\
+\check{\mathbf{x}}_{1}^{(4)} = 
+\begin{bmatrix}
+1.6 \\
+2.3
+\end{bmatrix} 
+\label{ukf_example_prediction}
+\end{eqnarray}
+
+
+\begin{equation}
+\check{\mathbf{x}}_k = \sum_{i=0}^{2N}\alpha_i \check{\mathbf{x}}_{k}^{(i)} = \frac{1}{3} \begin{bmatrix}
+2.5 \\
+4
+\end{bmatrix} + \ldots + \frac{1}{6}
+\begin{bmatrix}
+1.6 \\
+2.3
+\end{bmatrix} =
+\begin{bmatrix}
+2.5 \\
+4
+\end{bmatrix}
+\end{equation}
+
+And finally, the predicted covariance. 
+
+\begin{equation}
+\check{\mathbf{P}}_k = \sum_{i=0}^{2N} \alpha_i (\check{\mathbf{x}}_{k}^{i} - \check{\mathbf{x}}_{k})(\check{\mathbf{x}}_{k}^{i} - \check{\mathbf{x}}_{k})^T + \mathbf{Q}_{k-1} =
+\begin{bmatrix}
+0.36 & 0.5 \\
+0.5 & 1.1
+\end{bmatrix}
+\end{equation}
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{}
+
+Notice that the predicted mean and
 covariance are identical to what we would've found with the linear Kalman
-filter and the extended Kalman filter. This is because the motion
-model actually is linear. For the correction step,
-these are the sigma points for the predicted measurements and the mean
-and covariance of that distribution. And finally,
+filter and the extended Kalman filter.  This is because the motion
+model actually is linear.
+\end{remark}
+\end{framed}
+
+For the correction step, these are the sigma points for the predicted measurements and the mean
+and covariance of that distribution. 
+
+
+And finally,
 the cross-covariance Kalman gain, and our final answer for
-the position of the vehicle at time k = 1. To summarize this video, we looked at
+the position of the vehicle at time $k = 1$. 
+
+\begin{equation}
+\hat{y}_{1}^{i} = h_1(\check{\mathbf{x}}_{1}^{i}, 0), i = 0, \ldots, 2N
+\end{equation}
+
+This gives us
+
+\begin{eqnarray}
+\hat{y}_{1}^{(0)} = \arctan(\frac{20}{40 - 2.5}) = 28.1 \\ 
+\hat{y}_{1}^{(1)} = \arctan(\frac{20}{40 - 2.7}) = 28.7 \\ 
+\hat{y}_{1}^{(2)} = \arctan(\frac{20}{40 - 2.5}) = 28.1 \\
+\hat{y}_{1}^{(3)} = \arctan(\frac{20}{40 - 2.3}) = 27.4 \\
+\hat{y}_{1}^{(4)} = \arctan(\frac{20}{40 - 2.5}) = 28.1 
+\label{ukf_example_prediction}
+\end{eqnarray}
+
+
+\begin{equation}
+\hat{y}_1 = \sum_{i=0}^{2N} \alpha_i \hat{y}_{1}^{i}  = 28.1
+\end{equation}
+
+\begin{equation}
+P_y = \sum_{i=0}^{2N} \alpha_i (\hat{y}_{1}^{i} -\hat{y}_{k})(\hat{y}_{1}^{i} -\hat{y}_{k})^T + R_k = 0.16
+\end{equation}
+
+\begin{equation}
+\mathbf{P}_{xy} = \sum_{i=0}^{2N} \alpha_i (\check{\mathbf{x}}_{k}^{i} -\check{\mathbf{x}}_{k})(\hat{y}_{1}^{i} -\hat{y}_{k})^T + R_k = 
+\begin{bmatrix}
+0.23 \\
+0.32
+\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+\mathbf{K}_{1} = \mathbf{P}_{xy}P_{y}^{-1}= 
+\begin{bmatrix}
+1.47 \\
+2.05
+\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+\hat{\mathbf{x}}_{1} = \check{\mathbf{x}}_{1} + \mathbf{K}_{1}(y_1 - \hat{y}_1) = 
+\begin{bmatrix}
+5.33 \\
+7.93
+\end{bmatrix}
+\end{equation}
+
+To summarize this video, we looked at
 the Unscented Kalman Filter, or UKF, which uses the unscented transform to adapt
-the Kalman filter to nonlinear systems. As we saw, the unscented transform works
+the Kalman filter to nonlinear systems. The unscented transform works
 by passing a small set of carefully chosen samples through a nonlinear
-system and computing the mean and covariance of the outputs. And it often does a much better job of
+system and computing the mean and covariance of the outputs. It often does a much better job of
 approximating the output distribution than the local, analytical linearization
-technique used by the EKF for similar computational cost. Let's recap what we've
+technique used by the EKF for similar computational cost. 
+
+
+Let's recap what we've
 learned in this module. We started off by discussing the linear
 Kalman filter which is a form of recursive least-squares estimation that allows us to
 combine information from a motion model with information from sensor measurements
@@ -251,7 +526,9 @@ predictions of the state and the measurements are used to make
 corrections to those predictions. We also saw than the Kalman filter is the
 Best Linear Unbiased Estimator or BLUE. That is the Kalman filter is
 the best unbiased estimator that uses only a linear
-combination of measurements. But of course, linear systems
+combination of measurements. 
+
+Of course, linear systems
 don't really exist in reality. So we needed to develop techniques for
 handling nonlinear systems. In this module, we looked at three different approaches
 to nonlinear Kalman filtering. The Extended Kalman Filter or EKF,
@@ -271,46 +548,7 @@ the EKF wins out by a small margin for typical estimation problems. But in gener
 amounts of computation. Because of its accuracy and simplicity, we recommend using the UKF over the EKF
 whenever possible in your projects. If you must use the EKF, our advice is to
 use the error state formulation, be wary of linearization error, and take extra
-care to ensure your Jacobians are correct. A good mantra to repeat. Now that you have learned about the basic
-tools we need for state estimation, we can start thinking about the types of sensors
-we might find on a self-driving car, and how we can use them to
-localize the vehicle. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+care to ensure your Jacobians are correct. 
 
 \section{Questions}
 
