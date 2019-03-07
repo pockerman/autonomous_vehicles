@@ -1,0 +1,260 @@
+
+From previous lectures, we know that the Kalman filter
+is the MMSE estimator for linear state space models
+with additive Gaussian noise.
+This means that for this model family we cannot find
+an estimator that is better in mean square error sense than
+the Kalman filter.
+In this lecture, we're going to relax our Gaussian assumptions
+a bit and see if we can still say something
+about the optimality of the Kalman filter for these models.
+Specifically, we will look at finding
+the best estimator in a minimum mean squared error sense,
+but where we restrict ourselves to an estimator that's
+a linear function of data.
+We will call these estimators the linear minimum mean
+square error estimators, or the LMMSE estimators for short.
+So to recap, we know that the Kalman filter computes
+the predicted mean in the prediction step
+and the posterior mean in the update step,
+and it does this if we have linear and Gaussian models.
+With this, we should note two things.
+First, the Kalman filter is a linear function
+of the data y1 to k.
+For example, we can see this as we can write our estimate x hat
+k, given k, as this linear function of data.
+
+We can see that this is a linear function of data,
+and as these only depend on the estimate at the previous time
+instance, which we now know is only a linear function of data
+up to time k minus 1, this whole thing here
+is a linear function of data.
+Secondly, our estimator is the minimum mean
+squared error estimator.
+Among all estimators, it's the best estimator
+in a minimum mean squared error sense,
+and this comes from that we know that the posterior
+mean is the MMSE estimator.
+So if the Kalman filter is a linear function of data,
+and it's the best estimator among all estimators,
+then surely, the Kalman filter is the linear minimum mean
+squared error estimator.
+And now, we're going to look at the properties
+of the LMMSE estimator in more detail.
+We start by viewing the static case, where the LMMSE objective
+is to find the matrix A and a vector
+b such that our estimate, x hat, can be written
+as this linear or affine function of the data y,
+so A times y plus this vector b.
+And we want to find A and b such that our estimate yields
+the smallest possible mean squared error.
+The key here is that we restrict our estimator
+to be a linear function or affine function of the data.
+So why is this important?
+Well, in many situations, it's quite difficult
+to compute the posterior density.
+And even if we're able to do so, we still
+need to compute the posterior mean which
+in itself is quite complex in many general settings.
+However, in many cases, we can still
+find the LMMSE estimator which has some nice properties.
+There are several ways to derive the LMMSE estimator.
+For example, we can find the optimum
+by setting the derivatives of the MSE with respect to b and A
+to 0 and then solve the linear equation system.
+Here, it's convenient to solve for b first
+which gives b equal to the mean of x minus A times
+the mean of y.
+And if we put this into our expression for our estimator
+here, we get this expression.
+
+And if we collect the values, where we multiply by A we get--
+
+And using this expression, we can now
+solve for A which is equal to Pxy which
+is the cross-covariance between x and y and Pyy
+which is the covariance of y inverse.
+If we plug this into our expression here,
+we get the final expression for our linear LMMSE estimator.
+
+You might recognize this expression
+from the derivation of the Kalman filter,
+where this was essentially the Kalman gain,
+and this was the predicted mean and this
+the predicted measurement.
+Although doing these derivations in the vector case
+could be a bit tricky, I would encourage
+you to at least go through the derivations for the scalar
+case.
+That is when x and y here are scalars
+which means that A and b are also scalar values.
+Another popular alternative derivation
+is to use the so-called orthogonality principle.
+Let's for simplicity here assume that mean of x and y
+are 0 such that b is 0.
+An alternative approach then to find
+A is to require that the outer product of the error times y
+transpose should be 0.
+We can easily show that this gives the same solution
+as before.
+As if we multiply in y transpose,
+in here, we get the expected value of x times y transpose
+which is Pxy.
+
+And then we have the expected value of x hat times
+y transpose, where x hat is just A times y, because b is 0.
+So we get minus A times y--
+y transpose, the expected value of that--
+which is Pyy, and this should be equal to 0.
+And here, we can easily see that, if we solve this for A,
+this is equivalent to saying that A
+is equal to Pxy times Pyy inverse which
+is the same expression that we get if we solve using
+the derivatives of the MSE.
+So as we see, this condition here
+only holds true for the optimal solution.
+But why do we call it the orthogonality principle?
+
+Well, let's look at this for the scalar case.
+If we have two random scalars, the expected value
+of the product of these can be viewed as the inner product
+in a Hilbert space.
+So the expected value of two scalars, x and y,
+is an inner product in a Hilbert space.
+So if the expected value of x and y is 0,
+we can interpret this as x and y are orthogonal to each other,
+so this is equivalent to x orthogonal to y in this Hilbert
+space.
+The advantage with viewing it like this--
+that the expected value here is an inner product which
+means that x and y are perpendicular to each other
+in this Hilbert space.
+So the advantage with viewing it like this
+is that we can consider it in terms of vectors.
+So if we have our Hilbert space with our vectors x and y--
+let's say y like this--
+and we have another vector x, like this.
+
+And we want to find an estimate of x,
+which is a linear function of y, which
+means that we are restricted to move along this line defined
+by the vector y.
+Clearly, the best we can do is to choose an estimate x
+hat equal to some scalar alpha times y.
+Where we want to choose alpha such that we minimize
+the error between x hat and x.
+So we want this here to be the value that is closest to x.
+So clearly, this is the projection of x down to y,
+where the error is orthogonal to y.
+So this is the closest we can get
+to x, if we restrict ourselves to moving along this line y,
+where the error is orthogonal.
+Any other choices of x hat would have a greater error.
+So we want x minus x hat to be orthogonal to y.
+So for our random variables, this
+means that we should find an estimate such
+that the expected value of the error times observation is 0.
+So this is equivalent to finding the expected
+value of the error, x minus x hat,
+times the observation to be 0 which is the same thing that we
+started with here.
+Right?
+If you like this vector illustration,
+and you're curious to figure out why the expression of A
+looks like this, I can mention that in the vector
+illustration, Pxy is the inner product between x and y.
+And Pyy is the inner product of y and y
+which is simply the length of y.
+Using this, I'm sure that you can figure out
+why the expression that looks like this.
+I would also like to note that we
+have made no assumptions regarding the properties of x
+and y, in this case, in terms of their distribution
+or how they relate to each other.
+To derive the LMMSE estimator, the only thing
+we need to calculate is the mean of x and y
+as well as the cross-covariance between x
+and y and the covariance of y.
+Which could be challenging in itself,
+but we will later on in the course
+show an efficient way to approximate these
+in more general settings when, for example, we have nonlinear
+motion and measurement models.
+Here is a self-assessment question
+about the conceptual differences between the LMMSE
+and the MMSE estimator.
+
+Before we looked at the LMMSE estimator in the static case.
+If we expand this to the dynamic case, where we sequentially
+want to find these matrices and these vectors, such
+that these estimates-- the prediction and the posterior
+estimates-- minimizes the MSE for the prediction
+and for the posterior, respectively, we
+should note that these linear mappings here
+are based on all the data up to relevant time index.
+So we have all the data up to time instance k minus 1 here
+and all the data up to time k for the posterior.
+We should also say that this is not strictly a linear function.
+It's called an affine function of data.
+So we have a linear mapping here plus some constant b,
+and this is called an affine function.
+So if we consider a slightly relaxed version
+of our linear state space model, where
+we still require our motion and measurement models
+to be linear functions.
+So we have a linear function here of our previous state
+and the measurement model is a linear function
+of the state at a current time and that our noise processes
+q k minus 1 and rk should enter additively here.
+However, we do not require that neither our prior nor our noise
+processes should be Gaussian.
+The only thing we require is that these
+should be independent random variables in time
+and with each other, and that we should know their mean
+and covariances.
+And so it's a bit of a more relaxed version
+of our linear and Gaussian model.
+A key result for this model family
+is that the Kalman filter produces the LMMSE estimator
+both in the prediction and in the update which also has
+the correct error covariance.
+So Pk given k minus 1 and Pk given k
+that we calculate in the Kalman filter
+are also the correct errors covariances for our estimator.
+So for the linear and Gaussian models,
+the Kalman filter computes MMSE estimates,
+but if we relax the Gaussian assumption,
+the Kalman filter still is the best linear estimator.
+However, there are probably nonlinear estimates--
+so nonlinear functions of the data--
+and that can give us better estimates.
+But they will probably be more computationally-demanding
+and put higher requirements on what
+we need to know about our noise processes, for example.
+We will not prove this result in this course,
+but if you're interested in trying it out yourself,
+one way of going about it is to use the orthogonality principle
+we discussed earlier in an induction proof.
+The outline of the proof would be something like this.
+First, we assume that the estimate
+error from the previous time instance
+is orthogonal to the data and that the calculated covariance
+is actually the true error covariance of the estimates.
+What we then need to prove is that the prediction is still
+orthogonal to all the data and that the predicted covariance
+is also the predicted error covariance,
+and this would then conclude the proof of the prediction.
+We can now use this result to prove the update step.
+So we want to prove that the posterior estimate is
+orthogonal to all the data up to time k minus 1
+and to time k using these expressions here.
+And then we need to prove that the posterior covariance is
+the posterior error covariance.
+If you would like to follow this proof sketch yourself,
+I would recommend that you do this for the scalar
+case, where x naught, qk minus 1,
+and rk are scalar and 0 mean.
+In which case, you can ignore the vector
+b, as that will be 0.
+So best of luck.
+So here is a fact and a statement for you to consider.
