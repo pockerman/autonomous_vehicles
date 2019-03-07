@@ -1,0 +1,148 @@
+
+So now we know a bit about what to look
+for when we are assessing if our filter is functioning properly.
+Now it's time to get some basic intuition of how
+we can tune our filter in order to get
+it working as good as possible.
+What we typically mean by tuning in this case
+is to make smaller adjustments to our model parameters, mainly
+the process and measurement noise covariances,
+and then to evaluate the performance of a filter,
+using see a combination of the measures
+that we presented earlier.
+To be honest, when developing a filter,
+this is perhaps the most difficult part,
+where we spend much of our development time.
+To get a feeling for what's happening
+when we are adjusting our noise parameters,
+let's look at a toy example.
+We want to estimate the position of a vehicle using
+some positioning measurements from some generic sensor.
+To do this, we need two models, a motion model,
+describing how the vehicle moves, and a measurement model,
+describing the relationship between the state
+and our observations.
+And in the Kalman filter setting, both of these models
+are Gaussian models, like this.
+And where the parameter that we typically want to tune
+is the process noise covariance and the measurement noise
+covariance.
+If we start with the process model, in this example,
+the purpose of this model is to give a probabilistic model
+of the position of the vehicle at the current time,
+k, given that we knew its position at the time before.
+The Kalman filter setting, again, we
+described this as a Gaussian density of this mean here
+and this covariance.
+So if we look at this for our example,
+the motion model here will describe
+where we expect the vehicle to be using the deterministic part
+of the model.
+And then we have the process noise covariance,
+which will model how much we think the vehicle can possibly
+deviate from this expectation.
+So we know the state at the previous time instance.
+This is deterministic.
+We know this, as we condition on it in the model.
+Then the model describes where we expect the vehicle to be.
+So this perhaps here, this is then the deterministic function
+of our previous state.
+And then we have some uncertainty
+around this point, which is then related
+to our covariance, qk minus 1.
+Typically, these deviations described by qk minus 1
+are the result of a change in behavior
+between the consecutive time instances
+by, for example, accelerating, braking, or steering,
+in this case.
+The goal here is to choose q such
+that the motion model captures how
+likely different maneuvers are.
+The measurement model, on the other hand,
+we want to describe the stochastic relation
+between the state at the current time
+and the current observation yk.
+Again, in a Kalman filter case, we describe this as a Gaussian,
+with a mean that describes where we expect the observation to be
+and the covariance rk, which models
+are measurement uncertainty.
+This uncertainty should capture both our modeling uncertainty
+that comes from making simplifications
+in this part of the model and pure measurement
+noise in the sensor itself.
+That comes from thermal noise or other noise sources
+specific to that sensor type.
+And information about this type of sensor noise,
+thermal noise and other sources, can typically
+be found in the data sheet from the sensor manufacturer.
+So given that we know where the vehicle is,
+this is xk, we condition on this,
+we want to describe a probabilistic model
+for where we expect the measurements to end up.
+Let's say that, in this case, we were measuring
+the front of the vehicle here.
+So this would be xk.
+times xk.
+And then we have some uncertainty ellipse
+around this, which then is described by rk.
+And then we expect our observations
+to fall within this region here.
+So we will generate measurements for this.
+We would expect them to look something like this.
+So now let's look at our example of how a Kalman
+filter can behave for different choices of our noise
+parameters.
+In this example, we want to estimate
+the position of this vehicle using these noisy observations.
+Note that we have illustrated all the observations here.
+But the filter will only consider them one at a time.
+In the first scenario, we have chosen the process noise
+covariance, qk minus 1, to be much too small
+and will not allow our estimated state
+to deviate from our deterministic prediction.
+And in this case, our deterministic prediction
+assumes that we are just going straight.
+As we see, the filter more or less
+ignores the observations as it believes
+them to be less reliable than our motion model.
+If we instead choose a too small measurement
+noise covariance, rk, this will mean
+that we are telling the filter that the measurements are
+very informative.
+What happens now is that the filter will
+trust the measurements too much, and we will not
+have a very car-like filter trajectory
+due to that measurement noise will be transferred
+to the state estimates.
+So if we instead have a good balance between process
+and measurement noise, the filter
+will produce estimates that are both behaving like we expect
+a car to behave and adapting according
+to what the measurements indicate, like this.
+So to summarize filter tuning, a key aspect in tuning
+is to select the ratio between the process noise
+and the measurement noise.
+This ratio is sometimes called the Signal-to-Noise Ratio,
+or SNR.
+As we saw in the toy example, if the SNR is high, that is
+that we have less measurement noise than process noise,
+we will have a quickly adapting filter
+that relies more on new data than the predictions.
+And if on the other hand, SNR is low,
+that is we have more measurement noise than process noise,
+the filter will perceive the data to be noisy
+and that we rely more on the predictions.
+And as we saw in the toy example,
+the filter will react slowly to new data.
+And as we mentioned, typically we
+can get a good idea of what the measurement noise R should
+be either from the manufacturer or by making
+controlled experiments where we collect
+data in simple scenarios from which we can estimate R.
+By fixing the measurement noise, a motion or a process noise,
+Q, can be selected by tuning.
+And lastly, unless you know the state sequence,
+you can study the properties on the innovation to guide you
+in tuning the filter.
+And we end with a self-assessment question
+related to these noise covariances.

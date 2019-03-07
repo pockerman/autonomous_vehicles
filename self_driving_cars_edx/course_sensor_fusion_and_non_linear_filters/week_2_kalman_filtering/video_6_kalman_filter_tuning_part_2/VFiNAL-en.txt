@@ -1,0 +1,218 @@
+
+In the previous part, we looked at the type of analysis
+we could do if we had access to the true state sequence.
+What is then the alternative for all those cases
+where we do not have access to the true state?
+Well, one alternative is to look at the consistency
+of the innovation.
+In order to do so, we only need a sequence
+of measurements and the corresponding measurement
+predictions from our filter.
+And this is something that we always have access to, right?
+So what do we mean that the innovation
+should be consistent?
+Well, typically, we mean that it should satisfy
+the following two properties.
+First, the distribution of the innovation condition
+on all previous measurements should be Gaussian
+with 0 mean and covariance Sk.
+The other property that it should have
+is that the autocovariance that is defined
+as the cross covariance between the innovation
+at time k and the innovation at time k minus some lag l.
+Well, this autocovariance should have the following structure,
+that if l is equal to 0, it should have the same covariance
+as vk, because then it's the covariance of vk and vk,
+and that's covariance vk.
+And then, all other cross covariances should be 0.
+What this basically implies is that the innovation at two
+different time instances should be independent from each other,
+or they should be uncorrelated.
+So we could, for example, prove that the innovation should
+have 0 mean by calculating the expected value of vk
+given all the previous measurements up
+to time k minus 1.
+So if we use the expression here for vk,
+we see that it's equal to the measurement
+yk minus the predicted measurement.
+So this vk here is equal to--
+
+we see that this here is the deterministic value,
+so the expected value of this is just the value itself,
+and then when we have the expected value of yk left.
+So we can write this as the expected value of yk,
+given all the previous observations,
+minus the predicted measurement.
+
+And we also know by definition that this here
+is actually also the predicted measurement, right?
+This is equal to Hk x hat k given k minus 1,
+which is the same here.
+So this expected value should be 0.
+You can use similar expressions to also prove
+the covariance of vk given measurements up to k minus 1,
+should be Sk, predicted measurement covariance.
+So if we use the result that we derived
+in the beginning of this lecture,
+this also implies that the expected value
+of vk, when we don't condition on all the data
+needs also to be 0 mean.
+So if we're going to prove that autocovariance has this form,
+we again start by looking at the conditional expected value.
+So to calculate the autocovariance,
+we need to calculate the expected value
+of vk times vk minus l transpose condition on the previous data.
+And here, we see that vk minus a lag
+l here is just yk minus l plus Hk minus l
+times our predicted state.
+
+And as we have conditioned on y up to k minus 1 here,
+yk minus l is clearly a deterministic value,
+and this is also a deterministic function of our data here.
+So vk minus l is a deterministic variable,
+and then we have a 0 mean variable times something
+deterministic.
+So this is clearly 0, and this implies
+that if we take the expected value,
+then we also take the expected value of the data,
+this will also be 0 mean, as this is 0 for any data,
+and then marginalizing out over all data, it still will be 0.
+And this holds for all l greater than 0.
+However, if l is 0, then we will have the expected value
+of vk minus vk transpose, which by definition, is
+the covariance of vk.
+
+So that's the proof of these two properties of the innovation,
+and we should note that it's is enough to have
+a filter and the measurement sequence
+to compute these innovations and to check these properties.
+And that is the big advantage with checking
+the consistency of the innovation
+compared to the posterior.
+Where we will also need to have the ground truth of the state
+in order to calculate these properties.
+So how can we go about testing that the innovation is
+consistent?
+Well, we can look at three different methods.
+The most straightforward method is to do a visual inspection.
+That is plotting the innovation over time,
+and then checking if it seems to be 0 mean and uncorrelated.
+So here we have three different innovation processes,
+and I would encourage you to pause the video here and try
+to, from these plots, determine which of these are 0 mean
+and uncorrelated over time.
+So let's look at this together.
+If we start with this one here, we can see that, first of all,
+that the mean seems to be around 0.
+So if we take the mean of this, it
+should be somewhere here, right?
+Secondly, we cannot see any apparent trends over time that
+would indicate that there is some time correlation
+in the signal.
+It seems to be fairly uncorrelated over time.
+From this, we can conclude that at least
+from a visual inspection, it seems
+to be a white noise process.
+Now, if we look at the other two,
+we see that this one here clearly has a bias.
+So the mean of this is probably somewhere around 1.
+We clearly see that it has a bias here.
+And unfortunately, there could be several reasons for this.
+One reason could be that we have a motion or measurement model
+mismatch, which makes our predictions
+in the Kalman filter consistently wrong.
+It could also be due to having too little process noise making
+the filter act slowly to changes,
+and we will discuss this later on in this lecture as well.
+So if we look at this example here,
+although the innovation seems to be 0 mean roughly,
+it's centered around 0, we can clearly
+see a trend in the data, and the consecutive values
+are correlated with each other.
+We see that it fits, if we have strong negative values here,
+it's more likely that the next time instance will also
+have some negative value.
+The conclusion is that our filter is not
+extracting all the information that is in the measurement,
+as the filter should be able to follow at this trend,
+and thus make better measurement predictions.
+One possible explanation for this
+could be that we have too little process noise, which
+results in our filter is too slow to react to actual changes
+in the parameters of interest, and instead, it
+thinks that it's measurement noise.
+So through visual inspection, we can get a feeling
+for if our innovation is a white noise process, as it should be,
+and if it is not the case, we get some intuition or hints
+on what could be wrong.
+But what about the variance of the innovation?
+Well, as we stated earlier, ideally,
+the innovation at time k, condition
+on measurements up to time k minus 1,
+should be Gaussian with 0 mean and covariance Sk.
+One way to check that this holds true
+is by constructing a new random variable,
+where we scale the innovation by dividing it
+by the square root of the covariance.
+By doing so, we construct a new random variable,
+which is Gaussian variable with 0 mean still,
+which has a covariance, which is the identity matrix.
+So what we essentially do here is
+that we normalize the innovation and transform it
+into a 0 mean Gaussian with identity matrix as covariance,
+which is easier to interpret.
+If we look at this a bit more formally,
+we can use this to design a test statistics, which
+is a c squared random variable with the same degree of freedom
+as the dimension of the measurement.
+
+One can then test if a sum of these
+are distributed according to this distribution
+here, by for example, checking if epsilon k here
+is within the 3 sigma region of this distribution here.
+We will not go into more details about this,
+but we should note that we can also
+test this visually by plotting this normalized innovation
+sequence, and again see if it's 0 mean,
+but perhaps, more importantly, that most values lie
+within plus minus 3 sigma.
+So in these plots, we have plus minus 3 sigma
+here, which for this normalized random variable,
+is plus minus 3 because sigma is 1.
+Statistically, we know that 99.7% of all values
+should be inside this region here.
+As we see in this example here, we
+see that all values, except one value
+here is inside this region, and this seems to be OK.
+So the covariance here seems to be
+consistent with what the actual values of the random variable.
+However, if we look at this plot here,
+we see that there are many values that
+are outside of the three sigma region, which would indicate
+that for this normalized innovation,
+that we should increase Sk, by for example, increasing
+the measurement noise.
+One possible explanation for why it could look like this
+is that we are relying too much on the measurements,
+such that the measurement noise in our observations
+are being transferred to our estimates.
+A more formal method to investigate
+the correlation of the innovation
+is to estimate the autocorrelation function
+of the innovation, which is basically
+the same thing as the autocovariance function,
+but we have normalized it to 1 for lag 0.
+And the autocorrelation function can be calculated like this.
+And if we visualize this for different lags,
+we want it to look something like this,
+where we have 1 for lag 0, and for all other lags,
+we have an insignificant value.
+This would indicate that the innovation process
+is uncorrelated over time, which is what we expect from a well
+functioning filter.
+On the other hand, if we look at this autocorrelation function
+here, we see that the innovation is
+highly correlated over significant lags.
+If we get something like this, we
+would have significant modeling errors or bugs in our filter,
+I would say.
