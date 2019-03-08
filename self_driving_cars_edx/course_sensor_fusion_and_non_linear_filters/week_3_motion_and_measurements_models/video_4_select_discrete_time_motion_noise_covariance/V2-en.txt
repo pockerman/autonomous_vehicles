@@ -1,0 +1,294 @@
+
+In the previous video, we considered
+how to discretize a continuous time motion model
+and how to select a discrete time transition matrix.
+In this video, we'll instead focus
+on how to select a discrete time motion noise
+and in particular its covariance matrix.
+Suppose that a continuous time motion
+model is described by a linear differential equation
+such that the time derivative of the state
+is a linear function of the state plus some process noise.
+Now, from the previous video, we know
+how to discretize the deterministic part of this
+by, preferably, finding the exact solution
+to the differential equation.
+So, in this video, we'll focus on the noise term here,
+which we haven't discussed that much previously.
+Now, a very popular and common assumption
+regarding q tilde of t is that it's a white Gaussian noise
+process, which means that it has 0 mean
+and that it's uncorrelated over time.
+So uncorrelated over time means that if you
+take the cross-covariance between q
+tilde at different time instances--
+so tau 1 is not equal to tau 2.
+This cross-covariance will be 0.
+However, if we take the covariance of q tilde
+at the same time, so tau 1 is equal to tau 2,
+we get something infinite here.
+Because at the cross-covariance it's
+assumed to be an impulse function in time.
+This might look a bit complicated,
+but it turns out that we're, generally,
+not interested in the covariance of q tilde at a specific time.
+Instead, for instance, when we want
+to find a corresponding discrete time covariance
+matrix that we will look at later,
+we always encounter q tilde in an integral.
+And it turns out that when we consider
+an integral of q tilde, this is actually not that complicated.
+Now, in order to get at least some understanding
+of the properties of such an integral,
+let's look at the famous Wiener process.
+The Wiener process is just that.
+It's an integral of this type of noise
+where the integral is taken from 0 to time t.
+Now, if we look at what the Wiener process is--
+as you know, an integral-- it's just a type of summation.
+So as we increase t here, we just
+summing more and more Gaussian random variables together.
+Now, this is actually analogous to how
+we generate a random walk.
+And can see the Wiener process as the limit of a random walk
+as we let the sample time go to zero.
+So if we look at the properties of the Wiener process,
+it's easy to see that it's 0 mean,
+as it's just a summation of 0 mean random variables.
+So it has to be 0 mean.
+Now, the covariance is simply the expected value
+of w t times w t transpose.
+And if we plug-in the integral expression for w t,
+we get this expression here.
+We can think of this as--
+this is a summation of Gaussian random variables,
+and this is a summation of Gaussian random variables.
+And whenever tau 1 and tau 2 are different,
+the covariance is going to be 0 because of this property here.
+And we can make use of this.
+Now, an expectation is also a type of integral,
+so can switch to orders of the integrals.
+So we move these integrals outside and then
+the expectation inside.
+Then we get the expectation of q tilde tau 1 times
+q tilde tau 2 transpose.
+And this is, by definition, the cross-covariance here.
+So this here is the impulse function times q tilde.
+Now, this is actually convenient that this is an impulse
+function because impulse functions are
+easy to integrate.
+So if we integrate this over tau 2,
+we simply get 1 due to this impulse function here.
+And if we integrate this from 0 to t,
+we simply get t times q tilde.
+So the covariance of a Wiener process
+grows linearly with time, which is perhaps unsurprising
+as we keep adding more and more independent Gaussian
+random variables.
+Now, what I would like you to remember from this introduction
+is that q tilde is a time continuous white
+Gaussian process, which means that it's
+0 mean and uncorrelated over time.
+And even though the cross-covariance
+is an impulse function, when we compute the integrals here,
+we get something which is finite.
+Additionally, we saw that the covariance of this type
+of integral is easy to compute.
+Now, we will use this when we, again,
+look at this linear, continuous time differential equation
+with the noise term here is this white Gaussian noise process.
+What we seek is the corresponding discrete time
+motion model that we would write on this form here.
+Now, as the continuous time motion model is linear,
+then the discrete time motion model will also be linear.
+And at the continuous time motion
+noise process is additive white Gaussian,
+it's reasonable to assume that also the discrete time
+noise is additive and Gaussian.
+However, it's not clear how to select a covariance capital Q k
+1.
+So the focus of this video is to find a method
+to do that, which works for any linear, continuous time
+differential equation and, if possible,
+also some of the nonlinear differential
+equations that we might have.
+We should note that Q k minus 1 is
+the covariance of the discrete time process noise Q k minus 1.
+But we can also view it as a covariance
+of x k given x k minus 1.
+If we know x k minus 1, then the only uncertainty
+that we have left here is concerning Q k minus 1.
+Similarly, we interpret this as covariance of x of t
+plus capital T given x of t in the continuous time model.
+We will now introduce two methods
+to select the motion noise covariance in the discrete time
+motion model.
+In the first method that we will present here,
+we would like to make use of the exact solution
+for linear systems.
+So here we have a linear differential equation
+describing the continuous time motion.
+And if we solve for x of t plus capital T,
+we get the following expression.
+Now, to be honest, the previous derivation that we did we
+assumed that q tilde was a constant vector, which
+we called b, if you remember.
+However, it's easy to show that this is the actual solution
+for this system.
+So if we identify our discrete time model, we have x of t
+plus capital T, which is x k equal to--
+we know this to be our transition matrix a k minus 1
+and x t is x k minus 1--
+so this integral here has to be our additive noise process Q
+k minus 1.
+
+So with this term here we want to capture
+the parts of our model that does not depend on x of t.
+So Q k minus 1 is supposed to represent
+this integral of our time continuous noise process
+over our sample interval and weighted
+with this matrix function here.
+Now, when we integrate the noise,
+this matrix here will determine how
+the noise will spread out in the different state dimensions.
+We can look at this by calculating the discrete time
+noise covariance, that is the covariance matrix of Q
+k minus 1.
+We can do this in a similar manner
+as we did for the Wiener process.
+So we can write the covariance of Q k minus 1
+as capital Q k minus 1.
+And we can express this as the covariance of x of t
+plus capital T when we know x of t.
+This covariance here is the covariance of this part
+here, because x of t is known.
+And the covariance of that can be expressed like this.
+Now, this covariance can be expressed like the expectation
+of this times this transpose.
+And if we do similar trick as we did before when we changed
+the order of the integration and expectation,
+we get this result here where we have
+an integral from 0 to capital T of the exponential function
+of A tilde times tau times q tilde
+times this exponential function transpose.
+We can interpret this as the continuous time noise
+covariance, gets mixed by these matrix functions,
+and integrated over the whole sample interval.
+Now, this may look a bit complicated, but in many cases
+this is actually not too hard to handle.
+For instance, the elements of these matrices
+are often polynomials in tau of quite low order.
+And then we can take the product of these three
+and compute the integrals of each element
+in the corresponding matrix.
+The second technique to select a covariance of the discrete time
+motion noise is something that I refer to as the modified Euler
+method.
+It is essentially the same as the Euler method,
+but the noise is handled in a slightly more
+elaborate fashion.
+In this case, we consider a general, nonlinear differential
+equation where a tilde here is possibly
+a nonlinear function of x of t.
+But it could, of course, also be linear as well.
+We can view the Euler method as this approximation.
+So x dot of tau is approximately a tilde of x of t
+plus q tilde of t for all tau within the sampling interval.
+This means that we approximate the time derivative
+of x as constant in the complete interval that we are interested
+in.
+This assumption greatly simplifies
+our problem, and the calculation of x of t plus capital T,
+and gives the following expression.
+Since the time derivative is assumed to be constant,
+the prediction of x of t plus capital T
+is simply the previous state, x of t,
+plus t times the time derivative of x
+at the start of the interval at time t.
+Now, for the modified Euler method,
+we use the same approximation for the difficult part,
+so that is a nonlinear function of x of t,
+but we use the actual expression for the noise term since
+that's-- anyway-- turns out to be quite simple to handle.
+If you look at the expression now, we get x of t plus capital
+T equal to x of t plus this integral here from t to t
+plus capital T of the time derivative of x of t.
+Now this relation holds for any nonlinear or linear system.
+Now, as x dot is approximated to be constant here,
+when we integrate over the interval
+over this constant vector we just
+get the interval times this constant vector as a result.
+So there is no difference yet as we are still
+using the Euler approximation for this component here.
+Now, here, however, for the noise term
+we get an integral over q tilde from t to t
+plus capital T compared to just t times a constant q tilde of t
+that we got in the ordinary Euler method.
+So, given this, how should we then
+select the covariance matrix of the discrete time motion noise?
+To answer the question, we compute
+the covariance of x of t plus capital T given x of t.
+Now, if x of t is known, both of these terms
+here are deterministic and we only get a contribution
+from the noise term.
+Now, we actually looked at an integral equivalent to this
+when we looked at the covariance of the Wiener process
+in the beginning.
+And then we concluded that the covariance of this
+grows linearly with the length of the time interval.
+So according to the modified Euler method,
+we should select the discrete time noise
+as capital T times q tilde where q tilde is
+the covariance of the continuous time noise process.
+To summarize what we've learned so far,
+we have proposed two methods for selecting noise covariance.
+The first method is the sine for linear continuous time systems.
+And here we select a discrete time covariance
+by solving this integral here.
+In the second method, that we refer to as the modified Euler
+method, we obtain Q k minus 1 by simply
+multiplying the continuous time covariance q
+tilde with capital T.
+To make this presentation a bit more concrete,
+let's consider how to select a discrete time motion noise
+in a constant velocity model.
+In the continuous time version of the constant velocity model,
+as we mentioned in the previous video,
+we assume that there's only noise in the velocity
+component of the state vector and that the noise
+in the position is obtained by integrating the velocity noise.
+Now, it's actually quite common that the motion noise is 0
+in some of the state variables.
+So, generally, we can use a matrix gamma
+when we express the motion noise q tilde equal to gamma q c of t
+where q c is a low-dimensional vector that
+describes a noise in the dimensions where the noise is
+non-zero.
+In the example with the constant velocity model
+Q c would be the noise and the velocity component
+since q tilde of t is a linear transformed version of Q c
+of t.
+The corresponding covariance matrix, capital Q tilde,
+is related like this.
+So capital Q tilde is equal to gamma times capital Q c times
+gamma transpose, where capital Q c is a covariance of Q c of t.
+By making use of this type of representation,
+we can express the continuous time constant velocity
+model like this.
+As you see, the time derivative of the position
+is the velocity plus 0 noise.
+And the time derivative of the velocity is Q c of t.
+So Q c of t is the noise in the velocity component.
+To obtain the complete noise covariance,
+capital Q tilde, we evaluate the product gamma, which
+is a 0, 1 column vector, times Q c times gamma transpose, which
+is the 0, 1 row vector.
+What we then get is this 2 by 2 matrix that only contains 0s,
+except in this element--
+we'll get capital Q c.
+To close the video we have included
+two self-assessment questions, where
+you will apply the above methods to select the noise
+covariance in a discrete time constant velocity model.
+
+[CAMERA SHUTTER CLICKS]

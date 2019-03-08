@@ -1,0 +1,303 @@
+
+In this video, we will make use of the two results presented
+in the previous video in order to identify
+the corresponding discrete time transition
+matrix for a continuous time model.
+We will do this both for a general linear system
+as well as for two important examples
+of the translational motion model--
+the constant velocity model and the constant acceleration
+model.
+We will start by looking at a general solution
+for linear systems.
+Suppose the continuous time motion is described
+by this linear differential equation where A tilde here
+is a constant matrix and q tilde of t is a noise process.
+How should we then select the transition matrix A k minus 1
+in this discrete time motion model where
+we have x k equal to A k minus 1 times x k minus 1
+plus some noise?
+Well, we have two options.
+We could either use the Euler method to approximate x of t
+plus capital T as x of t plus t times the derivative of x of t.
+We should note here that x of t plus capital T
+corresponds to x k and that x of t corresponds to x k minus 1.
+So all we need to do is to look at this equation
+and identify the matrices that we multiply x of t with.
+And that will give us A k minus 1, our transition matrix.
+In this case, we have x of t here,
+which is multiplied with an identity matrix.
+So we have I here times x of t and then we have x of t
+here, which is multiplied by t times A tilde.
+So our transition matrix for the discrete time system
+A k minus 1 is then I, the identity matrix,
+plus t times A tilde where A tilde here
+is our transition matrix for the continuous time system.
+Another alternative is to make use of the exact solution
+for x of t plus capital T that we also
+derived in the previous video.
+According to that expression, x of t plus capital T
+is equal to e to the power of A tilde times t times
+x of t plus this integral here, which
+does not depend on x of t.
+If we again recall that x of t plus capital T
+corresponds to x k and that x of t corresponds to x k minus 1,
+then we can simply compare these two equations to conclude
+that our transition matrix, A k minus 1,
+is equal to e to the power of capital T times
+A tilde, which is this factor here in front of x of t.
+If we compare the two solutions, the Euler method
+and the exact solution, we can see that the Euler method
+actually corresponds to the Taylor
+expansion of the exact solution if we only
+include the first two terms.
+I would also like to point out that normally it's better
+to use the exact solution than the Euler method,
+but I think the comparison is interesting since the Euler
+method is easier to apply, especially
+for non-linear systems.
+Now, given these solutions for a general linear system,
+let's make use of this in order to compute a transition
+matrix in two examples.
+We start by looking at the so-called constant velocity
+model, CV model.
+Here we assume that we have a position state, denoted p of t,
+and the velocity state, denoted v of t.
+Ignoring the noise component, it is
+assumed that the time derivative of the position state
+is the velocity and that the time derivative of the velocity
+is 0.
+That is, we assume that the velocity is
+constant and, hence, its name.
+If we write this on a matrix form, we have the following.
+So we have time derivative of our state, which
+we denote that x dot of t equal to this vector
+here, which is then equal to a matrix
+A tilde times x of t, which is this vector here
+plus some noise.
+If we ignore the noise term here for awhile
+and focus on this deterministic part of the model--
+if we look at the first element of x of t, which is p of t,
+we have that p dot of t, which is the time derivative of p,
+is equal to 0 times p of t plus 1 times v of t.
+So, unsurprisingly, we're saying that the time
+derivative of the position is the velocity.
+Similarly, if we look at the time derivative of v of t,
+we're saying that it's 0 times p of t plus 0
+times v of t, which is 0.
+So we are saying that the derivative of the velocity
+is 0, which is exactly what we wanted.
+So according to this deterministic part
+of the model, the velocity can never change.
+That is, it is constant as the name suggests.
+Now, that's not a very realistic nor useful model.
+To allow for the state to deviate a bit from this,
+we add this noise term here, which typically-- actually only
+affects the velocity term here.
+That is, it's common to assume that q tilde of t
+here is actually a scalar noise process that
+can be written like this where q c of t
+is a scalar white noise process.
+Now, with this added noise term here,
+we are actually saying that the velocity's nearly constant
+and that changes in the velocity is, more or less, this 0 mean
+random noise process.
+To the right, we have an illustration of one realization
+of this model.
+And you can see that the velocity here
+is changing slowly and, more or less,
+randomly at each time instance here.
+We can see that the position state is then
+the integration of this.
+And we can see that it can, more or less,
+be described using piecewise linear segments like this.
+So that is segments where the velocity is constant
+as the model suggests.
+Now, could you think of a situation
+where it would be reasonable to use this model?
+One example that I think about is
+if we want to model a vehicle cruising on a highway,
+for example.
+In this case, the vehicle is keeping a fairly constant speed
+and not making too complicated maneuvers, which
+would match pretty good with the modeling assumptions
+that we have here.
+Even though we are discussing this model in terms of position
+and velocity, this model is not restricted
+to be used in a positioning problem.
+It is, in fact, suitable to use this model in any context
+where we have some underlying trend in our states--
+that we have this linear changing in our states,
+some trend here that we wish to capture.
+As you will see later, this could, for example,
+be a drift in our sensor that we wish to compensate for.
+So this type of model has many uses.
+So now we know all about the continuous time
+constant velocity model.
+Our objective here is to find a transition matrix, A k minus 1,
+for the discrete time constant velocity model.
+From the previous video, we know two ways of doing this.
+We have the Euler method and the exact analytical solution.
+Finding the solution to the Euler approximation is simple.
+We just plug-in A tilde into this equation here.
+So we have the identity matrix plus t times A tilde.
+So we have the identity matrix here plus t times this A
+tilde here and we get this transition matrix here.
+Furthermore, finding the exact solution is also trivial.
+If we plug-in A tilde in this expression here,
+which we can express by this sequence here--
+so if we evaluate each term in the sequence,
+we have the identity matrix plus A tilde times t,
+which is what we got up here.
+Now, the third term here, we have A tilde squared,
+which happens to be a 0 matrix.
+So if we multiply A tilde with itself, we get all 0s out.
+And if A tilde squared is 0, then
+all the higher order terms here are also 0.
+So we simply get this result here,
+which is this matrix here.
+So what we can see here is that this is actually the same
+as that we got with the Euler method.
+So both methods gives us the same result. Now,
+we can understand this mathematically
+as the secondary term or higher are 0,
+but we also think about it more intuitively by considering
+the approximation that the Euler method does--
+namely that it approximates the time derivative as constant
+between two sample times.
+Now, in this case, that's actually not an approximation.
+Because if you look at this, the time derivative of the position
+is 0 times v where this is actually constant.
+So this part here is just a constant,
+which is why the Euler method is the same as the exact solution.
+So the deterministic part of the discrete time model
+says that the position at time k is just
+a previous position plus t times previous velocity, which
+makes sense.
+And the velocity is just 0 times the position plus 1 times
+the previous velocity.
+So the new velocity is just the old velocity.
+So the resulting discrete time constant velocity model
+looks like this.
+
+So we have the position at the current time
+is equal to the position at the previous time plus t times
+the velocity, which makes sense.
+And the velocity at time k is simply the previous velocity,
+so it's constant.
+We will in later lectures also discuss
+how we can describe our discrete time noise process q k minus 1,
+but in this lecture we focus on the transition matrix.
+Another important example of a translational motion model
+is the constant acceleration model, or CA model.
+It resembles the constant velocity model,
+but, in this case, the state vector
+contains both a position, a velocity, and an acceleration
+state.
+The time derivative of the position is the velocity.
+But now that the acceleration is in the state vector,
+the time derivative of the velocity
+is assumed to be the acceleration.
+Whereas, the time derivative of the acceleration
+is instead assumed to be 0 plus some noise.
+We can write this on a matrix form like this.
+And if you multiply this together,
+you can verify that what I just said holds.
+So the interpretation of this deterministic part
+of this model is instead that the acceleration is constant.
+Now, to allow for deviations from this, we add this noise
+term here, which is, again, often assumed
+to be a scalar white noise process, which
+we can write like this where q c of t
+is a scalar 0 mean random noise process that is saying
+that the acceleration is nearly constant
+and that the changes in the acceleration
+is modeled according to this noise process q c of t.
+To the right here, we have an illustration of one realization
+using this model.
+We see that the acceleration is allowed to change slowly
+and that the changes are, more or less, random.
+The velocity and position states are then
+the first and second order integration
+of the acceleration.
+The velocity now changes, more or less, linearly
+and that the position now then changes,
+more or less, quadratically as a function of time.
+So when should we use this model?
+Well, compared to the constant velocity model,
+which could be applicable in highway scenarios
+at cruising speeds, the constant acceleration model
+would be better suited for when the vehicle's
+entering the highway and accelerating up
+to the speed on the highway.
+So now that we know the continuous time
+constant acceleration model, how should we
+select a transition matrix, A k minus 1,
+in our discretized version of us?
+Now, finding the Euler approximation for this system
+is, again, trivial.
+We plug-in A tilde into this equation here, so A k minus 1
+is the identity matrix plus t times A tilde, which
+becomes this matrix here because the identity matrix has
+all 1s on the diagonal and A tilde has these 1s here,
+so t times A tilde becomes these two off diagonal elements.
+So if we try to interpret this discrete time model,
+we see that the current position is
+the previous position plus capital
+T times the previous velocity.
+But the acceleration state does not come into play here.
+For the velocity, however, we see that the current velocity
+is the previous velocity plus t times
+the previous acceleration.
+Now, let's compare this to what we
+get using the exact solution.
+Now, if we solve the problem using the exact solution
+instead, we get this Taylor series expansion of e
+to the power A tilde time capital T.
+So we have the identity matrix plus A tilde times capital
+T plus A tilde squared capital T squared over 2 and so on.
+For this example, it turns out that all these three
+are non-zero, whereas A tilde to the power of 3 and up are zero.
+What happens is that this term here adds this element here,
+t squared over 2, which tells us that acceleration can also
+have an impact on our position, which is reasonable.
+We integrate acceleration twice to get
+an adjustment of our position.
+If we compare to what we get for the Euler method,
+then this term here is not present.
+This is 0 here.
+So normally this is the transition matrix
+that we recommend that you use, if you
+like to use a constant acceleration model.
+But it's interesting to see the difference in the results
+as we tend to use the Euler method for when
+we have nonlinear models.
+So, in this case, we see that there
+is a difference between the exact solution and the solution
+that we get with the Euler method.
+We can generalize the constant velocity
+and constant acceleration models that we just
+seen to higher dimensions.
+If we assume that the motion in the different dimensions
+are independent, this generalization
+is essentially trivial.
+If we do it for the constant velocity model,
+we can stack all the position states in the beginning
+and then afterwards have all the velocities states
+in the different dimensions.
+A tilde, for the continuous time system,
+looks like this where I n is the identity matrix of dimension n
+and these 0s are assumed to be 0 matrices of dimension
+n times n.
+If we plug this A tilde into the exact discretization
+model or the Euler approximation,
+we get this time discrete transition matrix.
+So it has the same form as we saw before,
+but everything here has been replaced by matrices.
+Now, we can do a similar thing for the constant acceleration
+model and we get this result here for the exact method.
+And we can also generalize this to arbitrary many dimensions,
+but normally we only do this for two or three dimensions.
+Here is a self-assessment question
+to find out if you can find the discrete time transition matrix
+for this continuous time model.
