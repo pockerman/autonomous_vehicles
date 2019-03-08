@@ -40,6 +40,7 @@
 
 - **Item:** <a href="autonomous_vehicles_notes/kalman_filters_notes/notes.pdf">Kalman Filter</a>
 - **Item:** <a href="autonomous_vehicles_notes/kalman_filters_notes/notes.pdf">Extended Kalman Filter</a>
+- **Item:** <a href="autonomous_vehicles_notes/kalman_filters_notes/notes.pdf">Error State Extended Kalman Filter</a>
 - **Item:** <a href="autonomous_vehicles_notes/kalman_filters_notes/notes.pdf">Unscented Kalman Filter</a>
 - **Item:** <a href="#">Particle Filters</a>
 - **Item:** <a href="autonomous_vehicles_notes/sensor_fusion_notes/notes.pdf">Sensor Fusion</a>
