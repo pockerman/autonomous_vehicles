@@ -21,18 +21,14 @@ of two parts;
 \item A small part called the error state $\delta \mathbf{x}$
 \end{itemize}
 
-We can think of a simple example of tracking the position of a car over time. 
-
-
-The green line in Figure shows the true position
+We can think of a simple example of tracking the position of a car over time. The green line in Figure \ref{es_extended_kalman_filter_1} shows the true position
 of the car, which is the quantity we're trying to estimate. 
-
 
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.280]{img/kalman_filter/es_extended_kalman_filter_1.jpeg}
 \end{center}
-\caption{Summary of EKF.}
+\caption{State error $\delta \mathbf{x}$.}
 \label{es_extended_kalman_filter_1}
 \end{figure}
 
@@ -46,65 +42,91 @@ If we can figure out what the error state is, we can actually use it as a correc
 the true state. 
 
 So, in the error state EKF, instead of doing Kalman filtering on the full state
-which might have lots of complicated non-linear behaviors, we are going to
-use the EKF to estimate the error
-state instead, and then use the estimate of the error state as a correction to
-the nominal state. 
+which might have lots of complicated non-linear behaviors, we are going to use the EKF to estimate the error
+state instead, and then use the estimate of the error state as a correction to the nominal state. 
 
 What this means mathematically is that we are going to rearrange our
-linearized motion model so that we now have an equation
-that can tell us how the difference between the true state at time, $k$, and our predicted
-state at time, $k$, is related to
-the same difference at time, $k-1$. These differences
+linearized motion model so that we now have an equation that can tell us how the difference between the true state at time, $k$, and our predicted
+state at time, $k$, is related to the same difference at time, $k-1$. These differences
 are exactly the error states we just talked about; $\delta \mathbf{x}_k$  and
-$\delta \mathbf{x}_{k-1}$, and the equations relating them are called the error
-state kinematics. We can also re-express our linearized
-measurement model in terms of the error state directly. We can use this error state formulation of the EKF in
-a very similar way to the vanilla EKF. 
+$\delta \mathbf{x}_{k-1}$, 
+
+\begin{equation}
+\mathbf{x}_k = \mathbf{f}(\hat{\mathbf{x}}_{k-1}, \mathbf{u}_{k-1}, \mathbf{0}) + \mathbf{F}_{k-1}(\mathbf{x}_{k-1} - \hat{\mathbf{x}}_{k-1}) + \mathbf{L}_{k-1}\mathbf{w}_{k-1}
+\end{equation}
+
+\begin{eqnarray}
+\delta \mathbf{x}_{k-1} = \mathbf{x}_{k-1} - \hat{\mathbf{x}}_{k-1} \\
+\delta \mathbf{x}_{k} = \mathbf{x}_{k} - \mathbf{f}(\hat{\mathbf{x}}_{k-1}, \mathbf{u}_{k-1}, \mathbf{0})
+\end{eqnarray}
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Error State Kinematics}}
+
+The equations relating $\delta \mathbf{x}_k$  and $\delta \mathbf{x}_{k-1}$  are called the error state kinematics.
+\end{remark}
+\end{framed}
+
+We can also re-express our linearized measurement model in terms of the error state directly. 
+We can use this error state formulation of the EKF in a very similar way to the vanilla EKF. 
 
 We start off by updating the nominal state using the non-linear motion model and our current best
 estimate of the state. We could do this a bunch of times before ever getting a measurement for the correction step. So, the current
-best estimate might be $\chek{\mathbf{x}}$ or $\hat{\mathbf{x}}$. We also need to keep track of the state covariance, which grows as
-we integrate more and more process noise from the motion model. Note that again, the previous
-covariance estimate could be $\chek{\mathbf{P}}$  or $\hat{\mathbf{P}}$ depending
-on whether we used a measurement to do a correction step. We can repeat the loop updating the
-nominal state and the error state covariance for as long as we like until we receive
-the measurement and want to do a correction. When this happens, we can compute the Kalman gain as usual, and then compute
-the best estimate of the error state using
-the Kalman gain, the measurement, and our nonlinear
-measurement model. 
+best estimate might be $\check{\mathbf{x}}$ or $\hat{\mathbf{x}}$. 
 
-Once we have an estimate for the mean of
-the error state, we want to use this to update the nominal state and
-correct the error. We can do that by just adding our estimate
-of the error state to the nominal state to get the correct state estimate for the full state. 
+\begin{eqnarray}
+\check{\mathbf{x}}_{k} = \mathbf{f}(\hat{\mathbf{x}}_{k-1}, \mathbf{u}_{k-1}, \mathbf{0})
+\end{eqnarray}
+
+We also need to keep track of the state covariance, which grows as
+we integrate more and more process noise from the motion model. Note that again, the previous
+covariance estimate could be $\check{\mathbf{P}}$  or $\hat{\mathbf{P}}$ depending
+on whether we used a measurement to do a correction step. 
+
+\begin{eqnarray}
+\check{\mathbf{P}}_{k} = \mathbf{F}_{k-1}\mathbf{P}_{k-1}\mathbf{F}_{k-1}^T + \mathbf{L}_{k-1}\mathbf{Q}_{k-1}\mathbf{L}_{k-1}^T
+\end{eqnarray}
+
+We can repeat the loop updating the nominal state and the error state covariance for as long as we like until we receive
+the measurement and want to do a correction. When this happens, we can compute the Kalman gain 
+
+\begin{eqnarray}
+\mathbf{K}_{k} = \check{\mathbf{P}}_{k-1}\mathbf{H}_{k}^T(\mathbf{H}_{k}\check{\mathbf{P}}_{k}\mathbf{H}_{k}^T + \mathbf{R})^{-1}
+\end{eqnarray}
+
+Then compute the best estimate of the error state using
+the Kalman gain, the measurement, and our nonlinear measurement model. 
+
+\begin{eqnarray}
+\delta \hat{\mathbf{x}}_{k} = \mathbf{K}_{k}(\mathbf{y}_{k} - \mathbf{h}_{k}(\check{\mathbf{x}}_{k},\mathbf{0}) )
+\end{eqnarray}
+
+Once we have an estimate for the mean of the error state, we want to use this to update the nominal state and
+correct the error. We can do that by just adding our estimate of the error state to the nominal state to get the correct state estimate for the full state. 
+
+\begin{eqnarray}
+\hat{\mathbf{x}}_{k} = \check{\mathbf{x}}_{k} + \delta \hat{\mathbf{x}}_{k}
+\end{eqnarray}
+
 Finally, we can update the state covariance using the usual equations.
 
-This process goes on forever, or at least until the vehicle runs out of gas. So, why would we
-actually want to use the error state EKF
-in practice? Well, there are two
-good reasons to use it. 
+\begin{eqnarray}
+\hat{\mathbf{P}}_{k} = (\mathbf{I} - \mathbf{K}_{k} \mathbf{H}_{k})\check{\mathbf{P}}_{k}
+\end{eqnarray}
+
+\textbf{Advantages of ES-EKF}
+
+This process goes on forever. So, why would we actually want to use the error state EKF
+in practice? Well, there are two good reasons to use it. 
 
 \begin{itemize}
 \item One reason is that it can often work better than the vanilla EKF because the small error
-state is more amenable to
-linear filtering than the large
-nominal state, which we can integrate
-non-linearly. 
-\item The other reason is that the error state
-formulation makes it much easier to work with constrained quantities like rotations, which
-will come in handy a bit later in the course. The reason for
-this is that we don't necessarily have to use plane vector addition to break down the state. In fact, we could use any generalized
-composition operation we like as long as it gives us a consistent way
-of incorporating small perturbations
-into the nominal state. 
+state is more amenable to linear filtering than the large nominal state, which we can integrate non-linearly. 
+\item The other reason is that the error state formulation makes it much easier to work with constrained quantities like rotations. 
+The reason for this is that we do not necessarily have to use plane vector addition to break down the state. In fact, we could use any generalized
+composition operation we like as long as it gives us a consistent way of incorporating small perturbations into the nominal state. 
 \end{itemize}
-
-If this all sounds a bit abstract right now, don't worry. Later in the
-course, we'll use the error state
-EKF to help us deal with rotations
-in 3D space, which are
-a very common type of constraint quantity. 
 
 In summary, the error state formulation of the EKF separates the vehicle state into a large nominal state and a small error state. The nominal state
 keeps track of what the motion model predicts the states should be, while the error state captures the
@@ -112,8 +134,6 @@ modelling errors and process noise that accumulate over time. In the error state
 this small error state and use it as a correction to the nominal state. This is the main
 difference between the error state EKF and the vanilla EKF, which estimates the full state. Keep in mind that both formulations still rely on
 local linearization. The error state EKF has a couple of advantages over the vanilla EKF. The first is that it simply performs better because
-the evolution of the error state tends to be closer to linear. The other is that the error state
-formulation makes it easier to handle special quantities
-like 3D rotations. 
+the evolution of the error state tends to be closer to linear. The other is that the error state formulation makes it easier to handle special quantities like 3D rotations. 
 \section{Questions}
 \section{Assignements}
