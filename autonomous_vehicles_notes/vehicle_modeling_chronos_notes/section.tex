@@ -76,24 +76,27 @@ Concretely, we will use an instance of the \lstinline{chrono::vehicle::sedan::Se
 \subsubsection{Create the application}
 
 \begin{lstlisting}
-    // ---------------------------------------
-    // Create the vehicle Irrlicht application
-    // ---------------------------------------
+// Create the vehicle Irrlicht application
+ChVehicleIrrApp app(&vehicle.GetVehicle(), &vehicle.GetPowertrain(), 
+		    L"Steering XT Controller Demo", 
+        irr::core::dimension2d<irr::u32>(800, 640));
 
+app.SetHUDLocation(500, 20);
+app.SetSkyBox();
+app.AddTypicalLogo();
 
-    ChVehicleIrrApp app(&vehicle.GetVehicle(), &vehicle.GetPowertrain(), L"Steering XT Controller Demo", irr::core::dimension2d<irr::u32>(800, 640));
-    app.SetHUDLocation(500, 20);
-    app.SetSkyBox();
-    app.AddTypicalLogo();
-    app.AddTypicalLights(irr::core::vector3df(-150.f, -150.f, 200.f), irr::core::vector3df(-150.f, 150.f, 200.f), 100, 100);
-    app.AddTypicalLights(irr::core::vector3df(150.f, -150.f, 200.f), irr::core::vector3df(150.0f, 150.f, 200.f), 100, 100);
-    app.EnableGrid(false);
-    app.SetChaseCamera(trackPoint, 6.0, 0.5);
-    app.SetTimestep(step_size);
-
+irr::core::vector3df v1(-150.f, -150.f, 200.f);
+irr::core::vector3df v2(-150.f, 150.f, 200.f);
+irr::core::vector3df v3(150.f, -150.f, 200.f);
+irr::core::vector3df v4(150.0f, 150.f, 200.f); 
+app.AddTypicalLights(v1, v2, 100, 100);
+app.AddTypicalLights(v3, v4, 100, 100);
+app.EnableGrid(false);
+app.SetChaseCamera(trackPoint, 6.0, 0.5);
+app.SetTimestep(step_size);
 \end{lstlisting}
 
-So, our robot can roll forward and turn while rolling, but cannot move sideways directly. We'll use this constraint to define a kinematic model for our robot. The velocity of the robot is defined by the tangent vector to its path see figure \ref{vehicle_path}. 
+%So, our robot can roll forward and turn while rolling, but cannot move sideways directly. We'll use this constraint to define a kinematic model for our robot. The velocity of the robot is defined by the tangent vector to its path see figure \ref{vehicle_path}. 
 
 %\begin{figure}[!htb]
 %\begin{center}
