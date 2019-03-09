@@ -38,15 +38,60 @@ The \lstinline{Chrono::Engine } supports the notion of a system. In our case, th
 \item Powertrain
 \end{itemize}
 
+\lstinline{Chrono::Vehicle} encapsulates templates for systemsand subsystems in polymorphic C++ classes:
 
+\begin{itemize}
+\item A base abstract class for the system/subsystem type (e.g. \lstinline{Chrono::ChSuspension})
+\item A derived, still abstract class for the system/subsystem template (e.g.  \lstinline{Chrono::ChDoubleWishbone})
+\item Concrete class that particularize a given system/subsystem template (e.g. \lstinline{Chrono::HMMWV_DoubleWishboneFront})
+\end{itemize}
 
 \subsection{Setup simulation}
+
+\subsubsection{Setup the vehicel \lstinline{chrono::vehicle::sedan::Sedan}}
+
 Now that we went over the basics of the \lstinline{Chrono::Vehicle} library let's try to set up a basic simulation; namely a vehicle that move in straight line.
+Concretely, we will use an instance of the \lstinline{chrono::vehicle::sedan::Sedan} class. The following code initializes the vehicle instance for the simulation
 
-\begin{equation}
-\dot{y}\cos(\theta) - \dot{x}\sin(\theta) = 0
-\end{equation} 
+\begin{lstlisting}
+// Create the vehicle, set parameters, and initialize
+    Sedan vehicle;
+    vehicle.SetContactMethod(contact_method);
+    vehicle.SetChassisFixed(false);
+    vehicle.SetInitPosition(ChCoordsys<>(initLoc, initRot));
+    
+    vehicle.SetTireType(tire_model);
+    vehicle.SetTireStepSize(tire_step_size);
+    vehicle.SetVehicleStepSize(step_size);
+    vehicle.Initialize();
 
+    vehicle.SetChassisVisualizationType(chassis_vis_type);
+    vehicle.SetSuspensionVisualizationType(suspension_vis_type);
+    vehicle.SetSteeringVisualizationType(steering_vis_type);
+    vehicle.SetWheelVisualizationType(wheel_vis_type);
+    vehicle.SetTireVisualizationType(tire_vis_type);
+\end{lstlisting}
+
+
+\subsubsection{Create the application}
+
+\begin{lstlisting}
+    // ---------------------------------------
+    // Create the vehicle Irrlicht application
+    // ---------------------------------------
+
+
+    ChVehicleIrrApp app(&vehicle.GetVehicle(), &vehicle.GetPowertrain(), L"Steering XT Controller Demo", irr::core::dimension2d<irr::u32>(800, 640));
+    app.SetHUDLocation(500, 20);
+    app.SetSkyBox();
+    app.AddTypicalLogo();
+    app.AddTypicalLights(irr::core::vector3df(-150.f, -150.f, 200.f), irr::core::vector3df(-150.f, 150.f, 200.f), 100, 100);
+    app.AddTypicalLights(irr::core::vector3df(150.f, -150.f, 200.f), irr::core::vector3df(150.0f, 150.f, 200.f), 100, 100);
+    app.EnableGrid(false);
+    app.SetChaseCamera(trackPoint, 6.0, 0.5);
+    app.SetTimestep(step_size);
+
+\end{lstlisting}
 
 So, our robot can roll forward and turn while rolling, but cannot move sideways directly. We'll use this constraint to define a kinematic model for our robot. The velocity of the robot is defined by the tangent vector to its path see figure \ref{vehicle_path}. 
 

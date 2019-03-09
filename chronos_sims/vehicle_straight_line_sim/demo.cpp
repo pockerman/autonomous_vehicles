@@ -20,9 +20,92 @@
 // =============================================================================
 
 #include "demo_data.h"
+#include "chrono_models/vehicle/sedan/Sedan.h"
+
+using namespace chrono::vehicle::sedan;
+
+namespace demo_data
+{
+
+#ifdef USE_PID
+    ChDriverSelector::ChDriverSelector(const ChVehicle& vehicle, ChPathFollowerDriver* driver_follower, ChIrrGuiDriver* driver_gui)
+        :
+          m_vehicle(vehicle),
+          m_driver_follower(driver_follower),
+          m_driver_gui(driver_gui),
+          m_driver(m_driver_follower),
+          m_using_gui(false)
+    {}
+#else
+    ChDriverSelector::ChDriverSelector(const ChVehicle& vehicle, ChPathFollowerDriverXT* driver_follower, ChIrrGuiDriver* driver_gui)
+        :
+           m_using_gui(false),
+           m_vehicle(vehicle),
+           m_driver_follower(driver_follower),
+           m_driver_gui(driver_gui),
+           m_driver(m_driver_follower)
+    {}
+#endif
+
+
+    bool ChDriverSelector::OnEvent(const irr::SEvent& event) {
+
+        // Only interpret keyboard inputs.
+        if (event.EventType != irr::EET_KEY_INPUT_EVENT)
+            return false;
+
+        // Disregard key pressed
+        if (event.KeyInput.PressedDown)
+            return false;
+
+        switch (event.KeyInput.Key) {
+            case irr::KEY_COMMA:
+                if (m_using_gui) {
+                    m_driver = m_driver_follower;
+                    m_using_gui = false;
+                }
+                return true;
+            case irr::KEY_PERIOD:
+                if (!m_using_gui) {
+                    m_driver_gui->SetThrottle(m_driver_follower->GetThrottle());
+                    m_driver_gui->SetSteering(m_driver_follower->GetSteering());
+                    m_driver_gui->SetBraking(m_driver_follower->GetBraking());
+                    m_driver = m_driver_gui;
+                    m_using_gui = true;
+                }
+                return true;
+            case irr::KEY_HOME:
+                if (!m_using_gui && !m_driver_follower->GetSteeringController().IsDataCollectionEnabled()) {
+                    std::cout << "Data collection started at t = " << m_vehicle.GetChTime() << std::endl;
+                    m_driver_follower->GetSteeringController().StartDataCollection();
+                }
+                return true;
+            case irr::KEY_END:
+                if (!m_using_gui && m_driver_follower->GetSteeringController().IsDataCollectionEnabled()) {
+                    std::cout << "Data collection stopped at t = " << m_vehicle.GetChTime() << std::endl;
+                    m_driver_follower->GetSteeringController().StopDataCollection();
+                }
+                return true;
+            case irr::KEY_INSERT:
+                if (!m_using_gui && m_driver_follower->GetSteeringController().IsDataAvailable()) {
+                    char filename[100];
+                    sprintf(filename, "controller_%.2f.out", m_vehicle.GetChTime());
+                    std::cout << "Data written to file " << filename << std::endl;
+                    m_driver_follower->GetSteeringController().WriteOutputFile(std::string(filename));
+                }
+                return true;
+            default:
+                break;
+        }
+
+        return false;
+    }
+}
+
+
 using namespace demo_data;
 
-int main(int argc, char* argv[]) {
+int main(/*int argc, char* argv[]*/) {
 
     GetLog() << "Copyright (c) 2017 projectchrono.org\nChrono version: " << CHRONO_VERSION << "\n\n";
     GetLog() <<" Data path is: "<<vehicle::GetDataPath()<<"\n";
@@ -31,79 +114,54 @@ int main(int argc, char* argv[]) {
     // Create the vehicle and terrain
     // ------------------------------
 
-    // Create the HMMWV vehicle, set parameters, and initialize
-    HMMWV_Full my_hmmwv;
-    my_hmmwv.SetContactMethod(contact_method);
-    my_hmmwv.SetChassisFixed(false);
-    my_hmmwv.SetInitPosition(ChCoordsys<>(initLoc, initRot));
-    my_hmmwv.SetPowertrainType(powertrain_model);
-    my_hmmwv.SetDriveType(drive_type);
-    my_hmmwv.SetSteeringType(steering_type);
-    my_hmmwv.SetTireType(tire_model);
-    my_hmmwv.SetTireStepSize(tire_step_size);
-    my_hmmwv.SetVehicleStepSize(step_size);
-    my_hmmwv.Initialize();
+    // Create the vehicle, set parameters, and initialize
+    Sedan vehicle;
+    vehicle.SetContactMethod(contact_method);
+    vehicle.SetChassisFixed(false);
+    vehicle.SetInitPosition(ChCoordsys<>(initLoc, initRot));
+    vehicle.SetTireType(TireModelType::RIGID);
+    vehicle.SetTireStepSize(tire_step_size);
+    vehicle.SetVehicleStepSize(step_size);
+    vehicle.Initialize();
 
-    my_hmmwv.SetChassisVisualizationType(chassis_vis_type);
-    my_hmmwv.SetSuspensionVisualizationType(suspension_vis_type);
-    my_hmmwv.SetSteeringVisualizationType(steering_vis_type);
-    my_hmmwv.SetWheelVisualizationType(wheel_vis_type);
-    my_hmmwv.SetTireVisualizationType(tire_vis_type);
+    vehicle.SetChassisVisualizationType(chassis_vis_type);
+    vehicle.SetSuspensionVisualizationType(suspension_vis_type);
+    vehicle.SetSteeringVisualizationType(steering_vis_type);
+    vehicle.SetWheelVisualizationType(wheel_vis_type);
+    vehicle.SetTireVisualizationType(tire_vis_type);
 
     // Create the terrain
-    RigidTerrain terrain(my_hmmwv.GetSystem());
-    auto patch = terrain.AddPatch(ChCoordsys<>(ChVector<>(0, 0, terrainHeight - 5), QUNIT),
-                                  ChVector<>(terrainLength, terrainWidth, 10));
+    RigidTerrain terrain(vehicle.GetSystem());
+    auto patch = terrain.AddPatch(ChCoordsys<>(ChVector<>(0, 0, TERRAIN_HEIGHT - 5), QUNIT),
+                                  ChVector<>(TERRAIN_LENGTH, TERRAIN_WIDTH, 10));
     patch->SetContactFrictionCoefficient(0.8f);
     patch->SetContactRestitutionCoefficient(0.01f);
     patch->SetContactMaterialProperties(2e7f, 0.3f);
     patch->SetColor(ChColor(1, 1, 1));
-    std::string terrain_path = "/home/david/MyProjects/cubic_engine/chrono_lib/chrono/data/vehicle/terrain/textures/tile4.jpg";
 
-    std::string texture_file = vehicle::GetDataFile(terrain_path);
+
+    std::string texture_file = vehicle::GetDataFile(TERRAIN_PATH);
     GetLog()<<" Texture file is located at "<<texture_file<<"\n";
-    patch->SetTexture(terrain_path, 200, 200 ); //"terrain/textures/tile4.jpg"), 200, 200);
-
-    GetLog()<<"Set up terrain path"<<"\n";
+    patch->SetTexture(TERRAIN_PATH, 200, 200 );
 
     terrain.Initialize();
 
-    // ----------------------
-    // Create the Bezier path
-    // ----------------------
-
-    // From data file
-    std::string bezier_path = path_file; //vehicle::GetDataFile(path_file);
-    GetLog()<<" Bezeir path is at: "<<bezier_path<<"\n";
-    auto path = ChBezierCurve::read(bezier_path);
+    // Create the Bezier path from data file
+    GetLog()<<" Bezeir path is at: "<<PATH_FILE<<"\n";
+    auto path = ChBezierCurve::read(PATH_FILE);
     GetLog()<<"Set up path file"<<"\n";
 
-    // Parameterized ISO double lane change (to left)
-    ////auto path = DoubleLaneChangePath(ChVector<>(-125, -125, 0.1), 13.5, 4.0, 11.0, 50.0, true);
-
-    // Parameterized NATO double lane change (to right)
-    ////auto path = DoubleLaneChangePath(ChVector<>(-125, -125, 0.1), 28.93, 3.6105, 25.0, 50.0, false);
  
-    ////path->write("my_path.txt");
-
     // ---------------------------------------
     // Create the vehicle Irrlicht application
     // ---------------------------------------
 
-#ifdef USE_PID
-    ChVehicleIrrApp app(&my_hmmwv.GetVehicle(), &my_hmmwv.GetPowertrain(), L"Steering PID Controller Demo",
-                        irr::core::dimension2d<irr::u32>(800, 640));
-#else
-    ChVehicleIrrApp app(&my_hmmwv.GetVehicle(), &my_hmmwv.GetPowertrain(), L"Steering XT Controller Demo",
-                        irr::core::dimension2d<irr::u32>(800, 640));
-#endif
+    ChVehicleIrrApp app(&vehicle.GetVehicle(), &vehicle.GetPowertrain(), L"Sraight Line Vehicle Motion Demo", irr::core::dimension2d<irr::u32>(800, 640));
     app.SetHUDLocation(500, 20);
     app.SetSkyBox();
     app.AddTypicalLogo();
-    app.AddTypicalLights(irr::core::vector3df(-150.f, -150.f, 200.f), irr::core::vector3df(-150.f, 150.f, 200.f), 100,
-                         100);
-    app.AddTypicalLights(irr::core::vector3df(150.f, -150.f, 200.f), irr::core::vector3df(150.0f, 150.f, 200.f), 100,
-                         100);
+    app.AddTypicalLights(irr::core::vector3df(-150.f, -150.f, 200.f), irr::core::vector3df(-150.f, 150.f, 200.f), 100, 100);
+    app.AddTypicalLights(irr::core::vector3df(150.f, -150.f, 200.f), irr::core::vector3df(150.0f, 150.f, 200.f), 100, 100);
     app.EnableGrid(false);
     app.SetChaseCamera(trackPoint, 6.0, 0.5);
 
@@ -119,23 +177,11 @@ int main(int argc, char* argv[]) {
     // Create the driver systems
     // -------------------------
 
-    // Create both a GUI driver and a path-follower and allow switching between them
+    // Create a GUI driver for interactive inputs
     ChIrrGuiDriver driver_gui(app);
     driver_gui.Initialize();
 
-#ifdef USE_PID
-    ChPathFollowerDriver driver_follower(my_hmmwv.GetVehicle(), path, "my_path", target_speed);
-    driver_follower.GetSteeringController().SetLookAheadDistance(5);
-    driver_follower.GetSteeringController().SetGains(0.8, 0, 0);
-    driver_follower.GetSpeedController().SetGains(0.4, 0, 0);
-    driver_follower.Initialize();
-
-    // Create and register a custom Irrlicht event receiver to allow selecting the
-    // current driver model.
-    ChDriverSelector selector(my_hmmwv.GetVehicle(), &driver_follower, &driver_gui);
-#else
-    //ChPathFollowerDriverXT driver_follower(my_hmmwv.GetVehicle(), path, "my_path", target_speed, my_hmmwv.GetVehicle().GetMaxSteeringAngle());
-    ChPathFollowerDriverXT driver_follower( my_hmmwv.GetVehicle(), path, "my_path", target_speed, my_hmmwv.GetVehicle().GetMaxSteeringAngle());
+    ChPathFollowerDriverXT driver_follower( vehicle.GetVehicle(), path, "my_path", target_speed, vehicle.GetVehicle().GetMaxSteeringAngle());
     driver_follower.GetSteeringController().SetLookAheadDistance(5);
     driver_follower.GetSteeringController().SetGains(0.4, 1, 1, 1);
     driver_follower.GetSpeedController().SetGains(0.4, 0, 0);
@@ -143,8 +189,8 @@ int main(int argc, char* argv[]) {
 
     // Create and register a custom Irrlicht event receiver to allow selecting the
     // current driver model.
-    ChDriverSelector selector(my_hmmwv.GetVehicle(), &driver_follower, &driver_gui);
-#endif
+    ChDriverSelector selector(vehicle.GetVehicle(), &driver_follower, &driver_gui);
+
 
     app.SetUserEventReceiver(&selector);
 
@@ -188,7 +234,7 @@ int main(int argc, char* argv[]) {
     // ---------------
 
     // Driver location in vehicle local frame
-    ChVector<> driver_pos = my_hmmwv.GetChassis()->GetLocalDriverCoordsys().pos;
+    ChVector<> driver_pos = vehicle.GetChassis()->GetLocalDriverCoordsys().pos;
 
     // Number of simulation steps between miscellaneous events
     double render_step_size = 1 / fps;
@@ -203,9 +249,9 @@ int main(int argc, char* argv[]) {
 
     while (app.GetDevice()->run()) {
         // Extract system state
-        double time = my_hmmwv.GetSystem()->GetChTime();
-        ChVector<> acc_CG = my_hmmwv.GetVehicle().GetChassisBody()->GetPos_dtdt();
-        ChVector<> acc_driver = my_hmmwv.GetVehicle().GetVehicleAcceleration(driver_pos);
+        double time = vehicle.GetSystem()->GetChTime();
+        ChVector<> acc_CG = vehicle.GetVehicle().GetChassisBody()->GetPos_dtdt();
+        ChVector<> acc_driver = vehicle.GetVehicle().GetVehicleAcceleration(driver_pos);
         double fwd_acc_CG = fwd_acc_GC_filter.Add(acc_CG.x());
         double lat_acc_CG = lat_acc_GC_filter.Add(acc_CG.y());
         double fwd_acc_driver = fwd_acc_driver_filter.Add(acc_driver.x());
@@ -219,20 +265,6 @@ int main(int argc, char* argv[]) {
         double throttle_input = selector.GetDriver()->GetThrottle();
         double steering_input = selector.GetDriver()->GetSteering();
         double braking_input = selector.GetDriver()->GetBraking();
-
-        /*
-        // Hack for acceleration-braking maneuver
-        static bool braking = false;
-        if (my_hmmwv.GetVehicle().GetVehicleSpeed() > target_speed)
-            braking = true;
-        if (braking) {
-            throttle_input = 0;
-            braking_input = 1;
-        } else {
-            throttle_input = 1;
-            braking_input = 0;
-        }
-        */
 
         // Update sentinel and target location markers for the path-follower controller.
         // Note that we do this whether or not we are currently using the path-follower driver.
@@ -249,12 +281,12 @@ int main(int argc, char* argv[]) {
             if (povray_output) {
                 char filename[100];
                 sprintf(filename, "%s/data_%03d.dat", pov_dir.c_str(), render_frame + 1);
-                utils::WriteShapesPovray(my_hmmwv.GetSystem(), filename);
+                utils::WriteShapesPovray(vehicle.GetSystem(), filename);
             }
 
             if (state_output) {
                 csv << time << steering_input << throttle_input << braking_input;
-                csv << my_hmmwv.GetVehicle().GetVehicleSpeed();
+                csv << vehicle.GetVehicle().GetVehicleSpeed();
                 csv << acc_CG.x() << fwd_acc_CG << acc_CG.y() << lat_acc_CG;
                 csv << acc_driver.x() << fwd_acc_driver << acc_driver.y() << lat_acc_driver;
                 csv << std::endl;
@@ -275,7 +307,7 @@ int main(int argc, char* argv[]) {
         driver_follower.Synchronize(time);
         driver_gui.Synchronize(time);
         terrain.Synchronize(time);
-        my_hmmwv.Synchronize(time, steering_input, braking_input, throttle_input, terrain);
+        vehicle.Synchronize(time, steering_input, braking_input, throttle_input, terrain);
         std::string msg = selector.UsingGUI() ? "GUI driver" : "Follower driver";
         app.Synchronize(msg, steering_input, throttle_input, braking_input);
 
@@ -284,7 +316,7 @@ int main(int argc, char* argv[]) {
         driver_follower.Advance(step);
         driver_gui.Advance(step);
         terrain.Advance(step);
-        my_hmmwv.Advance(step);
+        vehicle.Advance(step);
         app.Advance(step);
 
         // Increment simulation frame number
