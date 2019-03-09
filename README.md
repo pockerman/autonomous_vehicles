@@ -16,8 +16,8 @@
 ### Part: Environment Perception
 -----
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Hardware for Self-driving Cars</a>
-- **Item:** <a href="#">Environment Representation</a>
-- **Item:** <a href="#">Sensor Calibration</a>
+- **Item:** <a href="autonomous_vehicles_notes/environment_representation_notes/notes.pdf">Environment Representation</a>
+- **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Calibration</a>
 
 ### Part: Environment Mapping
 -----
@@ -50,7 +50,6 @@
 - **Item:** Simultaneous Localization and Mapping (SLAM)
 - **Item:** Deep Learning for Autonomous Vehicles
 - **Item:** Deep Reinforcement Learning for Autonomous Vehicles
-- **Item:** Architectures for Autonomous Vehicles
 
 ## Courses & Videos
 
