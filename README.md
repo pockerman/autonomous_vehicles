@@ -16,6 +16,9 @@
 ### Part: Environment Perception
 -----
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Hardware for Self-driving Cars</a>
+- **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">LiDAR Principles</a>
+- **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">LiDAR Point Clouds</a>
+- **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Iterative Closest Point Algorithm</a>
 - **Item:** <a href="autonomous_vehicles_notes/environment_representation_notes/notes.pdf">Environment Representation</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Calibration</a>
 
@@ -31,8 +34,8 @@
 -----
 
 - **Item:** <a href="#">PID and LQR Control</a>
-- **Item:** <a href="#">Longitudinal Control</a>
-- **Item:** <a href="#">Lateral Control</a>
+- **Item:** <a href="autonomous_vehicles_notes/longitudinal_control_notes/notes.pdf">Longitudinal Control</a>
+- **Item:** <a href="autonomous_vehicles_notes/lateral_control_notes/notes.pdf">Lateral Control</a>
 - **Item:** <a href="#">Model Predicitve Control</a>
 
 ### Part: State Estimation
