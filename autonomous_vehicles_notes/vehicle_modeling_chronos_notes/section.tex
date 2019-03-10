@@ -46,6 +46,62 @@ The \lstinline{Chrono::Engine } supports the notion of a system. In our case, th
 \item Concrete class that particularize a given system/subsystem template (e.g. \lstinline{Chrono::HMMWV_DoubleWishboneFront})
 \end{itemize}
 
+\subsection{The \lstinline{chrono::vehicle::ChVehicle} class}
+
+Vehicles in \lstinline{Chrono} inherit for the base class \lstinline{chrono::vehicle::ChVehicle}. 
+This class provides the interface between the vehicle system and other systems (tires, driver, etc.)
+
+The reference frame for a vehicle follows the ISO standard. 
+Namely, $Z$-axis up, $X$-axis pointing forward, and $Y$-axis towards the left of the vehicle. The following figure illustrates
+the asseumed reference frames.
+
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.290]{img/vehicle_iso_ref_frame.jpeg}
+\end{center}
+\caption{Vehicle ISO reference frames.}
+\label{vehicle_iso_ref_frame}
+\end{figure}
+
+A \lstinline{chrono::vehicle::ChVehicle} has
+
+\begin{itemize}
+\item \lstinline{ChSystem* m_system} pointer to the Chrono system
+\item \lstinline{std::shared_ptr<ChChassis> m_chassis} handle to the chassis subsystem
+\item \lstinline{bool m_ownsSystem} true if system created at construction
+\item \lstinline{double m_stepsize}  integration step-size for the vehicle system
+\end{itemize}
+
+Deferring to its constituent subsystems as needed, a \lstinline{chrono::vehicle::ChVehicle} provides accessors for:
+
+\begin{itemize}
+\item Underlying \lstinline{chrono::vehicle::ChSystem}
+\item Handle to the vehicle chassis
+\item Chassis state (reference frame and COM)
+\item Angular speed of the vehicle driveshaft (connection to powertrain)
+\end{itemize}
+
+A \lstinline{chrono::vehicle::ChVehicle} intermediates communication between other systems (e.g.,
+powertrain, driver, etc.) and constituent subsystems (e.g., suspensions, brakes,
+etc.)
+
+\subsection{ The \lstinline{chrono::vehicle::ChChassis} class}
+
+\subsection{ The \lstinline{chrono::vehicle::ChDriver} class}
+
+Base class for a vehicle driver system.
+A driver system must be able to report the current values of the inputs (throttle, steering, braking). 
+A concrete driver class must set the member variables:
+
+\begin{itemize}
+\item \lstinline{m_throttle}
+\item \lstinline{m_steering} 
+\item \lstinline{m_braking}
+\end{itemize}
+Since these are the main quantities that a driver can interact with a vehicle, this class has to be adapted
+when we want to incorporate autonomy. 
+
 \subsection{Setup simulation}
 
 \subsubsection{Setup the vehicel \lstinline{chrono::vehicle::sedan::Sedan}}
@@ -96,15 +152,39 @@ app.SetChaseCamera(trackPoint, 6.0, 0.5);
 app.SetTimestep(step_size);
 \end{lstlisting}
 
-%So, our robot can roll forward and turn while rolling, but cannot move sideways directly. We'll use this constraint to define a kinematic model for our robot. The velocity of the robot is defined by the tangent vector to its path see figure \ref{vehicle_path}. 
 
-%\begin{figure}[!htb]
-%\begin{center}
-%\includegraphics[scale=0.290]{img/kinematics/vehicle_path.jpeg}
-%\end{center}
-%\caption{Vehicle velocity.}
-%\label{vehicle_path}
-%\end{figure}
+\subsubsection{Vehicle state information}
+
+When running a simulation, we would like to be able to view various quantites that describe the state of the vehicle. Let's see how
+we can obtain some of them.
+
+\textbf{Get the vehicle position coordinates and vehicle speed}
+
+\begin{lstlisting}
+//This is the global location of the chassis reference frame origin. 
+ChVector<> pos = vehicle.GetVehicle().GetVehiclePos();
+
+//Return the speed measured at the origin of the chassis reference frame.
+double speed = vehicle.GetVehicle().GetVehicleSpeed();
+\end{lstlisting}
+
+
+\subsubsection{Advance the vehicle}
+
+Each system base class declares a virtual function \lstinline{Advance()}
+with a single parameter, the time interval between two communication points $(\Delta t)$.
+A particular system may take as many intermediate steps (constant or variable step-size) 
+as needed to advance the state of the system by $(\Delta t)$.  If the system has no internal dynamics, this function can be a no-op
+
+\begin{lstlisting}
+driver_follower.Advance(step);
+driver_gui.Advance(step);
+terrain.Advance(step);
+vehicle.Advance(step);
+app.Advance(step);
+\end{lstlisting}
+
+
 
 The following link can be used to consult for further information \lstinline{http://api.projectchrono.org/tutorial_install_project.html}
 
