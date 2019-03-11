@@ -58,7 +58,13 @@
 -----
 
 - **Item:** <a href="autonomous_vehicles_notes/software_architecture_notes/notes.pdf">Software Architecture for Autonomous Driving Stack</a>
-- **Item:** <a href="#">Safety Assurance for Autonomous Vehicles</a>
+- **Item:** <a href="autonomous_vehicles_notes/safety_notes/notes.pdf">Safety Assurance for Autonomous Vehicles</a>
+
+### Part: Appendices
+-----
+
+- **Item:** <a href="autonomous_vehicles_notes/appendices/notes.pdf">Coordinate Transformations</a>
+- **Item:** <a href="autonomous_vehicles_notes/appendices/notes.pdf">Reference Frames</a>
 
 
 ## Courses & Videos
