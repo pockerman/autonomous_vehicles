@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.10.0)
 project(steering_controller_demo VERSION 0.1 LANGUAGES CXX)
 
 # You need to specify this on your own
-SET(Chrono_DIR "/home/david/MyProjects/cubic_engine/chrono_lib/chrono/install/lib64/cmake")
+# TODO: Fix this. Allow user to specify this
+SET(Chrono_DIR " ")
 
 if(${Chrono_DIR} STREQUAL " ")
     message("=====================================================")
@@ -12,8 +13,11 @@ if(${Chrono_DIR} STREQUAL " ")
     return()
 endif()
 
+# User may not be using Qt----> Remove it
 find_package(Qt5Core)
-SET(CMAKE_INSTALL_PREFIX "/MyProjects/cubic_engine/chrono_lib/chrono/veh_sim_straight_line/vehicle_straight_line_sim")
+
+# TODO: Fix this. Allow user to specify this
+SET(CMAKE_INSTALL_PREFIX " ")
 LIST(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}/../../Chrono/install/lib64")
 find_package(Chrono
              COMPONENTS Irrlicht
