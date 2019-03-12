@@ -4,7 +4,21 @@
 
 In order to  track how a rigid body such as a seld-driving car moves, we need to know how we can express its motion using
 mathematical tools and notation. In this section, we will review how reference frames affect vector coordinates, compare and contrast different
-rotation representations, and present several reference frames
+rotation representations, and present several reference frames.
+
+
+\subsection{Vectors}
+
+Generally, kinematic variables, such as the velocity, are represented in the form of a vector, with both magnitude and direction. In Figure \ref{vector_rotation}, the vector $v$ is presented with a green arrow in a two-dimensional coordinate frame. We have two coordinate frames displayed here. The body frame, defined by axes $b_1$ and $b_2$, and the inertial frame defined by axes $e_1$ and $e_2$, both in the 2D plane.
+
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.290]{img/coordinate_transforms/vector_rotation.jpeg}
+\end{center}
+\caption{Schematic of vector rotation in 2D.}
+\label{vector_rotation}
+\end{figure} 
 
 By definition a vector  is a geometric object that has a magnitude and a direction.
 Often, we treat the concept of a vector interchangeably with the concept
@@ -30,6 +44,66 @@ The rotation matrix tells us exactly how one frame is rotated with respect to th
 \end{remark}
 \end{framed} 
 
+
+\subsection{2D rotations}
+
+Let us first discuss two dimensional rotations. Assume the two coordinate frames; frame $e$ and frame $b$, which have the same fixed origin. 
+Frame $b$ is rotated by some angle $\theta$ relative to frame $e$. We can then define the rotational matrices $C_{eb}$, which transforms vectors from the frame $b$ to the frame $e$ and $C_{be}$ which projects the frame $e$ onto frame $b$ using the angle $\theta$ as shown.
+
+\begin{equation}
+C_{EB} = 
+\begin{bmatrix}
+ \cos(\theta) & \sin(\theta) \\
+ -\sin(\theta) & \cos(\theta) 
+\end{bmatrix}, ~~
+C_{BE} =
+\begin{bmatrix}
+ \cos(\theta) & -\sin(\theta) \\
+ \sin(\theta) & \cos(\theta)
+\end{bmatrix} 
+\end{equation}
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.290]{img/coordinate_transforms/theta_angle.jpeg}
+\end{center}
+\caption{Rotation angle $\theta$.}
+\label{theta_angle}
+\end{figure}
+
+
+Now, let's extend our example to include a translation. Here, we see a two-wheeled robot and we'd like to represent the position of a point $P$ 
+observed by the robot in the robot body frame $b$, with respect to the inertial frame $e$. 
+The position of the robot with respect to the inertial frame is $(x, y)$, and the orientation of the robot once again is $\theta$.
+
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.290]{img/coordinate_transforms/robot_orientation.jpeg}
+\end{center}
+\caption{Robot rotation and translation.}
+\label{robot_orientation}
+\end{figure}
+
+The following equations relate the location of point $P$ in the body coordinates $P_b$ and the inertial frame $P_e$. 
+Note that in general to transform one point from one coordinate to the other coordinate frame, body to inertial and vice versa, requires two terms. The translation of the origin $O_{be}$ and $O_{eb}$ in this case, and the rotation of the axis $C_{eb}$ and $C_{be}$. Finally, we can summarize the transformation between two coordinate frames using homogeneous coordinates, which lead to a compact matrix multiplication to apply the transformation. 
+
+\begin{equation}
+P_b = C_{eb}(\theta)P_e + O_{eb}
+\end{equation}
+
+where $O_{eb}$ is the translation term expressed in body frame. Similarly,
+
+\begin{equation}
+P_e = C_{be}(\theta)P_b + O_{be}
+\end{equation}
+
+
+%We extend our location vector to include $(x, y)$, and one and can then transform from body to inertial coordinates using $P$ inertial is $C_{eb}$ and $O_{eb}$ times $P$ in the body frame. 
+
+
+
+
 Often, it will also be useful to know how the coordinates of points change as we move from
 one reference frame to another. For example, we may know the position
 of a building in some frame, and now we would like to know its position in our current vehicle frame. 
@@ -49,13 +123,13 @@ inertial frame, for example, see Figure \ref{coordinate_rotations_2}.
 \end{figure}
 
 
-\begin{figure}[!htb]
-\begin{center}
-\includegraphics[scale=0.290]{img/coordinate_transforms/coordinate_rotations_1.jpeg}
-\end{center}
-\caption{Schematic of coordinate frames.}
-\label{coordinate_rotations_1}
-\end{figure}
+%\begin{figure}[!htb]
+%\begin{center}
+%\includegraphics[scale=0.290]{img/coordinate_transforms/coordinate_rotations_1.jpeg}
+%\end{center}
+%\caption{Schematic of coordinate frames.}
+%\label{coordinate_rotations_1}
+%\end{figure}
 
 \subsection{Direction cosine matrix}
 \label{direction_cosine_matrix}
@@ -174,7 +248,13 @@ Quaternions have the advantage that they do not suffer from singularities and th
 four parameters instead of nine in order to represent 3D rotations. 
 
 
-Figure \ref{coordinate_rotations_5} summarizes the three approaches
+
+Each represenation has advantages and disadvantages. A rotation matrix can
+represent any rotation but requires nine parameters
+and has six constraints. A unit quaternion can also be
+used to represent any rotation, but it also has a constraint. To use a unit quaternion to
+actually rotate a vector, we also require some additional algebra beyond simple matrix multiplication. Finally, Euler angles are unconstrained, intuitive to visualize and
+use only three parameters, but are subject to singularities. Figure \ref{coordinate_rotations_5} summarizes the three approaches
 
 \begin{figure}[!htb]
 \begin{center}
@@ -184,4 +264,9 @@ Figure \ref{coordinate_rotations_5} summarizes the three approaches
 \label{coordinate_rotations_5}
 \end{figure}
 
+
+To summarize, vector quantities can be expressed in different reference frames
+through rotations and translations. Rotations can be parameterized
+by rotation matrices, quaternions, or Euler angles, each of which has advantages
+and disadvantages.
  
