@@ -1,0 +1,249 @@
+
+So our previous examples of motion models
+have all been linear.
+Now in this video we will look closer at
+how we can discretize non-linear continuous-time models.
+We'll mainly do so using the so-called coordinated turn
+model as an example.
+Now this is the first rotational model that we will encounter.
+And we hope that you find it useful in many situations.
+So suppose that we have an object.
+In our case it's a car that moves on a two dimensional
+surface in which we have a Cartesian coordinate system, x
+and y.
+In our car example here we can think of this coordinate system
+as representing the road surface on which the car is traveling.
+The position of the object at time t
+is then described by the pair x of t and y of t.
+Now in contrast to the constant velocity
+and constant acceleration models we
+now assume that the object has a certain direction
+or heading which we want to use in our model.
+The heading is denoted as phi of t.
+And in the coordinated turn model phi of t
+is assumed to evolve according to a constant velocity model.
+In other words, we expect the rotational angle rate or yaw
+rate of the vehicle to be constant.
+Which basically means that the rotational angle
+of the steering wheel is fixed.
+Additionally, the velocity is more or less
+a Weiner process which is similar
+as the individual velocity components in each dimension
+are modeled in the CV model.
+So let's look at the state vector
+and the details in the model.
+So the state vector in the coordinated turn model
+consists of x of t and y of t for the position,
+phi of t for the heading angle, V
+for the velocity in that direction,
+and then omega t here for the yaw rate of the vehicle.
+Now in the time continuous coordinated turn model
+we describe the motion of the object like this.
+Where the first two equations here simply states
+that the object is traveling in the direction of phi
+with the velocity v(t).
+I do not refer to v(t) as the speed here
+simply because v(t) could in theory be negative.
+The third equation says that the time derivative of v of t
+is 0 plus some noise.
+And finally if we look at the last two equations
+we can see that phi of t and omega t
+really evolves according to a constant velocity model.
+The time derivative of phi of t is omega t.
+And then the time derivative of omega t is 0 plus some noise.
+Now the coordinated turn model has some nice properties.
+And can be useful to describe objects that sometimes
+travel along a smooth curve.
+But also if we have an object that stops
+and shortly thereafter is likely to continue
+in a similar direction as before.
+We should perhaps also mention that there
+exists more detailed vehicle motion
+models like the single track model or Bicycle model
+that some of you might be familiar with.
+Now these models are typically more
+suited for modeling the movements of the host vehicle
+when you can also measure your yaw and steering wheel
+angle for example.
+While the coordinated turn model is most suitable when you only
+measure position and velocity from using,
+for example, a radar.
+We are again interested in coming up
+with a discrete time version of our continuous time
+non-linear motion model.
+Now the easiest alternative to do this
+is to use the Euler method, or a modified Euler method.
+And according to this x of t plus capital T
+is approximately x of t plus capital T
+times a tilde of x of t plus this integral here
+which describes the noise.
+Now ignoring the noise term, you can
+think of this as x of t plus capital T times
+the time derivative of x of t.
+If we go back to the previous slide,
+we can see that a tilde of x of t
+is this vector here which has these three
+non-zero elements here.
+From this we can recall that xk, which
+corresponds to this vector here, and xk minus 1
+gives us these terms here.
+And that t times a tilde of xk minus 1
+gives us these terms here.
+If we look at the expression it's
+not a very strange equation.
+For instance phi k is equal to phi k minus 1
+plus t times omega k minus 1.
+Which we recognize from the CV model, right?
+We can also see that our new position, xkyk,
+is our old position xk minus 1 yk minus one.
+And then we translated in the direction of phi k minus 1
+using this cosine and sine function.
+And the distance that we translated by
+is t times the velocity which seems reasonable.
+So our approximation here doesn't seem to be too strange.
+Now apart from this we need to characterize the noise.
+And if you recall the arguments that we had previously
+regarding the modified Euler method
+we can simply pick qk minus 1 to be equal to T times q tilde.
+And in this case we have q tilde as gamma
+times this lower dimensional matrix times gamma transpose.
+And if we multiply these together
+we get this diagonal matrix which
+has only non-zero elements here and here.
+So this tells us that we have noise in the velocity component
+and in the angular rate component, or yaw rate.
+The Euler method that we have used here
+is appealing since it's simple and it's general
+and it gives quite reasonable results.
+In previous videos, we presented more advanced and more accurate
+alternatives.
+But these are unfortunately not directly
+applicable to non-linear differential equations.
+Now it turns out that it's possible, although not trivial,
+to solve the deterministic part of the continuous time
+coordinated turn model exactly.
+What we mean with this deterministic CT model
+is that we remove or set the noise term here to 0.
+And by doing so we actually get something
+that we're able to solve.
+And we'll only have this part left.
+Now if we combine this exact solution
+with using the modified Euler approximation for the noise
+we get the following model where this part here
+comes from the exact solution to the deterministic CT model.
+And when we use the same model for the noise term
+as we used in the previous slide.
+Now if we compare these solutions very
+unscientifically by just plotting them
+for one set of initial conditions.
+So we have initial speed, V naught of 15 meters per second.
+And then an initial angular velocity
+of 0.5 radians per second.
+And then we look at the prediction time of one second.
+Again, we are ignoring the influence of the noise term
+here.
+We're only looking at the deterministic part
+of the model.
+So what we see here is that the Euler solution
+is trailing behind the exact solution
+as it's missing to compensate that the heading angle is
+changing during the prediction interval.
+Whereas this is accounted for by these terms in this model.
+Now if we decrease the sampling time to let's say 0.1 second--
+which is perhaps a more reasonable prediction
+time and a filtering context.
+We see that there's still a difference
+between the different solutions.
+But the difference is much less pronounced.
+Especially if we look at a single prediction time instance
+here.
+So from time 0 to time 0.1 where in this setting
+the difference is in the order of a few centimeters.
+So if you want to use the coordinated turn model
+I would suggest that you'd use this expression here.
+So in this case, it is possible to find an analytical solution.
+At least under some simplifications.
+But this will not always be the case.
+So in the last part of the video we
+will complete our discussion about discretization
+by mentioning two additional approximations that are helpful
+in order to obtain more accurate alternatives than the Euler
+method.
+In situations when the exact discretization
+is either complicated or even impossible to perform
+the first approximation is something
+called direct descretization of the noise.
+The idea here is to assume that the noise is piecewise constant
+between samples.
+That is, it's constant in every interval 0 to t, t to 2t, et
+cetera.
+This greatly simplifies the variation of qk minus 1.
+And the reason for this is that it simplifies the integrals
+that we need to compute.
+Now an important question here is
+how to select a covariance of q tilde of t
+since we have changed the properties of q tilde of t.
+So maybe we also need to change the covariance.
+What is normally done is to assume that q tilde of t
+is Gaussian with 0 mean.
+And the covariance Q tilde divided by T.
+Where capital Q tilde is the corresponding covariance
+for the time varying noise distribution.
+Now you might also think it's strange that we
+are dividing by capital T here.
+Now this technical detail is simply there
+in order to ensure that the covariance of the integral
+of the noise grows linearly with time instead of quadratically.
+So that our covariance of the noise is still capital
+T times q tilde.
+And this way the impact on the noise
+is as close as possible to what it
+would have been in the original assumption
+even though we have made a simplifying approximation
+of piecewise constant noise terms.
+The second approximation that I would like to mention
+is a classical one.
+Namely to linearize the non-linear functions.
+We have repeatedly pointed out that we have a good tool
+box in order to handle linear systems but not
+the non-linear ones.
+From this perspective it's quite natural
+to linearize a tilde of x of t such
+that we can make use of the results presented previously
+for linear systems.
+If we perform a first order Taylor
+expansion of a tilde of x of t around the point estimate
+x hat of t we can approximate a tilde
+of x of tau like this linear function here.
+Where tau now is within this integral here.
+So what's useful about this is that if we're
+interested in expressing x dot of tau then
+by using this Taylor expansion the right hand side
+here becomes a linear function of x of tau.
+What's even better, the vectors a tilde of x hat of t
+and x hat of t, as well as the matrix
+a tilde prime are now constant as they do not depend on tau.
+If we also assume that the noise component, q tilde of tau
+is piecewise constant as suggested in the previous slide
+everything here except x of tau is a constant.
+In this case we can express the right hand side here
+as a tilde, which is now a constant matrix, which
+is this derivative here, times x of tau
+plus b which is a constant vector.
+So b here would be a tilde of x hat of t
+plus a tilde prime x out of t times x out of t plus q tilde.
+So I hope that you recognize this type of equation here.
+Because this is the ordinary linear differential
+equation for which you have a closed form
+expression that we derived in one of the previous lectures.
+Now this means that we can express x of t plus T
+analytically and based on this we
+can derive the discrete-time model that we need.
+As you can see I've skipped many of the details
+in this derivation.
+But my ambition is mainly to point out
+that lineralization can be used here
+to obtain a more accurate approximation than the Euler
+method.
+Now here is a question about the difference between the CT
+and the CV model.

@@ -1,0 +1,181 @@
+
+Now it's about time that we also speak about our measurement
+models.
+So in this video, we'll give a few simple
+examples on how they can look like for different sensors.
+We'll also look at how sensor calibration can
+be viewed as an estimation or a filtering problem.
+A measurement model relates the measurement, yk,
+to the state vector, xk.
+We often express our models on the following form.
+So yk is equal to hk of xk plus rk, where rk here
+is a measurement noise, which we usually
+assume to be Gaussian with zero mean and covariance capital RK.
+However, more generally, we can also write this as this density
+here.
+So the density of yk, given xk.
+So it describes the density of the measurement given
+that we know the state vector.
+The list of useful and important sensors is very long
+and includes, for instance, radars, laser scanners,
+or so-called lidars, and we can also have cameras.
+We have these global navigation and satellite systems,
+so the American GPS system, for example, or the European
+Galileo.
+And we also have accelerometers and gyroscopes and so on.
+As this is way too many for us to cover in this course
+and there are actually full courses on each
+and every one of these sensors-- well,
+perhaps there are no full courses
+on accelerometers and gyroscopes,
+but I think you get my point.
+So here, we will merely give a few examples
+of what measurement models can look like.
+I will go through four simple examples of measurement models
+on the next two slides.
+In the first example, I've assumed
+that we have a state vector described
+by this kind of constant velocity parametrization.
+So the first two here are the position and last two here are
+velocities.
+Now, we have a global navigation and satellite system that
+gives noisy observations in 2D.
+Actually, the GNSS systems normally also
+gives the velocities and positions in 3D,
+but let's assume that we're only interested in 2D
+positions for simplicity.
+So the measurement model can then look like this.
+So our measurement yk would be noisy observations
+of the 2D position.
+So measurement one could be p1k plus some noise.
+And measurement two could be p2k plus some noise.
+Now, I would like you to observe that this
+is a linear function of xk, because we can write this
+as a matrix times xk plus noise.
+The matrix here is our measurement model matrix,
+which we usually call capital HK.
+Now, the noise term here, rk, should
+describe the uncertainty or measurement noise that we have.
+So in the case of a GNSS measurement,
+this could account for positioning errors
+due to unknown atmospheric delays of the signal
+from a satellite, or that the signal has
+bounced on a nearby building before reaching our receiver.
+Now, you can put much emphasis on trying to model this noise
+process accurately.
+And if you need very high position from your filter,
+you will probably need to do something here.
+In many cases, however, we simply
+modeled this as a Gaussian noise process
+with sufficiently large covariance
+to cover our uncertainty in the observation.
+As a second example, let's assume
+we have a coordinated turn motion
+model, such that the state vector has
+the following parameters.
+Now, if we get a measurement from a gyroscope, set
+to measure yaw rate, that is the angular velocity in the x
+and y plane, we simply get noisy observations of yaw rate.
+Right?
+So we can model this observation as a yaw rate omega
+k plus some noise.
+Again, the first part here is a linear function
+of our states plus some noise.
+Now the noise term here should typically
+describe the amount of thermal noise
+that you can expect in your sensor.
+Now, thermal noise can in many cases
+be accurately described as Gaussian distributed.
+And the variance of our noise is often
+stated in the data sheet for your sensor.
+However, depending on the quality of your gyroscope,
+the noise term here will more or less
+contain a bias that could drift over time.
+We'll later in this lecture discuss
+how you can also handle this type of bias
+in your measurement noise.
+As a 3rd example, you can imagine
+that we have a radar sensor that observes the distance
+and angle to an object.
+Again, the expression for the measurement model
+depends on how we parametrize our state vector.
+And the choice of parametrization
+can actually be important in many applications.
+In this case, let's assume that the position and the velocity
+of the object, that we are interested in positioning,
+is expressed in a coordinate system
+such that the origin is in the middle of the radar sensor.
+In that case, the distance and angle to the object
+can be expressed quite easily.
+So the distance is just the square root
+of p1 squared plus p2 squared.
+And the angle can be expressed as arcus tangens
+of p2 divided by p1.
+And then we have some measurement noise.
+Now note that this is a non-linear function
+of our state.
+So this is not a linear measurement model.
+As a fourth example, we could look at the wheel speed sensors
+or wheel speed encoders.
+In this case, I'm assuming that we have a constant velocity
+model such that the state vector has
+the following parameterization.
+Now a wheel speed sensor measures the speed of a vehicle
+by first measuring how many revolutions
+the wheel makes in a second.
+Now assuming that the circumference of the tire
+is known, the speed of the vehicle
+is then given by the product of the number
+of revolutions per second times the tire circumference.
+This would then give a noisy observation of the speed.
+And that means that the measurement model
+could be yk equal to the square road of y1 squared
+plus y2 squared plus some noise, where this expression here
+is the speed of the object.
+However, in many situations this will be an oversimplified model
+as the speed of the wheel is obtained
+by multiplying a noisy observation of the number
+of revolutions that the tire makes by an assumed value
+for the tire circumference.
+If there is an error in this assumed tire circumference,
+due to change in tire pressure, for example,
+the measured wheel speed will have a multiplicative error
+factor associated with it.
+In this case, perhaps a better model
+would be to introduce an unknown factor.
+Let's call it fc, here, to be able to compensate
+for the error in the assumed tire circumference, such
+that the model becomes like this.
+Now the question that arises is, how can we
+handle this unknown factor?
+Well, we will look at this in the next slide.
+So another important aspect of sensor models
+is that many sensors have an unknown calibration
+parameter that needs to be set in order for the sensor
+to work properly.
+This could, for example, be the unknown tire circumference
+in the wheel speed example or the bias in the gyroscope.
+So in many cases, we need to calibrate our sensors.
+And this can also be viewed as an estimation or a filtering
+problem.
+Now, suppose our sensor has an offset or bias s, such
+that we observe hk plus s plus r, instead of just hk
+plus r, which is what we expect to get.
+If the offset s is constant over time,
+we can often calibrate our sensor once
+using a set of calibration data or training data.
+For instance, in many cases, it's
+possible to collect calibration data in a test scenario
+where xk is known.
+And then we can use that data to estimate s.
+Unfortunately, especially for low quality sensors,
+it's common that the bias drifts over time or changes
+slowly over time, which means that we
+need to estimate it recursively in a filtering fashion.
+The most common solution in this case
+is that we include sk in the state vector
+and describe its motion using a random walk, for example.
+So sk is equal to sk minus 1, plus some noise here.
+Once we have done this, our filter
+can now jointly estimate the kinematic state and our bias.
+Here is a small self-assessment question.
