@@ -17,12 +17,14 @@
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">LiDAR Principles</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">LiDAR Point Clouds</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Iterative Closest Point Algorithm</a>
+- **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Inertial Measurement Unit</a>
 - **Item:** <a href="autonomous_vehicles_notes/environment_representation_notes/notes.pdf">Environment Representation</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Calibration</a>
 
 ### Part: Environment Mapping
 -----
 
+- **Item:** Occupancy Grids
 - **Item:** Simultaneous Localization and Mapping (SLAM)
 
 ### Part: Motion Planning & Navigation
