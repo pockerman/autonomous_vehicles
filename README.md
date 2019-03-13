@@ -75,6 +75,12 @@
 
 - **A practical approach to Kalman filter and how to implement it:** http://blog.tkjelectronics.dk/2012/09/a-practical-approach-to-kalman-filter-and-how-to-implement-it/
 
+- **How to ensure the safety of Self-Driving Cars: Part 1/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-1-5-2fcc891ea90b
+- **How to ensure the safety of Self-Driving Cars: Part 2/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-2-5-b4eafb067534
+- **How to ensure the safety of Self-Driving Cars: Part 3/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-3-5-73157e8de29c
+- **How to ensure the safety of Self-Driving Cars: Part 4/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-4-5-66ce9f24fce5
+- **How to ensure the safety of Self-Driving Cars: Part 5/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-5-5-1ec043d67e4f
+
 ## Useful Videos
 
 - **The Kalman Filter:** https://www.youtube.com/watch?v=CaCcOwJPytQ&feature=youtu.be
