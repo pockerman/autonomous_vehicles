@@ -80,6 +80,7 @@
 - **How to ensure the safety of Self-Driving Cars: Part 3/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-3-5-73157e8de29c
 - **How to ensure the safety of Self-Driving Cars: Part 4/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-4-5-66ce9f24fce5
 - **How to ensure the safety of Self-Driving Cars: Part 5/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-5-5-1ec043d67e4f
+- **Making Sense of Sensing in Self Driving Cars Understanding key fundamentals of Unscented Kalman Filters:** https://medium.com/kredo-ai-engineering/making-sense-of-sensing-in-self-driving-cars-3d469c6e5e33
 
 ## Useful Videos
 
