@@ -71,8 +71,11 @@
 - **Item:** <a href="autonomous_vehicles_notes/appendices/notes.pdf">Reference Frames</a>
 
 
-## Useful Videos
+## Useful Posts
 
+- **A practical approach to Kalman filter and how to implement it:** http://blog.tkjelectronics.dk/2012/09/a-practical-approach-to-kalman-filter-and-how-to-implement-it/
+
+## Useful Videos
 
 - **The Kalman Filter:** https://www.youtube.com/watch?v=CaCcOwJPytQ&feature=youtu.be
 
