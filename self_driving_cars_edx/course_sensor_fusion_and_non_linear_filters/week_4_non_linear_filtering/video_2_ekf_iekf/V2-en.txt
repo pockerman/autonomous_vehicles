@@ -1,0 +1,163 @@
+
+So let's look at our first nonlinear filter,
+and that's the extended Kalman filter.
+Now this filter comes in two versions, you might say,
+the normal one and then as an iterative solution
+similar to what we do when we solve an optimization problem
+using a Gauss Newton search.
+The extended Kalman filter was developed shortly
+after the Kalman filter in the early 1960s.
+And the basic idea is simple and natural.
+Now if we had nonlinear models fk minus 1 and hk,
+why don't we simply linearize these?
+
+
+And now that we have linear models again,
+we know how to handle these.
+And that is to use the Kalman filter.
+So in the prediction step we linearize our nonlinear motion
+model around our posterior estimate
+from the previous time instance and use a normal Kalman filter
+prediction.
+Now why do we use the posterior mean
+from the previous time instance as our linearaziation point?
+Well, our motion model is a function of xk minus 1.
+And our best guess of what xk minus 1
+is when we do the prediction is our posterior mean.
+So naturally, we want our linearization
+to be as accurate as possible, at or near where we
+think xk minus 1 actually is.
+Now for the update step, we basically do the same thing.
+When we linearize hk of xk, but as the measurement model
+is a function of xk, we use our predicted estimate, x hat k
+given k minus 1 as our linearization point,
+and then use the Kalman filter update
+with this linearized model.
+Now let's look at what we mean by linearization in a filtering
+context by considering a Gaussian random variable
+x, whith mean x hat and covariance P,
+and then an additional random variable
+y, which is dependent on x through this nonlinear function
+g, like this.
+So what we want to do is to first linearize
+our nonlinear model.
+And we do this by using a first order Taylor
+expansion of g of x, around the mean of x, which is x hat.
+So if we try to illustrate this in the scalar case,
+we have two random variables, x and y.
+They are mapped by this nonlinear function g.
+Now we know that x is Gaussian with mean x hat and variance P.
+And we can illustrate this by drawing a Gaussian density here
+on the x-axis.
+
+Now this density is basically transformed
+through our nonlinear function to get
+P of y that could perhaps look something like this,
+the mean gets transformed to here,
+minus one standard deviation gets transformed to here,
+and plus one standard deviation gets transformed to here.
+So if we draw this, what we see is that we no longer
+have our nice bell shape here.
+So we have something else here.
+So this is not a Gaussian density anymore.
+So what we instead want to do is,
+we want a linearize g using a first order Taylor
+expansion around x hat, that is, around the point where P of x
+has the most probability mass.
+So if we're going to choose one point,
+I'm thinking that this is a pretty good one.
+Now the first order Taylor expansion
+is g x hat, which is this point, plus the Jacobian of g,
+evaluated at x hat, which in our scalar case,
+is just the slope of g at the mean.
+And we multiply this by this factor
+here, which is x minus x hat.
+So this part here is 0.
+At the point x hat.
+So we get this linear function.
+Now with this approximation of g, we can approximate P of y
+as a Gaussian, which is a result of transforming
+x through this linear function.
+And we get something like this, which
+is fairly close in this case, but not exactly P of y.
+So this is our Gaussian approximation
+of P of y using this linearized model.
+Now we should note that g prime of x
+is in general, the Jacobian matrix of g, where the ij
+element of this matrix is the partial derivative of the ith
+row of g, with respect to the jth component of x.
+So this here is a m by n matrix, where m is the dimension of y,
+and n is the dimension of x.
+Now as this is a linear mapping, we
+can simply calculate the mean and covariance of this Gaussian
+approximation like this.
+And it's easy to verify that this holds true.
+So the expected value of y is simply
+if we insert this expression here,
+so it's the expected value of--
+
+now only x is stochastic in this expression.
+And the mean of x is x hat, which
+means that the expected value of this part is 0.
+So the only thing we have left is the expected value
+of g of x hat, which is deterministic.
+So this is just g of x hat.
+For the covariance, we have again, that the covariance of y
+is equal to the covariance of again, this expression here.
+
+So the covariance of this is 0.
+And this is also deterministic.
+So we can move that outside of the covariance.
+So we get-- now the covariance here is simply P, right?
+So get this expression here.
+Now try this yourself.
+What is g of x hat and g prime of x hat when
+x is this random vector here, and x hat has this value here?
+And g is this nonlinear mapping here?
+
+So if we use this in our extended Kalman filter,
+we start with the prediction step
+where we assume that we have a Gaussian posterior
+from the previous time instance where we had the mean x hat
+k minus 1 given k minus 1, and the covariance Pk minus 1 given
+k minus 1.
+Now if we linearize our nonlinear motion model
+using a first order Taylor expansion around the posterior
+mean from the previous time instance,
+we get the following linear expression
+as an approximation of our nonlinear motion model.
+As we saw on the previous slide, by using this approximation
+for our motion model, we can simply
+calculate the predicted mean x hat
+of k given k minus 1, by propagating our posterior mean
+from the previous time instance through our nonlinear function.
+And finally, our predicted covariance
+is calculated like this, as we also saw on the previous slide.
+But we need to add qk minus 1 here,
+which is the covariance of our process noise.
+Now if we call our Jacobian matrix here, as f tilde,
+it's just a matrix, and this is then f tilde, transpose,
+we see that we get something that
+is very similar to what we had in the prediction
+step in the Kalman filter.
+Similarly, for the update step, we
+approximate our nonlinear measurement model
+using a first order Taylor expansion around the predicted
+mean that we just calculated.
+If we use this linear model in the update
+equations of the Kalman filter, we
+get the following expressions.
+Note that the only difference compared
+to the normal Kalman filter update equations
+is that we calculate the predicted measurement
+by evaluating h at the predicted mean,
+and that the Jacobian matrix of h
+enters here, here, and here, instead of the measurement
+model matrix.
+However, although the equations look similar,
+both in the prediction step and in the measurement update step,
+there is a clear and important difference.
+The Kalman filter calculates a true mean and covariance
+of the predicted and posterior distribution,
+whereas the extended Kalman filter only
+finds them approximatively.
