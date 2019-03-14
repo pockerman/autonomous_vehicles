@@ -1,0 +1,76 @@
+\section{Non-linear Filtering}
+\label{non_linear_filtering}
+
+We developed the Kalman filter algorithm using the following linear state space model
+
+\begin{eqnarray}
+\mathbf{x}_k = \mathbf{F}_{k-1}\mathbf{x}_{k-1} + \mathbf{G}_{k-1}\mathbf{u}_{k-1} + \mathbf{w}_{k-1} \\
+\mathbf{y}_k = \mathbf{H}_k \mathbf{x}_k + \mathbf{v}_k
+\end{eqnarray}
+
+Using this model, we then soleved the filtering problem iteratively using a predictor-corrector type of scheme
+
+\begin{eqnarray}
+\text{Predict:}~~ p(\mathbf{x}_k|\mathbf{y}_{1:k-1}) = \int p(\mathbf{x}_k|\mathbf{x}_{k-1})p(\mathbf{x}_{k-1}|\mathbf{y}_{1:k-1}) d \mathbf{x}_{k-1} \\
+\text{Update:}~~ p(\mathbf{x}_k|\mathbf{y}_{1:k}) = \frac{p(\mathbf{y}_k|\mathbf{x}_{k})p(\mathbf{x}_{k}) | \mathbf{y}_{1:k-1})}{\int p(\mathbf{y}_k|\mathbf{x}_{k})p(\mathbf{x}_{k}|\mathbf{y}_{1:k-1}) d \mathbf{x}_{k}}
+\end{eqnarray}
+
+For linear Gaussian models the Kalman filter provides and analytical solution.
+
+
+\subsection{Nonlinear models}
+
+However, many important motion and measurement models are nonlinear. For example the coordinated turn motion model is given by
+
+\begin{eqnarray}
+\begin{bmatrix}
+x_k \\
+y_k \\
+v_k \\
+\phi_k \\
+\omega_k
+\end{bmatrix} = 
+\begin{bmatrix}
+x_{k-1} + \frac{2v_{k-1}}{\omega_{k-1}}\sin(\frac{\omega_{k-1}T)}{2}\cos(\phi_{k-1} + \frac{\omega_{k-1}T}{2}) \\
+y_{k-1} + \frac{2v_{k-1}}{\omega_{k-1}}\sin(\frac{\omega_{k-1}T)}{2}\sin(\phi_{k-1} + \frac{\omega_{k-1}T}{2}) \\
+v_{k-1}
+\phi_{k-1} + T \omega_{k-1} \\
+\omega_{k-1}
+\end{bmatrix} + \mathbf{q}_{k-1} \\
+y_k = \sqrt{x_{k}^2 + y_{k}^2} + r_k
+\end{eqnarray}
+
+for such models we, generally, cannot obtain an anlytical solution to the filtering equations. A common approach to solve this, is to find tractable approximate solutions.
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Why is nonlinear filtering hard?}}
+
+This is because of the following two reasons
+
+\begin{itemize}
+\item We cannot in general find an analytical solution to our filtering equations.
+\item For linear systems, it is enough to describe the posterior using the first two moments, the mean and the covariance. For nonlinear systems, 
+we in general need infinitely many moments to describe the true posterior.
+\end{itemize}
+
+The optimal filtering equations hold also in the non-linear setting. It is just harder to solve the equations, because we cannot find 
+analytical solutions to them (in general). When the models are linear and Gaussian, the posterior density 
+is also Gaussian, which means it could be described completely by the first two moments only. 
+In the non-linear setting, we need infinitely many moments to fully describe the posterior, so approximations are necessary.
+
+Weather the Markov property holds or not decides if you can at all use recursive filters to solve your estimation problem. 
+In this chapter we still assume that the Markov property holds.
+\end{remark}
+\end{framed} 
+
+Nonlinear filtering can be a difficult and complex subject.  It is certainly not as 
+mature, cohesive, or well understood  as linear filtering. There is still a lot of  room 
+for advances and improvement in nonlinear estimation techniques.  However, some 
+nonlinear  estimation methods have become  (or are becoming) widespread.  These 
+techniques  include nonlinear  extensions of  the Kalman filter,  unscented  filtering, 
+and particle filtering. 
+
+
+
