@@ -43,6 +43,7 @@
 
 #### Applications
 
+- **Item:** <a href="simulator/applications/pi_cruise_controller.py">PI Cruise Controller</a>
 - **Item:** <a href="simulator/application_notebooks/longitudinal_vehicle_model.ipynb">Longitudinal Control</a>
 - **Item:** <a href="simulator/application_notebooks/kinematic_bicycle_model.ipynb">Kinematic Bicycle Model Control</a>
 
