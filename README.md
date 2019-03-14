@@ -62,7 +62,6 @@
 
 - **Item:** <a href="autonomous_vehicles_notes/software_architecture_notes/notes.pdf">Software Architecture for Autonomous Driving Stack</a>
 - **Item:** <a href="autonomous_vehicles_notes/safety_notes/notes.pdf">Safety Assurance for Autonomous Vehicles</a>
-- **Item:** Introduction to Autosar
 
 ### Part: Appendices
 -----
@@ -71,13 +70,10 @@
 - **Item:** <a href="autonomous_vehicles_notes/appendices/notes.pdf">Reference Frames</a>
 
 
-## Useful Videos
+## Courses & Videos
 
 
 - **The Kalman Filter:** https://www.youtube.com/watch?v=CaCcOwJPytQ&feature=youtu.be
-
-## Courses
-
 - **Self-Driving Cars Specilization:** https://www.coursera.org/specializations/self-driving-cars
 - **Emerging Automotive Technologies:** https://courses.edx.org/dashboard/programs/a9cbdeb6-5fc0-44ef-97f7-9ed605a149db/
 - **Self-Driving Car Engineer Nanodegree:** https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013
@@ -90,7 +86,6 @@
 - **Taxonomy of Driving:** https://www.sae.org/standards/content/j3016_201806/?PC=DL2BUY
 - **SAE J3016 Taxonomy and Definitions Document:** https://drive.google.com/open?id=1xtOqFVJvOElXjXqf4RAwXZkI_EwbxFMg
 - **Project Chrono:** https://projectchrono.org/
-- **Apollo Project:** http://apollo.auto/index.html
 
 
 

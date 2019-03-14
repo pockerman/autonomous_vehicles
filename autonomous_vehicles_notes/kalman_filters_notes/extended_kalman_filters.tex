@@ -9,38 +9,29 @@ But  close enough can only be carried so far.  Eventually, we run across a syste
 that does not behave linearly even over a small range of  operation, and our linear 
 approaches for  estimation  no longer give good results.  In this case, we  need  to  explore nonlinear estimators. 
 
-Nonlinear filtering can be a difficult and complex subject.  It is certainly not as 
-mature, cohesive, or well understood  as linear filtering. There is still a lot of  room 
-for advances and improvement in nonlinear estimation techniques.  However, some 
-nonlinear  estimation methods have become  (or are becoming) widespread.  These 
-techniques  include nonlinear  extensions of  the Kalman filter,  unscented  filtering, 
-and particle filtering.
-
 In this section, we will discuss some nonlinear extensions of  the Kalman filter. 
-The Kalman filter  that we  discussed earlier  in this book  directly  applies only to 
-linear  systems.  However,  a  nonlinear  system  can  be  linearized  as discussed  in 
-Section  1.3, and then  linear  estimation  techniques  (such  as the  Kalman  or  $H_{\infty}$, 
-filter) can be applied.  This chapter discusses those types of approaches to nonlinear 
-Kalman filtering.
+The Kalman filter  that we  discussed earlier, applies only to 
+linear  systems.  However,  a  nonlinear  system  can  be  linearized, and then  linear  estimation  techniques  (such  as the  Kalman  or  $H_{\infty}$, 
+filter) can be applied.  
 
 
 
-\subsection{The Linearized Kalaman Filter }
-\label{linearized_kalman_filter}
-In  this section, we  will show how  to linearize a nonlinear system, and  then  use 
-Kalman  filtering theory to estimate the  deviations  of  the state  from a  nominal 
-state value. This will then give us an estimate of the state of the nonlinear system.
+%\subsection{The Linearized Kalaman Filter }
+%\label{linearized_kalman_filter}
+%In  this section, we  will show how  to linearize a nonlinear system, and  then  use 
+%Kalman  filtering theory to estimate the  deviations  of  the state  from a  nominal 
+%state value. This will then give us an estimate of the state of the nonlinear system.
 
-We will derive the linearized Kalman filter from the continuowtime viewpoint, but 
-the analogous derivation for discretetime or hybrid systems are straightforward.
+%We will derive the linearized Kalman filter from the continuowtime viewpoint, but 
+%the analogous derivation for discretetime or hybrid systems are straightforward.
 
 \subsection{The Extended Kalman Filter }
 \label{extended_kalman_filter}
 
-The previous section obtained a linearized Kalman filter for estimating the states of 
-a nonlinear system.  The derivation was based on linearizing the nonlinear system 
-around a nominal state trajectory.  The question that arises is, How do we know 
-the nominal state trajectory? 
+%The previous section obtained a linearized Kalman filter for estimating the states of 
+%a nonlinear system.  The derivation was based on linearizing the nonlinear system 
+%around a nominal state trajectory.  The question that arises is, How do we know 
+%the nominal state trajectory? 
 
 In some cases it may not be straightforward to find 
 the nominal trajectory.  However, since the Kalman  filter estimates the state of 
@@ -52,12 +43,38 @@ system. This is the idea of the extended Kalman filter (EKF), which was original
 proposed by Stanley Schmidt so that the Kalman filter could be applied to nonlinear 
 spacecraft navigation problems.
 
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{EKF and IEKF}}
+
+Now this filter comes in two versions, you might say,
+the normal one and then as an iterative solution
+similar to what we do when we solve an optimization problem using a Gauss Newton search.
+The basic idea is simple and natural. if we have nonlinear models $\mathbf{f}_{k-1}$ and $\mathbf{h}_k$,
+why don't we simply linearize these? This will lead us to linear models and we know how to handle these.
+\end{remark}
+\end{framed}
+
+So in the prediction step we linearize our nonlinear motion
+model around our posterior estimate
+from the previous time instance and use a normal Kalman filter prediction.
+
+Now why do we use the posterior mean
+from the previous time instance as our linearaziation point?
+Well, our motion model $\mathbf{f}$ is a function of $\mathbf{x}_{k-1}$. Our best guess of what $\mathbf{x}_{k-1}$
+is when we do the prediction is our posterior mean.
+So naturally, we want our linearization to be as accurate as possible, at or near where we
+think $\mathbf{x}_{k-1}$ actually is.
+
+Now for the update step, we basically do the same thing.
+When we linearize $\mathbf{h}_{k}(\mathbf{x}_k$, but as the measurement model
+is a function of $\mathbf{x}_k$, we use our predicted estimate, $\hat{\mathbf{x}}_{k|k-1}$ as our linearization point,
+and then use the Kalman filter update with this linearized model.
 
 However, the linear Kalman filter cannot be used directly
 to estimate states that are nonlinear functions of either
 the measurements or the control inputs. For example, the pose of the car includes its orientation which is
-a nonlinear quantity, orientations in 3D live
-on a sphere, in fact. 
+a nonlinear quantity; orientations in 3D live on a sphere. 
 
 Thus, we need to look for something else.  The EKF is designed to work with nonlinear systems and it's often
 considered one of the workhorses of state estimation because it's used in all sorts of applications
@@ -158,10 +175,8 @@ changing as you vary the input. The Jacobian is really
 just a generalization of the first derivative
 to multiple dimensions. 
 
-The Jacobian matrix captures
-the first derivatives of each of the two output variables with respect
-to each of the two input variables. The best way to get comfortable with
-driving Jacobian is just practice. 
+The Jacobian matrix captures the first derivatives of each of the two output variables with respect
+to each of the two input variables. The best way to get comfortable with driving Jacobian is just practice. 
 
 \begin{equation}
 \mathbf{f}(\mathbf{x}) = 
@@ -336,5 +351,13 @@ orientation in 3D space.
 
 \section{Questions}
 
+
+\begin{enumerate}
+\item Consider the following function 
+\begin{equation}
+g(\mathbf{x}) = \sqrt{p_{1}^2 + p_{2}^2} 
+\end{equation}
+and $\mathbf{x} = (p_1, p_2, v_1, v_2)^T$ and $\hat{\mathbf{x}} = (1, 2, 3, 4)^T$. Calculate $g(\hat{\mathbf{x}})$ and $g^{'}(\hat{\mathbf{x}})$
+\end{enumerate}
 
 \section{Assignements}
