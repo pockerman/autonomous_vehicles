@@ -6,7 +6,7 @@
 -----
 
 - **Item:** <a href="autonomous_vehicles_notes/intro_notes/notes.pdf">Introduction to Self-Driving Cars</a>
-- **Item:** <a href="#">Automotive Functional components</a>
+- **Item:** <a href="#">Automotive Functional Components</a>
 - **Item:** <a href="autonomous_vehicles_notes/vehicle_dynamics_notes/notes.pdf">Dynamics of Automobiles</a>
 - **Item:** <a href="autonomous_vehicles_notes/vehicle_modeling_chronos_notes/notes.pdf">Vehicle Modeling with Chronos</a>
 
@@ -41,6 +41,12 @@
 - **Item:** <a href="autonomous_vehicles_notes/lateral_control_notes/notes.pdf">Lateral Control</a>
 - **Item:** <a href="#">Model Predicitve Control</a>
 
+#### Applications
+
+- **Item:** <a href="simulator/application_notebooks/longitudinal_vehicle_model.ipynb">Longitudinal Control</a>
+- **Item:** <a href="simulator/application_notebooks/kinematic_bicycle_model.ipynb">Kinematic Bicycle Model Control</a>
+
+
 ### Part: State Estimation
 -----
 
@@ -48,8 +54,16 @@
 - **Item:** <a href="autonomous_vehicles_notes/kalman_filters_notes/notes.pdf">Extended Kalman Filter</a>
 - **Item:** <a href="autonomous_vehicles_notes/kalman_filters_notes/notes.pdf">Error State Extended Kalman Filter</a>
 - **Item:** <a href="autonomous_vehicles_notes/kalman_filters_notes/notes.pdf">Unscented Kalman Filter</a>
-- **Item:** <a href="#">Particle Filters</a>
+- **Item:** <a href="autonomous_vehicles_notes/particle_filters_notes/notes.pdf">Particle Filters</a>
+- **Item:** <a href="autonomous_vehicles_notes/particle_filters_notes/notes.pdf">Monte Carlo Sampling</a>
+- **Item:** <a href="autonomous_vehicles_notes/particle_filters_notes/notes.pdf">Importance Sampling</a>
+- **Item:** <a href="autonomous_vehicles_notes/particle_filters_notes/notes.pdf">Sequential Importance Sampling (SIS)</a>
 - **Item:** <a href="autonomous_vehicles_notes/sensor_fusion_notes/notes.pdf">Sensor Fusion</a>
+
+#### Applications
+
+- **Item:** <a href="simulator/applications/linear_kalman_filter_1.py">Kalman Filter</a>
+- **Item:** <a href="simulator/applications/ekg_1.py">Extended Kalman Filter</a>
 
 ### Part: Machine Learning for Autonomous Vehicles
 -----
@@ -99,6 +113,7 @@
 - **Taxonomy of Driving:** https://www.sae.org/standards/content/j3016_201806/?PC=DL2BUY
 - **SAE J3016 Taxonomy and Definitions Document:** https://drive.google.com/open?id=1xtOqFVJvOElXjXqf4RAwXZkI_EwbxFMg
 - **Project Chrono:** https://projectchrono.org/
+- **Apollo Project:**  http://apollo.auto/index.html
 
 
 
