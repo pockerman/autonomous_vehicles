@@ -95,6 +95,7 @@
 - **Making Sense of Sensing in Self Driving Cars Understanding key fundamentals of Unscented Kalman Filters:** https://medium.com/kredo-ai-engineering/making-sense-of-sensing-in-self-driving-cars-3d469c6e5e33
 - **Creating autonomous vehicle systems:** https://www.oreilly.com/ideas/creating-autonomous-vehicle-systems
 - **Model Based Systems Engineering for Autonomous Vehicles:** http://intercax.com/2018/01/11/model-based-systems-engineering-autonomous-vehicles-part-1/
+- **How Tesla and Waymo are tackling a major problem for self-driving cars: data:**  https://www.theverge.com/transportation/2018/4/19/17204044/tesla-waymo-self-driving-car-data-simulation
 
 ## Useful Videos
 
