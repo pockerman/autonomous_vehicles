@@ -116,12 +116,12 @@
 
 - **Taxonomy of Driving:** https://www.sae.org/standards/content/j3016_201806/?PC=DL2BUY
 - **SAE J3016 Taxonomy and Definitions Document:** https://drive.google.com/open?id=1xtOqFVJvOElXjXqf4RAwXZkI_EwbxFMg
+
+## Useful Notebooks & Projects
+
 - **Project Chrono:** https://projectchrono.org/
 - **Apollo Project:**  http://apollo.auto/index.html
 - **Point Cloud Library:** http://pointclouds.org/
-
-## Useful Notebooks
-
 - **Kalman and Bayesian Filters in Python:** https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
 
 ## Contact
