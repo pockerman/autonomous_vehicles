@@ -1,5 +1,7 @@
 # Autonomous Vehicles
 
+## Acknowledgements
+
 ## Contents
 
 ### Part: Basics
@@ -118,6 +120,10 @@
 - **Apollo Project:**  http://apollo.auto/index.html
 - **Point Cloud Library:** http://pointclouds.org/
 
+## Useful Notebooks
 
+- **Kalman and Bayesian Filters in Python:** https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
+
+## Contact
 
 
