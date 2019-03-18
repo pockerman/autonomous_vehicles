@@ -21,6 +21,7 @@
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Iterative Closest Point Algorithm</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Inertial Measurement Unit</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Global Navigation Satelite Systems</a>
+- **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Noise and Aliasing</a>
 - **Item:** <a href="autonomous_vehicles_notes/environment_representation_notes/notes.pdf">Environment Representation</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Calibration</a>
 

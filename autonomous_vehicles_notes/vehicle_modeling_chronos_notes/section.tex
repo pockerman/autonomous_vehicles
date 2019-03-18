@@ -1,7 +1,7 @@
 \section{Vehicle Modeling with Chronos}
 \label{vehicle_modeling_chronos}
 
-In this section we will develop and simulate vehicle model using the open source physics engine \lstinline{chronos} 
+In this section we will develop and simulate a vehicle model using the open source physics engine \lstinline{chronos}. 
 
 
 \subsection{The \lstinline{Chrono::Vehicle} library}
@@ -38,7 +38,7 @@ The \lstinline{Chrono::Engine } supports the notion of a system. In our case, th
 \item Powertrain
 \end{itemize}
 
-\lstinline{Chrono::Vehicle} encapsulates templates for systemsand subsystems in polymorphic C++ classes:
+\lstinline{Chrono::Vehicle} encapsulates templates for systems and subsystems in polymorphic C++ classes:
 
 \begin{itemize}
 \item A base abstract class for the system/subsystem type (e.g. \lstinline{Chrono::ChSuspension})
@@ -102,12 +102,19 @@ A concrete driver class must set the member variables:
 Since these are the main quantities that a driver can interact with a vehicle, this class has to be adapted
 when we want to incorporate autonomy. 
 
+
+\subsection{ The \lstinline{chrono::vehicle::ChDriver} class}
+
 \subsection{Setup simulation}
 
 \subsubsection{Setup the vehicel \lstinline{chrono::vehicle::sedan::Sedan}}
 
-Now that we went over the basics of the \lstinline{Chrono::Vehicle} library let's try to set up a basic simulation; namely a vehicle that move in straight line.
-Concretely, we will use an instance of the \lstinline{chrono::vehicle::sedan::Sedan} class. The following code initializes the vehicle instance for the simulation
+Now that we went over the basics of the \lstinline{Chrono::Vehicle} library let's try to set up a basic simulation; namely a vehicle that moves in straight line.
+Concretely, we will use an instance of the \lstinline{chrono::vehicle::sedan::Sedan} class. 
+
+
+
+The following code initializes the vehicle instance for the simulation
 
 \begin{lstlisting}
 // Create the vehicle, set parameters, and initialize
