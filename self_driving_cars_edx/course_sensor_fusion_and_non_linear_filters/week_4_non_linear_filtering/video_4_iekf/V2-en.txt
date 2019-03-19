@@ -1,0 +1,79 @@
+
+There is also an iterative version
+of the EKF, which can be quite useful in some situations,
+especially if the measurement is very informative.
+The idea is simple.
+Once we have computed our estimate,
+x hat k, given k, we have a better guess about xk,
+so where xk actually is, because we have considered
+our current observation.
+So why don't we linearize h of xk around this new point?
+Surely, this will make our approximation better around
+where we think our state is.
+We can then try to find a better approximation of our posterior
+by using this new, and hopefully improved, linearized
+measurement model when we update our predicted density using
+the current observation.
+Now, note that we can do this over and over again.
+So with this scheme, we have obtained an iterative algorithm
+that we can run until convergence.
+That is, when our estimate does not change significantly
+between the iterations.
+We should also note that at each iteration,
+we start from the predicted density and not the posterior
+density from the previous iteration.
+This is to avoid using yk multiple times
+and therefore becoming overconfident.
+Now as I alluded to in the introduction,
+one can show that the iterative EKF tries
+to find a map estimate by solving this optimization,
+where we want to find the xk which maximizes the posterior.
+And it does so iteratively using a Gauss-Newton search.
+Now, this is in comparison to the normal EKF
+that tries to approximate the LMMSE instead.
+If we go back to our second example that we did previously,
+now the first iteration of the iterative EKF
+is just a normal EKF.
+So our linearization point for our second iteration
+is our EKF estimate here.
+This is our starting point for a second iteration
+for the iterative EKF.
+If we now linearize our nonlinear measurement model
+around this point, we get this new linear measurement model.
+Now if we use this to approximate
+our joint distribution, we get something like this.
+And if we view our posterior density
+as proportional to this joint distribution,
+our posterior is proportional, if yk
+is equal to 2, to something like this.
+Now, our estimated mean in the second iteration
+is then the mean of this density,
+which is somewhere here.
+
+So already after the second iteration,
+we get something that is much closer to the true posterior
+mean than what the EKF was able to do.
+So in this case, there is a clear advantage
+of iterating the solution.
+So if we conclude, the advantage with iterative EKF compared
+to the normal EKF is that it usually
+performs well when the measurement noise is small.
+This is because the MAP estimate is usually accurate then.
+And as we saw in our example, already
+after the second iteration, we were
+quite close to the posterior mean, which
+means that the iterative EKF often converges
+into very few iterations.
+However, there are also disadvantages.
+For one, the posterior pdf in non-linear filtering
+is often rather skewed, which means that the MAP estimate is
+far from the posterior mean.
+So it's good to have in mind.
+Depending on what's important, being good on average,
+or sometimes being very accurate but allowing for greater error
+sometimes.
+Additionally the IEKF may diverge and not
+converge to anything reasonable.
+There are, however, more robust alternatives available
+that can be used to solve the optimization problem more
+robustly.

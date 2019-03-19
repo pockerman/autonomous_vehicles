@@ -1,0 +1,213 @@
+
+In the previous lecture, we looked at our first nonlinear
+filter--
+the extended Kalman filter.
+The extended Kalman filter works by approximating the predicted
+and posterior density as Gaussian densities
+by linearizing the nonlinear models
+and then applying the normal Kalman filter equations
+on these linear models.
+Before we continue to learn more nonlinear filters,
+we thought we tried to put the EKF
+and the other nonlinear filters that we will
+learn into a bit of context.
+And that context is called a family of assumed density
+filters.
+Now, performing nonlinear filtering well is difficult.
+Compared to the linear case where
+we know how to calculate the true posterior
+density, in the nonlinear case we need to make approximations
+and simplifications, which, naturally, will affect
+our result. Now, the general methodology
+of all our filtering methods is to recursively-- that
+is each time we get a new observation-- compute
+the posterior distribution or an approximation of it.
+Based on this posterior distribution,
+we then find an estimate of our state using, for example,
+the posterior mean, in the MMSE case, or the most
+probable value, if we are doing MAP estimation.
+The general strategy that most methods follow in order
+to recursively compute the posterior
+is to start from the posterior at the previous time
+instance, so p of x k minus 1 given measurements
+up to k minus 1.
+So in this recursion we call this our prior.
+Now, this prior summarizes everything
+that we know about the state up to time k minus 1.
+So the second thing that we usually do
+is that we use this old information
+to predict the density of the state
+at the same time as our new observation.
+So we want to compute the density p of xk given
+measurements up to k minus 1.
+We do this in the so-called prediction step in our filter.
+The next thing that we typically do
+is that we update our predicted density
+with the new information in our current observation, yk,
+to get our posterior density or updated density,
+p of xk given y, 1 to k.
+Now, based on our updated posterior density,
+we can compute a new estimate of our state
+at time k, so xhat k given measurements up to time k.
+And then start the process all over again by simply making
+this posterior our new prior and then
+following the same steps again.
+Note that a prerequisite for us to be
+able to have this recursive filtering scheme
+is that our updated posterior density is
+the same type as the prior that we started with.
+If this isn't the case, we can't simply
+exchange what we call the posterior
+and prior and then start all over
+because how we describe our density has now changed.
+Now, this might seem obvious to you,
+but in nonlinear filtering the true posterior will generally
+not be of the same type as the prior.
+So, up until now, we have seen two examples of filters
+that uses this methodology to recursively compute
+the posterior and that is the Kalman filter and the extended
+Kalman filter.
+So what else do they have in common?
+Well, to have a recursive filter both assume
+that the prior, predicted density and the posterior
+density, are all Gaussian.
+Now, it turns out that this is a rather common strategy
+and we will call all filters that
+do this as Gaussian filters.
+Now, a Gaussian filter is characterized
+by assuming that we start each recursion
+with a Gaussian prior--
+that is we assume that the posterior
+from the previous time instance is
+Gaussian with this mean and this covariance.
+So in the prediction step and the update step in a Gaussian
+filter we also want to find the predicted density
+and the posterior density as Gaussian densities-- that
+is we want to find the means and the covariances
+of these Gaussian densities that either describes our predicted
+and posterior densities exactly, as in the Kalman filter case,
+or, at least, approximately, as in extended Kalman filter.
+Now, the key aspect here is by assuming
+that the posterior from the previous time instance, that
+is the prior in the current recursion,
+and the updated posterior are both Gaussian-- we have
+a recursive algorithm, as we are starting and ending
+with the same type of density.
+So at the next recursion this will be our Gaussian prior
+and we can do exactly the same thing again,
+but now we instead update with the measurement yk plus 1
+and so on.
+This means that our filters are simple to implement
+and that they will have a predictable complexity
+for each filter recursion.
+So all our previous filters--
+the Kalman filter, the extended Kalman filter,
+and the iterative EKF--
+are all examples of Gaussian filters.
+We should perhaps also note that the second step here,
+the prediction step, does not have
+to be Gaussian in order for this to be a Gaussian filter.
+But it is very common that this is the case.
+Nonetheless, the important thing is
+that both the prior and the posterior are Gaussian.
+So that was the important family of Gaussian filters,
+which we will study extensively in this course.
+If we try to generalize this, however, there
+is a wide range of Bayesian filters
+that can be written on the following form.
+First, we select a density parameterization,
+p of x and theta, where theta here is the parameters that we
+use to describe our density.
+So in the Gaussian filtering case p here
+is a Gaussian density and theta contains
+the mean and covariance that is needed
+to describe this density.
+To start the recursion, we assume
+that we have an approximation of the posterior
+from the previous time instance on our assumed density
+parameterization, where the shape of this approximation
+is described by theta at k minus 1 given measurements up to k
+minus 1.
+The aim is then to find the updated parameters, theta k
+given k, such that our updated posterior
+can be approximated using the same type of density,
+but described using our updated parameters, theta k given k.
+So this strategy is sometimes called assumed density
+filtering or canonical form filtering,
+as we in each recursion assume that we
+can approximate our posterior density of a certain type using
+a specific set of parameters.
+In the Gaussian filtering case, we
+assume that the posterior can be described as a Gaussian density
+using its mean and covariance, but there
+are other alternatives.
+Now, this table gives a summary of different commonly used
+assumed densities and the filtering algorithms that
+uses them.
+Our ambition here is not to go into any details regarding
+the different methods mentioned here,
+but rather to give some examples of density parameterizations
+that are used-- starting with the by far most commonly
+used parameterization and that is the Gaussian density.
+So in the scalar case it could look something like this.
+And the parameters that we need to find
+is the mean, meu, and the covariance, P, of this density.
+Examples of filters on this form is the Kalman filter
+and the extended Kalman filter that we have studied so far.
+We also studied the unscented Kalman filter
+and the cubiture Kalman filter in this course.
+There are also filters that uses this parameterization
+to solve the object tracking problem--
+that is when we have data association uncertainty--
+namely the nearest neighbor, the global nearest
+neighbor, probabilistic data association,
+and joint probabilistic data association.
+We will not cover these methods in this course,
+but the filtering algorithms that we study here
+is also the basis for these methods.
+Another alternative that is quite common
+is to assume that our densities can be described
+as a weighted sum of Gaussians, where we have a sum of capital
+N Gaussians that are all weighted by these weights
+wi, which can look something like this.
+
+In the case where we have three Gaussians in our mixture
+all with its own weight, w1, w2, and w3.
+Now, N here is usually not that large,
+typically in the single to double digit range.
+We typically want to use this type of representation
+when we have some discrete random variable in our states.
+For example, this could be the class of an object.
+The weights, w, then represents the probability mass function
+of our discrete random variable and the Gaussian densities
+would represent our continuous states conditioned
+on our discrete random variable.
+Examples of filters that uses this type of parameterizations
+is the interacting multiple model
+filter and the multi-hypothesis tracking filter.
+Our next parameterization is a bit different.
+In this case, we describe our density
+using a sum of N Dirac-delta functions, which
+should all have a weight associated
+with them and a state.
+And the state here we usually call our particle.
+So we describe our density like this,
+which turns out to be a very general representation that
+in theory can be used to approximate any given
+density arbitrary well
+Now, compared to our Gaussian mixture here,
+N here is typically in the thousands or even more.
+We will look at this in detail in later section
+when we discuss the particle filters, which
+are nonlinear filters which uses this type of representation.
+We will then also look at this type of representation
+where we have a mix of delta functions
+and Gaussian densities, and this is
+used in the Rao-Blackwellized particle filters.
+Now, this is no way near a complete list
+of assumed densities that are used in filtering
+and object tracking, but it is a list of the more common.
+And, at least all the different representations
+that we will consider in this course are covered here.
+
+[CAMERA SHUTTER CLICKS]

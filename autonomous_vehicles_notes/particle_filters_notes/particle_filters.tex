@@ -28,6 +28,27 @@ The basis of these methods is an algorithm called  sequential importance samplin
 \section{Introduction to Particle Filtering }
 \label{particle_filter_introduction}
 
+Particle filters have solved several hard perceptual problems in robotics. Particle filters comprise a broad family of sequential Monte Carlo algorithms for 
+approximate inference in partially observable Markov chains \cite{Thurn2002}. 
+
+In robotics early successes of particle filter implementations can be found in the area of robot localization in which a robot's pose
+has to be recovered from sensor data. Concretely, particle filters were able to solve both the gloabal localization and the so called
+kidnapped robot problems \cite{Thurn2002}.
+
+
+\begin{framed}
+\theoremstyle{remark}
+\begin{remark}{\textbf{Kidnapped Robot Problem}}
+
+In this problem a robot has to recover its pose under global uncertainty \cite{Thurn2002}.
+
+\end{remark}
+\end{framed}
+
+Furthermore, particle filters have also been applied to higher dimensional robotic problems. Prominent examples include the
+simultaneous localization and mapping problem which when phrased as a state estimation problem involves a variable number of dimensions.
+FastSLAM, a particle filter algorithm, has been demonstrated to solve problems  with more than 100,000 dimensions in real time \cite{Thurn2002} and references therein.
+
 The basic idea behind particle filtering is to use a non-parametric representation of the posterior
 
 \begin{equation}
@@ -170,6 +191,15 @@ where $q_{k-1}\sim N(0,10)$ and $r_k \sim N(0,1)$.
 %\caption{The linear Kalman filter steps.}
 %\label{kalman_3}
 %\end{figure}
+
+
+\section{Summary}
+This section briefly touched upon the particle-filter algorithm. Although, this is a powerful algorithm, the application
+of particle-filters to robotics is no without cavetas. In particular, a range of problems arise from the fact that no
+matter how detailed the probabilistic model, it will still be wrong and make false independence assumptions. In robotics,
+all models lack important state variables that systematically affect sensor and actuator noise. Furtheremore, 
+probabilistic inference is further complicated by the fact that robot systems must make decisions in real-time. The latter 
+prohibits the use of vanilla particle-filters, as they exhibit exponential time performance, in many perceptual problems.
 
 
 \subsection{Questions}

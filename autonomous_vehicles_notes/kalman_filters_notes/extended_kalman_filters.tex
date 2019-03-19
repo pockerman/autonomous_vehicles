@@ -358,6 +358,19 @@ orientation in 3D space.
 g(\mathbf{x}) = \sqrt{p_{1}^2 + p_{2}^2} 
 \end{equation}
 and $\mathbf{x} = (p_1, p_2, v_1, v_2)^T$ and $\hat{\mathbf{x}} = (1, 2, 3, 4)^T$. Calculate $g(\hat{\mathbf{x}})$ and $g^{'}(\hat{\mathbf{x}})$
+
+\item Which of the following statements are true?
+
+\begin{enumerate}
+\item The ordinary Kalman filter can be used also for nonlinear models but it will be less optimal than, e.g., the extended Kalman filter. 
+\item If we have a mix of linear and nonlinear models, let’s say that, e.g., the motion model is linear while the measurement model is nonlinear. 
+In this case, it is appropriate to combine the Kalman filter prediction step with the EKF update step to approximate the posterior. 
+\item For linear and Gaussian state space models, the EKF is equivalent to the Kalman filter. 
+\item We can use the EKF for all nonlinear state space models, but it will only be accurate for “mildly” nonlinear models. 
 \end{enumerate}
+
+\end{enumerate}
+
+
 
 \section{Assignements}

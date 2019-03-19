@@ -1,8 +1,9 @@
 \begin{thebibliography}{10}
 
-\bibitem{Astrom}
-$\mathring{A}$str$\ddot{o}$m K. J.,  Murray R. M. 
-\newblock{\em Feedback Systems. An Introduction for Scientists and Engineers}
+\bibitem{Thurn2002}
+Thurn S., 
+\newblock{\em Particle Filters in Robotics}
+\newblock In Proceedings of Uncertainty in AI (UAI), 2002.
 
 \bibitem{Polack2017}
 Philip , Florent Altché1, Brigitte d’Andréa-Novel, and Arnaud de La Fortelle 

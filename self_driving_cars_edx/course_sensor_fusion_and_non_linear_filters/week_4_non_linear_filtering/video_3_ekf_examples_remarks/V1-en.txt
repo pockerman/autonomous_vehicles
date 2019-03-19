@@ -1,0 +1,203 @@
+
+We're now going to look at how good these approximations are
+in two examples of the update step in the extended Kalman
+filter.
+In this first example, we assume that we
+have a predicted density of a scalar xk with mean 8
+and standard deviation 3.5.
+We then get a scalar observation yk,
+which is equal to 6, which is related to our state,
+according to this non-linear function, where we have h of xk
+plus some noise rk, where the noise is additive
+and with the zero mean and standard deviation 2,
+and the nonlinear function h of xk
+is this quadratic function of our state.
+Now, what we want to do here is to both find a true posterior
+mean and the approximate posterior
+mean that is given by the EKF, so x hat k given k.
+So how should we do this?
+So if we look at this figure to the right,
+here, we have the original nonlinear model in blue
+and the linearized model around the predicted
+mean in red, where the predicted mean is 8, which is here.
+Now, we have some initial uncertainty
+regarding x, as described by our predicted density.
+Now, we could illustrate our predicted density
+on the x-axis.
+So we have a Gaussian predicted density with the mean 8
+and standard deviation of 3.5, which
+could look something like this.
+
+Now, in the EKF, the posterior density
+is approximated using this linear model here, instead
+of this nonlinear model.
+In order to get the posterior from this,
+we can use that the posterior is proportional to the joint,
+so, using the product rule.
+
+To look at this, we can first illustrate our joint density
+of x and y and then use this proportionality
+to get the posterior when we have fixed y equal to 6
+as our measurement.
+So if we start by illustrating the 1 sigma
+contour of our joint.
+Now, I find that a joint is easiest to roughly illustrate
+by using this expression here and then for a fixed x,
+looking at the uncertainty in y, using this measurement model.
+So let's say we fixate x at our mean here.
+So at this point, our uncertainty in y direction
+is given by our measurement models.
+We have the mean here, and then we have a uncertainty in y
+given by our measurement noise rk, which
+is zero mean and with standard deviation square root of 2.
+So if we want to illustrate a plus minus 1 sigma
+contour of our joint, in this point,
+we should have something that goes here
+and here, which is roughly plus minus the square root of 2.
+Now, if we do this for all values of x,
+we get this weighted by probability of x,
+we can perhaps imagine that a 1 sigma contour
+ellipse of our joint distribution
+would look something like this.
+To get the approximated posterior,
+we can now use that p of x given y, our posterior,
+is proportional to this joint.
+And if we fix yk equal to 6, which
+is our observation in this case.
+So yk is here, so we can view our posterior
+by viewing our joint as a function of xk
+where we fix yk equal to 6.
+And that's the same as viewing our joint as this slice, where
+yk is fixed to 6.
+So if we try to illustrate this slice,
+it could look something like this.
+Now, note that this density now is coming out of the figure.
+And if we look at the mean of this,
+our estimate is now the mean of this density,
+which is somewhere here.
+If we project this down to our x-axis,
+we see our mean, that the EKF would give us, is roughly 10.8
+or thereabout.
+With a similar procedure, we can get the true joint to something
+like this where we now follow the nonlinear measurement model
+instead of our linearized one.
+And again, if we look at this joint as a function of xk,
+when we fixed yk equal to 6, we get
+a posterior that is proportional to something like this.
+And the posterior mean is the mean of this density,
+so the posterior mean would be something like 10.4.
+So in this case, where we have something mildly nonlinear,
+so a linearized model is fairly accurate.
+And as a result, there is not a super big difference
+between the EKF estimate and the true posterior mean.
+So in this case, the EKF performs fairly well.
+So let's look at another example.
+Here we have a more nonlinear measurement model where h of xk
+is equal to 0.01 times xk cube, which is illustrated
+by this blue curve to the right, and the dashed red line
+is our linear approximation of this model
+if we linearize in the predicted mean, which is 3, so here.
+The question is, again, to find a true posterior mean
+and approximate posterior mean given by the EKF.
+And in this case, our observation is yk equal to 2.
+So if we approach this in the same manner
+as we did in the previous example,
+we start by illustrating the predicted density, which
+is a Gaussian density with mean 3
+and a standard deviation of 3.5.
+And this could look something like this.
+
+Now, using this and our linearized measurement model,
+we can illustrate our joint density of xk and yk like this.
+Now, note that the variance of our measurement noise
+is 0.3 in this example.
+So we get something that is much tighter around our model,
+compared to our previous example.
+So if we get this observation yk equal to 2,
+we can find the posterior density
+of xk given this observation, as proportional to this joint
+here.
+If we fix yk as 2.
+Now, this is the same thing as looking
+at this slice of the joint.
+So the EKF would approximate the posterior
+mean as the mean of this density, which
+is somewhere around 9.
+Now we would like to compare this to the true posterior
+mean, which we get in the same way,
+but by considering the true joint distribution instead
+of the Gaussian approximation that the EKF
+does by linearizing the measurement model.
+The true joint distribution can be illustrated the same way
+as we did in the previous example,
+by considering the support of xk and by considering
+how much uncertainty we should add around h of xk,
+as expressed by this blue curve, given by the measurement noise
+covariance, so 0.3.
+In this case, the true joint could look something like this.
+
+And by looking at the slice of this where yk is equal to 2,
+we get the true posterior proportional to this density.
+Now, the true posterior is the mean
+of this, which should be around here.
+So it's around 6.
+So for this example, there is a significant difference
+between the true posterior mean and the EKF approximation.
+This is basically because there is a big difference
+between the true joint distribution
+and our Gaussian approximation.
+Compared to the previous example,
+we can see two reasons for this difference.
+The first is that our linear approximation is not
+accurate compared to our uncertainty
+in the predicted state.
+Now we see that there is a fairly high chance
+that xk is around 6, but our approximation
+is only accurate between say 2 and 4 in this region here.
+The second reason is that our measurements are very accurate.
+That is, we have very little measurement noise,
+so only 0.3 in this case.
+This means that our joint density is very tightly aligned
+with our nonlinear function.
+So our nonlinearities are more pronounced.
+Whereas, if we have more measurement noise,
+so the variance in rk would be large,
+this would hide our nonlinearities
+more in our joint distribution.
+So we get something that is wider here, more Gaussian.
+One way of thinking of this would
+be to let a measurement noise covariance go to infinity,
+in which case, the influence of how accurately we
+can approximate this part of the model
+becomes less and less important, because this part of the model
+is drowned by all the measurement noise.
+We wrap up our presentation of EKF
+with some concluding remarks.
+To start with, the EKF is a recursive algorithm.
+So at each time instance, it does the same thing,
+and that is to compute Gaussian approximations
+of the predicted density and the posterior density.
+The approximations that a EKF does
+is that it approximates the nonlinear models as linear
+and then computes the resulting Gaussian densities,
+using the normal Kalman filter equations.
+So in a sense, the EKF is also approximately LMMSE,
+in that it approximates a system as linear,
+and then computes the LMMSE estimate for that system.
+Now, this usually works quite well,
+as long as the system is not too nonlinear,
+as we saw in our first example.
+One practical difference between the EKF and the other nonlinear
+filters, that will study in this course,
+is that in order to implement EKF,
+you need to compute the derivatives of the nonlinear
+functions.
+Now, this could be tedious, but there are nowadays
+plenty of ways for a computer to do this for us.
+But there could be situations where our models do not
+actually have a well-defined derivative, in which case,
+the EKF cannot be used.
+However, compared to the other nonlinear
+filters that we study, it has the lowest
+computational complexity.
+So now we know everything about the EKF.
