@@ -30,6 +30,7 @@
 
 - **Item:** Occupancy Grids
 - **Item:** Simultaneous Localization and Mapping (SLAM)
+- **Item:** FastSLAM
 
 ### Part: Motion Planning & Navigation
 -----
@@ -62,6 +63,7 @@
 - **Item:** <a href="autonomous_vehicles_notes/particle_filters_notes/notes.pdf">Monte Carlo Sampling</a>
 - **Item:** <a href="autonomous_vehicles_notes/particle_filters_notes/notes.pdf">Importance Sampling</a>
 - **Item:** <a href="autonomous_vehicles_notes/particle_filters_notes/notes.pdf">Sequential Importance Sampling (SIS)</a>
+- **Item:** <a href="#">Rao-Blackwellized Particle Filters</a>
 - **Item:** <a href="autonomous_vehicles_notes/sensor_fusion_notes/notes.pdf">Sensor Fusion</a>
 
 #### Applications
