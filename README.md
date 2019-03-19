@@ -21,9 +21,20 @@
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Iterative Closest Point Algorithm</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Inertial Measurement Unit</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Global Navigation Satelite Systems</a>
+- **Item:** The Camera Sensor
+- **Item:** The Camera Calibration
+- **Item:** Visual Depth Perception 
+- **Item:** Image Filtering
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Noise and Aliasing</a>
 - **Item:** <a href="autonomous_vehicles_notes/environment_representation_notes/notes.pdf">Environment Representation</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Calibration</a>
+
+#### Applications
+
+- **Item:** Managing Images with OpenCV
+- **Item:** Managing Videos with OpenCV
+- **Item:** Lane Detection
+- **Item:** Apply Stereo Depth to a Driving Scenario
 
 ### Part: Environment Mapping
 -----
