@@ -1,0 +1,424 @@
+
+In this video we'll present two sigma-point methods.
+We will look at how these can be used
+to approximate the integrals that we need to compute,
+in order to perform Gaussian filtering,
+based on the moment-matching principle.
+Specifically we will look at the unscented transform
+and the cubature rule, which are perhaps
+the two most commonly used sigma-point methods
+in the filtering context.
+The focus of this video is to present the methods
+and try to illustrate the approximations that
+are made using the example of polar measurements
+that we introduced in the previous video.
+Before we discuss the specific methods,
+let's review the general idea behind
+how sigma-point methods approximate expected values.
+Suppose that we have a general Gaussian random vector, x,
+which has the mean xhat and the covariance P.
+The general idea is that we can approximate the expected value
+of some nonlinear function, g of x
+first by expressing the integral using stochastic decoupling.
+That is, instead of taking the integral
+over x, as we normally do, we make a variable exchange
+to take the integral over xi instead.
+Now xi is a simpler Gaussian random variable with 0 mean
+and the identity matrix as its covariance.
+And it's related to x, according to this expression here.
+We take the mean of x, plus the square root of P, times xi.
+As we saw in the previous video, this random variable
+here has the same properties as x, so mean xhat and covariance
+P. The key here is that instead of taking
+the integral over a general Gaussian density,
+we now take the integral over this much
+simpler and standardized Gaussian
+density with 0 mean and the identity matrix
+as a covariance, which by itself does not
+depend on our specific problem.
+To compensate for this, we'll have this linear transformation
+in our nonlinear function.
+The advantage is that we move the generalization
+to the nonlinear function, and we only
+need to take the integral over a very specific type of density.
+Now it turns out that this type of expected value or integral
+can be approximated using sigma-point methods.
+There are many sigma-point methods,
+but in general they all try to approximate this type
+of integral using N sigma points that are strategically
+positioned in xi.
+In this figure here, we see an example
+where xi is a two-dimensional random vector,
+and the circles here represent a contour of p of xi.
+Note that as the covariance of xi is the identity matrix,
+this means that the different components in xi
+are uncorrelated, or decoupled with each other,
+and the contours of p of xi will always be circular
+and neither skewed nor slanted.
+So with this simple and symmetric density,
+it's easier to design a clever way
+of selecting our sigma points and assigning
+them the appropriate weights.
+Now each sigma-point method have a different scheme
+for doing this.
+That is, the number of points used,
+where they should be positioned, and which weight each point
+should have, which gives the different sigma points method
+slightly different properties.
+The example that we see here is how the unscented transform
+chooses its points.
+So in this 2D example, the unscented transform
+chooses five points--
+one in the mean and four symmetrically
+positioned around it, where we have
+two points in each dimension.
+Using these points, the expected value
+can be approximated at this weighted sum of our sigma
+points translated by this equation
+here, and then propagated through our nonlinear function,
+and then weighted by the weight of each individual sigma point.
+One way of thinking about this is
+that we take our sigma points in xi
+and then we transform them to represent sigma points
+in x, using this mapping here.
+So we take a point in xi and then map it to x,
+and we get a new sigma point in x, which is equal to this.
+So we can view this as our sigma point in x instead,
+which are illustrated here together with the contour
+plot of p of x, which is our general Gaussian density.
+Note that the weights are still the same,
+so these do not change.
+Now the second step is that we propagate these sigma points
+that are now representing p of x through a nonlinear mapping g,
+to get these sigma points in y, which
+is equivalent to viewing this here as our sigma points in y,
+that we denote like this.
+The last step of our sigma point method
+is that we simply take a weighted sum of our sigma
+points in y, which is our expected value, which
+is then an approximation of the expected value of g of x.
+So using sigma-point methods, we can approximate expected values
+of general nonlinear functions over general Gaussian
+densities.
+Now let's look at how we can use this
+to do non-linear filtering.
+The original intuition behind the use of sigma-point methods
+to perform filtering is quite interesting,
+and was introduced by the inventors
+of the unscented transform.
+They argue that it's easier to approximate a probability
+distribution than it is to approximate
+an arbitrary non-linear function or transform.
+The second idea was to approximate the first two
+moments of the resulting probability distribution,
+so p of y in this case, using a sigma-point method.
+That is, we can approximate both the expected value
+and the covariance of y by basically using the same method
+twice, like this.
+And here we express it in terms of sigma points in x directly,
+which is the more common way of expressing them.
+That is, we can view this approximation of the mean
+as an integration rule applied to compute
+expected value of g of x.
+If we then introduce another function,
+g tilde of x, which is this function here, then it's
+simply the same integration rule applied
+to expected value of g tilde of x, which by definition is
+the covariance of y.
+By using these approximations in our filter,
+the connection to the first idea is
+that this enables us to approximate the moments of y
+without approximating the nonlinear mapping g,
+that we, for example, do in the extended Kalman filter.
+As a note, there are at least two things
+that I think are nice and appealing
+about the sigma-point methods, and that
+is that they are derivative-free and that we
+need far less points than with the Monte Carlo method.
+Now we should perhaps also note that our variance
+of sigma-point methods, where the weights used
+to compute the expected value and the weights that
+are used to compute the covariance are not the same.
+Now, that's not the case here, and we will
+assume that these are the same.
+We will now introduced the unscented transform,
+which is probably the most famous
+of all sigma-point methods.
+The unscented transform was the first sigma-point method
+used for filtering when it was first proposed in the mid-1990s
+and it has been used quite extensively since then.
+So here is a description of how to calculate the 2n plus
+1 sigma points that are used in the unscented transform, where
+n here is the dimensionality of x.
+Note that we are expressing the sigma points directly
+in x, and not inside, as this is the more common form.
+However, we think it's useful to see the connection to xi
+as well to understand why the equations look like they do.
+So the 0th sigma point is placed in the mean of x,
+or in the origin of xi.
+The other two n sigma points are played symmetrically
+around the mean.
+Now this is easiest to view in xi.
+So in this two-dimensional example,
+we place one point in the square root of n divided
+by 1 minus w naught and 0, and one
+on the opposite side in minus the square root of n over 1
+minus w naught and 0, where w naught here and here is
+the weight of the 0th sigma point.
+And this is a design parameter of our choosing.
+We basically do the same thing in this dimension,
+but then the order of these are flipped.
+Now to go from our sigma points in xi to sigma points in x,
+we simply multiply by the square root of P,
+and then we add the mean of x, which is xhat.
+And by doing so we map this point here to this point here.
+Now as these sigma points all lie on an axis,
+all components except one will be non-zero.
+So basically each sigma point in xi
+will select one column of the square root of P.
+So an equivalent way of describing our sigma points
+is like this, where we take the mean of x plus this term
+here, which is the distance in xi,
+and then we take the i-th column of the square root of P.
+So i hear indicates the i-th column of this matrix.
+So instead of performing this matrix multiplication,
+we can instead just grab the i-th column of P
+and multiply by this factor here.
+So that is how we get our sigma points.
+And they could, for example, look something
+like this, where the contours here, again,
+are the contours of p of x.
+And the weights for these sigma points,
+except the sigma point in the mean
+is simply 1 minus w naught, which
+is the weight of the sigma point in the mean, divided by 2n.
+So what kind of properties does this set of sigma points have?
+Now, for one thing, if we sum over all the weights,
+wi from 0 to 2n we get 1.
+Also if we sum over the weights times
+the sigma points will get xhat.
+
+Furthermore, if we sum over all the sigma points where
+we take the weight times the sigma point,
+i, minus xhat times the same thing
+transposed we get P. What I want to highlight here
+is that in some respect these sigma points captures
+the first two moments of x.
+And what we then hope for is that after mapping the sigma
+points through our non-linear mapping,
+they will reflect the mean and covariance of our output
+variable, y as well.
+Now in this version of the unscented transform,
+w naught is our only design parameter.
+And we use this to both assign the weight of our sigma point
+in the mean, but also to design the spacing of our sigms
+points-- so how much our sigma points are
+spread around the mean.
+There are, however, other versions
+of the unscented transform, which
+has more design parameters.
+But me personally find those less intuitive,
+which is why I'm presenting this version here.
+For Gaussian random variables it's
+recommended that we pick w naught
+as 1 minus n divided by 3.
+Now we should note that if the dimensionality of the state
+vector is larger than 3, this weight will be negative,
+which is fine, but it can cause problems
+with non-positive definite covariances, which
+we will look at later.
+We can illustrate the properties of the unscented transform
+by coming back to our example of polar measurements.
+So we have a mapping, g of x, that maps
+from a point in two-dimensional space,
+x, to something that could be interpreted as a distance
+from the origin to the point, and the angle to the point.
+As a reference for our analysis, we
+will use Monte Carlo sampling.
+That is, we perform Monte Carlo sampling
+from our prior distribution of x, which
+is this Gaussian distribution with mean 2,
+2 and this covariance.
+If we do this, we get these blue points here.
+If we now map these through g of x we get these samples here
+of y.
+From these samples we can, with high precision,
+approximate the mean and covariance
+of p of y, which is illustrated here as the light blue circle
+here and this ellipsoid here--
+so the mean and the covariance.
+Now let's look at what the unscented transform
+does in this case.
+So if we compute the sigma points in x,
+and we use the Cholesky factorization
+as the square root we get these five points here in yellow.
+As I mentioned previously, if we use
+some other means of computing the square root of P,
+we get slightly different sigma points,
+but which nonetheless still captures the first two
+moments of p of x.
+If we now map these five sigma points through g of x,
+we get these five sigma points here,
+that marks the results of g of x i.
+By making use of these sigma points, these propagated sigma
+points and the corresponding weights,
+we can compute an approximation of the expected value of y.
+And this approximation is marked as a yellow cross here.
+And if we compare with a high precision Monte Carlo
+approximation, the light blue circle,
+we see that they are almost identical.
+Similarly, if we use sigma points in order
+to approximate the covariance, we
+get the result that is illustrated
+by the yellow ellipsoid here.
+Also in this case, the approximation
+made by the unscented transform and the more precise Monte
+Carlo approximation, illustrated by this light blue ellipsoid
+here are reasonably close.
+The conclusion being that in this particular case,
+the unscented transform does a very good job of approximating
+the first two moments of p of y.
+The next sigma point method now we will look at
+is the cubature rule, which is a simple and robust type
+of sigma-point method.
+In comparison to the unscented transform,
+the cubature rule is a fairly new method
+that was popularized in 2009, but fairly quickly became
+a well established algorithm.
+Now that we are familiar with the unscented transform,
+it's extremely simple to explain the cubature rule.
+The cubature rule is namely a special case
+of the unscented transform, where you put a weight
+on the mean, w naught to 0.
+This basically means that we remove the mean point,
+and instead of having 2n plus one points,
+we get 2n sigma points.
+So what the cubature rule does is
+that it forms a set of 2n sigma points
+that are spread symmetrically around the mean.
+If we view this in xi, we see that we spread the weight
+symmetrically around the mean and the distance here
+is the square root of n in each dimension.
+This then results in this set of sigma points in x, which
+are also spread symmetrically around the mean, which we
+can imagine is somewhere here.
+We can further note that there are no tuning parameters here,
+and there are no negative weights either,
+which is a nice property.
+So all the weights in this case are 1 over 2n.
+And we thereby avoid all possibilities
+of having negative covariance matrices that appear at times
+in the unscented transform.
+Now, there are no free lunches.
+So a drawback with this is that our sigma points are always
+spread with the factor square root of n.
+So if our state is high dimensional, n here is large,
+and our sigma points will be placed far away from the mean.
+And this would also mean that our sigma
+points in x would be spread far out from the mean here.
+When these are then mapped, through our nonlinear mapping,
+they will be affected by non-linearities
+that are perhaps not so relevant for values
+of x, which has the largest probability mass in the middle
+here.
+So this is an disadvantage with the cubature rule method.
+Now, let's return to our polar measurement example
+to see how the cubature rule handles this.
+So we have a nonlinear mapping here
+and our Gaussian prior here.
+With the cubature rule, we select these four points in x.
+So these are our sigma points in x.
+If we map these through our mapping g of x,
+we get these sigma points here, here, here, here, and here.
+Now if we use these points to approximate the mean
+and covariance of p of y, in much the same way as we did
+in unscented transform we get the following results,
+where the mean is the yellow cross here,
+and the covariance is a yellow ellipsoid here.
+As with the unscented transform, if we
+compare with the approximation made by the Monte Carlo method,
+we see that the cubature rule produces a practically
+identical result. So for this example,
+I would argue that the cubature rule actually does
+a better job than the unscented transform,
+even though it has one point less.
+But this is not a general conclusion.
+As a comparison, we can look at how the extended Kalman
+filter would approximate the same moments.
+As you know, the EKF is based on linearization.
+So we'll linearize g of x around the mean of x.
+This means that we will get the following approximation of y.
+So g evaluated at 2, 2, which is the mean
+of x, plus the Jacobian matrix of g,
+evaluated at the mean, 2 2, times x minus the mean, 2 2.
+So this is the type of liberalization
+that the extended Kalman filter does.
+If we use this linear model to compute
+the mean and the covariance of y,
+which we can do analytically, we get the following
+mean and covariance, as illustrated by the yellow cross
+here and the yellow ellipsoid.
+As you can see, it's not really bad,
+but it's worse than the result that we got
+from the sigma-point methods.
+So this result here would support original intuition
+that the inventors of the unscented transform had.
+That it's easier to approximate the distribution
+than it is to approximate an arbitrary nonlinear mapping.
+So let's end with some concluding remarks regarding
+our two sigma-point methods.
+Now there are a lot of things that one
+can remark and point out about these methods,
+but here are at least some of the more important ones.
+To start with, the unscented transform
+that we presented here has a design parameter
+in the weight, w naught, which is
+the weight given to the sigma point representing the mean.
+If the prior is Gaussian, it's recommended that the weight
+is 1 minus n over 3.
+That means that when the dimensionality of the state
+is larger than 3, this will be negative here,
+which is actually not a problem in itself,
+but it can lead to that the approximation
+of the covariance of y can become negative definite.
+Now if this happens, we no longer
+have a proper covariance matrix.
+Now one can solve this by choosing another w naught, such
+that we don't have this negative weight,
+or by using the cubature rule instead, which
+does not have this problem.
+Now doing this is basically the same thing
+as setting w naught to 0.
+Another alternative that we will not
+discuss so much in this course is
+to use the square root implementation
+of the unscented transform that prevents you
+from ever getting negative eigenvalues
+or negative covariance matrices.
+Now there are square roots implementation variance
+of all our Gaussian filters.
+So square root Kalman filter, square root unscented
+Kalman filter, and so on.
+But we will not cover them in this course.
+We would however recommend that you check them out,
+as they are generally more numerically
+robust, and therefore more suited
+for production implementations.
+While the cubature rule has no tuning parameters,
+there are unscented transform variance with even more design
+parameters at the cost of being less intuitive, and even less
+guidance of how to select these tuning parameters.
+As a contrast, for the cubature rule,
+the consequence of the simplicity of no tuning
+parameters is that the spread of the sigma points
+will increase with the dimension of the state, n.
+Now this will position the sigma points further from the mean,
+as we see in this equation here, which is probably
+not an entirely good thing.
+Finally, we should mention that the unscented transform
+and the cubature rule computes the mean exactly
+for polynomials up to order 3, so if g of x
+is a polynomial of up to order 3.
+However, the covariance is only exact if g of x is of order 1.
+This is because when we compute a covariance,
+we basically take the expected value of g of x squared.

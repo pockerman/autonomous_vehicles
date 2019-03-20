@@ -1,0 +1,270 @@
+
+In the following couple of videos,
+we will cover a family of Gaussian filters called
+sigma point filters that are based on the moment matching
+principle.
+Now there are quite a few filters
+that are based on this idea.
+In principle, the only difference between them
+is the method that they use to compute the involved
+expectation integrals.
+The specific variants that we will cover in this course
+are the unscented Kalman filter and the cubature Kalman filter.
+Now in this video, we will look at how
+we can explain this family of filters using the moment
+matching principle.
+Now in this course, we mainly consider
+models of the following type--
+that is, both the motion model function and the measurement
+model function are possibly nonlinear functions,
+but the noise components are additive and Gaussian.
+Now, it's straightforward to generalize these methods
+that we are about to study to non-additive Gaussian noise,
+but we'll not cover that here.
+In many cases, we will also drop the time indices of f and h,
+but that's just for notational convenience.
+As mentioned in the previous video,
+the idea in Gaussian filtering is
+to perform filtering using the conventional prediction
+and update step of where we approximate the predicted
+and updated density as Gaussian densities, like this.
+This means that filtering boils down
+to finding these four moments.
+So we need to find the mean and covariance
+of the predicted density, and the mean and covariance
+of the updated density.
+So the problem that we are facing is,
+how can we choose these moments such
+that our Gaussian density approximates
+these non-Gaussian densities as good as possible?
+So let us consider how one can do that.
+Suppose for instance that we are given
+a non-Gaussian density, p of x.
+Now, p of x could, for instance, look something like this
+if x is scalar.
+Our task is to find x hat and p, such that p of x
+is approximately Gaussian with mean xhat
+and covariance P. One strategy is
+to select xhat and P to match the moments of p of x.
+We call this strategy the moment matching principle.
+So we ensure that xhat is the mean
+of p of x, and that capital P is the covariance of p of x, which
+can be expressed like this.
+So xhat is this integral here-- so an integral of x times
+p of x, dx.
+And capital P is this integral here,
+where we have x minus xhat times x minus xhat,
+transpose, times p of x, dx.
+Now note that we can view this covariance here
+as an expected value, where we take
+the expected value of this function here.
+So in order to do moment matching,
+we basically need to calculate these two expected
+values, which are expressed by these two integrals here.
+For the example that we looked at up here,
+the mean of the Gaussian would be in the middle
+here, so the bell-shaped Gaussian
+approximation would look roughly something like this.
+So this would be our Gaussian approximation of p of x.
+Now, if you think that the moment matching principle seems
+a bit arbitrary, there is a theoretical argument
+in favor of the principle.
+Namely, one can show that moment matching minimizes
+the Kullback-Leibler divergence.
+Now if you're not familiar with the Kullback-Leibler
+divergence, you don't need to learn it for this course.
+In this case, it's something that
+tells us how similar p of x is to our Gaussian approximation.
+So a small Kullback-Leibler divergence
+means that the approximation is good,
+and a large Kullback-Leibler divergence means that this is
+not such a good approximation.
+Now among all the moments, xhat and p,
+these are the choices that give the smallest
+Kullback-Leibler divergence.
+Let us see how we can make use of the moment matching
+principle to perform the prediction in the prediction
+step.
+We assume that we are given the updated posterior distribution
+at time k minus 1, and in the Gaussian filter case,
+we assume that this is a Gaussian.
+Further, as we pointed out before,
+we assume that the motion model is
+a nonlinear function of the state plus some Gaussian noise.
+To compute the Gaussian approximation
+to the predicted density, we simply
+compute the first two moments of the random variable,
+xk, given y1, to k minus 1.
+So these are the mean, xhat k, given k minus 1,
+which is the expected value of this.
+To calculate this expected value,
+we need to solve the integral of f xk minus 1 times
+our Gaussian prior, d xk minus 1.
+And that is because qk minus 1 is
+0 mean, so it does not contribute
+to this expected value here.
+Similarly, to compute the covariance
+of the predicted distribution, we
+take the covariance of xk given y1 to k minus 1.
+Now we can separate this into the covariance of qk minus 1,
+plus the covariance of f of xk minus 1.
+So the covariance of qk minus 1 is just capital Qk minus 1,
+and the covariance of f of xk minus 1
+is this integral here, where we take
+the integral of f of xk minus 1, minus the predicted mean,
+times the same thing again, transposed, times this Gaussian
+density again.
+And we integrate over xk minus 1.
+So by doing this, we can perform the prediction step.
+The connection to the moment matching principle
+is that we have a density, p of xk given y1,
+to k minus 1, which we approximate as a Gaussian
+distribution with the same mean and the same covariance
+as our possibly non-Gaussian predicted density.
+So this is approximately Gaussian,
+with mean xhat k given k minus 1,
+and covariance Pk given k minus 1, where these moments are
+selected such that they match the mean and the covariance
+of the possibly non-Gaussian predicted density, which
+we obtained using these equations here.
+Another thing that I would like you to notice
+is that both these integrals have a similar form,
+and that is that we have a function times a Gaussian
+that we take the integral of.
+And here, we have a function times a Gaussian
+that we take the integral of.
+As we will see later, all the integrals we need to solve
+can be written on this form.
+Now this will come in handy when we
+want to find good approximations of these integrals.
+To perform the update step using moment matching,
+is just a bit more complicated.
+We are now given a Gaussian approximation
+to the predicted density, and we have a measurement model
+with a nonlinear function of our state,
+plus some additive Gaussian noise.
+The ideal solution, according to the moment matching principle,
+is a set xhat k, given k, and pk given k,
+to the first two moments of the posterior density--
+so density of xk given measurements up to time k.
+Unfortunately, it turns out that it's
+difficult to compute the first two
+moments of this distribution in an efficient manner.
+Now that doesn't mean that there are no methods that do that,
+but it's just that they are less efficient.
+An alternative strategy is to perform moment matching
+on the joint distribution of xk and yk.
+Now it turns out that this is much easier.
+So we approximate xk and yk given
+all the previous measurements as a Gaussian
+using moment matching.
+Once we obtain a Gaussian approximation of this,
+we can find the desired density analytically
+and nicely using the lemma on conditional Gaussian
+distributions that we have looked
+at previously in this course.
+So the idea is to approximate the joint distribution
+of xk and yk as Gaussian.
+Now the difficult part is to find the mean
+and the covariances here.
+Fortunately, we already know the expected value of xk given y1,
+to k minus 1, and that is xhat k, given k minus 1.
+And its covariance is Pk, k minus 1,
+since these are given by the prediction step.
+So at least we know these two components here.
+Now to find the mean covariance of yk, given y1, to k minus 1,
+we make use of the measurement models
+that tells us that yk is equal to h of xk plus rk.
+This means that the expected value of yk,
+given y1, to k minus 1, is the expected value of rk
+plus the expected value of h of xk.
+But since rk is 0 mean, the expected value
+is simply the expected value of h of xk, which
+is given by this integral here.
+So we take the integral of h of xk times
+this Gaussian predicted density here,
+and then we integrate over xk.
+To compute the covariance of yk, which
+is the covariance of these two terms,
+we can use that these two are independent.
+This means that this covariance here
+will decompose into two terms.
+First, the covariance of rk, which is capital Rk, and then
+the covariance of h of xk, which is this covariance here.
+So the covariance of yk, given y1, to k minus 1,
+decomposes into one component corresponding
+to the measurement noise-- so Rk--
+and one component corresponding to the uncertainty in xk, which
+is given by this integral here.
+So we now know the mean of y and the covariance of y,
+so the only thing that remains is to compute cross-covariances
+here.
+Before we do that, we should note that P of yx
+is just P of xy transposed.
+So it's enough that we compute one of them,
+and then we're done.
+By definition, the cross-covariance, Pxy,
+is the expected value of xk minus the predicted mean,
+times yk minus the predicted measurement, transposed.
+From the measurement model, we can
+see that yk is h of xk plus rk, where rk is
+0 mean, and independent of xk.
+This means that the term rk will not contribute to covariance,
+so we can simply replace yk with h of xk.
+By doing so, the expected value can
+be expressed like this integral here,
+where we take the integral over this product
+where we have replaced yk with h of xk,
+times the predicted density of xk,
+and then we integrate over xk.
+Finally, I would like you to note again
+that all the integrals that we need to solve here
+have the same form as the previous integrals.
+Namely, it's a nonlinear function times a Gaussian,
+and it's a nonlinear function times a Gaussian,
+and a nonlinear function times a Gaussian.
+So that's the only type of integral
+that we need to learn how to solve.
+Once we managed to do that, we can compute all the moments
+here, and then we're almost done.
+The only thing left is how to put it all together
+to express the updated density.
+Suppose that we have managed to compute the first two
+moments of the joint distribution of xk and yk.
+In that case, we know from the lemma on conditional Gaussian
+densities that the conditional density, P of xk,
+given yk, and y1, to k minus 1--
+now, this here is just y1, to k--
+has the expected value, xhat k given
+k minus 1, which is equal to the predicted mean,
+plus the cross-covariance between x and y,
+times the covariance of y inverse,
+times yk minus the predicted measurement.
+Expressed in the terms of the conventional Kalman filter
+equations, we can note that this part here
+is the same as the Kalman gain, and this part here
+is just innovation.
+So this is just the standard form
+of the Kalman filter update equation for the estimate.
+We also know from the same lemma that the posterior covariance,
+Pk given k, is equal to the predicted covariance,
+minus the cross-covariance, times Sk inverse,
+times the cross-covariance transpose.
+Now if we make use of this relation again,
+we can also write the whole thing here
+as Kalman gain times Sk, times the Kalman gain
+transposed, which might be a form that you
+recognize a bit better.
+As we can see here, update equations
+look pretty much like the update equations
+in a conventional Kalman filter.
+However, there is an important difference,
+and that is that all the components here--
+so yhat k given k minus 1, Sk, and Pxy--
+all need to be approximated.
+In order to find these components,
+we need to solve integrals on the following form.
+So the integral of some nonlinear
+function of x times the Gaussian density of x, dx.
+And we will therefore dedicate the next video
+on techniques of how to solve these integrals.
