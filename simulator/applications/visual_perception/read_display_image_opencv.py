@@ -1,5 +1,4 @@
 """
-In this application tutorial, we will be using OpenCV to read and display an image.
 Read and display an image using OpenCV
 """
 import cv2
