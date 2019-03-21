@@ -25,16 +25,26 @@
 - **Item:** The Camera Calibration
 - **Item:** Visual Depth Perception 
 - **Item:** Image Filtering
+- **Item:** Image Features and Feature Detectors
+- **Item:** Image Feature Descriptors
+- **Item:** Image Feature Matching
+- **Item:** Image Feature Matching-Handle Ambiguity in Matching
+- **Item:** Outlier Rejection RANSAC Algorithm
+- **Item:** Visual Odometry
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Noise and Aliasing</a>
 - **Item:** <a href="autonomous_vehicles_notes/environment_representation_notes/notes.pdf">Environment Representation</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Calibration</a>
 
 #### Applications
 
+- **Item:** Using PCL
 - **Item:** <a href="simulator/applications/visual_perception/read_display_image_opencv.py">Read and Display Image With OpenCV</a>
 - **Item:** <a href="simulator/applications/visual_perception/video_capture.py">Managing Videos with OpenCV</a>
 - **Item:** Lane Detection
 - **Item:** Apply Stereo Depth to a Driving Scenario
+- **Item:** Visual Odometry for Localization in Autonomous Driving
+- **Item:** Camera Control with Raspberry Pi
+- **Item:** Ultrasonic Sensor Control with Arduino
 
 ### Part: Environment Mapping
 -----
@@ -61,6 +71,7 @@
 - **Item:** <a href="simulator/applications/pi_cruise_controller.py">PI Cruise Controller</a>
 - **Item:** <a href="simulator/application_notebooks/longitudinal_vehicle_model.ipynb">Longitudinal Control</a>
 - **Item:** <a href="simulator/application_notebooks/kinematic_bicycle_model.ipynb">Kinematic Bicycle Model Control</a>
+- **Item:** PID Motor Control in Raspberry Pi
 
 
 ### Part: State Estimation
