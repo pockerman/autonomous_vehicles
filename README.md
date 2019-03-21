@@ -110,11 +110,11 @@
 
 ## Material
 
-<a href="useful_posts.md">Useful Posts</a>
-<a href="useful_videos.md">Useful Videos</a>
-<a href="courses.md">Courses</a>
-<a href="links.md">Links</a>
-<a href="notebooks_and_projects.md">Useful Notebooks & Projects</a>
+- <a href="useful_posts.md">Useful Posts</a>
+- <a href="useful_videos.md">Useful Videos</a>
+- <a href="courses.md">Courses</a>
+- <a href="links.md">Links</a>
+- <a href="notebooks_and_projects.md">Useful Notebooks & Projects</a>
 
 
 ## Contact
