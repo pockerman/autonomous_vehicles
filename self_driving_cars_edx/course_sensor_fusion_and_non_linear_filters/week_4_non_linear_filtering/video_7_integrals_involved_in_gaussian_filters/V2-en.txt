@@ -1,0 +1,287 @@
+
+In the previous video, we concluded
+that we need to solve five integrals of very similar types
+in order to perform Gaussian filtering.
+In this video, we will look at these integrals
+in a bit more detail and give a high level
+explanation of common methods to approximate these integrals.
+We will use this as an introduction to the filtering
+methods that we will present in the next couple of videos.
+These filters make use of the so-called sigma point methods
+to perform Gaussian filtering.
+So in the previous video, we concluded
+that in order to derive Gaussian filters using the moment
+matching principle, we need to solve integrals on this form.
+If we start by considering the prediction step
+we need to approximate these two integrals in order
+to calculate the predicted mean and the predicted covariance.
+As you can see, they both have the same basic form,
+where we have a nonlinear function times a Gaussian
+density that we take the integral of.
+Now in this first integral, we have
+f of xk minus 1, which is our nonlinear function.
+And in this integral here, we have f of xk minus 1
+minus our predicted mean, times the same thing
+transposed, which is our nonlinear
+function in this case.
+Please note that both these integrals here
+are expected values, and we can view, for instance,
+this integral here as the expected value
+of g of x, where x is distributed according
+to this Gaussian distribution.
+With this in mind, it might be a bit easier
+to understand the implications of the integrals here.
+So we have an expected value here,
+and then we have the covariance here
+which can be expressed in terms of the expected value
+of this function here.
+Once we have computed or approximated these integrals,
+we approximate the predicted density using moment matching
+as a Gaussian with the mean and covariance
+that we get from these expressions here.
+Similarly in the update step, we have these three integrals here
+that are also on the same form.
+All of these take a nonlinear function times a Gaussian,
+a nonlinear function times a Gaussian,
+and a nonlinear function times a Gaussian
+just as we did in the prediction step.
+In this case, the integral calculates
+the predicted measurement-- the cross-covariance
+between the state in our measurement
+and the covariance of our measurement,
+or the covariance of our innovation, which is the same.
+Once we have solved or approximated these components,
+we can approximate our posterior as Gaussian
+with this mean and this covariance
+that we get from using the ordinary Kalman
+filter update equations.
+To give a concrete example of what these integrals could
+represent, we can consider a sensor
+that measures the distance and angle to an object.
+If the sensor is located at the origin here,
+then the distance to the object is simply
+the square root of x1 squared plus x2 squared,
+and the angle to the object is just arctan x2 over x1.
+So for our sensor, we have this measurement model here.
+To make things a bit simpler, we assume
+that we have no measurement noise, which is perhaps
+a bit unrealistic, but it's just for illustration purposes.
+If we assume that the object that we are measuring
+is Gaussian distributed with mean 2, 2--
+which is here-- and this covariance,
+then a contour plot of this Gaussian density
+could look something like this.
+Now let us consider what happens to the distribution
+of the measurements if x is distributed like this.
+When x is close to its mean, the angle here, theta,
+would be roughly pi over 4.
+So we take the angle like this.
+And the distance, t, is fairly close.
+Now if x is out here, we have an angle which is larger,
+and the distance grows compared to what we had before.
+However, if x is here somewhere, the angle is fairly small--
+close to zero-- but the distance grows again.
+So by following this argument, we can understand that p of y,
+the distribution of the measurement,
+has this type of banana shape density, which is clearly not
+your typical Gaussian shape.
+Now computing and describing p y analytically
+is rather complicated.
+So in order to compute the expected value of y,
+we instead make use of the distribution
+of x and the mapping h of x.
+So we write the expected value of y as this integral
+here, where we have h of x times the Gaussian density of x
+with parameters xhat and P, dx.
+Now the question is how can we solve this type of integral?
+Surely, you're aware of the fact that there are many techniques
+to approximate integrals.
+In this case, however, the integrals
+represent expected values, and for expected values,
+there are special techniques that we can use.
+A very general and useful technique
+is the Monte Carlo method.
+The idea is simply to generate independent and identically
+distributed samples, x1 to xN from p of x,
+and make use of the fact that the expected values
+can be approximated by sampling averages in this case.
+So the expected value of g of x, where
+x is distributed according to p of x,
+is approximate 1 over N with a sum of g of xi.
+So we evaluate g at all the sample points.
+The reason why this is approximately the same
+as the expected value is because this is the sample average,
+and according to the law of large numbers,
+this is asymptotically exact as you increase the sample size,
+N. The Monte Carlo method is, in fact,
+very simple to use to perform Gaussian filtering,
+and as I said, it's asymptotically exact.
+But despite all this, it's still seldom used in practice,
+and one reason for that might be that you
+need to use quite large sample sets in order
+to get a good approximation.
+As an example of how the Monte Carlo method works,
+we can look at the example from the previous slide, where
+we have polar measurements.
+What we've done here is that we generate samples
+from the Gaussian random variable x,
+and then map these to our nonlinear function,
+h of x, to get the corresponding distances and angles,
+which means that we obtained samples from y.
+As expected, you can see that the samples of y
+follow this banana shape density that we
+saw in the previous line.
+Now given these samples, it's simple to compute
+the sample average, which in this case
+is the red cross here.
+
+And if our sample size is sufficiently large,
+this will be a very good approximation
+of the expected value of y.
+The covariance of y can be approximated
+in a similar manner by setting g of x
+equal to h of x, minus yhat times itself transpose,
+where yhat is the mean of y that we calculated here.
+So that is the Monte Carlo method.
+Now let's look at another set of methods
+that feels a bit similar, but have much less
+computational complexity, but also gives
+less accurate results.
+Nonetheless, these methods are far more
+used to do Gaussian filtering than the Monte Carlo method,
+and these are the sigma point methods.
+All of the so-called sigma point methods
+that we will be studying in the next couple of videos
+makes use of something called stochastic decoupling.
+It turns out that it's easy to design integration methods when
+the elements in the random vector are independent.
+By using stochastic decoupling, we
+can express an integral of a general Gaussian
+random variable in terms of an integral
+with respect to a Gaussian random variable, which
+is 0 mean, and has the identity matrix as a covariance matrix.
+The argumentation goes like follows.
+Suppose the square root of P is a matrix
+such that the square root of P times
+itself transposed is P. One way to find a square root
+is to use the so-called Cholesky decomposition which
+we get in MATLAB if we simply write Chol P, and add lower.
+This will give us a lower triangular matrix
+which has all zeros on the upper triangle,
+and then only values on the diagonal
+and on the lower triangle, like this.
+Now we should perhaps note that the square root of a matrix
+is not unique.
+There are many different solutions for which this holds,
+and depending on which you use, you
+will get slightly different results.
+So keep this in mind later when you
+use these methods in your own filter implementations.
+Suppose now that we have a random vector, xi,
+which is Gaussian with 0 mean, and the identity
+matrix as a covariance matrix.
+As a minor remark, I would like to point out
+that we will later learn how to compute integrals with respect
+to this type of densities.
+If we then define a new random vector, x,
+which is equal to xhat plus the square root of P,
+times xi, then it's easy to see that the expected value of x is
+just xhat since xi is 0 mean.
+And the covariance of x is square root of P times I,
+times the square root of P, transposed.
+And this is just P.
+So x here is a Gaussian random variable
+with mean xhat and covariance P. And by writing it like this,
+we can describe any Gaussian random variable
+in terms of this simple Gaussian random variable, xi
+that has 0 mean and the identity matrix as a covariance matrix.
+In terms of our integrals used to compute our expected values,
+this means if we're interested in taking
+in the expected value of g of x, which is distributed according
+to this Gaussian distribution, we can instead
+take the expected value of g of this variable
+here, where the expectation is taking over xi instead,
+which is 0 mean and has the identity matrix as covariance.
+The only thing that we have done here
+is that we have performed a change of variable
+in the integrations.
+We change from x to xi using this relationship here.
+The conclusion from all this is that it's
+sufficient to be able to compute integrals on this form.
+So we have the integral of a general function, g of xi,
+which in the example here would be all of this.
+So we call this g of xi.
+So we take the integral of this type of function
+times this density, which is 0 mean and has the identity
+matrix as a covariance.
+And if we can solve this, then we can do Gaussian filtering.
+And I would argue that this is easier to solve
+than of these integrals, where we have
+general Gaussian distributions.
+Now I can understand if, at the moment,
+these results may look rather dry and boring,
+but we will soon show techniques to compute these integrals,
+and thanks to the results presented here,
+we will be ready to make use of them to perform filtering.
+So now finally to the sigma point methods.
+So apart from the Monte Carlo methods,
+all integration methods covered here
+can be viewed as sigma point methods.
+The idea is to approximate the expected value
+of g of x as a weighted sum of g evaluated
+at a set of sigma points, Xi, and weighted
+by its own weight, Wi.
+But at first glance, this might seem very similar to the Monte
+Carlo approximation.
+A key difference is the sigma points here
+are selected deterministically, and normally, there
+are not so many of them.
+For instance, if we return to the previous example
+with the sensor measuring the angle,
+and the distance to an object, and this banana shaped density.
+If we try to compute the expected value of y using
+a sigma point method called an unscented transform,
+we would only select five sigma points which would result
+in five different values of g of x-- here,
+marked with the yellow x:es.
+If we then use these values of g of Xi and the weighting factors
+to compute the expected value, we
+get this approximation here which is not too far off
+from the true value.
+Now there is not just one sigma point method,
+but there are many sigma point methods, each
+with its own peculiar name.
+So we have the unscented transform,
+the cubature rule, Gauss-Hermite quadrature, Gaussian Process
+quadrature, marginalized transform, and so on.
+Now all of these have also been used in Gaussian filtering,
+and there are filters with equally peculiar names,
+as they are named after corresponding integration
+methods.
+So we have the unscented Kalman filter, the cubature Kalman
+filter, the Gauss-Hermite Kalman filter, Gaussian Process Kalman
+filter, marginalized Kalman filter,
+and there are several more.
+So it's quite simple--
+you invent a new integration rule,
+and you have a new filter.
+It also means that you can learn and understand
+several of these filters at the same time.
+In the next videos, we will present two integration rules,
+and explain how these can be used for Gaussian filtering.
+The integration rules are the unscented transform,
+which is perhaps the most commonly used sigma point
+method, perhaps because it was the first one to be promoted.
+Now there are variants of the unscented transform that
+has several tuning parameters, which
+allow us to try to tailor its behavior
+to our specific problem, but it also makes it harder
+for us to work with it.
+The second integration rule is called the cubature rule, which
+is more recent than the unscented transform
+and is very similar, but even simpler.
+Compared to the unscented transform,
+it uses one less point and it has no tuning parameters,
+which in turn makes it simple and quite robust.
+So in the next couple of videos, we
+will explain how we can use these to do Gaussian filtering.

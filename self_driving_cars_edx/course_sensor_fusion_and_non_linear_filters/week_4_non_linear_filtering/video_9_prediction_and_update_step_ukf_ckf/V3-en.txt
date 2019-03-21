@@ -1,0 +1,134 @@
+
+It is finally time for us to put these things together.
+First, we had one idea.
+Namely, to perform filtering by doing moment matching.
+After that, we developed tools to compute
+these moments, namely, the unscented transform
+and a cubature rule.
+Let us now try to use these tools to perform the prediction
+and update step in a Gaussian filter,
+and derive the unscented Kalman filter, and the cubature Kalman
+filter.
+Here is a description of how to perform Gaussian prediction
+by moment matching.
+We assume that the posterior from time k minus 1
+is a Gaussian density with this mean and this covariance,
+and that the motion model can be described like this.
+So we have a nonlinear function here of our previous state,
+plus some Gaussian noise.
+The goal in the prediction step is
+to compute a predicted mean, x hat k, given k minus 1,
+and the predicted covariance, pk given
+k minus 1 that describe this Gaussian predicted density.
+In order to compute the predicted mean,
+we take the expected value of xk given y1 to k minus 1.
+But this is the same as taking the expected value of f
+of xk minus 1 as qk minus 1 is 0 mean.
+We then have the expected value of f of xk minus 1,
+which we can write like this--
+as xk minus 1 is distributed according
+to this Gaussian density.
+Now this is precisely the type of integral
+that we can approximate using our sigma point methods.
+Similarly, we need to compute the predicted covariance, pk
+given k minus 1.
+Now this is the covariance of xk given data y1 to k minus 1,
+and we can decompose this into two terms.
+One term that comes from the noise term, qk minus 1,
+which has the covariance, qk minus 1,
+and then one term relating our uncertainty in f of xk minus 1.
+Now the covariance of f of xk minus 1
+is another expected value, which we can write like this.
+So we have the integral of f of xk minus 1,
+minus the predicted mean, and the same thing again transpose,
+times this Gaussian density again of xk minus 1.
+And this is again exactly the type of expected values
+that we learned to solve using our sigma point methods.
+The objective in the next couple of slides
+is to show how the unscented transform and the cubature rule
+can approximate these moments.
+To perform prediction in the unscented Kalman filter,
+we select 2n plus 1 sigma points that matches
+the density of xk minus 1.
+We form these by picking one in the mean,
+and then two endpoints symmetrically around the mean.
+Our design parameter is the weight
+of the sigma point in the mean, w0.
+And for Gaussian priors that we have here,
+it's recommended that would select w0 to 1
+minus n, divided by 3.
+In which case, these factors here
+would be just the square root of 3,
+and our weight for all other points will be 1 over 6.
+In order to compute the predicted mean,
+we simply plug in the sigma points in f,
+and then evaluate the weighted sum.
+Similarly, to compute the predicted covariance,
+we plug in the sigma points in this expression,
+and compute the weighted sum of that, and add the uncertainty
+that comes from our process noise,
+and then we have our predicted covariance.
+In order to perform prediction using the cubature rule,
+we just do some slight adjustments
+to the set of sigma points and set of weights.
+So we have these sigma points instead, and these weights.
+So we basically only remove the sigma point in the mean,
+and adjusted the position of the sigma points a bit.
+To approximate the mean, we again
+evaluate our sigma points in f, and then
+compute this weighted sum.
+And similarly for the predicted covariance,
+we plug in the sigma points here,
+and evaluate this weighted sum, add our uncertainty
+from the noise covariance, and then we
+have our predicted covariance.
+Simple enough, right?
+So that was the prediction step.
+Now let's look at the update step of these filters.
+The basic strategy is to perform the update
+by matching the moments of the joint distribution of xk
+and yk, and then obtain the posterior moments of xk using
+the lemma on conditional Gaussian distributions
+that we mentioned previously.
+Now here we assume that the predicted density is Gaussian,
+with this mean, and with this covariance,
+and that we have a nonlinear measurement model
+with additive Gaussian noise.
+Now the posterior moments are given by these equations here,
+but the key difficulty in this context
+is to approximate the cross-covariance, pxy,
+the predicted measurement, y hat k, given k minus 1,
+and the predicted measurement covariance, sk.
+As you can see from these equations, what
+is left to compute are these expected values here,
+which are expected values over the random variable xk, where
+xk is Gaussian distributed with this mean and this covariance.
+As we mentioned before, this is precisely
+the type of expectations that the sigma point methods
+are designed to compute.
+And the objective in the next couple of slides
+is to show how we can make use of the unscented transform
+and the cubature rule in order to compute these three moments.
+So in the update step of the unscented Kalman filter,
+we basically repeat what we did in the prediction step,
+but this time, we select two n plus 1 sigma
+points that represents the predicted density--
+xk given y1, to k minus 1.
+So this density which we approximated in the prediction
+step to be Gaussian with mean x hat k, given k minus 1,
+and covariance pk given k minus 1.
+So if we use these moments, we can then plug them in here,
+and that way generate our new sigma points,
+describing xk in this case.
+To compute the desired moment, we simply
+plug in our sigma points here in these expressions,
+and compute these weighted averages, and that's all.
+The update step in the cubature Kalman filter, of course,
+works the same way.
+We select the set of sigma points
+that match the predicted density that we just computed
+in the prediction step.
+We then compute the expected values
+by plugging our sigma points into these expressions,
+and then calculating the weighted averages.
+And that's it.
