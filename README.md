@@ -87,7 +87,14 @@
 -----
 
 - **Item:** Deep Learning for Autonomous Vehicles
+- **Item:** Feed Forward Neural Networks
+- **Item:** Output Layers and Loss Functions
+- **Item:** Neural Netwrok Training with Gradient Descent
 - **Item:** Deep Reinforcement Learning for Autonomous Vehicles
+
+#### Applications
+
+- **Item:** <a href="simulator/application_notebooks/deep_learning/environment_perception_for_self_driving_cars.ipynb">Environment Perception for Self-Driving Cars</a>
 
 ### Part: Software Architecture & Safety
 -----
@@ -101,44 +108,14 @@
 - **Item:** <a href="autonomous_vehicles_notes/appendices/notes.pdf">Coordinate Transformations</a>
 - **Item:** <a href="autonomous_vehicles_notes/appendices/notes.pdf">Reference Frames</a>
 
-## Useful Posts
+## Material
 
-- **A practical approach to Kalman filter and how to implement it:** http://blog.tkjelectronics.dk/2012/09/a-practical-approach-to-kalman-filter-and-how-to-implement-it/
-- **How to ensure the safety of Self-Driving Cars: Part 1/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-1-5-2fcc891ea90b
-- **How to ensure the safety of Self-Driving Cars: Part 2/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-2-5-b4eafb067534
-- **How to ensure the safety of Self-Driving Cars: Part 3/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-3-5-73157e8de29c
-- **How to ensure the safety of Self-Driving Cars: Part 4/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-4-5-66ce9f24fce5
-- **How to ensure the safety of Self-Driving Cars: Part 5/5:** https://medium.com/@olley_io/how-to-ensure-the-safety-of-self-driving-cars-part-5-5-1ec043d67e4f
-- **Making Sense of Sensing in Self Driving Cars Understanding key fundamentals of Unscented Kalman Filters:** https://medium.com/kredo-ai-engineering/making-sense-of-sensing-in-self-driving-cars-3d469c6e5e33
-- **Creating autonomous vehicle systems:** https://www.oreilly.com/ideas/creating-autonomous-vehicle-systems
-- **Model Based Systems Engineering for Autonomous Vehicles:** http://intercax.com/2018/01/11/model-based-systems-engineering-autonomous-vehicles-part-1/
-- **How Tesla and Waymo are tackling a major problem for self-driving cars: data:**  https://www.theverge.com/transportation/2018/4/19/17204044/tesla-waymo-self-driving-car-data-simulation
+<a href="useful_posts.md">Useful Posts</a>
+<a href="useful_videos.md">Useful Videos</a>
+<a href="courses.md">Courses</a>
+<a href="links.md">Links</a>
+<a href="notebooks_and_projects.md">Useful Notebooks & Projects</a>
 
-## Useful Videos
-
-- **The Kalman Filter:** https://www.youtube.com/watch?v=CaCcOwJPytQ&feature=youtu.be
-- **SLAM Course:** https://www.youtube.com/watch?v=U6vr3iNrwRA&list=PLgnQpQtFTOGQrZ4O5QzbIHgl3b1JHimN_
-
-## Courses
-
-- **Self-Driving Cars Specilization:** https://www.coursera.org/specializations/self-driving-cars
-- **Emerging Automotive Technologies:** https://courses.edx.org/dashboard/programs/a9cbdeb6-5fc0-44ef-97f7-9ed605a149db/
-- **Self-Driving Car Engineer Nanodegree:** https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013
-- **Flying Car and Autonomous Flight Engineer Nanodegree:** https://www.udacity.com/course/flying-car-nanodegree--nd787
-- **Robotics Software Engineer:** https://www.udacity.com/course/robotics-software-engineer--nd209
-
-## Links
-
-- **Taxonomy of Driving:** https://www.sae.org/standards/content/j3016_201806/?PC=DL2BUY
-- **SAE J3016 Taxonomy and Definitions Document:** https://drive.google.com/open?id=1xtOqFVJvOElXjXqf4RAwXZkI_EwbxFMg
-
-## Useful Notebooks & Projects
-
-- **Project Chrono:** https://projectchrono.org/
-- **Apollo Project:**  http://apollo.auto/index.html
-- **Point Cloud Library:** http://pointclouds.org/
-- **Kalman and Bayesian Filters in Python:** https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
-- **Awesome Autonomous Vehicles:** https://github.com/takeitallsource/awesome-autonomous-vehicles
 
 ## Contact
 
