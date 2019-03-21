@@ -32,7 +32,7 @@
 #### Applications
 
 - **Item:** <a href="simulator/applications/visual_perception/read_display_image_opencv.py">Read and Display Image With OpenCV</a>
-- **Item:** Managing Videos with OpenCV
+- **Item:** <a href="simulator/applications/visual_perception/video_capture.py">Managing Videos with OpenCV</a>
 - **Item:** Lane Detection
 - **Item:** Apply Stereo Depth to a Driving Scenario
 

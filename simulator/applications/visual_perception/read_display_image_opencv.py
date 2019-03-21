@@ -3,21 +3,28 @@ Read and display an image using OpenCV
 """
 import cv2
 
-# load the image but in greyscale
-img = cv2.imread('../applications_data/visual_perception/images/messi5.jpg')
+def open_and_save(imgfile, imgoutfile):
 
-# the image is displayed in a window using
-cv2.imshow('image', img)
+	# load the image but in greyscale
+	img = cv2.imread(imgfile)
+	
+	k = cv.waitKey(0) & 0xFF
+	
+	if k==27: # wait for ESC key to exit
+        cv.destroyAllWindows()
+    elif k == ord('s'): # wait for 's' key to save and exit
+        cv.imwrite(imgoutfile, img)
+        cv.destroyAllWindows()
 
-# need to wait otherwise we cannot see the image
-# we wait indefinitely
-cv2.waitKey(0)
+	# the image is displayed in a window using
+	#cv2.imshow('image', img)
 
-# destroy all the windows
-cv2.destroyAllWindows()
+	# need to wait otherwise we cannot see the image
+	# we wait indefinitely
+	#cv2.waitKey(0)
 
-# if we want to destroy a specific window we can
-# cv2.destroyWindow()
 
-# saving an image is done via cv2.imwrite()
-cv2.imwrite('..../applications_data/visual_perception/images/messigray.png', img)
+if __name__ == '__main__':
+    imgfile = '../applications_data/visual_perception/images/messi5.jpg'
+    imgoutfile ='../applications_data/visual_perception/images/messigray.png'
+    open_and_save(imgfile=imgfile, imgoutfile=imgoutfile)
