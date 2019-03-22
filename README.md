@@ -101,6 +101,9 @@
 - **Item:** Feed Forward Neural Networks
 - **Item:** Output Layers and Loss Functions
 - **Item:** Neural Netwrok Training with Gradient Descent
+- **Item:** Data Splits and Neural Network Performance Evaluation
+- **Item:** Neural Network Regularization
+- **Item:** Colvolutional Neural Networks
 - **Item:** Deep Reinforcement Learning for Autonomous Vehicles
 
 #### Applications
@@ -112,6 +115,8 @@
 
 - **Item:** <a href="autonomous_vehicles_notes/software_architecture_notes/notes.pdf">Software Architecture for Autonomous Driving Stack</a>
 - **Item:** <a href="autonomous_vehicles_notes/safety_notes/notes.pdf">Safety Assurance for Autonomous Vehicles</a>
+- **Item:** Introduction to AUTOSAR
+- **Item:** Testing Autonomous Vehicles
 
 ### Part: Appendices
 -----

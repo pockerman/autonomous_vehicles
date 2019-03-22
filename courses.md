@@ -5,3 +5,4 @@
 - **Self-Driving Car Engineer Nanodegree:** https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013
 - **Flying Car and Autonomous Flight Engineer Nanodegree:** https://www.udacity.com/course/flying-car-nanodegree--nd787
 - **Robotics Software Engineer:** https://www.udacity.com/course/robotics-software-engineer--nd209
+- **Strucutring Machine Learning Projects:** https://www.coursera.org/learn/machine-learning-projects
