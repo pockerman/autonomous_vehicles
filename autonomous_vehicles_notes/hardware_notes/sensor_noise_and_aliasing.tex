@@ -1,8 +1,149 @@
 \section{Sensor Noise and Aliasing}
 \label{sensor_noise_aliasing}
 
-The previous sections describe various commonly used types of sensors. However, the truth is that all sensors
+The previous sections described various  types of sensors commonly used in robotics and autonomous vehicles in particular. However, the truth is that all sensors
 are subject to noise and aliasing that is  the nonuniqueness of sensor readings. Let's briefly discuss these two
-issues
+issues.
+
+\subsection{Sensor Noise}
+\label{sensor_noise}
+As it is understandable, sensors provide are the fundamental input for the process of perception. Thus, the degree to which sensors can discriminate
+the world state is essential. Sensor noise indices a limitation on the consistency of sensor readings in the same environmental
+state and thus on the number of useful bits available from each sensor reading. Often, the source of sensor noise problems is that
+some environmental features are not captured by the robot's representaion and hence overlloked \cite{Siegwart2011}.
+
+\begin{framed}
+\begin{exmp}
+
+For example, a vision system used for indoor navigation in an office building may use
+the color values detected by its color CCD camera. When the sun is hidden by clouds, the 
+illusmination of the building's interior changes because of the windows throughtout the building. This results
+in the hue values not being constant. The color CCD appears noisy from the robot's prespective as if subject
+to random error. The hue values obtained from the CCD camera will be unusable unless the robot is able
+to note the position of the sun and the clouds in its representation.
+\end{exmp}
+\end{framed}
 
 
+\begin{framed}
+\begin{remark}{\textbf{More Noise}}
+
+
+Illumination dependence is only one example of the apparent noise in a vision-based
+sensor system. Picture jitter, signal gain, blooming, and blurring are all additional sources
+of noise, potentially reducing the useful content of a color video image.
+
+\end{remark}
+\end{framed}
+
+\begin{framed}
+\begin{exmp}
+
+Consider the noise level (i.e., apparent random error) of ultrasonic range-measuring sensors (e.g., sonars). 
+When a sonar transducer emits sound
+toward a relatively smooth and angled surface, much of the signal will coherently reflect
+away, failing to generate a return echo. Depending on the material characteristics, a small
+amount of energy may return nonetheless. When this level is close to the gain threshold of
+the sonar sensor, then the sonar will, at times, succeed and, at other times, fail to detect the
+object. From the robot’s perspective, a virtually unchanged environmental state will result
+in two different possible sonar readings: one short and one long. The poor signal-to-noise ratio of a sonar sensor 
+is further confounded by interference between multiple sonar emitters \cite{Siegwart2011}. 
+Often, research robots have between twelve and forty-eight sonars on a single platform. In acoustically reflective environments, multipath 
+interference is possible between the sonar emissions of one transducer and the echo detection
+circuitry of another transducer. The result can be dramatically large errors (i.e., underestimation) 
+in ranging values due to a set of coincidental angles. Such errors occur rarely, less
+than 1\% of the time, and are virtually random from the robot’s perspective.
+
+\end{exmp}
+\end{framed}
+
+Hopefully, the two examples mentioned above, have convinced you that sensor noise reduces the useful information content of sensor readings.
+The solution is to take multiple readings into account, employing temporal fusion
+or multisensor fusion to increase the overall information content of the robot’s inputs.
+
+\subsection{ Sensor Aliasing}
+\label{sensor_aliasing}
+
+A second shortcoming of mobile robot sensors causes them to yield little information content, 
+further exacerbating the problem of perception and, thus, localization. 
+
+
+\begin{framed}
+\begin{remark}{\textbf{sensor aliasing}}
+
+The problem, known as \textbf{sensor aliasing}, is a phenomenon that humans rarely encounter. 
+The human sensory system, particularly the visual system, tends to receive unique inputs in each unique
+local state. In other words, every different place looks different. The power of this unique
+mapping is only apparent when one considers situations where this fails to hold. Consider
+moving through an unfamiliar building that is completely dark. When the visual system
+sees only black, one’s localization system quickly degrades. Another useful example is that
+of a human-sized maze made from tall hedges. Such mazes have been created for centuries,
+and humans find them extremely difficult to solve without landmarks or clues because,
+without visual uniqueness, human localization competence degrades rapidly.
+
+\end{remark}
+\end{framed}
+
+In robots, the nonuniqueness of sensor readings, or sensor aliasing, is the norm and not
+the exception. 
+
+\begin{framed}
+\begin{exmp}
+
+Consider a narrow-beam rangefinder such as an ultrasonic or infrared range-finder. 
+This sensor provides range information in a single direction without any additional
+data regarding material composition such as color, texture, and hardness. Even for a robot
+with several such sensors in an array, there are a variety of environmental states that would
+trigger the same sensor values across the array. Formally, there is a many-to-one mapping
+from environmental states to the robot’s perceptual inputs. Thus, the robot’s percepts
+cannot distinguish from among these many states. A classic problem with sonar-based
+robots involves distinguishing between humans and inanimate objects in an indoor setting.
+When facing an apparent obstacle in front of itself, should the robot say “Excuse me”
+because the obstacle may be a moving human, or should the robot plan a path around the
+object because it may be a cardboard box? With sonar alone, these states are aliased, and
+differentiation is impossible.
+
+\end{exmp}
+\end{framed}
+
+The problem posed to navigation because of sensor aliasing is that, even with noise-free
+sensors, the amount of information is generally insufficient to identify the robot’s position
+from a single-percept reading. Thus, techniques must be employed by the robot programmer that base the robot’s 
+localization on a series of readings and, thus, sufficient information to recover the robot’s position over time.
+
+
+\subsection{Effector Noise}
+\label{effector_noise}
+
+The challenges of localization do not lie with sensor technologies alone. Just as robot sensors are noisy, 
+limiting the information content of the signal, so robot effectors are also
+noisy. In particular, a single action taken by a mobile robot may have several different possible results, 
+even though from the robot’s point of view the initial state before the action
+was taken is well known \cite{Siegwart2011}.
+
+In short, mobile robot effectors introduce uncertainty about future state. Therefore, the
+simple act of moving tends to increase the uncertainty of a mobile robot. There are, of
+course, exceptions. Using cognition, the motion can be carefully planned so as to minimize
+this effect, and indeed sometimes to actually result in more certainty. Furthermore, when
+the robot’s actions are taken in concert with careful interpretation of sensory feedback, it
+can compensate for the uncertainty introduced by noisy actions using the information provided by the sensors.
+
+First, however, it is important to understand the precise nature of the effector noise that
+impacts mobile robots. It is important to note that, from the robot’s point of view, this error
+in motion is viewed as an error in odometry, or the robot’s inability to estimate its own posi-
+tion over time using knowledge of its kinematics and dynamics. The true source of error
+generally lies in an incomplete model of the environment. For instance, the robot does not
+model the fact that the floor may be sloped, the wheels may slip, and a human may push
+the robot. All of these unmodeled sources of error result in inaccuracy between the physical
+motion of the robot, the intended motion of the robot, and the proprioceptive sensor estimates of motion.
+
+
+\section{Questions}
+
+
+\begin{enumerate}
+\item What do we mean with the term sensor noise? Why is it important to take it into account? 
+\item What do we mean with the term sensor aliasing?
+\item What is the problem posed to navigation due to sensor aliasing?
+\end{enumerate}
+ 

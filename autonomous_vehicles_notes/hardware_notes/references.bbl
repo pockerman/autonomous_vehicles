@@ -23,4 +23,9 @@ Philip , Florent Altché1, Brigitte d’Andréa-Novel, and Arnaud de La Fortel
 Marcos R. O., A. Maximo 
 \newblock{\em Model Predictive Controller for Trajectory Tracking by Differential Drive Robot with Actuation constraints}
 
+\bibitem{Siegwart2011}
+Siegwart R.,  Nourbakhsh I., R., Scaramuzza D., 
+\newblock{\em Intorduction to Autonomous Mobile Robots}
+\newblock MIT Press, 2nd Edition, 2011.
+
 \end{thebibliography}
