@@ -1,0 +1,63 @@
+\section{Feed Forward Neural Networks (FFNN) }
+\label{feed_forward_nn}
+
+
+\subsection{Definitions}
+
+The goal of a FFNN is to approximate some function $f^{*}$. For example,
+a classifier, $y = f^{*}(\mathbf{x})$ maps an input $\mathbf{x}$ to a category $y$.
+Thus, a FFNN defines a mapping
+
+\begin{equation}
+\mathbf{y} = f(\mathbf{x};\mathbf{\theta})
+\end{equation}
+Its objective is to learn the parameters $\mathbf{\theta}$ that result in the best function approximation.
+
+
+\begin{framed}
+\begin{remark}
+
+We call these model feedforward because information flows thriugh the function being
+evaluated from $\mathbf{x}$ through the intermediate computations used to define $f$ and finally to
+output $\mathbf{y}$. There ae no feedback connections in which outputs of the model are fed back into itself.
+When feedforward neural networks are extended to include feedback connections, they are called recurrent neural networks
+\end{remark}
+\end{framed}
+
+Feedforward networks are of extreme importance to machine learning practi-
+tioners. They form the basis of many important commercial applications. For
+example, the convolutional networks used for object recognition from photos are a
+specialized kind of feedforward network. Feedforward networks are a conceptual
+stepping stone on the path to recurrent networks, which power many natural
+language applications.
+
+
+FFNNs are called networks because they are typically represented by composing together
+many different functions. The model is associated with a directed acyclig graph describing
+how the functions are composed together.  For example, we might have four functions $f^{(i)}, i=1,\ldots,4$
+connected in a chain to form 
+
+\begin{equation}
+f(\mathbf{x}) = f^{(4)}(f^{(3)}(f^{(2)}(f^{(1)}(\mathbf{x}))))
+\end{equation}
+
+These chain structures are the most commonly used structures of neural networks. The overal length of the chain gives
+the depth of the model. The final layer is called the output layer. 
+
+During training we drive $f(\mathbf{x})$ to match $f^{*}(\mathbf{x})$. We do so by using a training dataset which contains noisy examples of 
+$f^{*}(\mathbf{x})$ evaluated at different points. As usual with supervised learning, each example is accompanied with a label such that
+
+\begin{equation}
+y \approx f^{*}(\mathbf{x}) 
+\end{equation}
+
+Although the training examples specify in some sense what the output layer should do, i.e. produce a value that is close to $y$, they do not
+specify directly the behavior of the other layers. The learning algorithm must decide
+how to use those layers to produce the desired output, but the training data do
+not say what each individual layer should do. It is the job of the learning algorithm to decide how these so called \textbf{hidden layers} best implement
+an approximation of $f^{*}$. 
+
+Each hidden layer of the network is typically vector valued. The
+dimensionality of these hidden layers determines the
+width of the model. Each element of the vector may be interpreted as playing a role analogous to a neuron
+
