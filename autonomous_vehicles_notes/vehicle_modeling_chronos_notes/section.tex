@@ -1,9 +1,31 @@
 \section{Vehicle Modeling with Chronos}
 \label{vehicle_modeling_chronos}
 
-In this section we will develop and simulate a vehicle model using the open source physics engine \lstinline{chronos}. 
+In this section we will develop and simulate a vehicle model using the open source physics engine \lstinline{chronos}.
 
+\begin{lstlisting}
+http://projectchrono.org/
+\end{lstlisting}
+ 
+Specifically, we will simulate a vehicle that moves in straight line.  Figure \ref{straight_line_motion} shows a snapshot of the simulation
 
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.290]{img/straight_line_motion.png}
+\end{center}
+\caption{Straight line vehicle motion.}
+\label{straight_line_motion}
+\end{figure}
+
+The following link can be used to consult for further information 
+\begin{lstlisting}
+http://api.projectchrono.org/tutorial_install_project.html
+\end{lstlisting}
+
+The reference manual can be found at
+\begin{lstlisting}
+http://api.projectchrono.org/manual_root.html
+\end{lstlisting}
 \subsection{The \lstinline{Chrono::Vehicle} library}
 
 The \lstinline{Chrono::Vehicle} is a C++ middleware library for the modeling, simulation, and visualization of wheeled and tracked ground vehicles.
@@ -36,6 +58,10 @@ The \lstinline{Chrono::Engine } supports the notion of a system. In our case, th
 
 \begin{itemize}
 \item Powertrain
+\item Tire
+\item Terrain
+\item Driver
+\item Vehicle
 \end{itemize}
 
 \lstinline{Chrono::Vehicle} encapsulates templates for systems and subsystems in polymorphic C++ classes:
@@ -48,7 +74,7 @@ The \lstinline{Chrono::Engine } supports the notion of a system. In our case, th
 
 \subsection{The \lstinline{chrono::vehicle::ChVehicle} class}
 
-Vehicles in \lstinline{Chrono} inherit for the base class \lstinline{chrono::vehicle::ChVehicle}. 
+Vehicles in \lstinline{Chrono} inherit from the base class \lstinline{chrono::vehicle::ChVehicle}. 
 This class provides the interface between the vehicle system and other systems (tires, driver, etc.)
 
 The reference frame for a vehicle follows the ISO standard. 
@@ -83,10 +109,34 @@ Deferring to its constituent subsystems as needed, a \lstinline{chrono::vehicle:
 \end{itemize}
 
 A \lstinline{chrono::vehicle::ChVehicle} intermediates communication between other systems (e.g.,
-powertrain, driver, etc.) and constituent subsystems (e.g., suspensions, brakes,
-etc.)
+powertrain, driver, etc.) and constituent subsystems (e.g., suspensions, brakes, etc.)
 
 \subsection{ The \lstinline{chrono::vehicle::ChChassis} class}
+
+This is the ase class for the chassis vehicle subsystem. The class documentation can be found at 
+
+\begin{lstlisting}
+http://api.projectchrono.org/classchrono_1_1vehicle_1_1_ch_chassis.html
+\end{lstlisting}
+
+A chassis has the following attributes
+
+\begin{itemize}
+\item \lstinline{std::shared_ptr<ChBodyAuxRef> m_body}; a handle to the chassis body
+\item \lstinline{bool m_fixed}; a flag indicating if the chassis body is fixed to the ground
+\end{itemize}
+
+It provides access to the following properties
+
+\begin{itemize}
+\item Chassis mass and inertia properties
+\item Chassis state reference frame and COM
+\item Vehicle speed reference frame and COM
+\item Driver position
+\item Absolute acceleration of a point specified in local reference frame
+\end{itemize}
+
+A chassis system can be specified in a JSON file.
 
 \subsection{ The \lstinline{chrono::vehicle::ChDriver} class}
 
@@ -102,8 +152,6 @@ A concrete driver class must set the member variables:
 Since these are the main quantities that a driver can interact with a vehicle, this class has to be adapted
 when we want to incorporate autonomy. 
 
-
-\subsection{ The \lstinline{chrono::vehicle::ChDriver} class}
 
 \subsection{Setup simulation}
 
@@ -159,21 +207,8 @@ app.SetChaseCamera(trackPoint, 6.0, 0.5);
 app.SetTimestep(step_size);
 \end{lstlisting}
 
-
-\subsubsection{Vehicle state information}
-
-When running a simulation, we would like to be able to view various quantites that describe the state of the vehicle. Let's see how
-we can obtain some of them.
-
-\textbf{Get the vehicle position coordinates and vehicle speed}
-
-\begin{lstlisting}
-//This is the global location of the chassis reference frame origin. 
-ChVector<> pos = vehicle.GetVehicle().GetVehiclePos();
-
-//Return the speed measured at the origin of the chassis reference frame.
-double speed = vehicle.GetVehicle().GetVehicleSpeed();
-\end{lstlisting}
+Our application will use an instance of the \lstinline{Chrono::ChPathFollowerDriverXT} class. This is a driver model that uses a path steering controller and a speed controller. The steering controller adjusts the steering input to follow the prescribed path. 
+The output from the speed controller is used to adjust throttle and braking inputs in order to maintain the prescribed constant vehicle speed.
 
 
 \subsubsection{Advance the vehicle}
@@ -192,8 +227,20 @@ app.Advance(step);
 \end{lstlisting}
 
 
+\subsubsection{Vehicle state information}
 
-The following link can be used to consult for further information \lstinline{http://api.projectchrono.org/tutorial_install_project.html}
+When running a simulation, we would like to be able to view various quantites that describe the state of the vehicle. Let's see how
+we can obtain some of them.
+
+\textbf{Get the vehicle position coordinates and vehicle speed}
+
+\begin{lstlisting}
+//This is the global location of the chassis reference frame origin. 
+ChVector<> pos = vehicle.GetVehicle().GetVehiclePos();
+
+//Return the speed measured at the origin of the chassis reference frame.
+double speed = vehicle.GetVehicle().GetVehicleSpeed();
+\end{lstlisting}
 
 
 

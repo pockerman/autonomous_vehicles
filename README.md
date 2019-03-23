@@ -10,7 +10,11 @@
 - **Item:** <a href="autonomous_vehicles_notes/intro_notes/notes.pdf">Introduction to Self-Driving Cars</a>
 - **Item:** <a href="#">Automotive Functional Components</a>
 - **Item:** <a href="autonomous_vehicles_notes/vehicle_dynamics_notes/notes.pdf">Dynamics of Automobiles</a>
-- **Item:** <a href="autonomous_vehicles_notes/vehicle_modeling_chronos_notes/notes.pdf">Vehicle Modeling with Chronos</a>
+
+
+#### Applications
+
+- **Item:** <a href="autonomous_vehicles_notes/vehicle_modeling_chronos_notes/notes.pdf">Vehicle Modeling with ```Chronos```</a>
 
 
 ### Part: Environment Perception
