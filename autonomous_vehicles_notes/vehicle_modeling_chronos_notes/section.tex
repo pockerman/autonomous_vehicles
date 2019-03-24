@@ -2,10 +2,8 @@
 \label{vehicle_modeling_chronos}
 
 In this section we will develop and simulate a vehicle model using the open source physics engine \lstinline{chronos}.
+(see \url{http://projectchrono.org/})
 
-\begin{lstlisting}
-http://projectchrono.org/
-\end{lstlisting}
  
 Specifically, we will simulate a vehicle that moves in straight line.  Figure \ref{straight_line_motion} shows a snapshot of the simulation
 
@@ -17,15 +15,9 @@ Specifically, we will simulate a vehicle that moves in straight line.  Figure \r
 \label{straight_line_motion}
 \end{figure}
 
-The following link can be used to consult for further information 
-\begin{lstlisting}
-http://api.projectchrono.org/tutorial_install_project.html
-\end{lstlisting}
+See \url{http://api.projectchrono.org/tutorial_install_project.html} for further information. The reference manual can be found at
+\url{http://api.projectchrono.org/manual_root.html}.
 
-The reference manual can be found at
-\begin{lstlisting}
-http://api.projectchrono.org/manual_root.html
-\end{lstlisting}
 \subsection{The \lstinline{Chrono::Vehicle} library}
 
 The \lstinline{Chrono::Vehicle} is a C++ middleware library for the modeling, simulation, and visualization of wheeled and tracked ground vehicles.
@@ -114,12 +106,7 @@ powertrain, driver, etc.) and constituent subsystems (e.g., suspensions, brakes,
 \subsection{ The \lstinline{chrono::vehicle::ChChassis} class}
 
 This is the ase class for the chassis vehicle subsystem. The class documentation can be found at 
-
-\begin{lstlisting}
-http://api.projectchrono.org/classchrono_1_1vehicle_1_1_ch_chassis.html
-\end{lstlisting}
-
-A chassis has the following attributes
+\url{http://api.projectchrono.org/classchrono_1_1vehicle_1_1_ch_chassis.html}. A chassis has the following attributes
 
 \begin{itemize}
 \item \lstinline{std::shared_ptr<ChBodyAuxRef> m_body}; a handle to the chassis body
@@ -155,12 +142,125 @@ when we want to incorporate autonomy.
 
 \subsection{Setup simulation}
 
-\subsubsection{Setup the vehicel \lstinline{chrono::vehicle::sedan::Sedan}}
+In order to set up our simulation, we need to establish the following
 
-Now that we went over the basics of the \lstinline{Chrono::Vehicle} library let's try to set up a basic simulation; namely a vehicle that moves in straight line.
-Concretely, we will use an instance of the \lstinline{chrono::vehicle::sedan::Sedan} class. 
+\begin{itemize}
+\item Powertrain
+\item Tire
+\item Terrain
+\item Driver
+\item Vehicle
+\end{itemize}
+
+We will see further below how to create these systems. First however let's introduce some constants we will be using in the simulation.
 
 
+\begin{lstlisting}
+#include "chrono/core/ChFileutils.h"
+#include "chrono/core/ChRealtimeStep.h"
+#include "chrono/utils/ChFilters.h"
+
+#include "chrono_vehicle/ChVehicleModelData.h"
+#include "chrono_vehicle/terrain/RigidTerrain.h"
+#include "chrono_vehicle/driver/ChIrrGuiDriver.h"
+#include "chrono_vehicle/driver/ChPathFollowerDriver.h"
+#include "chrono_vehicle/utils/ChVehiclePath.h"
+#include "chrono_vehicle/wheeled_vehicle/utils/ChWheeledVehicleIrrApp.h"
+\end{lstlisting}
+
+\begin{lstlisting}
+
+
+using namespace chrono;
+using namespace chrono::geometry;
+using namespace chrono::vehicle;
+
+namespace demo_data
+{
+
+    const std::string BASIC_DATA_PATH("/home/david/MyProjects/cubic_engine/chrono_lib/chrono/data/vehicle/paths/");
+
+    // Rigid terrain dimensions
+    const double TERRAIN_HEIGHT = 0;
+    const double TERRAIN_LENGTH = 300.0;  // size in X direction
+    const double TERRAIN_WIDTH = 300.0;   // size in Y direction
+    const std::string TERRAIN_PATH("/home/david/MyProjects/cubic_engine/chrono_lib/chrono/data/vehicle/terrain/textures/tile4.jpg");
+
+    // Input file names for the path-follower driver model
+    const std::string PATH_FILE(BASIC_DATA_PATH + "straight.txt");
+
+    // Initial vehicle location and orientation
+    const ChVector<> INIT_LOC(-125, -125, 0.5);
+    const ChQuaternion<> INIT_ROT(1, 0, 0, 0);
+
+    // Desired vehicle speed (m/s)
+    double target_speed = 20;
+
+    // Point on chassis tracked by the chase camera
+    const ChVector<> TRACK_POINT(0.0, 0.0, 1.75);
+
+    // Simulation step size
+    const double DELTA_T = 2e-3;
+    const double TIRE_DELTA_T = 1e-3;
+
+    // Simulation end time
+    const double TIME_END = 100;
+
+    // Render FPS
+    const double FPS = 60;
+
+    // Debug logging
+    const bool DEBUG_OUTPUT = false;
+    const double DEBUG_FPS = 10;
+
+    // Output directories
+    const std::string OUT_DIR = GetChronoOutputPath() + "STEERING_CONTROLLER";
+    const std::string POV_DIR = OUT_DIR + "/POVRAY";
+
+    // POV-Ray output
+    const bool POVRAY_OUTPUT = false;
+
+    // Vehicle state output (forced to true if povray output enabled)
+    bool state_output = false;
+    const int FILTER_WINDOW_SIZE = 20;
+
+
+    // Custom Irrlicht event receiver for selecting current driver model.
+    class ChDriverSelector : public irr::IEventReceiver {
+      public:
+
+        ChDriverSelector(const ChVehicle& vehicle, ChPathFollowerDriverXT* driver_follower, ChIrrGuiDriver* driver_gui);
+
+        ChDriver* GetDriver() { return m_driver; }
+        bool UsingGUI() const { return m_using_gui; }
+
+        virtual bool OnEvent(const irr::SEvent& event);
+
+      private:
+
+        bool m_using_gui;
+        const ChVehicle& m_vehicle;
+
+        ChPathFollowerDriverXT* m_driver_follower;
+        ChIrrGuiDriver* m_driver_gui;
+        ChDriver* m_driver;
+    };
+\end{lstlisting}
+
+
+Let's now see how to create the systems we need for our simulation.
+
+
+\subsubsection{Setup the vehicle model}
+
+We will be using an instance of the \lstinline{chrono::vehicle::sedan::Sedan} class (see \url{http://api.projectchrono.org/classchrono_1_1vehicle_1_1sedan_1_1_sedan___vehicle.html}).
+This class models a passenger vehicle. In fact, the \lstinline{chrono::vehicle::sedan::Sedan} class is a  a wrapper class for modeling an entire sedan vehicle assembly
+that is
+\begin{itemize}
+\item The vehicle itself
+\item The powertrain
+\item The tires
+\end{itemize}
 
 The following code initializes the vehicle instance for the simulation
 
@@ -176,15 +276,99 @@ The following code initializes the vehicle instance for the simulation
     vehicle.SetVehicleStepSize(step_size);
     vehicle.Initialize();
 
-    vehicle.SetChassisVisualizationType(chassis_vis_type);
-    vehicle.SetSuspensionVisualizationType(suspension_vis_type);
-    vehicle.SetSteeringVisualizationType(steering_vis_type);
-    vehicle.SetWheelVisualizationType(wheel_vis_type);
-    vehicle.SetTireVisualizationType(tire_vis_type);
+// set the visualization types
+    vehicle.SetChassisVisualizationType(VisualizationType::PRIMITIVES); 
+    vehicle.SetSuspensionVisualizationType(VisualizationType::PRIMITIVES); 
+    vehicle.SetSteeringVisualizationType(VisualizationType::PRIMITIVES); 
+    vehicle.SetWheelVisualizationType(VisualizationType::MESH); 
+    vehicle.SetTireVisualizationType(VisualizationType::NONE); 
+\end{lstlisting}
+
+The \lstinline{Initialize()} function is responsible for initializing the subsystems:
+
+\begin{lstlisting}
+// -----------------------------------------------------------------------------
+void Sedan::Initialize() {
+    // Create and initialize the Sedan vehicle
+    m_vehicle = m_system ? new Sedan_Vehicle(m_system, m_fixed, m_chassisCollisionType)
+                         : new Sedan_Vehicle(m_fixed, m_contactMethod, m_chassisCollisionType);
+
+    m_vehicle->SetInitWheelAngVel(m_initOmega);
+    m_vehicle->Initialize(m_initPos, m_initFwdVel);
+
+    if (m_vehicle_step_size > 0) {
+        m_vehicle->SetStepsize(m_vehicle_step_size);
+    }
+
+    // If specified, enable aerodynamic drag
+    if (m_apply_drag) {
+        m_vehicle->GetChassis()->SetAerodynamicDrag(m_Cd, m_area, m_air_density);
+    }
+
+    // Create and initialize the powertrain system
+    m_powertrain = new Sedan_SimpleMapPowertrain("Powertrain");
+    m_powertrain->Initialize(GetChassisBody(), m_vehicle->GetDriveshaft());
+
+    // Create the tires and set parameters depending on type.
+    switch (m_tireType) {
+        // case TireModelType::RIGID:
+        case TireModelType::RIGID: {
+            std::cout << "Init RIGID" << std::endl;
+            bool use_mesh = (m_tireType == TireModelType::RIGID_MESH);
+            Sedan_RigidTire* tire_FL = new Sedan_RigidTire("FL", use_mesh);
+            Sedan_RigidTire* tire_FR = new Sedan_RigidTire("FR", use_mesh);
+            Sedan_RigidTire* tire_RL = new Sedan_RigidTire("RL", use_mesh);
+            Sedan_RigidTire* tire_RR = new Sedan_RigidTire("RR", use_mesh);
+
+            m_tires[0] = tire_FL;
+            m_tires[1] = tire_FR;
+            m_tires[2] = tire_RL;
+            m_tires[3] = tire_RR;
+
+            break;
+        }
+
+        case TireModelType::TMEASY: {
+            Sedan_TMeasyTire* tire_FL = new Sedan_TMeasyTire("FL");
+            Sedan_TMeasyTire* tire_FR = new Sedan_TMeasyTire("FR");
+            Sedan_TMeasyTire* tire_RL = new Sedan_TMeasyTire("RL");
+            Sedan_TMeasyTire* tire_RR = new Sedan_TMeasyTire("RR");
+
+            if (m_tire_step_size > 0) {
+                tire_FL->SetStepsize(m_tire_step_size);
+                tire_FR->SetStepsize(m_tire_step_size);
+                tire_RL->SetStepsize(m_tire_step_size);
+                tire_RR->SetStepsize(m_tire_step_size);
+            }
+
+            m_tires[0] = tire_FL;
+            m_tires[1] = tire_FR;
+            m_tires[2] = tire_RL;
+            m_tires[3] = tire_RR;
+
+            break;
+        }
+        default:
+            break;
+    }
+
+    // Initialize the tires.
+    m_tires[0]->Initialize(m_vehicle->GetWheelBody(FRONT_LEFT), LEFT);
+    m_tires[1]->Initialize(m_vehicle->GetWheelBody(FRONT_RIGHT), RIGHT);
+    m_tires[2]->Initialize(m_vehicle->GetWheelBody(REAR_LEFT), LEFT);
+    m_tires[3]->Initialize(m_vehicle->GetWheelBody(REAR_RIGHT), RIGHT);
+
+    m_tire_mass = m_tires[0]->ReportMass();
+}
+
 \end{lstlisting}
 
 
+
 \subsubsection{Create the application}
+
+The subsystem creation and initialization is handled by the wrapper \lstinline{chrono::vehicle::sedan::Sedan} class. Let's see how to create
+an application that will execute our simulation
 
 \begin{lstlisting}
 // Create the vehicle Irrlicht application
@@ -207,7 +391,8 @@ app.SetChaseCamera(trackPoint, 6.0, 0.5);
 app.SetTimestep(step_size);
 \end{lstlisting}
 
-Our application will use an instance of the \lstinline{Chrono::ChPathFollowerDriverXT} class. This is a driver model that uses a path steering controller and a speed controller. The steering controller adjusts the steering input to follow the prescribed path. 
+Our application will use an instance of the \lstinline{Chrono::ChPathFollowerDriverXT} class. 
+This is a driver model that uses a path steering controller and a speed controller. The steering controller adjusts the steering input to follow the prescribed path. 
 The output from the speed controller is used to adjust throttle and braking inputs in order to maintain the prescribed constant vehicle speed.
 
 

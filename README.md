@@ -47,7 +47,7 @@
 - **Item:** Lane Detection
 - **Item:** Apply Stereo Depth to a Driving Scenario
 - **Item:** Visual Odometry for Localization in Autonomous Driving
-- **Item:** Camera Control with Raspberry Pi
+- **Item:** Computer Vision with Raspberry Pi
 - **Item:** Ultrasonic Sensor Control with Arduino
 
 ### Part: Environment Mapping

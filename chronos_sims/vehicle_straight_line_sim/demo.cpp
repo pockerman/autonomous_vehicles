@@ -27,16 +27,6 @@ using namespace chrono::vehicle::sedan;
 namespace demo_data
 {
 
-#ifdef USE_PID
-    ChDriverSelector::ChDriverSelector(const ChVehicle& vehicle, ChPathFollowerDriver* driver_follower, ChIrrGuiDriver* driver_gui)
-        :
-          m_vehicle(vehicle),
-          m_driver_follower(driver_follower),
-          m_driver_gui(driver_gui),
-          m_driver(m_driver_follower),
-          m_using_gui(false)
-    {}
-#else
     ChDriverSelector::ChDriverSelector(const ChVehicle& vehicle, ChPathFollowerDriverXT* driver_follower, ChIrrGuiDriver* driver_gui)
         :
            m_using_gui(false),
@@ -45,7 +35,6 @@ namespace demo_data
            m_driver_gui(driver_gui),
            m_driver(m_driver_follower)
     {}
-#endif
 
 
     bool ChDriverSelector::OnEvent(const irr::SEvent& event) {
@@ -116,7 +105,7 @@ int main(/*int argc, char* argv[]*/) {
 
     // Create the vehicle, set parameters, and initialize
     Sedan vehicle;
-    vehicle.SetContactMethod(contact_method);
+    vehicle.SetContactMethod(ChMaterialSurface::SMC);
     vehicle.SetChassisFixed(false);
     vehicle.SetInitPosition(ChCoordsys<>(INIT_LOC, INIT_ROT));
     vehicle.SetTireType(TireModelType::RIGID);
@@ -124,11 +113,11 @@ int main(/*int argc, char* argv[]*/) {
     vehicle.SetVehicleStepSize(DELTA_T);
     vehicle.Initialize();
 
-    vehicle.SetChassisVisualizationType(chassis_vis_type);
-    vehicle.SetSuspensionVisualizationType(suspension_vis_type);
-    vehicle.SetSteeringVisualizationType(steering_vis_type);
-    vehicle.SetWheelVisualizationType(wheel_vis_type);
-    vehicle.SetTireVisualizationType(tire_vis_type);
+    vehicle.SetChassisVisualizationType(VisualizationType::PRIMITIVES);
+    vehicle.SetSuspensionVisualizationType(VisualizationType::PRIMITIVES);
+    vehicle.SetSteeringVisualizationType(VisualizationType::PRIMITIVES);
+    vehicle.SetWheelVisualizationType(VisualizationType::MESH);
+    vehicle.SetTireVisualizationType(VisualizationType::NONE);
 
     // Create the terrain
     RigidTerrain terrain(vehicle.GetSystem());
@@ -153,7 +142,6 @@ int main(/*int argc, char* argv[]*/) {
     GetLog()<<"Set up path file"<<"\n";
 
     // Create the vehicle Irrlicht application
-
     ChVehicleIrrApp app(&vehicle.GetVehicle(), &vehicle.GetPowertrain(), L"Sraight Line Vehicle Motion Demo", irr::core::dimension2d<irr::u32>(800, 640));
     app.SetHUDLocation(500, 20);
     app.SetSkyBox();
@@ -161,7 +149,7 @@ int main(/*int argc, char* argv[]*/) {
     app.AddTypicalLights(irr::core::vector3df(-150.f, -150.f, 200.f), irr::core::vector3df(-150.f, 150.f, 200.f), 100, 100);
     app.AddTypicalLights(irr::core::vector3df(150.f, -150.f, 200.f), irr::core::vector3df(150.0f, 150.f, 200.f), 100, 100);
     app.EnableGrid(false);
-    app.SetChaseCamera(trackPoint, 6.0, 0.5);
+    app.SetChaseCamera(TRACK_POINT, 6.0, 0.5);
 
     app.SetTimestep(DELTA_T);
 
@@ -170,10 +158,6 @@ int main(/*int argc, char* argv[]*/) {
     irr::scene::IMeshSceneNode* ballT = app.GetSceneManager()->addSphereSceneNode(0.1f);
     ballS->getMaterial(0).EmissiveColor = irr::video::SColor(0, 255, 0, 0);
     ballT->getMaterial(0).EmissiveColor = irr::video::SColor(0, 0, 255, 0);
-
-    // -------------------------
-    // Create the driver systems
-    // -------------------------
 
     // Create a GUI driver for interactive inputs
     ChIrrGuiDriver driver_gui(app);
@@ -189,43 +173,38 @@ int main(/*int argc, char* argv[]*/) {
     // current driver model.
     ChDriverSelector selector(vehicle.GetVehicle(), &driver_follower, &driver_gui);
 
-
     app.SetUserEventReceiver(&selector);
 
     // Finalize construction of visualization assets
     app.AssetBindAll();
     app.AssetUpdateAll();
 
-    // -----------------
-    // Initialize output
-    // -----------------
-
-    state_output = state_output || povray_output;
+    // initialize output
+    state_output = state_output || POVRAY_OUTPUT;
 
     if (state_output) {
-        if (ChFileutils::MakeDirectory(out_dir.c_str()) < 0) {
-            std::cout << "Error creating directory " << out_dir << std::endl;
+        if (ChFileutils::MakeDirectory(OUT_DIR.c_str()) < 0) {
+            std::cout << "Error creating directory " << OUT_DIR << std::endl;
             return 1;
         }
     }
 
-    if (povray_output) {
-        if (ChFileutils::MakeDirectory(pov_dir.c_str()) < 0) {
-            std::cout << "Error creating directory " << pov_dir << std::endl;
+    if (POVRAY_OUTPUT) {
+        if (ChFileutils::MakeDirectory(POV_DIR.c_str()) < 0) {
+            std::cout << "Error creating directory " << POV_DIR << std::endl;
             return 1;
         }
-        driver_follower.ExportPathPovray(out_dir);
+        driver_follower.ExportPathPovray(OUT_DIR);
     }
 
     utils::CSV_writer csv("\t");
     csv.stream().setf(std::ios::scientific | std::ios::showpos);
     csv.stream().precision(6);
 
-    utils::ChRunningAverage fwd_acc_GC_filter(filter_window_size);
-    utils::ChRunningAverage lat_acc_GC_filter(filter_window_size);
-
-    utils::ChRunningAverage fwd_acc_driver_filter(filter_window_size);
-    utils::ChRunningAverage lat_acc_driver_filter(filter_window_size);
+    utils::ChRunningAverage fwd_acc_GC_filter(FILTER_WINDOW_SIZE);
+    utils::ChRunningAverage lat_acc_GC_filter(FILTER_WINDOW_SIZE);
+    utils::ChRunningAverage fwd_acc_driver_filter(FILTER_WINDOW_SIZE);
+    utils::ChRunningAverage lat_acc_driver_filter(FILTER_WINDOW_SIZE);
 
     // ---------------
     // Simulation loop
@@ -237,7 +216,7 @@ int main(/*int argc, char* argv[]*/) {
     // Number of simulation steps between miscellaneous events
     double render_step_size = 1 / FPS;
     int render_steps = static_cast<int>(std::ceil(render_step_size / DELTA_T));
-    double debug_step_size = 1 / debug_fps;
+    double debug_step_size = 1 / DEBUG_FPS;
     int debug_steps = static_cast<int>(std::ceil(debug_step_size / DELTA_T));
 
     // Initialize simulation frame counter and simulation time
@@ -283,9 +262,9 @@ int main(/*int argc, char* argv[]*/) {
 
         // Output POV-Ray data
         if (sim_frame % render_steps == 0) {
-            if (povray_output) {
+            if (POVRAY_OUTPUT) {
                 char filename[100];
-                sprintf(filename, "%s/data_%03d.dat", pov_dir.c_str(), render_frame + 1);
+                sprintf(filename, "%s/data_%03d.dat", POV_DIR.c_str(), render_frame + 1);
                 utils::WriteShapesPovray(vehicle.GetSystem(), filename);
             }
 
@@ -339,7 +318,7 @@ int main(/*int argc, char* argv[]*/) {
     }
 
     if (state_output)
-        csv.write_to_file(out_dir + "/state.out");
+        csv.write_to_file(OUT_DIR + "/state.out");
 
     return 0;
 }
