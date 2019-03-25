@@ -15,6 +15,7 @@
 #### Applications
 
 - **Item:** <a href="autonomous_vehicles_notes/vehicle_modeling_chronos_notes/notes.pdf">Vehicle Modeling with ```Chronos```</a>
+- **Item:** Longitudinal Vehicle Model Simulation
 
 
 ### Part: Environment Perception
