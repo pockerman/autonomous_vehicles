@@ -108,6 +108,9 @@
 - **Item:** Data Splits and Neural Network Performance Evaluation
 - **Item:** Neural Network Regularization
 - **Item:** Colvolutional Neural Networks
+- **Item:** The Object Detection Problem
+- **Item:** 2D Object Detection with CNNs
+- **Item:** Trainign vs Inference
 - **Item:** Deep Reinforcement Learning for Autonomous Vehicles
 
 #### Applications
