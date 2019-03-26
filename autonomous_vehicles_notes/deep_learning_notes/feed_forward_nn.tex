@@ -59,5 +59,27 @@ an approximation of $f^{*}$.
 
 Each hidden layer of the network is typically vector valued. The
 dimensionality of these hidden layers determines the
-width of the model. Each element of the vector may be interpreted as playing a role analogous to a neuron
+width of the model. Each element of the vector may be interpreted as playing a role analogous to a neuron.
+Rather than thinking of the layer as representing a single vector-to-vector function,
+we can also think of the layer as consisting of many
+units
+that act in parallel,
+each representing a vector-to-scalar function. Each unit resembles a neuron in
+the sense that it receives input from many other units and computes its own
+activation value. The idea of using many layers of vector-valued representations
+is drawn from neuroscience.
+
+\begin{framed}
+\begin{remark}
+
+Modern neural network research,
+however, is guided by many mathematical and engineering disciplines, and the
+goal of neural networks is not to perfectly model the brain. It is best to think of
+feedforward networks as function approximation machines that are designed to
+achieve statistical generalization, occasionally drawing some insights from what we
+know about the brain, rather than as models of brain function.
+\end{remark}
+\end{framed}
+
+\subsubsection{Linear Models}
 
