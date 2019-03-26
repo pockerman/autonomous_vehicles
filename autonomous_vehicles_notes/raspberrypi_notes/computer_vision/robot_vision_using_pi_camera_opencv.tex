@@ -60,7 +60,7 @@ You will then be asked if you would like the camera interface to be enabled. Sel
 If you are asked to reboot at this point, answer Yes. 
 
 
-\subsubsection{Get a Picture from the Pi}
+\subsubsection{Get a Picture from the Pi Camera}
 \label{get_a_picture}
 
 Now that we enbled the camera, the first thing we need to do, is to confirm that our setup was successful.
@@ -81,11 +81,36 @@ raspistill -o test.jpg
 We can use the FileZilla client (see appendix) to download this image and verify it on our computer. 
 
 
-\subsection{Setting up OpenCV}
+\subsection{Setting up OpenCV, NumPy and PiCamera}
 \label{setup_opencv}
 
-\subsection{Install OpenCV}
+In this section, we will install the OpenCV, \url{https://opencv.org/}, library  on the Rasperry Pi. In case you do not know OpenCV, this 
+is  a library with a collection of tools for manipulating pictures and extracting
+information from them. The name is an abbreviation of Open Computer Vision. The tools are
+strung together to make useful behaviors and pipelines for processing images. To be able to
+run our code on the Raspberry Pi, we will need to install the Python OpenCV library there.
 
+We will also install NumPy, \url{http://www.numpy.org/}, the numeric python library. This lets us to do manipulations of
+large blocks of numbers. 
+
+Finally, we will install PiCamera. \url{https://picamera.readthedocs.io/en/release-1.13/}, a library for manipulating our Pi camera.
+
+
+\subsubsection{Install NumPy}
+
+We can install NumPy using \lstinline{pip}
+
+\begin{lstlisting}
+pip3 install numpy
+\end{lstlisting}
+
+\subsubsection{Install OpenCV}
+
+We can install OpenCV via terminal
+
+\begin{lstlisting}
+sudo apt install python-opencv opencv-data
+\end{lstlisting}
 
 \begin{framed}
 \begin{remark}
@@ -95,29 +120,18 @@ Have a look at the following links should you have problems in setting up OpenCV
 \end{remark}
 \end{framed}
 
-%\subsection{Access the RaspberryPi Camera}
+\subsubsection{Install PiCamera}
+
+Finally, we will install the PiCamera library so that we can interact with the Pi camera
+
+\begin{lstlisting}
+sudo pip3 install picamera[array] numpy
+\end{lstlisting}
+
+\section{Building our first app with these tools}
 
 
-%If we use Python we should install the \lstinline{picamera} library. This can be done via
 
-%\begin{lstlisting}
-%sudo apt-get install python-picamera python3-picamera python-rpi.gpio.
-%\end{lstlisting}
-
-
-%\begin{framed}
-%\theoremstyle{remark}
-%\begin{remark}{}
-
-%ValueError: Unable to determine if this system is a Raspberry Pi
-%\end{remark}
-%\end{framed}
-
-%The camera connects to the Raspberry Pi by installing it into the connector marked
-%camera on the Raspberry Pi. To see how this is to be done, see the video at 
-%\begin{lstlisting}
-%http://www.raspberrypi.org/help/camera-module-setup/.
-%\end{lstlisting}
 
 
 
