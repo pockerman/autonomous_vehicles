@@ -112,6 +112,9 @@
 - **Item:** The Object Detection Problem
 - **Item:** 2D Object Detection with CNNs
 - **Item:** Trainign vs Inference
+- **Item:** The Semantic Segmentation Problem
+- **Item:** Convolutional NN for Semantic Segmentation
+- **Item:** Semantic Segmentation for Road Scene Understanding
 - **Item:** Deep Reinforcement Learning for Autonomous Vehicles
 
 #### Applications
