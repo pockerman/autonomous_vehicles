@@ -128,9 +128,30 @@ Finally, we will install the PiCamera library so that we can interact with the P
 sudo pip3 install picamera[array] numpy
 \end{lstlisting}
 
-\section{Building our first app with these tools}
+\section{Building a Flask Web Server}
 
+Downloading one picture at a time is fine, but we actually need to be able to do things with
+those pictures on the robot. We also need a handy way to see what the robot is doing with
+the camera data. For that, we will reach back into our toolkit, and use a Flask web server to
+serve up our pictures. We can use the core of this app to make a few different behaviors.
+We'll keep the base app around for them.
 
+Figure \ref{server_app} shows a pipeline, with our image data going from the camera,
+through the pipeline, and out to our web browser. The process image step can be anything
+we require; for this example, we'll apply a color mask, which we explore in more depth in
+the next section:
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.280]{img/raspberrypi/server_app.jpeg}
+\end{center}
+\caption{The image server app.}
+\label{server_app}
+\end{figure}
+
+It's time to start building the code to do this. Because this is fairly complex, we'll break it
+down into two major parts: first, a \lstinline{CameraStream} object, which will send our frames to an
+\lstinline{image_server.py} script, the second part of our code project.
 
 
 

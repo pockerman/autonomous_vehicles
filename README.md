@@ -26,8 +26,8 @@
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Iterative Closest Point Algorithm</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Inertial Measurement Unit</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Global Navigation Satelite Systems</a>
-- **Item:** The Camera Sensor
-- **Item:** The Camera Calibration
+- **Item:** <a href="autonomous_vehicles_notes/visual_perception_notes/notes.pdf">The Camera Sensor</a>
+- **Item:** <a href="autonomous_vehicles_notes/visual_perception_notes/notes.pdf">The Camera Calibration</a>
 - **Item:** Visual Depth Perception 
 - **Item:** Image Filtering
 - **Item:** Image Features and Feature Detectors

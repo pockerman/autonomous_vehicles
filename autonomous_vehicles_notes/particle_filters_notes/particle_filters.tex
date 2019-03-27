@@ -184,13 +184,8 @@ where $q_{k-1}\sim N(0,10)$ and $r_k \sim N(0,1)$.
 \end{exmp}
 \end{framed}
 
-%\begin{figure}[!htb]
-%\begin{center}
-%\includegraphics[scale=0.280]{img/kalman_filter/kalman_3.jpeg}
-%\end{center}
-%\caption{The linear Kalman filter steps.}
-%\label{kalman_3}
-%\end{figure}
+\section{Rao-Blackwellized Particle Filter}
+\label{rao_blackwellized_particle_filter}
 
 
 \section{Summary}
@@ -259,29 +254,178 @@ Which one of the following figures illustrates the resampled particles?
 \label{P3_7_3_4_ex1}
 \end{figure}
 \end{enumerate}
+\item Bearing only tracking with a constant velocity motion in 2D, what is $\mathbf{x}_{k}^{l}, \mathbf{u}_{k}^{l}$ and $\mathbf{y}_{k}$ in this case
 
-%\begin{figure}
-%\begin{subfigure}{.5\textwidth}
-%  \centering
-%  \includegraphics[width=.8\linewidth]{img/particle_filters/P1_7_3_4_ex1.png}
-%  \caption{Option A}
-%  \label{fig:sfig1}
-%\end{subfigure}%
-%\begin{subfigure}{.5\textwidth}
-%  \centering
-%  \includegraphics[width=.8\linewidth]{img/particle_filters/P2_7_3_4_ex1.png}
-%  \caption{Option B}
-%  \label{fig:sfig2}
-%\end{subfigure}
-%\begin{subfigure}{.5\textwidth}
-%  \centering
-%  \includegraphics[width=.8\linewidth]{img/particle_filters/P3_7_3_4_ex1.png}
-%  \caption{Option C}
-%  \label{fig:sfig2}
-%\end{subfigure}
-%\caption{Options for question.}
-%\label{fig:fig}
-%\end{figure}
+\begin{enumerate}
+\item $\mathbf{x}_{k}^{l}$: position, $\mathbf{u}_{k}^{l}$: velocity, $\mathbf{y}_{k}$: bearing to target
+\item $\mathbf{x}_{k}^{l}$: velocity, $\mathbf{u}_{k}^{l}$: position, $\mathbf{y}_{k}$: bearing to target
+\item $\mathbf{x}_{k}^{l}$: velocity, $\mathbf{u}_{k}^{l}$: bearing to target, $\mathbf{y}_{k}$: position
+\end{enumerate} 
+
+\item Which of the following is true about the SIS (Sequential Importance Sampling) particle filter?
+
+\begin{enumerate}
+\item It outputs strictly Gaussian posterior distribution approximations. 
+\item It can approximate multi-modal state distributions. 
+\item It eventually degenerates to just a few particles with significant weights. 
+\item It is a special case of a sigma-point filter. 
+\end{enumerate}
+
+\item With the particle filters we approximate the posterior as 
+\begin{equation}
+p(\mathbf{x}_k | \mathbf{y}_{1:k} \approx \sum_{i=1}^{N} w_{k}^{(i)}\delta(\mathbf{x}_k - \mathbf{x}_{k}^{(i)})
+\end{equation}
+Which of the following statements regarding this approximation are true?
+
+\begin{enumerate}
+\item $\mathbf{x}_k$ can take any value in $[\text{min}_i \mathbf{x}_{k}^{(i)},\text{max}_i \mathbf{x}_{k}^{(i)}]$
+\item We can view this as a discrete distribution where $P(\mathbf{x}_{k} = \mathbf{x}_{k}^{(i)} | \mathbf{y}_{1:k}) = w_{k}^{(i)}$.
+\item It follows that  $E[\mathbf{x}_{k} | \mathbf{y}_{1:k}] \approx \sum_{i=1}^{N} w_{k}^{(i)}\mathbf{x}_{k}^{(i)}$.
+\item We can get arbitratry fine approximation by just in-creasing the number of particles, $N$ . 
+\end{enumerate}
+
+\item Consider Figure \ref{P6_importancesampling}
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.320]{img/particle_filters/P6_importancesampling.png}
+\end{center}
+\caption{Figure for exe}
+\label{P6_importancesampling}
+\end{figure}
+
+Which one of the Figures \ref{P6a_importancesampling}, \ref{P6b_importancesampling}, \ref{P6c_importancesampling} and \ref{P6d_importancesampling} is the importance sampling approximation of $p(x)$ using $q(x)$ ?
+
+\begin{enumerate}
+\item \begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.320]{img/particle_filters/P6a_importancesampling.png}
+\end{center}
+\caption{Option A}
+\label{P6a_importancesampling}
+\end{figure}
+\item \begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.320]{img/particle_filters/P6b_importancesampling.png}
+\end{center}
+\caption{Option B}
+\label{P6b_importancesampling}
+\end{figure}
+\item \begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.320]{img/particle_filters/P6c_importancesampling.png}
+\end{center}
+\caption{Option C}
+\label{P6c_importancesampling}
+\end{figure}
+\item \begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.320]{img/particle_filters/P6d_importancesampling.png}
+\end{center}
+\caption{Option D}
+\label{P6d_importancesampling}
+\end{figure}
+\end{enumerate}
+
+\item Consider Figure \ref{P7_importancesampling}
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.320]{img/particle_filters/P7_importancesampling.png}
+\end{center}
+\caption{Figure for exe}
+\label{P7_importancesampling}
+\end{figure}
+
+Which one of the Figures \ref{P7a_importancesampling}, \ref{P7b_importancesampling}, \ref{P7c_importancesampling} and \ref{P7d_importancesampling} is the importance sampling approximation of $p(x)$ using $q(x)$ ?
+
+\begin{enumerate}
+\item \begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.320]{img/particle_filters/P7a_importancesampling.png}
+\end{center}
+\caption{Option A}
+\label{P7a_importancesampling}
+\end{figure}
+\item \begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.320]{img/particle_filters/P7b_importancesampling.png}
+\end{center}
+\caption{Option B}
+\label{P7b_importancesampling}
+\end{figure}
+\item \begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.320]{img/particle_filters/P7c_importancesampling.png}
+\end{center}
+\caption{Option C}
+\label{P7c_importancesampling}
+\end{figure}
+\item \begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.320]{img/particle_filters/P7d_importancesampling.png}
+\end{center}
+\caption{Option D}
+\label{P7d_importancesampling}
+\end{figure}
+\end{enumerate}
+
+\item Which of the following is true about the SIS (Sequential Importance Sampling) particle filter?
+
+\begin{enumerate}
+\item It outputs strictly Gaussian posterior distribution approximations. 
+\item It can approximate multi-modal state distributions. 
+\item It eventually degenerates to just a few particles with significant weights. 
+\item It is a special case of a sigma-point filter. 
+\end{enumerate}
+
+\item Assume you want to compute the mean of a function $g(\mathbf{x})$ where $\mathbf{x}$ is distributed according to $p(\mathbf{x})$ which cannot
+be sampled from. To compute an approximate mean, you use importance sampling with a proposal density $q(\mathbf{x})$ and the normalized
+weights $w^{(i)}$.  What of the following is true?
+
+\begin{enumerate}
+\item The proposal density $q(\mathbf{x})$ must be proportional to $p(\mathbf{x})$
+\item Samples $\mathbf{x}^{(i)}$ are drawn from $g(\mathbf{x})$
+\item $p(\mathbf{x})$ is approximated by the samples $\mathbf{x}^{(i)}$ as $p(\mathbf{x}) \approx \frac{1}{N}\sum_{i=1}^{N}\delta(\mathbf{x}-\mathbf{x}^{(i)})$
+\item The mean of any function $g(\mathbf{x})$ is approximated as $E[g(\mathbf{x})] \approx \sum_{i=1}^{N} g(\mathbf{x}^{(i)})w^{(i)}$
+\item You must evaluate the densities $p(\mathbf{x}^{(i)})$ and $q(\mathbf{x}^{(i)})$ for each sample in order to compute the mean of $g(\mathbf{x})$ by importance sampling.
+\end{enumerate}
+
+\item Now you also want to compute the covariance of $g(\mathbf{x})$ . What of the following is true?
+
+\begin{enumerate}
+\item The proposal density $q(\mathbf{x})$ must have similar support as $g(\mathbf{x})$
+\item Covariance of any function $g(\mathbf{x})$ can be approximated using importance sampling as $\text{Cov}(g(\mathbf{x})) = \sum_{i=1}^{N}\text{Cov}(g(\mathbf{x}^{(i)}))w^{(i)}$
+\item When approximating the covariance of $g(\mathbf{x})$  using importance sampling, one can reuse the samples $\mathbf{x}^{(i)}$ and weights $w^{(i)}$ 
+from when approximating $E[g(\mathbf{x})]$ with importance sampling.
+\end{enumerate}
+
+\item  What of the following is true about the SIR (Sequential Importance Resampling) particle filter?
+
+\begin{enumerate}
+\item It solves the degeneracy problem.
+\item It should be performed at every time step. 
+\item The number of samples reduces after resampling. 
+\item Its performance depends on the quality of the importance distribtution. correct 
+\item The bootstrap filter is a typical variation of SIR. 
+\end{enumerate}
+
+\item Which of the following statements regarding resampling are true?
+
+\begin{enumerate}
+\item By resampling we make an approximation of our particle approximation of $p(\mathbf{x}_k | \mathbf{y}_{1:k})$
+\item By resampling we get a more accurate approximation of $p(\mathbf{x}_k | \mathbf{y}_{1:k})$ than what we had before we resampled.  
+\item By resampling we move the particles in a similar manner as we do in the measurement update of a Gaussian filter. 
+\item By resampling we focus our particles to high probability areas so they are not wasted in improbable states.  
+\end{enumerate}
+
+\item Resampling can sometimes result in lack of diversity.
+Consider the following toy example: There are two rooms, and the robot is unsure about which room it is in. The non-informative sensor shows equal probability of being in either room. We start with N particles equally distributed between the two rooms. How are particles distributed after a sufficiently long time if resampling is done at each time step?
+
+\begin{enumerate}
+\item We don't know. It depends on the distribution of last time step. 
+\item Each room will have the same number of particles. 
+\item The particles will converge to one of the two rooms.   
+\end{enumerate}
 
 \end{enumerate}
 

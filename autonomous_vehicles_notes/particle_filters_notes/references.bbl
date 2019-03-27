@@ -5,13 +5,4 @@ Thurn S.,
 \newblock{\em Particle Filters in Robotics}
 \newblock In Proceedings of Uncertainty in AI (UAI), 2002.
 
-\bibitem{Polack2017}
-Philip , Florent Altché1, Brigitte d’Andréa-Novel, and Arnaud de La Fortelle 
-\newblock{\em The Kinematic Bicycle Model: a Consistent Model for Planning Feasible Trajectories for Autonomous Vehicles?}
-\newblock HAL Id: hal-01520869, https://hal-polytechnique.archives-ouvertes.fr/hal-01520869
-
-\bibitem{MarcosROA}
-Marcos R. O., A. Maximo 
-\newblock{\em Model Predictive Controller for Trajectory Tracking by Differential Drive Robot with Actuation constraints}
-
 \end{thebibliography}
