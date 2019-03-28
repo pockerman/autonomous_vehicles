@@ -14,7 +14,8 @@ represented in software. Equipped with the projection equations in image definit
 you will then be able to create algorithms for detecting objects in 3D and localizing
 the self-driving car later on in the course. 
 
-\section{Problem Definition}
+\subsection{Problem Definition}
+\label{camera_projective_geometry_problem_definition}
 
 First, let's define
 the problem we need to solve. Let's start with a
@@ -30,50 +31,52 @@ with this sensor plane instead of the real image
 plane behind the camera lens. We will call this model the
 simplified camera model, and need to develop
 a model for how to project a point from the world
-frame coordinates $x, y, z$ to, image coordinates $u, v$. 
+frame coordinates $X_{w}, Y_{w}, Z_{w}$ to, image coordinates $u, v$. 
 
 We begin by defining the following
 characteristics of the cameras that are
 relevant to our problem. First, we select
-a world frame in which to define the coordinates of
-all objects and the camera. We also define the camera coordinate frame as
+a world frame, $W$, in which to define the coordinates of
+all objects and the camera. We also define the camera coordinate frame, $C$, as
 the coordinate frame attached to the center of our lens aperture known
-as the optical sensor. We can define a translation
+as the \textbf{optical sensor}. We can define a translation
 vector and a rotation matrix to model any transformation between a world coordinate
-frame and another, and in this case, we'll use the world coordinate frame and
-the camera coordinate frame. We refer to the parameters
-of the camera pose as the extrinsic parameters, as they are external to
+frame $W$ and another, and in this case, we'll use the world coordinate frame and
+the camera coordinate frame. We refer to the parameters of the camera pose as the extrinsic parameters, as they are external to
 the camera and specific to the location of the camera in the world coordinate frame. We define our image coordinate frame as the coordinate
 frame attached to our virtual image plane emanating from
 the optical center. The image pixel coordinate system however, is attached to
-the top left corner of the virtual image plane. So we'll need to adjust the pixel locations to
+the top left corner of the virtual image plane. So we need to adjust the pixel locations to
 the image coordinate frame. Next, we define the focal length $f$
-as the distance between the camera and the
-image coordinate frames along the z-axis of
-the camera coordinate frame. Finally, our projection
-problem reduces to two steps. 
+as the distance between the camera and the image coordinate frames along the $z_C$-axis of
+the camera coordinate frame. Finally, our projection problem reduces to two steps. 
 
 \begin{enumerate}
 \item Project from the world to the camera coordinates
 \item Project from the camera coordinates to the image coordinates 
 \end{enumerate}
 
-We can then transform
-image coordinates to pixel coordinates through
+We can then transform image coordinates to pixel coordinates through
 scaling and offset. We now have the geometric model to allow us to
 project a point from that world frame to the image coordinate frame,
 whenever we want. 
 
 
 \subsection{Mathematical Formulation}
+\label{mathematical_formulation}
 
 Let us formulate the mathematical tools needed to perform this
-projection using linear algebra. First, we begin with
-the transformation from the world to the camera
-coordinate frame. This is performed using the rigid body
-transformation matrix $\mathbf{T}$, which has $\mathbf{R}$ and $t$ in it. The next step is to transform camera coordinates to
+projection using linear algebra. First, we begin with the transformation from the world to the camera
+coordinate frame, namely $W \rightarrow C$. This is performed using the rigid body
+transformation matrix $\mathbf{T}$, which has $\mathbf{R}$ and $t$ in it. Hence, we have
+
+\begin{equation}
+\mathbf{O}_{camera} = [\mathbf{R}|t]\mathbf{O}_{world}
+\end{equation}
+
+The next step is to transform camera coordinates to
 image coordinates. To perform this transformation, we define the matrix $\mathbf{K}$ as
-a three-by-three matrix. 
+the three-by-three matrix given by equation \ref{k_matrix}. 
 
 \begin{equation}
 \mathbf{K}=
@@ -82,10 +85,10 @@ f & 0 & u_0 \\
 0 & f & v_0 \\
 0 & 0 & 1
 \end{bmatrix}
+\label{k_matrix}
 \end{equation}
 
-This matrix depends on
-camera intrinsic parameters, which means it depends on components internal to the camera such as the camera geometry and the camera lens
+This matrix depends on camera intrinsic parameters, which means it depends on components internal to the camera such as the camera geometry and the camera lens
 characteristics. Since both transformations are just matrix multiplications, we can define a matrix $\mathbf{P}$
 
 \begin{equation}
@@ -101,10 +104,9 @@ the image coordinate frame. The coordinates of point $\mathbf{O}_{world}$ can no
 \end{equation}
 
 So, let's see what we're still missing to compute this equation. When we expect
-the matrix dimensions, we noticed that
-the matrix multiplication cannot be performed. To remedy this problem, we transform the coordinates of the point $\mathbf{O}$ into
-homogeneous coordinates, and this is done by adding
-a one at the end of the 3D coordinates. 
+the matrix dimensions, we noticed that the matrix multiplication cannot be performed. 
+In order to remedy this problem, we transform the coordinates of the point $\mathbf{O}$ into
+homogeneous coordinates. This is done by adding a one at the end of the 3D coordinates. 
 
 
 \begin{framed}
@@ -125,18 +127,14 @@ inhomogeneous representation.
 \end{framed}
 
 
-So, now the dimensions
-work and we're all ready to start computing
+So, now the dimensions work and we are all ready to start computing
 our projections. Now, we need to perform
-the final step, transforming the image
-coordinates to pixel coordinates. We do so by dividing x and y by z to get homogeneous coordinates
-in the image plane. 
+the final step, transforming the image coordinates to pixel coordinates. 
+We do so by dividing $x$ and $y$ by $z$ to get homogeneous coordinates in the image plane. 
 
 This is the basic  camera projection model. In practice, we usually model more complex phenomena
-such as non-square pixels, camera access skew, distortion
-and non unit aspect ratio. Luckily, this only changes
-the camera $\mathbf{K}$ matrix, and the equations above can be used as is with a few
-additional parameters. 
+such as non-square pixels, camera access skew, distortion and non unit aspect ratio. Luckily, this only changes
+the camera $\mathbf{K}$ matrix, and the equations above can be used as is with a few additional parameters. 
 
 Now that we have formulated
 the coordinates of projection of a 3D point onto
@@ -156,9 +154,7 @@ three we call depth. Each channel of
 this depth represents how much of a certain color
 exists in the image. 
 
-
-Many other color
-representations are available, but we will be using
+Many other color representations are available, but we will be using
 the RGB representation, so red green and blue. 
 
 In conclusion, an image is represented digitally as an $M \times N \times 3$ array of pixels, with each pixel

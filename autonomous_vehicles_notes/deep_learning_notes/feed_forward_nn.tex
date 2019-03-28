@@ -70,7 +70,7 @@ activation value. The idea of using many layers of vector-valued representations
 is drawn from neuroscience.
 
 \begin{framed}
-\begin{remark}
+\begin{remark}{}
 
 Modern neural network research,
 however, is guided by many mathematical and engineering disciplines, and the
@@ -78,6 +78,29 @@ goal of neural networks is not to perfectly model the brain. It is best to think
 feedforward networks as function approximation machines that are designed to
 achieve statistical generalization, occasionally drawing some insights from what we
 know about the brain, rather than as models of brain function.
+\end{remark}
+\end{framed}
+
+
+\begin{framed}
+\begin{remark}{\textbf{Mean Square Error}}
+
+Given a model $f(\mathbf{x};\boldsymbol{\theta})$ and a training set $X$, the Mean Square Error or MSE
+over the whole training set is defined as
+
+\begin{equation}
+J(\boldsymbol{\theta}) = \frac{1}{4}\sum_{\mathbf{x} \in X} (f^{*}(\mathbf{x})-f(\mathbf{x};\boldsymbol{\theta}))^2
+\end{equation}
+
+\end{remark}
+\end{framed}
+
+\begin{framed}
+\begin{remark}{\textbf{Const Function}}
+
+The Mean Square Error or MSE is a typical cost function. However, it may not be the best
+choice when dealing with binary data.
+
 \end{remark}
 \end{framed}
 

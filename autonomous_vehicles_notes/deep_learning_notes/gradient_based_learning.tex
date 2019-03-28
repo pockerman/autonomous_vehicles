@@ -1,0 +1,55 @@
+\chapter{Gradient-Based Learning}
+\label{gradient_based_learning}
+
+Neural networks are a method to approximate arbitrary functions. These functions are typically
+nonlinear. This nonlinearity  causes most interesting loss functions to become nonconvex.
+
+This means that training a  NN requires an  iterative, gradient-based optimizers that merely drive the cost
+function to a very low value, rather than the linear equation solvers used to train
+linear regression models or the convex optimization algorithms with global convergence guarantees used to train logistic regression or SVMs. 
+
+Convex optimization converges starting from any initial parameters (in theory—in practice it is robust
+but can encounter numerical problems). Stochastic gradient descent applied to
+nonconvex loss functions has no such convergence guarantee and is sensitive to the
+values of the initial parameters. For feedforward neural networks, it is important to
+initialize all weights to small random values. The biases may be initialized to zero
+or to small positive values. For the moment, it suffices to understand that the training algorithm
+is almost always based on using the gradient to descend the cost function in one
+way or another. 
+
+
+We can of course train models such as linear regression and support vector
+machines with gradient descent too, and in fact this is common when the training
+set is extremely large. From this point of view, training a neural network is not
+much different from training any other model. Computing the gradient is slightly
+more complicated for a neural network but can still be done effciently and exactly.
+
+As with other machine learning models, to apply gradient-based learning we
+must choose a cost function, and we must choose how to represent the output of
+the model. We now revisit these design considerations with special emphasis on
+the neural networks scenario.
+
+\subsection{Cost Functions}
+
+An important aspect of the design of a deep neural network is the choice of the
+cost function. Fortunately, the cost functions for neural networks are more or less
+the same as those for other parametric models e.g. linear models.
+
+Thus, in most cases, the paramemtric model defines a distribution $p(\mathbf{y} | \mathbf{x}; \boldsymbol{\theta})$ and we simply
+use the principle of maximum likelihood. This means we use the
+cross-entropy between the training data and the model’s predictions as the cost function.
+
+
+\begin{framed}
+\begin{remark}{\textbf{Principle of Maximum Likelihood}}
+\end{remark}
+\end{framed} 
+
+Sometimes, we take a simpler approach, where rather than predicting a complete
+probability distribution over $\mathbf{y}$, we merely predict some statistic of
+it  conditioned on $\mathbf{x}$. Specialized loss functions enable us to train a predictor of these estimates.
+
+The total cost function used to train a neural network will often combine one
+of the primary cost functions described here with a regularization term. 
+The weight decay approach used for linear models is also directly
+applicable to deep neural networks and is among the most popular regularization strategies.

@@ -120,6 +120,7 @@
 #### Applications
 
 - **Item:** <a href="simulator/application_notebooks/deep_learning/pytorch/getting_started_pytorch.ipynb">Getting Started With PyTorch</a>
+- **Item:** <a href="simulator/application_notebooks/deep_learning/pytorch/automatic_differentiation.ipynb">Automatic Differentiation PyTorch</a>
 - **Item:** <a href="simulator/application_notebooks/deep_learning/environment_perception_for_self_driving_cars.ipynb">Environment Perception for Self-Driving Cars</a>
 
 ### Part: Software Architecture & Safety
