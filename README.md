@@ -144,6 +144,7 @@
 - <a href="useful_videos.md">Useful Videos</a>
 - <a href="courses.md">Courses</a>
 - <a href="links.md">Links</a>
+- <a href="books_notes.md">Books & Papers</a>
 - <a href="notebooks_and_projects.md">Useful Notebooks & Projects</a>
 
 
