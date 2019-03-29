@@ -11,9 +11,17 @@ linear regression models or the convex optimization algorithms with global conve
 Convex optimization converges starting from any initial parameters (in theory—in practice it is robust
 but can encounter numerical problems). Stochastic gradient descent applied to
 nonconvex loss functions has no such convergence guarantee and is sensitive to the
-values of the initial parameters. For feedforward neural networks, it is important to
+values of the initial parameters. 
+
+\begin{framed}
+\begin{remark}
+For feedforward neural networks, it is important to
 initialize all weights to small random values. The biases may be initialized to zero
-or to small positive values. For the moment, it suffices to understand that the training algorithm
+or to small positive values. 
+\end{remark}
+\end{framed}
+
+For the moment, it suffices to understand that the training algorithm
 is almost always based on using the gradient to descend the cost function in one
 way or another. 
 
@@ -53,3 +61,55 @@ The total cost function used to train a neural network will often combine one
 of the primary cost functions described here with a regularization term. 
 The weight decay approach used for linear models is also directly
 applicable to deep neural networks and is among the most popular regularization strategies.
+
+
+\subsubsection{Learning Conditional Distributions with Maximum Likelihood}
+
+Most modern neural networks are trained using maximum likelihood. This means
+that the cost function is simply the negative log-likelihood, equivalently described
+as the cross-entropy between the training data and the model distribution. This
+cost function is given by
+
+\begin{itemize}
+J(\boldsymbol{\theta}) = - E[log p_{model}(\mathbf{y}|\mathbf{x})], \mathbf{x}, \mathbf{y}\sim \hat{p}_{data}
+\end{itemize}
+
+The speciﬁc form of the cost function changes from model to model, depending
+on the speciﬁc form of $log p_{model}$ . The expansion of the above equation typically
+yields some terms that do not depend on the model parameters and may be discarded.
+
+
+\begin{framed}
+\begin{remark}{\textbf{Why Take The Log?}}
+
+One recurring theme throughout neural network design is that the gradient of
+the cost function must be large and predictable enough to serve as a good guide
+for the learning algorithm. Functions that saturate (become very ﬂat) undermine
+this objective because they make the gradient become very small. In many cases
+this happens because the activation functions used to produce the output of the
+hidden units or the output units saturate. The negative log-likelihood helps to
+avoid this problem for many models. Several output units involve an
+exponential function
+that can saturate when its argument is very negative. The log
+function in the negative log-likelihood cost function undoes the
+exponential  of some output units.
+\end{remark}
+\end{framed}
+
+
+\begin{framed}
+\begin{remark}
+
+One unusual property of the cross-entropy cost used to perform maximum
+likelihood estimation is that it usually does not have a minimum value when applied
+to the models commonly used in practice. For discrete output variables, most
+models are parametrized in such a way that they cannot represent a probability
+of zero or one, but can come arbitrarily close to doing so. Logistic regression
+is an example of such a model. For real-valued output variables, if the model
+can control the density of the output distribution (for example, by learning the
+variance parameter of a Gaussian output distribution) then it becomes possible
+to assign extremely high density to the correct training set outputs, resulting in
+cross-entropy approaching negative inﬁnity.
+
+\end{remark}
+\end{framed}
