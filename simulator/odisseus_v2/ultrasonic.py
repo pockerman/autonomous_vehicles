@@ -1,0 +1,3 @@
+
+class Ultrasonic(object):
+    pass
