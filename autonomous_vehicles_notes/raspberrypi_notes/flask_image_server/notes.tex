@@ -1,0 +1,42 @@
+\documentclass{paper}
+\usepackage{nomencl}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{parskip}
+\usepackage[toc,page]{appendix}
+\usepackage{csquotes}
+\usepackage{framed}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\small %\footnotesize,% basic font setting
+}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+ 
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+\title{Create A Flask Image Server}
+\author{A. Giavaras}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\clearpage
+\input{section.tex}
+\clearpage
+
+\bibliographystyle{plain}
+\end{document}
