@@ -19,3 +19,4 @@ autonomous_vehicles_notes/raspberrypi_notes/computer_vision/notes.out
 autonomous_vehicles_notes/raspberrypi_notes/use_sftp/notes.out
 autonomous_vehicles_notes/vehicle_modeling_chronos_notes/notes.out
 autonomous_vehicles_notes/raspberrypi_notes/flask_image_server/*.out
+simulator/odisseus_v2/image_server/__pycache__/
