@@ -8,13 +8,13 @@ def open_and_save(imgfile, imgoutfile):
 	# load the image but in greyscale
 	img = cv2.imread(imgfile)
 	
-	k = cv.waitKey(0) & 0xFF
+	k = cv2.waitKey(0) & 0xFF
 	
 	if k==27: # wait for ESC key to exit
-        cv.destroyAllWindows()
+        cv2.destroyAllWindows()
     elif k == ord('s'): # wait for 's' key to save and exit
-        cv.imwrite(imgoutfile, img)
-        cv.destroyAllWindows()
+        cv2.imwrite(imgoutfile, img)
+        cv2.destroyAllWindows()
 
 	# the image is displayed in a window using
 	#cv2.imshow('image', img)

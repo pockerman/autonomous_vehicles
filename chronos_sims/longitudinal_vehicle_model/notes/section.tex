@@ -8,7 +8,26 @@ In this section, we will develop a longitudinal vehicle model using the  \lstinl
 
 \subsection{Setup the Vehicle}
 
-Our vehicle will be represented by the \lstinline{Vehicle} class.
+Our vehicle will be represented by the \lstinline{Vehicle} class. This class wraps the following information for us
+
+\begin{itemize}
+\item \lstinline{std::shared_ptr<chrono::ChSystem> system_}
+\item \lstinline{std::shared_ptr<vehicle_t> vehicle_}
+\item \lstinline{std::shared_ptr<powertrain_t> powertrain_}
+\item \lstinline{chrono::ChMaterialSurface::ContactMethod contact_method_}
+\item \lstinline{chrono::vehicle::TireModelType tire_type_}
+\item \lstinline{chrono::ChCoordsys<> init_pos_}
+\item \lstinline{bool is_fixed_}
+\item \lstinline{bool apply_drag_}
+\item \lstinline{std::vector<double> init_omega_}
+\item \lstinline{std::array<chrono::vehicle::ChTire*, 4> tires_}
+\item \lstinline{std::map<std::string, double> properties_}
+\end{itemize}
+
+
+Every simulation must have a \lstinline{Vehicle}
+
+
 \subsection{Setup the Terrain}
 
 

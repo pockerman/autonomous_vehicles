@@ -1,4 +1,6 @@
 
+import cv2
+
 class PiRGBArray(object):
 
     def __init__(self, camera, size):
@@ -7,6 +9,20 @@ class PiRGBArray(object):
 
     def truncate(self, val):
         pass
+
+
+class ImgArray(object):
+
+    def __init__(self, img):
+        self.__img = img
+
+    @property
+    def array(self):
+        return self.__img
+
+    @array.setter
+    def array(self, value):
+        self.__img = value
 
 class PiCamera(object):
     """
@@ -36,4 +52,5 @@ class PiCamera(object):
 
 
     def capture_continuous(self, image_storage, format, use_video_port):
-        pass
+        img = cv2.imread('img/image_1.png')
+        return [ImgArray(img)]*10
