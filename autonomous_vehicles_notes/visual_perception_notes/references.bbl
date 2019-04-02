@@ -1,5 +1,14 @@
 \begin{thebibliography}{10}
 
+\bibitem{PinholeCameraWiki}
+\newblock \url{https://en.wikipedia.org/wiki/Pinhole_camera}
+
+\bibitem{CameraCalibration1}
+\newblock \url{https://boofcv.org/index.php?title=Tutorial_Camera_Calibration}
+
+\bibitem{CameraCalibration2}
+\newblock \url{https://docs.opencv.org/3.4.3/dc/dbb/tutorial_py_calibration.html}
+
 \bibitem{SAE2014}
 SAE
 \newblock{\em Taxonomy of Driving}

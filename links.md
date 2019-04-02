@@ -5,6 +5,12 @@
 - **Object Detection with Tensor Flow API:** https://github.com/tensorflow/models/tree/master/research/object_detection
 
 
+### Camera Calibration
+
+- **Camera Calibration OpenCV:** https://docs.opencv.org/3.4.3/dc/dbb/tutorial_py_calibration.html
+- **Camera Calibration BoofCV:** https://boofcv.org/index.php?title=Tutorial_Camera_Calibratio
+
+
 ## GitHub
 
 - **List on books/notes for SLAM:** https://github.com/liulinbo/slam
