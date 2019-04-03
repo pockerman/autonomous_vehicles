@@ -126,11 +126,16 @@ From here, we use the fact that any square matrix can be factored into an upper
 triangular matrix $\mathbf{R}$ and an orthogonal basis
 to decompose $\mathbf{M}$ into upper triangular $\mathbf{R}$ and orthogonal basis $\mathbf{Q}$. 
 In linear algebra, this procedure is known as $RQ$ factorization, which is a variant
-of the more commonly referred to $QR$ factorization. In $QR$ factorization, we have the orthogonal Q
-first and then the upper triangular
-R. Note here that the R and the output
-of RQ factorization, is a different variable than
-our rotation matrix R. So, don't get those confused. 
+of the more commonly referred to $QR$ factorization. In $QR$ factorization, we have the orthogonal $\mathbf{Q}$
+first and then the upper triangular $\mathbf{R}$. 
+
+\begin{framed}
+\begin{remark}
+Note here that the $\mathbf{R}$ and the output
+of $RQ$ factorization, is a different variable than our rotation matrix $\mathbf{R}$. 
+\end{remark}
+\end{framed}
+
 
 Let us now see how we can use the output of $RQ$ factorization of
 the matrix $\mathbf{M}$ to retrieve $\mathbf{K}, $\mathbf{R}$, and $\mathbf{t}$ by aligning
