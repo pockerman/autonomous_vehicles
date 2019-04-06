@@ -3,32 +3,35 @@
 
 Section \ref{camera_projective_geometry_problem_definition} discussed which camera parameters are needed for projective
 geometry to work. In this section, we will learn how to get these camera parameters using the mathematical tools
-of calibration. 
+of calibration, see \cite{CameraCalibration1}. 
 
-Recall the projection equations. The homogeneous
-coordinates of point $\mathbf{O}$ in 3D space can be transformed
-to the camera plane, with the camera
-projection matrix $\mathbf{P}$, which includes both extrinsic
+Thus, camera calibration is the process of estimating intrinsic and/or extrinsic parameters. 
+Intrinsic parameters deal with the camera's internal characteristics, such as, its focal length, skew, distortion, and image center. 
+Extrinsic parameters describe its position and orientation in the world. 
+Knowing intrinsic parameters is an essential first step for 3D computer vision, as it allows you to estimate the scene's structure in Euclidean space and removes lens distortion, 
+which degrades accuracy,  \cite{CameraCalibration1}. 
+
+Recall the projection equations. The homogeneous coordinates of point $\mathbf{O}$ in 3D space can be transformed
+to the camera plane, with the camera projection matrix $\mathbf{P}$, which includes both extrinsic
 and extrinsic parameters. 
 
 \begin{equation}
 \mathbf{O}_{image} = \mathbf{P}\mathbf{O}_{world}
 \end{equation}
 
-Remember, the projected coordinates need to be converted to homogeneous form
+Remember, the projected coordinates need to be converted to a homogeneous form
 to get the $u,v$ pixel locations in pixel coordinates. 
-We do this by dividing the image coordinates by the $z$-component. Finally, $u$ and $v$ can
+We can  do this by dividing the image coordinates by the $z$-component. Finally, $u$ and $v$ can
 then be multiplied with an arbitrary scale $s$. We multiply by $s$, as it will be useful
 later on when we formulate the calibration problem. It is important to
 note that scale plays a challenging role in understanding monocular
 image information, as once points are projected from the 3D world onto
 the 2D image plane, scale information is lost. Points in 3D space along
 a ray from the camera center, all project to the same location
-on the image plane, and it is therefore not
-possible to directly associate a depth to a point given
-only image information. 
+on the image plane, and it is therefore not possible to directly associate a depth to a point given only image information. 
 
 \subsection{The Camera Calibration Problem}
+\label{cam_calib_problem}
 
 The camera calibration problem is defined as finding these unknown intrinsic and
 extrinsic camera parameters, shown here in red given $n$ known 3D point coordinates and
@@ -82,24 +85,23 @@ two equations per point. Therefore, if we have $n$ points, we have $2n$ associat
 Putting these equations in matrix form gives us the following homogeneous
 linear system. 
 
-Since this is a
-homogeneous linear system, we can use the pseudo-inverse
+Since this is a homogeneous linear system, we can use the pseudo-inverse
 or even better, the singular value decomposition to get the least
 squares solution. Our simple linear
 calibration approach has several advantages. It's easy to formulate, has a closed form solution, and often provides
-really good initial points for non-linear
-calibration approaches. Can you think of
-some disadvantages of a simple linear system? One disadvantage
+really good initial points for non-linear calibration approaches. 
+
+However, this simple approach has some disadvantages. One disadvantage
 of solving for $\mathbf{P}$, is that we do not directly get the intrinsic and extrinsic
 camera parameters. Furthermore, our linear model does not take into account
 complex phenomena, such as radial and
 tangential distortion. Finally, since we are solving via the linear least
-squares method, we cannot impose constraints
-on our solution, such as requiring the focal
-length to be non-negative. The camera projection
-matrix $\mathbf{P}$ by itself, is useful for projecting
-3D points into 2D, but it has several drawbacks. It doesn't tell you
-the cameras pose and it doesn't tell you about
+squares method, we cannot impose constraints on our solution, such as requiring the focal
+length to be non-negative. 
+
+The camera projection matrix $\mathbf{P}$ by itself, is useful for projecting
+3D points into 2D, but it has several drawbacks. It does not tell you
+the cameras pose and it does not tell you about
 the camera's internal geometry. Fortunately, we can
 factorize $\mathbf{P}$ into intrinsic parameter matrix $\mathbf{K}$ 
 and extrinsic rotation parameters $\mathbf{R}$ and translation parameters $\mathbf{t}$, 
@@ -112,37 +114,59 @@ this factorization.
 First, we alter the representation of $\mathbf{P}$ to be a function of
 the camera center $\mathbf{C}$. $\mathbf{C}$ is the point that projects to
 zero when multiplied by $\mathbf{P}$. We multiply $\mathbf{K}$ into the matrix
-to form two sub-matrices, KR and minus KRC. We will refer to the combination of K and R as the M matrix. We can now express our projection matrix P as M and minus MC. From here, we use the fact
-that any square matrix can be factored into an upper
-triangular matrix R and an orthogonal basis
-to decompose M into upper triangular R
-and orthogonal basis Q. In linear algebra, this procedure is known as RQ factorization, which is a variant
-of the more commonly referred to QR factorization. In QR factorization, we have the orthogonal Q
-first and then the upper triangular
-R. Note here that the R and the output
-of RQ factorization, is a different variable than
-our rotation matrix R. So, don't get those confused. Let's now see how we
-can use the output of RQ factorization of
-the matrix M to retrieve K, R, and t by aligning
+to form two sub-matrices, $\mathbf{KR} and $-\mathbf{KRC}$. 
+We will refer to the combination of $\mathbf{K}$ and $\mathbf{R}$ as the $\mathbf{M}$ matrix. 
+We can now express our projection matrix $\mathbf{P}$ as 
+
+\begin{equation}
+\mathbf{P} = [\mathbf{M} | - \mathbf{MC}]
+\end{equation}
+
+From here, we use the fact that any square matrix can be factored into an upper
+triangular matrix $\mathbf{R}$ and an orthogonal basis
+to decompose $\mathbf{M}$ into upper triangular $\mathbf{R}$ and orthogonal basis $\mathbf{Q}$. 
+In linear algebra, this procedure is known as $RQ$ factorization, which is a variant
+of the more commonly referred to $QR$ factorization. In $QR$ factorization, we have the orthogonal $\mathbf{Q}$
+first and then the upper triangular $\mathbf{R}$. 
+
+\begin{framed}
+\begin{remark}
+Note here that the $\mathbf{R}$ and the output
+of $RQ$ factorization, is a different variable than our rotation matrix $\mathbf{R}$. 
+\end{remark}
+\end{framed}
+
+
+Let us now see how we can use the output of $RQ$ factorization of
+the matrix $\mathbf{M}$ to retrieve $\mathbf{K}, $\mathbf{R}$, and $\mathbf{t}$ by aligning
 these two expressions. The intrinsic calibration matrix
-K is the output R of the RQ factorization of M. The rotation matrix R is
-the orthogonal basis Q. Finally, we can extract the translation vector
-directly from K in the last column
-of the P matrix. RQ factorization is
-a great tool to compute K, R, and t from
-the camera P matrix. However, some mathematical
-assumptions need to be performed to guarantee a unique solution
-for these matrices. We will explore
-these assumptions in further detail with this lesson's practice
-Jupiter notebook. Monocular camera calibration is a well-established tool that has excellent implementations
-in C++, Python and MATLAB. You can test out some of the most common
-implementations by following the links we've included in
-the supplemental materials. So, to summarize. In this lesson,
-you've learned that the camera projection
-matrix P can be found through a process
-known as camera calibration. You've learnt that
-this matrix can be factored into the
-camera intrinsic matrix K and the camera's
-extrinsic parameters R and t, through
-RQ factorization. Next up, we'll discuss
-how to get depth from two camera sensors through stereovision. We'll see you then.
+$\mathbf{K}$ is the output $\mathbf{R}$ of the $RQ$ factorization of $\mathbf{M}$. 
+The rotation matrix $\mathbf{R}$ is the orthogonal basis $\mathbf{Q}$. 
+Finally, we can extract the translation vector directly from K in the last column of the $\mathbf{P}$ matrix. 
+
+$RQ$ factorization is a great tool to compute $\mathbf{K}, $\mathbf{R}$, and $\mathbf{t}$ from
+the camera $\mathbf{P} matrix. However, some mathematical assumptions need to be performed to guarantee a unique solution
+for these matrices. 
+
+%We will explore
+%these assumptions in further detail with this lesson's practice
+%Jupiter notebook. 
+
+Monocular camera calibration is a well-established tool that has excellent implementations
+in C++, Python and MATLAB. OpenCV camera calibration see \url{CameraCalibration2} 
+
+\section{Summary}
+
+So, to summarize. In this section, we discussed a method to identify the camera projection
+matrix $\mathbf{P}$. This method is known as camera calibration.
+We saw  that the matrix $\mathbf{P}$ can be factored into the following components
+
+\begin{itemize}
+\item Camera intrinsic matrix $\mathbf{K}$ 
+\itme Camera extrinsic parameters $\mathbf{R}$ and $\mathbf{t}, 
+\end{itemize}
+This can bed one  through $RQ$ factorization. 
+
+\section{Questions}
+
+\section{Assignements}
