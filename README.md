@@ -28,7 +28,7 @@
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Global Navigation Satelite Systems</a>
 - **Item:** <a href="autonomous_vehicles_notes/visual_perception_notes/notes.pdf">The Camera Sensor</a>
 - **Item:** <a href="autonomous_vehicles_notes/visual_perception_notes/notes.pdf">The Camera Calibration</a>
-- **Item:** Visual Depth Perception 
+- **Item:** <a href="autonomous_vehicles_notes/visual_perception_notes/notes.pdf">Visual Depth Perception</a> 
 - **Item:** Image Filtering
 - **Item:** Image Features and Feature Detectors
 - **Item:** Image Feature Descriptors

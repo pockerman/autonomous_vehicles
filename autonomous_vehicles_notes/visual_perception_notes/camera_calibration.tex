@@ -108,13 +108,13 @@ and extrinsic rotation parameters $\mathbf{R}$ and translation parameters $\math
 using a linear algebra operation known as the $RQ$ factorization. Let us see how we perform
 this factorization. 
 
-\subsection{$RQ Factorization}
+\subsection{$RQ$ Factorization}
 \label{rq_factorization}
 
 First, we alter the representation of $\mathbf{P}$ to be a function of
 the camera center $\mathbf{C}$. $\mathbf{C}$ is the point that projects to
 zero when multiplied by $\mathbf{P}$. We multiply $\mathbf{K}$ into the matrix
-to form two sub-matrices, $\mathbf{KR} and $-\mathbf{KRC}$. 
+to form two sub-matrices, $\mathbf{KR}$ and $-\mathbf{KRC}$. 
 We will refer to the combination of $\mathbf{K}$ and $\mathbf{R}$ as the $\mathbf{M}$ matrix. 
 We can now express our projection matrix $\mathbf{P}$ as 
 
@@ -138,14 +138,14 @@ of $RQ$ factorization, is a different variable than our rotation matrix $\mathbf
 
 
 Let us now see how we can use the output of $RQ$ factorization of
-the matrix $\mathbf{M}$ to retrieve $\mathbf{K}, $\mathbf{R}$, and $\mathbf{t}$ by aligning
+the matrix $\mathbf{M}$ to retrieve $\mathbf{K}, \mathbf{R}$, and $\mathbf{t}$ by aligning
 these two expressions. The intrinsic calibration matrix
 $\mathbf{K}$ is the output $\mathbf{R}$ of the $RQ$ factorization of $\mathbf{M}$. 
 The rotation matrix $\mathbf{R}$ is the orthogonal basis $\mathbf{Q}$. 
 Finally, we can extract the translation vector directly from K in the last column of the $\mathbf{P}$ matrix. 
 
-$RQ$ factorization is a great tool to compute $\mathbf{K}, $\mathbf{R}$, and $\mathbf{t}$ from
-the camera $\mathbf{P} matrix. However, some mathematical assumptions need to be performed to guarantee a unique solution
+$RQ$ factorization is a great tool to compute $\mathbf{K}, \mathbf{R}$, and $\mathbf{t}$ from
+the camera $\mathbf{P}$ matrix. However, some mathematical assumptions need to be performed to guarantee a unique solution
 for these matrices. 
 
 %We will explore
@@ -155,7 +155,7 @@ for these matrices.
 Monocular camera calibration is a well-established tool that has excellent implementations
 in C++, Python and MATLAB. OpenCV camera calibration see \url{CameraCalibration2} 
 
-\section{Summary}
+\subsection{Summary}
 
 So, to summarize. In this section, we discussed a method to identify the camera projection
 matrix $\mathbf{P}$. This method is known as camera calibration.
@@ -163,10 +163,10 @@ We saw  that the matrix $\mathbf{P}$ can be factored into the following componen
 
 \begin{itemize}
 \item Camera intrinsic matrix $\mathbf{K}$ 
-\itme Camera extrinsic parameters $\mathbf{R}$ and $\mathbf{t}, 
+\item Camera extrinsic parameters $\mathbf{R}$ and $\mathbf{t}$, 
 \end{itemize}
 This can bed one  through $RQ$ factorization. 
 
-\section{Questions}
+\subsection{Questions}
 
-\section{Assignements}
+\subsection{Assignements}

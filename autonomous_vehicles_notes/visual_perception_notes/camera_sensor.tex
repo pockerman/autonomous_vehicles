@@ -18,12 +18,9 @@ that provides the most detailed appearance information from objects in the envir
 is particularly useful for scene understanding tasks such as object detection, segmentation and identification. 
 Appearance information is what allows us to distinguish between road signs or
 traffic lights states, to track turn signals and resolve overlapping vehicles
-into separate instances. Because of its high
-resolution output, the camera is able to collect and provide orders of magnitude, more information than
-other sensors used in self-driving while still
-being relatively inexpensive. The combination of high valued
-appearance information and low cost make
-the camera an essential component of our sensor suite. 
+into separate instances. Because of its high resolution output, the camera is able to collect and provide orders of magnitude, more information than
+other sensors used in self-driving while still being relatively inexpensive. The combination of high valued
+appearance information and low cost make the camera an essential component of our sensor suite. 
 
 
 \subsection{The Pinhole Camera Model}
@@ -46,7 +43,7 @@ sensor is collecting light rays from multiple points on the object at the same
 location on the sensor. The solution to our problem is to put a barrier in front of the imaging sensor
 with a tiny hole or aperture in its center. The barrier allows only a small number of light rays to pass
 through the aperture, reducing the blurriness of the image. This model is called the \textbf{pinhole camera model} and describes the relationship between a point in
-the world and it's corresponding projection on the image plane, see for instance \ref{PinholeCameraWiki}. 
+the world and it's corresponding projection on the image plane, see for instance \cite{PinholeCameraWiki}. 
 
 The two most important parameters in a pinhole camera model are the distance between
 the pinhole and the image plane which we call the focal length and is typically denoted with $f$. 
