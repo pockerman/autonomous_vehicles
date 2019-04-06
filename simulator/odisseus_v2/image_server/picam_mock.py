@@ -32,6 +32,7 @@ class PiCamera(object):
     def __init__(self):
         self.__resolution = None
         self.__rotation = None
+        self.__img = None
 
 
     @property
@@ -52,5 +53,12 @@ class PiCamera(object):
 
 
     def capture_continuous(self, image_storage, format, use_video_port):
-        img = cv2.imread('img/image_1.png')
-        return [ImgArray(img)]*10
+
+        """
+        Continuouisly send the same image
+        """
+
+        if self.__img is None:
+            self.__img = cv2.imread('img/image_1.png')
+
+        return [ImgArray(self.__img)]*10

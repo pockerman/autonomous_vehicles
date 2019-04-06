@@ -1,18 +1,21 @@
+from multiprocessing import Process
+
 from conf import USE_MULTIPROCESSING
 from conf import INDEX_DISPLAY_TEMPLATE_NAME
 from conf import CAMERA_SLEEP_TIME
 from conf import DEBUG
 from conf import HOST
 from conf import PORT
+from conf import NEEDED_CAMERA_ROTATION
+from conf import display_queue
+from conf import control_queue
+from control_utils import controlled_image_server_behavior
 
 from flask import Flask
 from flask import render_template
 from flask import Response
 
 if USE_MULTIPROCESSING:
-    from multiprocessing import Process
-    from multiprocessing import Queue
-    from conf import QUEUE_MAX_SIZE
     from pi_camera_stream import frame_generator_from_queue
     CAMERA_SLEEP_TIME = 0.05
 else:
@@ -20,31 +23,6 @@ else:
 
 index_display_template = INDEX_DISPLAY_TEMPLATE_NAME
 
-display_queue = None
-
-if USE_MULTIPROCESSING:
-    control_queue = Queue()
-    display_queue = Queue(maxsize=QUEUE_MAX_SIZE)
-
-
-    def put_output_image(encoded_bytes):
-        """
-            Queue an output image
-        """
-        if display_queue.empty():
-            display_queue.put(encoded_bytes)
-
-
-    def get_control_instruction():
-        """
-            Get control instructions from the web app, if any
-        """
-
-        if control_queue.empty():
-            # nothing
-            return None
-        else:
-            return control_queue.get()
 
 app = Flask(__name__)
 
@@ -62,7 +40,7 @@ def display():
         return Response(frame_generator_from_queue(display_queue=display_queue, sleep_time=CAMERA_SLEEP_TIME),
                         mimetype='multipart/x-mixed-replace; boundary=frame')
     else:
-        return  Response(frame_generator(rotation=0.0, sleep_time=CAMERA_SLEEP_TIME),
+        return  Response(frame_generator(rotation=NEEDED_CAMERA_ROTATION, sleep_time=CAMERA_SLEEP_TIME),
                          mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
@@ -82,6 +60,13 @@ if USE_MULTIPROCESSING:
         server = Process(target=app.run, kwargs={"host": HOST, "debug": DEBUG, "port": PORT})
         server.start()
         return server
+
+
+    process = start_server_process('control_image_behavior.html')
+    try:
+        controlled_image_server_behavior(rotation=NEEDED_CAMERA_ROTATION, display_queue=display_queue, contorl_queue=control_queue)
+    finally:
+        process.terminate()
 
 else:
     app.run(host=HOST, debug=DEBUG, port=PORT)
