@@ -15,7 +15,6 @@ from flask import Flask
 from flask import render_template
 from flask import Response
 
-#USE_MULTIPROCESSING = True
 if USE_MULTIPROCESSING:
     from pi_camera_stream import frame_generator_from_queue
     CAMERA_SLEEP_TIME = 0.05

@@ -9,4 +9,8 @@
 \bibitem{CameraCalibration2}
 \newblock \url{https://docs.opencv.org/3.4.3/dc/dbb/tutorial_py_calibration.html}
 
+\bibitem{Nazil2013}
+Nazil Perveen, Darshan Kumarand, Ishan Bhardwaj,
+\newblock {\em Overview on Template MatchingMethodologies and its Applications}
+\newblock International Journal of Research in Computer and Communication Technology, Vol 2, pp 988-995, 2013. 
 \end{thebibliography}
