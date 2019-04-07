@@ -64,7 +64,7 @@ if USE_MULTIPROCESSING:
 
     process = start_server_process('control_image_behavior.html')
     try:
-        controlled_image_server_behavior(rotation=NEEDED_CAMERA_ROTATION, display_queue=display_queue, contorl_queue=control_queue)
+        controlled_image_server_behavior(rotation=NEEDED_CAMERA_ROTATION, display_queue=display_queue, control_queue=control_queue)
     finally:
         process.terminate()
 
