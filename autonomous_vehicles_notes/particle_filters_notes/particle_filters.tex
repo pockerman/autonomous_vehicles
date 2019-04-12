@@ -2,7 +2,7 @@
 \label{particle_filters}
 
 Gaussian filtering is a useful technique in order to perform nonlinear filtering. Popular techniques that 
-use Gaussian filtering are the   the extended and unscented Kalman filtering. However, these methods do not perform well when
+use Gaussian filtering are the extended and unscented Kalman filtering. However, these methods do not perform well when
 
 \begin{itemize}
 \item The models are highly nonlinear
@@ -10,11 +10,10 @@ use Gaussian filtering are the   the extended and unscented Kalman filtering. Ho
 \end{itemize}
 
 
-For these kinds of problems we need a different type of approximation to the posterior density. One such approach is the particle filter
+For these kinds of problems we need a different type of approximation to the posterior density $p(\mathbf{x}_t | \mathbf{z}_{t}; \mathbf{u}_{t})$. One such approach is the particle filter
 method that we will discuss in this section, see \cite{Thurn2002} for a short introduction. 
-
-
-The idea behind this filtering technique is  to aquire point-wise
+Particle filters are numerical techniques for approximating posterior probabilities in partially observable controllable Markov 
+chains with discrete time \cite{Thurn2002}.  The idea behind this filtering technique is  to aquire point-wise
 estimates, called samples, of the posterior $p(\mathbf{x}_k | \mathbf{y}_{1:k})$. Then, as the number of samples increases,
 the accuracy of the approximation increases. 
 
@@ -22,7 +21,7 @@ the accuracy of the approximation increases.
 \label{particle_filter_introduction}
 
 Particle filters have solved several hard perceptual problems in robotics. Concretely, particle filters were able to solve
-two important problmes; the global localization problem and the kidnapped robot problem, see \cite{Thurn2002} and references therein.
+two important problems; the global localization problem and the kidnapped robot problem, see \cite{Thurn2002} and references therein.
 Another example where the particle filters approach is used successfully is the simultaneous localization and mapping (SLAM) problem \cite{Thurn2002}.
 In particular, FastSLAM has been demonstrated to solve problems with more than 100000 dimensions in real-time \cite{Thurn2002}. 
 
@@ -58,8 +57,8 @@ The basis of these methods is an algorithm called  sequential importance samplin
 \subsection{Mathematical Formulation}
 \label{pf_mathematical_formulation}
 
-Let us assume that the state of a Markov chain at time $t$ is $\mathbf{x}_t$ and it depends on the
-state at time $t-1$, $\mathbf{x}_{t-1}$ and the control input $\mathbf{u}_t$ according to the so called \textbf{motion model}, see \cite{Thurn2002}, 
+Let us assume that the state of a Markov chain at time $t$ is $\mathbf{x}_t$ and that it depends on the
+state at time $t-1$, $\mathbf{x}_{t-1}$, and the control input $\mathbf{u}_t$ according to the so called \textbf{motion model}, see \cite{Thurn2002}, 
 
 \begin{equation}
 p(\mathbf{x}_t | \mathbf{x}_{t-1}; \mathbf{u}_{t}) 
@@ -78,6 +77,37 @@ Also let us assume that the  initial state $\mathbf{x}_0$ is described by the di
 \begin{equation}
 \mathbf{x}_0 \sim p(\mathbf{x}_0)
 \end{equation}
+
+The problem we want to solve in a partially observable Markov chain is the computation of the posterior distribution of the state
+$\mathbf{x}_t$ at time $t$. One methodology to solve this problem is the so called Bayes filters, see \cite{Thurn2002}  and references therein.
+
+In such an approach the posterior is calculated according to 
+
+\begin{equation}
+p(\mathbf{x}_t | \mathbf{z}_{t}; \mathbf{u}_{t}) = p(\mathbf{z}_t | \mathbf{x}_{t}) \int p(\mathbf{x}_t | \mathbf{x}_{t-1}; \mathbf{u}_{t}) p(\mathbf{x}_{t-1} | \mathbf{z}_{t-1}; \mathbf{u}_{t-1}) d \mathbf{x}_{t-1}
+\label{bayes_filter_solution}   
+\end{equation}
+where the initial condition is
+
+\begin{equation}
+p(\mathbf{x}_0 | \mathbf{z}_{0}; \mathbf{u}_{0}) = p(\mathbf{x}_0) 
+\end{equation}
+
+If states, controls and measurements are all discrete, the Markov chain is equivalent to hidden Markov models (HMM) \cite{Thurn2002}  and references therein. 
+
+
+\begin{framed}
+\begin{remark}{\textbf{Hidden Markov Models}}
+
+\end{remark}
+\end{framed}
+
+More than often in robotics, we deal with continuous state spaces. In such cases solving analytically equation \ref{bayes_filter_solution} is not possible.
+In fact, analysical solutions for equation \ref{bayes_filter_solution} exist is very specialized cases \cite{Thurn2002}.
+
+
+the basic idea behind particle filters is to approximate the posterior, $ p(\mathbf{x}_t | \mathbf{z}_{t}; \mathbf{u}_{t})$, using a
+set of   
 
 The basic idea behind particle filtering is to use a non-parametric representation of the posterior
 

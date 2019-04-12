@@ -5,4 +5,10 @@ Thurn S.,
 \newblock{\em Particle Filters in Robotics}
 \newblock In Proceedings of Uncertainty in AI (UAI), 2002.
 
+\bibitem{Thurn2006}
+Thurn S., Burgard W., Fox Do,
+\newblock{\em Probabilistic Robotics}
+\newblock MIT Press, 2006.
+
+
 \end{thebibliography}
