@@ -1,0 +1,52 @@
+\documentclass{paper}
+\usepackage{nomencl}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage[toc,page]{appendix}
+\usepackage{subcaption}
+\usepackage{csquotes}
+\usepackage{framed}
+\usepackage{amsthm}
+\usepackage{xcolor}
+
+\newtheoremstyle{own}%
+    {3pt}% Space above
+    {3pt}% Space below
+    {}% Body font
+    {}% Indent amount
+    {\color{blue}\bfseries}% Theorem head font
+    {:}% Punctuation after theorem head
+    {\newline}% Space after theorem head
+    {}% Theorem head spec
+
+\theoremstyle{definition}
+\newtheorem{exmp}{Example}[section]
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+ 
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+\title{Object Tracking}
+\author{A. Giavaras}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\clearpage
+\input{object_tracking_intro.tex}
+\clearpage
+\input{answers.tex}
+\clearpage
+\bibliographystyle{plain}
+\input{references.bbl}
+
+\end{document}

@@ -1,0 +1,15 @@
+\begin{thebibliography}{10}
+
+\bibitem{GranstromEOT}
+Wenhan Luo, Junliang Xing, Anton Milan, Xiaoqin Zhang, Wei Liu, Xiaowei Zhao, Tae-Kyun Kim,
+\newblock {\em Multiple Object Tracking: A Literature Review}
+\newblock Available at \url{https://arxiv.org/pdf/1409.7618.pdf}, last accessed 13/04/2019.
+
+\bibitem{GranstromEOT}
+Karl Granstrom, Markus Baum, Stephan Reuter,
+\newblock {\em Extended Object Tracking:Introduction, Overview and Applications}
+\newblock Available at \url{https://arxiv.org/pdf/1604.00970.pdf}, last accessed 13/04/2019.
+
+\bibitem{MultiPathPropagation}
+\newblock \url{https://en.wikipedia.org/wiki/Multipath_propagation}
+\end{thebibliography}
