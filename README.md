@@ -36,6 +36,7 @@
 - **Item:** Image Feature Matching-Handle Ambiguity in Matching
 - **Item:** Outlier Rejection RANSAC Algorithm
 - **Item:** Visual Odometry
+- **Item:** <a href="autonomous_vehicles_notes/object_tracking_notes/notes.pdf">Introduction to Multiple Object Tracking</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Noise and Aliasing
 - **Item:** <a href="autonomous_vehicles_notes/environment_representation_notes/notes.pdf">Environment Representation</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Calibration</a>

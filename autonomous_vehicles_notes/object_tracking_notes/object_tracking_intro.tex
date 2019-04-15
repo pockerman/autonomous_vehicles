@@ -53,6 +53,35 @@ In addition, the sensor data serves as input to a detector. The block diagram in
 \label{camera_block_diagram}
 \end{figure}
 
+
+\subsection{Challenges in MOT}
+\label{challenges_mot}
+
+Despite the abudance of the different MOT methodologies, problems do arise. In this section we will outline some of the problems
+and challenges that typically an engineer, or whoever is atsked with developing a MOT pipeline whatsoever, has to face.
+
+Let's consider again autonomous vehicle driving along a road.  Assumme that the vehicle is equipped with a sensor. 
+The first problem one is faced with, is the unknown number of objects in the sensor's FoV. In addition to this, we typically do not
+know the state of these objects; where they are located, where they are going etc. Arguably, however, it may be possible to 
+have a reasonable estimate of these state. Furthermore, the tracked objects may move around with their own speed and orientation. This results
+in some objects leaving the FoV of the sensor whilst others, not tracted previously, enter the sensor's FoV.
+
+\begin{framed}
+\begin{remark}{}
+
+In the relevant literature of target tracking, object appearance is sometimes called bilrth, while object disappearance
+is often called death. 
+\end{remark}
+\end{framed}
+
+Another problem frequently encountered in practice is that some objects may occlude others. Finally, sensors are not perfrect. Therefore, one
+has to deal with the following two types of errors
+
+\begin{itemize}
+\item Missed detections
+\item False detections
+\end{itemize}
+
 \subsection{Questions}
 
 \begin{enumerate}
@@ -62,6 +91,14 @@ In addition, the sensor data serves as input to a detector. The block diagram in
 \item Which property or properties hold(s) for the group object tracking method?
 \item Which property or properties hold(s) for the tracking with multi-path propagation method?
 \item Which property or properties hold(s) for the tracking with unresolved measurements method?
+\item Which of the following challenges are added when considering Multiple Object?
+\begin{enumerate}
+\item An unknown and time-varying number of objects
+\item The state of each object is unknown and changes over time. 
+\item The object states cannot be fully observed directly, have to be inferred from partial measurements.
+\item The measurements are corrupted by noise, and are susceptible to missed detections and false detections. 
+\item An unknown correspondence between multi-objects and their corresponding object-originated measurements. 
+\end{enumerate}
 \end{enumerate}
 
 \subsection{Assignements}
