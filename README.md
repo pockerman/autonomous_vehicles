@@ -51,6 +51,7 @@
 - **Item:** Visual Odometry for Localization in Autonomous Driving
 - **Item:** <a href="autonomous_vehicles_notes/raspberrypi_notes/computer_vision/notes.pdf">Computer Vision with Raspberry Pi</a>
 - **Item:** Ultrasonic Sensor Control with Arduino
+- **Item:** <a href="https://www.pyimagesearch.com/2018/07/30/opencv-object-tracking/">OpenCV Object Tracking</a>
 
 ### Part: Environment Mapping
 -----
