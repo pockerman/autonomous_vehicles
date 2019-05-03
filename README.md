@@ -36,6 +36,7 @@
 - **Item:** Image Feature Matching-Handle Ambiguity in Matching
 - **Item:** Outlier Rejection RANSAC Algorithm
 - **Item:** Visual Odometry
+- **Item:** <a href="autonomous_vehicles_notes/object_tracking_notes/notes.pdf">Introduction to Multiple Object Tracking</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Noise and Aliasing
 - **Item:** <a href="autonomous_vehicles_notes/environment_representation_notes/notes.pdf">Environment Representation</a>
 - **Item:** <a href="autonomous_vehicles_notes/hardware_notes/notes.pdf">Sensor Calibration</a>
@@ -50,6 +51,7 @@
 - **Item:** Visual Odometry for Localization in Autonomous Driving
 - **Item:** <a href="autonomous_vehicles_notes/raspberrypi_notes/computer_vision/notes.pdf">Computer Vision with Raspberry Pi</a>
 - **Item:** Ultrasonic Sensor Control with Arduino
+- **Item:** <a href="https://www.pyimagesearch.com/2018/07/30/opencv-object-tracking/">OpenCV Object Tracking</a>
 
 ### Part: Environment Mapping
 -----
