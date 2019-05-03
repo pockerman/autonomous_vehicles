@@ -62,6 +62,8 @@
 -----
 
 - **Item:** <a href="autonomous_vehicles_notes/motion_planning_notes/notes.pdf">Motion Planning</a>
+- **Item:** Driving Missions, Scenarios, and Behaviour
+- **Item:** Motion Planning Constraints
 
 ### Part: Control
 -----
