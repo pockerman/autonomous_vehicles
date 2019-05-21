@@ -20,3 +20,6 @@ class Motor(object):
 
     def run(self, dir)-> None:
         pass
+
+    def foward(self)-> None:
+        pass
