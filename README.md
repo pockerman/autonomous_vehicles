@@ -66,6 +66,15 @@
 - **Item:** <a href="autonomous_vehicles_notes/motion_planning_notes/notes.pdf">Motion Planning</a>
 - **Item:** Driving Missions, Scenarios, and Behaviour
 - **Item:** Motion Planning Constraints
+- **Item:** Trajectory Propagation
+- **Item:** Collision Checking
+- **Item:** Trajctory Rollout Algorithm
+- **Item:** Dynamic Windowing
+- **Item:** Parametric Curves
+- **Item:** Path Planning Optimization
+- **Item:** Conformal Lattice Planning
+- **Item:** Velocity Profile Generation
+
 
 ### Part: Control
 -----
